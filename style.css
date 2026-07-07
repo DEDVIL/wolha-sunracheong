@@ -733,6 +733,8 @@ textarea:focus {
 
     max-width:900px;
 
+    width:100%;
+
     height:auto;
 
 }
@@ -740,6 +742,8 @@ textarea:focus {
 .post-content img {
 
     max-width:900px;
+
+    width:100%;
 
     height:auto;
 
@@ -787,6 +791,8 @@ textarea:focus {
 .post-content img {
 
     max-width:900px;
+
+    width:100%;
 
     height:auto;
 
@@ -926,6 +932,8 @@ textarea:focus {
 .post-content img {
 
     max-width:900px;
+
+    width:100%;
 
     height:auto;
 
