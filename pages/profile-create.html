@@ -8,9 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-월하순라청 등록
+월하순라청 신규 등록
 </title>
-
 
 <link rel="stylesheet" href="../style.css">
 
@@ -26,14 +25,17 @@
 <section class="login-box">
 
 
-<div class="symbol">
-🪭
+
+<div class="logo">
+
 </div>
+
 
 
 <h1>
 月下巡邏廳
 </h1>
+
 
 
 <p class="subtitle">
@@ -42,99 +44,130 @@
 
 
 
+
 <div class="login-form">
 
 
+
 <select id="name">
+
 
 <option value="">
 멤버 선택
 </option>
 
+
 <option value="백비안">
 백비안
 </option>
+
 
 <option value="백화령">
 백화령
 </option>
 
+
 <option value="사신우">
 사신우
 </option>
+
 
 <option value="서태문">
 서태문
 </option>
 
+
 <option value="염승민">
 염승민
 </option>
+
 
 <option value="유태겸">
 유태겸
 </option>
 
+
 <option value="조견우">
 조견우
 </option>
+
 
 <option value="주원목">
 주원목
 </option>
 
+
 <option value="최현오">
 최현오
 </option>
+
 
 <option value="표연수">
 표연수
 </option>
 
+
 <option value="하종오">
 하종오
 </option>
+
 
 <option value="현진건">
 현진건
 </option>
 
+
 <option value="환웅">
 환웅
 </option>
 
+
 </select>
+
+
 
 
 
 <select id="department">
 
+
 <option value="">
 소속 선택
 </option>
+
 
 <option value="경야대">
 경야대
 </option>
 
+
 <option value="추적대">
 추적대
 </option>
+
 
 <option value="궁야원">
 궁야원
 </option>
 
+
 </select>
 
 
 
+
+
 <button onclick="createProfile()">
+
 등록
+
 </button>
 
 
+
 </div>
+
+
 
 
 
@@ -145,6 +178,8 @@
 </p>
 
 
+
+
 </section>
 
 
@@ -152,33 +187,55 @@
 
 
 
+
+
+
 <script type="module">
 
 
 import {
+
 auth,
+
 db
+
 }
+
 from "../firebase.js";
 
 
+
 import {
+
 doc,
+
 setDoc,
+
 serverTimestamp,
+
 collection,
+
 getDocs
-getDoc
+
 }
+
 from
+
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
+
 import {
+
 onAuthStateChanged
+
 }
+
 from
+
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
 
 
 
@@ -186,38 +243,29 @@ let currentUser = null;
 
 
 
+
+
 onAuthStateChanged(
+
 auth,
+
+
 (user)=>{
 
-if(user){
 
-    currentUser = user;
+    if(user){
 
-
-    const userDoc =
-    await getDoc(
-        doc(
-            db,
-            "users",
-            user.uid
-        )
-    );
-
-
-    if(
-        userDoc.exists() &&
-        userDoc.data().role === "admin"
-    ){
-
-        location.href =
-        "./admin.html";
+        currentUser = user;
 
     }
 
+
 }
 
-});
+);
+
+
+
 
 
 
@@ -225,59 +273,112 @@ if(user){
 window.createProfile = async function(){
 
 
-    if(!currentUser){
-
-        alert(
-        "로그인 상태를 확인할 수 없습니다."
-        );
-
-        return;
-
-    }
 
 
 
-    const name =
-    document.getElementById("name").value;
+if(!currentUser){
 
-
-
-    const department =
-    document.getElementById("department").value;
-
-if(
-    name === "" ||
-    department === ""
-){
 
     alert(
-    "멤버와 소속을 모두 선택해주세요."
+
+    "로그인 상태를 확인할 수 없습니다."
+
     );
+
 
     return;
 
+
 }
-    
 
-// 이름 중복 확인
 
-const usersSnapshot =
-await getDocs(
-    collection(db,"users")
+
+
+
+const name =
+
+document.getElementById("name").value;
+
+
+
+const department =
+
+document.getElementById("department").value;
+
+
+
+
+
+
+
+if(
+
+name === "" ||
+
+department === ""
+
+){
+
+
+alert(
+
+"멤버와 소속을 모두 선택해주세요."
+
 );
 
 
+return;
+
+
+}
+
+
+
+
+
+
+
+
+// 이름 중복 확인
+
+
+
+const usersSnapshot =
+
+await getDocs(
+
+collection(
+
+db,
+
+"users"
+
+)
+
+);
+
+
+
+
+
 let duplicate = false;
+
+
+
 
 
 usersSnapshot.forEach((doc)=>{
 
 
     if(
+
         doc.data().name === name
+
     ){
 
+
         duplicate = true;
+
 
     }
 
@@ -286,58 +387,105 @@ usersSnapshot.forEach((doc)=>{
 
 
 
+
+
+
+
 if(duplicate){
 
 
-    alert(
-    "이미 등록된 캐릭터입니다."
-    );
+alert(
+
+"이미 등록된 캐릭터입니다."
+
+);
 
 
-    return;
+return;
+
 
 }
-    await setDoc(
-
-        doc(
-            db,
-            "users",
-            currentUser.uid
-        ),
-
-        {
-
-            uid:
-            currentUser.uid,
-
-
-            name:name,
-
-
-            department:department,
-
-            role:
-            "member",
-
-            createdAt:
-            serverTimestamp()
-
-        }
-
-    );
 
 
 
-    alert(
-    "등록 완료"
-    );
 
 
-    location.href =
-    "./home.html";
+
+
+
+await setDoc(
+
+
+
+doc(
+
+db,
+
+"users",
+
+currentUser.uid
+
+),
+
+
+
+{
+
+
+uid:
+
+currentUser.uid,
+
+
+name:name,
+
+
+department:department,
+
+
+role:
+
+"member",
+
+
+
+createdAt:
+
+serverTimestamp()
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+alert(
+
+"등록 완료"
+
+);
+
+
+
+location.href =
+
+"./home.html";
+
+
+
 
 
 };
+
+
 
 
 
