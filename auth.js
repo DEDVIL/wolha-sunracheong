@@ -88,7 +88,9 @@ const login = async (email, password) => {
 
 // 로그인 버튼에서 사용할 수 있도록 연결
 
-window.login = login;
+export {
+    login
+};
 
 
 
