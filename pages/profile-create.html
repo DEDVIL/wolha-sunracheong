@@ -189,11 +189,32 @@ onAuthStateChanged(
 auth,
 (user)=>{
 
-    if(user){
+if(user){
 
-        currentUser = user;
+    currentUser = user;
+
+
+    const userDoc =
+    await getDoc(
+        doc(
+            db,
+            "users",
+            user.uid
+        )
+    );
+
+
+    if(
+        userDoc.exists() &&
+        userDoc.data().role === "admin"
+    ){
+
+        location.href =
+        "./admin.html";
 
     }
+
+}
 
 });
 
