@@ -242,7 +242,176 @@ toolbar:[
 
 );
 
+quill.root.innerHTML = `
 
+<p>
+──────────────────────────
+</p>
+
+
+<p>
+[캐치프레이즈]
+</p>
+
+
+<p>
+" "
+</p>
+
+
+<p>
+──────────────────────────
+</p>
+
+
+<p>
+[외관]
+</p>
+
+
+<p>
+이미지 삽입 위치
+</p>
+
+
+<p>
+설명:
+</p>
+
+
+<p>
+──────────────────────────
+</p>
+
+
+<p>
+이름
+</p>
+
+
+<p>
+한글 이름 |
+원어
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+나이
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+키 / 몸무게
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+성격
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+부서
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+기타
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+포지션
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+선호 / 기피
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+캐릭터 선호
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+캐릭터 기피
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+오너 선호
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+오너 기피
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+텍관
+</p>
+
+
+<p>
+</p>
+
+
+<p>
+──────────────────────────
+</p>
+
+`;
 
 
 
@@ -464,24 +633,21 @@ return;
 
 
 
-await setDoc(
+const memberRef = doc(
+    db,
+    "members",
+    currentUser.uid
+);
 
 
-doc(
-
-db,
-
-"members",
-
-currentUser.uid
-
-),
+const oldData = await getDoc(memberRef);
 
 
-{
+
+let saveData = {
 
 
-uid:currentUser.uid,
+uid: currentUser.uid,
 
 
 writerName,
@@ -501,26 +667,36 @@ secretContent,
 
 updatedAt:
 
-serverTimestamp(),
-
-
-
-createdAt:
-
 serverTimestamp()
 
 
+};
 
-},
 
+
+
+
+if(!oldData.exists()){
+
+
+saveData.createdAt = serverTimestamp();
+
+
+}
+
+
+
+await setDoc(
+
+memberRef,
+
+saveData,
 
 {
 
 merge:true
 
 }
-
-
 
 );
 
