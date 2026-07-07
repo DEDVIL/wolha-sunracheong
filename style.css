@@ -586,3 +586,57 @@ textarea:focus {
     text-decoration:none;
 
 }
+
+.faq-card button {
+
+    margin-left:10px;
+
+    padding:5px 12px;
+
+    background:#8b0000;
+
+    border:1px solid #8b0000;
+
+    color:#e8e2d6;
+
+    cursor:pointer;
+
+    font-family:"Pretendard", sans-serif;
+
+    font-size:14px;
+
+}
+
+
+.faq-card button:hover {
+
+    background:#a00000;
+
+}
+
+.faq-card a {
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:5px 12px;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    color:#c8a96a;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+
+.faq-card a:hover {
+
+    border-color:#c8a96a;
+
+}
