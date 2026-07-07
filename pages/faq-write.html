@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+월하순라청 FAQ 질문 작성
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+<main class="main-container">
+
+
+
+<section class="admin-box">
+
+
+
+<div class="logo"></div>
+
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+
+<p class="subtitle">
+FAQ 질문 작성
+</p>
+
+
+
+
+
+
+<div class="login-form">
+
+
+
+
+
+<textarea
+
+id="question"
+
+placeholder="질문 내용을 입력해주세요."
+
+></textarea>
+
+
+
+
+
+
+<label>
+
+
+<input
+
+type="checkbox"
+
+id="secret"
+
+>
+
+
+비밀 질문
+
+
+</label>
+
+
+
+
+
+
+
+<button onclick="submitQuestion()">
+
+등록
+
+</button>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<p class="notice">
+
+비밀 질문은 작성자와 관리자만 확인할 수 있습니다.
+
+</p>
+
+
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+import {
+
+doc,
+
+getDoc,
+
+addDoc,
+
+collection,
+
+serverTimestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+let currentUser = null;
+
+let currentProfile = null;
+
+
+
+
+
+
+
+
+onAuthStateChanged(
+
+auth,
+
+
+async(user)=>{
+
+
+    if(!user){
+
+        alert(
+
+        "로그인이 필요합니다."
+
+        );
+
+        location.href="../index.html";
+
+        return;
+
+    }
+
+
+
+    currentUser = user;
+
+
+
+
+    const userDoc =
+
+    await getDoc(
+
+        doc(
+
+            db,
+
+            "users",
+
+            user.uid
+
+        )
+
+    );
+
+
+
+
+    if(userDoc.exists()){
+
+
+        currentProfile = userDoc.data();
+
+
+    }
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+window.submitQuestion = async function(){
+
+
+
+
+
+if(!currentUser || !currentProfile){
+
+
+alert(
+
+"사용자 정보를 불러오는 중입니다."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const question =
+
+document.getElementById("question").value;
+
+
+
+
+const secret =
+
+document.getElementById("secret").checked;
+
+
+
+
+
+
+
+if(question.trim() === ""){
+
+
+alert(
+
+"질문 내용을 입력해주세요."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+await addDoc(
+
+
+
+collection(
+
+db,
+
+"faq"
+
+),
+
+
+
+{
+
+
+writerUid:
+
+currentUser.uid,
+
+
+
+writerName:
+
+currentProfile.name,
+
+
+
+question:
+
+question,
+
+
+
+answer:
+
+"",
+
+
+
+secret:
+
+secret,
+
+
+
+status:
+
+"waiting",
+
+
+
+createdAt:
+
+serverTimestamp()
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+alert(
+
+"질문이 등록되었습니다."
+
+);
+
+
+
+
+
+
+location.href="./faq.html";
+
+
+
+
+
+};
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
