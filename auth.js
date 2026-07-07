@@ -4,11 +4,14 @@
 
 import { auth, db } from "./firebase.js";
 
+
 import {
     signInWithEmailAndPassword,
     onAuthStateChanged
-} from 
+}
+from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 import {
     doc,
@@ -18,12 +21,16 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
+
 // 로그인 함수
 
 const login = async (email, password) => {
+
     console.log("로그인 시도");
 
+
     try {
+
 
         const userCredential =
             await signInWithEmailAndPassword(
@@ -33,7 +40,9 @@ const login = async (email, password) => {
             );
 
 
-        const user = userCredential.user;
+        const user =
+        userCredential.user;
+
 
 
         console.log(
@@ -42,73 +51,126 @@ const login = async (email, password) => {
         );
 
 
-        // 사용자 프로필 확인
+
+        // Firestore 사용자 정보 확인
 
         const userDoc =
-            await getDoc(
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                )
-            );
+        await getDoc(
+
+            doc(
+                db,
+                "users",
+                user.uid
+            )
+
+        );
 
 
-        if(userDoc.exists()){
 
-            // 기존 사용자
+        // 최초 접속자
 
-            window.location.href =
-            "./pages/home.html";
+        if(!userDoc.exists()){
 
-
-        } else {
-
-            // 최초 접속 사용자
 
             window.location.href =
             "./pages/profile-create.html";
 
+
+            return;
+
         }
 
 
-    } catch(error){
+
+        const userData =
+        userDoc.data();
+
+
+
+        console.log(
+            "사용자 권한:",
+            userData.role
+        );
+
+
+
+        // 관리자
+
+        if(userData.role === "admin"){
+
+
+            window.location.href =
+            "./pages/admin.html";
+
+
+            return;
+
+        }
+
+
+
+        // 일반 멤버
+
+        window.location.href =
+        "./pages/home.html";
+
+
+
+    }
+
+
+    catch(error){
+
 
         console.error(error);
 
 
         alert(
-            "접속 정보가 올바르지 않습니다."
+        "접속 정보가 올바르지 않습니다."
         );
+
 
     }
 
+
 };
 
 
 
-// 로그인 버튼에서 사용할 수 있도록 연결
 
 export {
+
     login
+
 };
 
 
 
-// 이미 로그인된 사용자 확인
+
+// 현재 로그인 상태 확인
 
 onAuthStateChanged(
+
     auth,
+
     (user)=>{
+
 
         if(user){
 
+
             console.log(
-                "현재 접속자:",
-                user.uid
+
+            "현재 접속자:",
+
+            user.uid
+
             );
+
 
         }
 
+
     }
+
 );
