@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 인명부 작성
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
+</head>
+
+
+<body>
+
+
+<main class="main-container">
+
+
+<section class="content-box">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+인명부 작성
+</p>
+
+
+
+
+<div class="login-form">
+
+
+<label>
+이름
+</label>
+
+
+<input
+id="writerName"
+placeholder="캐릭터 이름"
+>
+
+
+
+
+<label>
+부서
+</label>
+
+
+<select id="department">
+
+
+<option value="">
+선택
+</option>
+
+
+<option value="궁야원">
+궁야원
+</option>
+
+
+<option value="경야대">
+경야대
+</option>
+
+
+<option value="추적대">
+추적대
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+프로필 이미지 주소
+</label>
+
+
+<input
+id="profileImage"
+placeholder="이미지 URL"
+>
+
+
+
+
+
+
+<label>
+프로필 내용
+</label>
+
+
+<div id="editor"></div>
+
+
+
+
+
+
+<label>
+비밀 설정
+</label>
+
+
+<textarea
+id="secretContent"
+placeholder="비공개 설정">
+</textarea>
+
+
+
+
+
+
+<button onclick="saveProfile()">
+
+저장
+
+</button>
+
+
+
+</div>
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+
+
+<script type="module">
+
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+import {
+
+doc,
+
+getDoc,
+
+setDoc,
+
+serverTimestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+const quill = new Quill(
+
+"#editor",
+
+{
+
+theme:"snow",
+
+modules:{
+
+toolbar:[
+
+[
+"bold",
+"italic",
+"underline"
+],
+
+[
+"link",
+"image"
+],
+
+[
+"clean"
+]
+
+]
+
+}
+
+}
+
+);
+
+
+
+
+
+
+quill
+.getModule("toolbar")
+.addHandler(
+
+"image",
+
+()=>{
+
+
+const url = prompt(
+"이미지 주소(URL)를 입력해주세요."
+);
+
+
+
+if(url){
+
+
+const range = quill.getSelection();
+
+
+quill.insertEmbed(
+
+range.index,
+
+"image",
+
+url
+
+);
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+let currentUser=null;
+
+
+
+
+
+
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+if(!user){
+
+location.href="../index.html";
+
+return;
+
+}
+
+
+
+currentUser=user;
+
+
+loadProfile();
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+async function loadProfile(){
+
+
+const snap = await getDoc(
+
+doc(
+
+db,
+
+"members",
+
+currentUser.uid
+
+)
+
+);
+
+
+
+if(!snap.exists()){
+
+return;
+
+}
+
+
+
+const data=snap.data();
+
+
+
+
+document
+.getElementById("writerName")
+.value=data.writerName || "";
+
+
+
+document
+.getElementById("department")
+.value=data.department || "";
+
+
+
+document
+.getElementById("profileImage")
+.value=data.profileImage || "";
+
+
+
+quill.root.innerHTML=data.profileContent || "";
+
+
+
+document
+.getElementById("secretContent")
+.value=data.secretContent || "";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+window.saveProfile = async function(){
+
+
+
+const writerName =
+document
+.getElementById("writerName")
+.value;
+
+
+
+const department =
+document
+.getElementById("department")
+.value;
+
+
+
+const profileImage =
+document
+.getElementById("profileImage")
+.value;
+
+
+
+const profileContent =
+quill.root.innerHTML;
+
+
+
+const secretContent =
+document
+.getElementById("secretContent")
+.value;
+
+
+
+
+
+if(
+writerName.trim()==="" ||
+department==="" ||
+profileContent===" <p><br></p>"
+){
+
+alert(
+"필수 내용을 입력해주세요."
+);
+
+return;
+
+}
+
+
+
+
+
+
+await setDoc(
+
+
+doc(
+
+db,
+
+"members",
+
+currentUser.uid
+
+),
+
+
+{
+
+
+uid:currentUser.uid,
+
+
+writerName,
+
+
+department,
+
+
+profileImage,
+
+
+profileContent,
+
+
+secretContent,
+
+
+updatedAt:
+
+serverTimestamp(),
+
+
+
+createdAt:
+
+serverTimestamp()
+
+
+
+},
+
+
+{
+
+merge:true
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+alert(
+"인명부가 저장되었습니다."
+);
+
+
+
+location.href="./member-list.html";
+
+
+
+};
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
