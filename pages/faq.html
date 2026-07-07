@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+월하순라청 FAQ
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+<main class="main-container">
+
+
+
+<section class="admin-box">
+
+
+
+<div class="logo"></div>
+
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+
+<p class="subtitle">
+FAQ
+</p>
+
+
+
+
+
+<div class="menu">
+
+
+<a href="./faq-write.html">
+
+⌜ 질문 작성 ⌟
+
+</a>
+
+
+</div>
+
+
+
+
+
+<div id="faq-list">
+
+불러오는 중...
+
+</div>
+
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+db,
+auth
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+collection,
+getDocs,
+query,
+orderBy
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+const faqList =
+
+document.getElementById("faq-list");
+
+
+
+let currentUser = null;
+
+
+
+
+
+onAuthStateChanged(
+
+auth,
+
+(user)=>{
+
+
+currentUser = user;
+
+
+loadFAQ();
+
+
+}
+
+);
+
+
+
+
+
+
+async function loadFAQ(){
+
+
+
+const q =
+
+query(
+
+collection(db,"faq"),
+
+orderBy(
+
+"createdAt",
+
+"desc"
+
+)
+
+);
+
+
+
+
+
+const snapshot =
+
+await getDocs(q);
+
+
+
+
+
+
+faqList.innerHTML = "";
+
+
+
+
+
+
+snapshot.forEach((doc)=>{
+
+
+
+const data =
+
+doc.data();
+
+
+
+
+
+// 비밀 질문 필터
+
+
+if(
+
+data.secret === true &&
+
+data.writerUid !== currentUser.uid
+
+){
+
+return;
+
+}
+
+
+
+
+
+const box =
+
+document.createElement("div");
+
+
+
+box.className =
+
+"faq-card";
+
+
+
+
+
+box.innerHTML = `
+
+
+<h3>
+
+${data.writerName}
+
+</h3>
+
+
+<p>
+
+${data.question}
+
+</p>
+
+
+
+<p>
+
+답변:
+
+${
+
+data.answer ||
+
+"답변 대기 중"
+
+}
+
+</p>
+
+
+
+`;
+
+
+
+
+
+faqList.appendChild(box);
+
+
+
+
+});
+
+
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
