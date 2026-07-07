@@ -196,12 +196,13 @@ query,
 
 orderBy,
 
-serverTimestamp
+serverTimestamp,
+
+deleteDoc
 
 }
 
 from
-
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -362,7 +363,65 @@ url
 
 let editorReady = false;
 
+window.deleteNotice = async function(id){
 
+
+const check = confirm(
+"정말 삭제하시겠습니까?"
+);
+
+
+if(!check){
+
+return;
+
+}
+
+
+try{
+
+
+await deleteDoc(
+
+doc(
+db,
+"headquarters",
+id
+)
+
+);
+
+
+
+alert(
+"삭제되었습니다."
+);
+
+
+
+loadNotice();
+
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+alert(
+"삭제 중 오류가 발생했습니다."
+);
+
+
+}
+
+
+
+};
 
 
 
@@ -581,7 +640,8 @@ ${data.title}
 
 <p>
 
-${data.content}
+${data.content.replace(/<img[^>]*>/g,"[이미지]")
+}
 
 </p>
 
@@ -595,6 +655,11 @@ ${data.content}
 </a>
 
 
+<button onclick="deleteNotice('${noticeDoc.id}')">
+
+⌜ 삭제 ⌟
+
+</button>
 
 `;
 
