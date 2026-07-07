@@ -677,3 +677,36 @@ textarea:focus {
     cursor:pointer;
 
 }
+
+.admin-box textarea {
+
+    width:100%;
+
+    min-height:150px;
+
+    padding:15px;
+
+    margin-top:15px;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    color:#e8e2d6;
+
+    font-family:"Pretendard", sans-serif;
+
+    resize:none;
+
+}
+
+
+.admin-box label {
+
+    display:block;
+
+    margin:15px 0;
+
+    color:#b8b0a0;
+
+}
