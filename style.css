@@ -996,3 +996,30 @@ textarea:focus {
 
 
 }
+
+.post-content img {
+
+    width:100% !important;
+
+    max-width:900px !important;
+
+    height:auto !important;
+
+    display:block;
+
+    object-fit:contain;
+
+    margin:25px auto;
+
+}
+
+
+#editor img {
+
+    width:100%;
+
+    max-width:900px;
+
+    height:auto;
+
+}
