@@ -120,7 +120,9 @@ orderBy,
 
 updateDoc,
 
-serverTimestamp
+serverTimestamp,
+
+deleteField
 
 }
 
@@ -383,6 +385,11 @@ data.answer || ""
 </button>
 
 
+<button onclick="deleteAnswer('${faqDoc.id}')">
+
+답변 삭제
+
+</button>
 
 `;
 
@@ -414,7 +421,82 @@ faqList.appendChild(box);
 
 window.saveAnswer = async function(id){
 
+window.deleteAnswer = async function(id){
 
+
+
+const check =
+
+confirm(
+
+"답변을 삭제하시겠습니까?"
+
+);
+
+
+
+if(!check){
+
+return;
+
+}
+
+
+
+
+
+await updateDoc(
+
+
+
+doc(
+
+db,
+
+"faq",
+
+id
+
+),
+
+
+
+{
+
+
+answer:
+
+deleteField(),
+
+
+status:
+
+"waiting"
+
+}
+
+
+
+);
+
+
+
+
+
+alert(
+
+"답변이 삭제되었습니다."
+
+);
+
+
+
+
+loadFAQ();
+
+
+
+};
 
 
 
