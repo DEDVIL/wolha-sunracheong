@@ -354,12 +354,13 @@ h1 {
 
 .content-box {
 
+    width:90%;
 
-    width:420px;
+    max-width:1400px;
 
+    min-height:80vh;
 
-    padding:45px;
-
+    padding:50px;
 
     background:
 
@@ -369,14 +370,12 @@ h1 {
         #101010
     );
 
+    border:1px solid #4a4035;
 
-    border:
+    box-shadow:
+    0 0 30px rgba(0,0,0,0.8);
 
-    1px solid #8b0000;
-
-
-    text-align:center;
-
+    margin:40px auto;
 
 }
 
