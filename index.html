@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 내부 전산망
+</title>
+
+
+<link rel="stylesheet" href="./style.css">
+
+
+</head>
+
+
+<body>
+
+
+<main class="login-container">
+
+
+    <section class="login-box">
+
+
+        <div class="symbol">
+            🪭
+        </div>
+
+
+        <h1>
+            月下巡邏廳
+        </h1>
+
+
+        <p class="subtitle">
+            내부 전산망 접속
+        </p>
+
+
+
+        <div class="login-form">
+
+
+            <input
+            id="email"
+            type="email"
+            placeholder="등록된 이메일"
+            >
+
+
+
+            <input
+            id="password"
+            type="password"
+            placeholder="비밀번호"
+            >
+
+
+
+            <button onclick="loginUser()">
+                접속
+            </button>
+
+
+        </div>
+
+
+
+        <p class="notice">
+
+        ※ 승인된 인원만 접근 가능합니다.
+
+        </p>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script type="module">
+
+import "./firebase.js";
+
+import "./auth.js";
+
+
+
+window.loginUser = function(){
+
+
+    const email =
+    document.getElementById("email").value;
+
+
+    const password =
+    document.getElementById("password").value;
+
+
+
+    window.login(
+        email,
+        password
+    );
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
