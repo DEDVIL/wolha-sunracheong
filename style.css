@@ -710,3 +710,29 @@ textarea:focus {
     color:#b8b0a0;
 
 }
+
+#editor {
+
+    background:#0b0b0b;
+
+    color:#e8e2d6;
+
+    min-height:300px;
+
+}
+
+
+.ql-toolbar {
+
+    background:#e8e2d6;
+
+}
+
+
+#editor img {
+
+    max-width:100%;
+
+    height:auto;
+
+}
