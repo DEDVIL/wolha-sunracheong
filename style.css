@@ -744,3 +744,59 @@ textarea:focus {
     height:auto;
 
 }
+
+.notice-card {
+
+    background:#111;
+
+    border:1px solid #4a4035;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+}
+
+
+.notice-card h2 {
+
+    color:#c8a96a;
+
+    margin-top:0;
+
+    letter-spacing:2px;
+
+}
+
+
+.post-content {
+
+    color:#e8e2d6;
+
+    line-height:1.8;
+
+    margin-top:20px;
+
+}
+
+
+.post-content img {
+
+    max-width:100%;
+
+    height:auto;
+
+    margin:15px 0;
+
+}
+
+
+.notice-date {
+
+    margin-top:25px;
+
+    color:#8d867b;
+
+    font-size:13px;
+
+}
