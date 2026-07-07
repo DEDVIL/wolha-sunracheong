@@ -489,3 +489,35 @@ h1 {
 
 
 }
+
+.faq-card {
+
+    margin-top:20px;
+
+    padding:20px;
+
+    background:#0b0b0b;
+
+    border:
+
+    1px solid #4a4035;
+
+    text-align:left;
+
+}
+
+
+.faq-card h3 {
+
+    color:#c8a96a;
+
+    margin-top:0;
+
+}
+
+
+.faq-card p {
+
+    line-height:1.7;
+
+}
