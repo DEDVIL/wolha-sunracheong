@@ -401,7 +401,6 @@ box.className =
 
 box.innerHTML = `
 
-
 <h3>
 
 ${
@@ -421,8 +420,6 @@ ${data.title}
 </h3>
 
 
-
-
 <p>
 
 ${data.content}
@@ -430,17 +427,26 @@ ${data.content}
 </p>
 
 
-
-
 <p>
 
 작성자:
-
 ${data.writerName}
 
 </p>
 
 
+<button onclick="editNotice('${noticeDoc.id}')">
+
+⌜ 수정 ⌟
+
+</button>
+
+
+<button onclick="deleteNotice('${noticeDoc.id}')">
+
+⌜ 삭제 ⌟
+
+</button>
 
 
 `;
