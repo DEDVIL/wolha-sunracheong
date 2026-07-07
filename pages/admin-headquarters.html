@@ -17,6 +17,9 @@
 <link rel="stylesheet" href="../style.css">
 
 
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
 </head>
 
 
@@ -54,7 +57,6 @@
 <div class="login-form">
 
 
-
 <input
 
 id="title"
@@ -67,13 +69,7 @@ placeholder="공지 제목"
 
 
 
-<textarea
-
-id="content"
-
-placeholder="공지 내용을 입력해주세요."
-
-></textarea>
+<div id="editor"></div>
 
 
 
@@ -116,9 +112,7 @@ id="important"
 
 
 
-
 <hr>
-
 
 
 
@@ -133,11 +127,20 @@ id="important"
 
 
 
-
 </section>
 
 
 </main>
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 
 
@@ -193,18 +196,13 @@ query,
 
 orderBy,
 
-serverTimestamp,
-
-updateDoc,
-
-deleteDoc
+serverTimestamp
 
 }
 
 from
 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 
 
@@ -221,10 +219,148 @@ let currentProfile = null;
 
 
 
-const noticeList =
 
-document.getElementById("notice-list");
+const toolbarOptions = [
 
+
+[
+"bold",
+
+"italic",
+
+"underline"
+
+],
+
+
+
+[
+"link",
+
+"image"
+
+],
+
+
+
+[
+"clean"
+
+]
+
+
+];
+
+
+
+
+
+
+
+
+const quill = new Quill(
+
+"#editor",
+
+{
+
+theme:"snow",
+
+
+modules:{
+
+
+toolbar:toolbarOptions
+
+
+}
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+// 이미지 URL 삽입
+
+const toolbar =
+
+quill.getModule("toolbar");
+
+
+
+
+
+toolbar.addHandler(
+
+"image",
+
+function(){
+
+
+
+const url =
+
+prompt(
+
+"이미지 주소(URL)를 입력해주세요."
+
+);
+
+
+
+
+
+if(url){
+
+
+
+const range =
+
+quill.getSelection();
+
+
+
+quill.insertEmbed(
+
+range.index,
+
+"image",
+
+url
+
+);
+
+
+
+}
+
+
+
+}
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+let editorReady = false;
 
 
 
@@ -239,6 +375,7 @@ auth,
 
 
 async(user)=>{
+
 
 
 if(!user){
@@ -260,6 +397,8 @@ const userDoc =
 
 await getDoc(
 
+
+
 doc(
 
 db,
@@ -270,7 +409,10 @@ user.uid
 
 )
 
+
+
 );
+
 
 
 
@@ -279,11 +421,16 @@ user.uid
 
 if(
 
-!userDoc.exists() ||
+
+!userDoc.exists()
+
+||
 
 userDoc.data().role !== "admin"
 
+
 ){
+
 
 
 alert(
@@ -291,6 +438,7 @@ alert(
 "관리자 권한이 없습니다."
 
 );
+
 
 
 location.href="./home.html";
@@ -305,9 +453,11 @@ return;
 
 
 
+
 currentUser = user;
 
 currentProfile = userDoc.data();
+
 
 
 
@@ -329,8 +479,6 @@ loadNotice();
 
 
 async function loadNotice(){
-
-
 
 
 
@@ -363,7 +511,19 @@ await getDocs(q);
 
 
 
-noticeList.innerHTML = "";
+const list =
+
+document.getElementById(
+
+"notice-list"
+
+);
+
+
+
+
+
+list.innerHTML="";
 
 
 
@@ -374,10 +534,10 @@ noticeList.innerHTML = "";
 snapshot.forEach((noticeDoc)=>{
 
 
+
 const data =
 
 noticeDoc.data();
-
 
 
 
@@ -389,11 +549,7 @@ document.createElement("div");
 
 
 
-box.className =
-
-"faq-card";
-
-
+box.className="faq-card";
 
 
 
@@ -401,11 +557,14 @@ box.className =
 
 box.innerHTML = `
 
+
 <h3>
 
 ${
 
-data.important ?
+data.important
+
+?
 
 "[중요] "
 
@@ -427,26 +586,14 @@ ${data.content}
 </p>
 
 
-<p>
-
-작성자:
-${data.writerName}
-
-</p>
 
 
-<button onclick="editNotice('${noticeDoc.id}')">
+<a href="./admin-headquarters-edit.html?id=${noticeDoc.id}">
 
 ⌜ 수정 ⌟
 
-</button>
+</a>
 
-
-<button onclick="deleteNotice('${noticeDoc.id}')">
-
-⌜ 삭제 ⌟
-
-</button>
 
 
 `;
@@ -455,9 +602,7 @@ ${data.writerName}
 
 
 
-noticeList.appendChild(box);
-
-
+list.appendChild(box);
 
 
 
@@ -494,13 +639,12 @@ document
 
 
 
+
+
 const content =
 
-document
+quill.root.innerHTML;
 
-.getElementById("content")
-
-.value;
 
 
 
@@ -521,13 +665,16 @@ document
 
 
 
+
+
 if(
 
 title.trim()==="" ||
 
-content.trim()===""
+content === "<p><br></p>"
 
 ){
+
 
 
 alert(
@@ -537,10 +684,14 @@ alert(
 );
 
 
+
 return;
 
 
+
 }
+
+
 
 
 
@@ -580,6 +731,11 @@ currentProfile.name || "관리자",
 
 createdAt:
 
+serverTimestamp(),
+
+
+updatedAt:
+
 serverTimestamp()
 
 
@@ -595,11 +751,14 @@ serverTimestamp()
 
 
 
+
 alert(
 
-"공지 등록 완료"
+"본청 공지가 등록되었습니다."
 
 );
+
+
 
 
 
@@ -619,6 +778,8 @@ location.reload();
 
 
 </script>
+
+
 
 
 
