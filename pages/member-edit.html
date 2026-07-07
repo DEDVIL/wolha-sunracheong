@@ -137,6 +137,7 @@ placeholder="이미지 URL"
 
 
 
+
 <label>
 비밀 설정 비밀번호
 </label>
@@ -148,7 +149,7 @@ id="secretPassword"
 
 type="password"
 
-placeholder="비밀번호 입력"
+placeholder="비밀 설정 열람용 비밀번호"
 
 />
 
@@ -232,6 +233,7 @@ from
 
 
 
+
 const template = `
 
 
@@ -257,6 +259,11 @@ const template = `
 
 <p>
 [외관]
+</p>
+
+
+<p>
+(이미지 삽입)
 </p>
 
 
@@ -409,7 +416,6 @@ T / M / B
 
 
 
-
 const quill = new Quill(
 
 "#editor",
@@ -425,29 +431,20 @@ toolbar:[
 
 
 [
-
 "bold",
-
 "italic",
-
 "underline"
-
 ],
 
 
 [
-
 "link",
-
 "image"
-
 ],
 
 
 [
-
 "clean"
-
 ]
 
 
@@ -460,6 +457,10 @@ toolbar:[
 }
 
 );
+
+
+
+
 
 
 const secretQuill = new Quill(
@@ -472,7 +473,9 @@ theme:"snow",
 
 modules:{
 
+
 toolbar:[
+
 
 [
 "bold",
@@ -480,24 +483,27 @@ toolbar:[
 "underline"
 ],
 
+
 [
 "link",
 "image"
 ],
 
+
 [
 "clean"
 ]
 
+
 ]
 
+
 }
+
 
 }
 
 );
-
-
 
 quill
 .getModule("toolbar")
@@ -543,6 +549,10 @@ url
 );
 
 
+
+
+
+
 secretQuill
 .getModule("toolbar")
 .addHandler(
@@ -553,14 +563,18 @@ secretQuill
 
 
 const url = prompt(
+
 "이미지 주소(URL)를 입력해주세요."
+
 );
+
 
 
 if(url){
 
-const range =
-secretQuill.getSelection();
+
+const range = secretQuill.getSelection();
+
 
 
 secretQuill.insertEmbed(
@@ -573,7 +587,9 @@ url
 
 );
 
+
 }
+
 
 
 }
@@ -584,8 +600,10 @@ url
 
 
 
-let currentUser = null;
 
+
+
+let currentUser = null;
 
 
 
@@ -615,7 +633,7 @@ return;
 
 
 
-currentUser=user;
+currentUser = user;
 
 
 loadProfile();
@@ -665,9 +683,10 @@ if(!snap.exists()){
 quill.root.innerHTML = template;
 
 
+secretQuill.root.innerHTML = "";
+
 
 return;
-
 
 
 }
@@ -677,7 +696,10 @@ return;
 
 
 
+
 const data = snap.data();
+
+
 
 
 
@@ -694,6 +716,8 @@ data.writerName || "";
 
 
 
+
+
 document
 
 .getElementById("department")
@@ -701,6 +725,7 @@ document
 .value =
 
 data.department || "";
+
 
 
 
@@ -720,6 +745,8 @@ data.profileImage || "";
 
 
 
+
+
 quill.root.innerHTML =
 
 data.profileContent || template;
@@ -729,8 +756,26 @@ data.profileContent || template;
 
 
 
+
+
 secretQuill.root.innerHTML =
+
 data.secretContent || "";
+
+
+
+
+
+
+
+
+document
+
+.getElementById("secretPassword")
+
+.value =
+
+data.secretPassword || "";
 
 
 
@@ -763,6 +808,7 @@ document
 
 
 
+
 const department =
 
 document
@@ -770,6 +816,7 @@ document
 .getElementById("department")
 
 .value;
+
 
 
 
@@ -785,6 +832,7 @@ document
 
 
 
+
 const profileContent =
 
 quill.root.innerHTML;
@@ -792,9 +840,22 @@ quill.root.innerHTML;
 
 
 
+
 const secretContent =
 
 secretQuill.root.innerHTML;
+
+
+
+
+
+const secretPassword =
+
+document
+
+.getElementById("secretPassword")
+
+.value;
 
 
 
@@ -829,6 +890,7 @@ return;
 
 
 
+
 const memberRef = doc(
 
 db,
@@ -842,7 +904,12 @@ currentUser.uid
 
 
 
+
+
+
 const oldData = await getDoc(memberRef);
+
+
 
 
 
@@ -872,12 +939,18 @@ profileContent,
 secretContent,
 
 
+secretPassword,
+
+
 updatedAt:
 
 serverTimestamp()
 
 
 };
+
+
+
 
 
 
@@ -891,6 +964,8 @@ saveData.createdAt = serverTimestamp();
 
 
 }
+
+
 
 
 
@@ -917,11 +992,15 @@ merge:true
 
 
 
+
+
+
 alert(
 
 "인명부가 저장되었습니다."
 
 );
+
 
 
 
@@ -934,7 +1013,11 @@ location.href="./member-list.html";
 
 
 
+
+
 };
+
+
 
 
 
