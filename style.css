@@ -270,3 +270,32 @@ h1 {
 
 
 }
+
+.login-form select {
+
+    height:45px;
+
+    padding:0 15px;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    color:#e8e2d6;
+
+    font-size:15px;
+
+    font-family:
+    "Noto Serif KR",
+    serif;
+
+}
+
+
+.login-form select:focus {
+
+    outline:none;
+
+    border-color:#c8a96a;
+
+}
