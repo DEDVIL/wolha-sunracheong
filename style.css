@@ -1,49 +1,67 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-/* ==================================
-   월하순라청 내부 전산망
+
+/* =====================================
+   月下巡邏廳 Internal Network
    Main Style
-================================== */
+===================================== */
 
 
-/* 기본 설정 */
 
 * {
-    box-sizing: border-box;
+
+    box-sizing:border-box;
+
 }
+
 
 
 body {
-   
-    margin: 0;
 
-    min-height: 100vh;
+    margin:0;
+
+    min-height:100vh;
+
 
     background:
+
     linear-gradient(
-        rgba(10,10,10,0.92),
-        rgba(10,10,10,0.92)
+        rgba(10,10,10,0.94),
+        rgba(10,10,10,0.94)
     ),
+
     url("./assets/images/paper-texture.png");
 
-    background-size: cover;
+
+    background-size:cover;
+
 
     font-family:
+
     "Pretendard",
+
     sans-serif;
 
-    color: #e8e2d6;
+
+    color:#e8e2d6;
 
 }
 
 
-/* 로그인 전체 영역 */
+
+
+/* =====================
+   Login
+===================== */
+
 
 .login-container {
+
 
     width:100%;
 
     height:100vh;
+
 
     display:flex;
 
@@ -51,16 +69,20 @@ body {
 
     align-items:center;
 
+
 }
 
 
-/* 로그인 패널 */
+
 
 .login-box {
 
+
     width:380px;
 
+
     padding:45px 40px;
+
 
     background:
 
@@ -84,81 +106,119 @@ body {
     text-align:center;
 
 
-    position:relative;
+}
+
+
+
+
+/* =====================
+   Logo Area
+===================== */
+
+
+.logo {
+
+
+    width:100px;
+
+    height:100px;
+
+
+    margin:
+
+    0 auto 20px;
+
 
 }
 
 
 
-/* 상징 */
+/* =====================
+   Title
+===================== */
 
-.symbol {
-
-    font-size:48px;
-
-    margin-bottom:15px;
-
-}
-
-
-
-/* 기관명 */
 
 h1 {
 
+
     margin:0;
+
 
     font-size:34px;
 
-    letter-spacing:8px;
+
+    letter-spacing:3px;
+
 
     color:#c8a96a;
-   
+
+
     font-family:
+
     "Noto Serif KR",
+
     serif;
 
-    letter-spacing: 3px;
 
 }
 
 
-/* 설명 */
+
 
 .subtitle {
+
 
     margin-top:15px;
 
     margin-bottom:35px;
 
+
     color:#b8b0a0;
+
 
     letter-spacing:3px;
 
+
 }
 
 
-/* 입력 영역 */
+
+
+
+/* =====================
+   Form
+===================== */
+
 
 .login-form {
 
+
     display:flex;
+
 
     flex-direction:column;
 
+
     gap:15px;
+
 
 }
 
 
 
-.login-form input {
+
+.login-form input,
+
+
+.login-form select {
 
 
     height:45px;
 
 
-    padding:0 15px;
+    padding:
+
+    0 15px;
 
 
     background:#0b0b0b;
@@ -175,21 +235,33 @@ h1 {
     font-size:15px;
 
 
+    font-family:
+
+    "Pretendard",
+
+    sans-serif;
+
+
 }
 
 
 
-.login-form input:focus {
+.login-form input:focus,
+
+
+.login-form select:focus {
+
 
     outline:none;
 
+
     border-color:#c8a96a;
+
 
 }
 
 
 
-/* 접속 버튼 */
 
 .login-form button {
 
@@ -206,7 +278,7 @@ h1 {
     border:none;
 
 
-    color:#fff;
+    color:white;
 
 
     font-size:16px;
@@ -216,9 +288,6 @@ h1 {
 
 
     cursor:pointer;
-
-
-    transition:0.2s;
 
 
 }
@@ -235,7 +304,7 @@ h1 {
 
 
 
-/* 안내 문구 */
+
 
 .notice {
 
@@ -253,56 +322,170 @@ h1 {
 
 
 
-/* 모바일 대응 */
+
+
+/* =====================
+   Internal Menu
+===================== */
+
+
+.main-container {
+
+
+    min-height:100vh;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+.admin-box,
+
+
+.content-box {
+
+
+    width:420px;
+
+
+    padding:45px;
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+
+    border:
+
+    1px solid #8b0000;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+.menu {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+    margin-top:30px;
+
+
+}
+
+
+
+
+.menu a {
+
+
+    display:block;
+
+
+    padding:15px;
+
+
+    color:#e8e2d6;
+
+
+    text-decoration:none;
+
+
+    border-bottom:
+
+    1px solid #4a4035;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.menu a:hover {
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+
+.system-message {
+
+
+    margin-top:20px;
+
+
+    line-height:1.8;
+
+
+    color:#b8b0a0;
+
+
+}
+
+
+
 
 @media(max-width:500px){
 
 
-    .login-box {
+    .login-box,
+
+    .admin-box,
+
+    .content-box {
+
 
         width:90%;
 
-        padding:40px 25px;
+
+        padding:35px 25px;
+
 
     }
+
 
 
     h1 {
 
+
         font-size:28px;
 
-        letter-spacing:5px;
 
     }
 
-
-}
-
-.login-form select {
-
-    height:45px;
-
-    padding:0 15px;
-
-    background:#0b0b0b;
-
-    border:1px solid #4a4035;
-
-    color:#e8e2d6;
-
-    font-size:15px;
-
-    font-family:
-    "Noto Serif KR",
-    serif;
-
-}
-
-
-.login-form select:focus {
-
-    outline:none;
-
-    border-color:#c8a96a;
 
 }
