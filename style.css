@@ -731,7 +731,7 @@ textarea:focus {
 
 #editor img {
 
-    max-width:100%;
+    max-width:900px;
 
     height:auto;
 
@@ -739,9 +739,13 @@ textarea:focus {
 
 .post-content img {
 
-    max-width:100%;
+    max-width:900px;
 
     height:auto;
+
+    display:block;
+
+    margin:25px auto;
 
 }
 
@@ -782,11 +786,13 @@ textarea:focus {
 
 .post-content img {
 
-    max-width:100%;
+    max-width:900px;
 
     height:auto;
 
-    margin:15px 0;
+    display:block;
+
+    margin:25px auto;
 
 }
 
@@ -919,15 +925,13 @@ textarea:focus {
 
 .post-content img {
 
+    max-width:900px;
 
-    max-width:100%;
-
+    height:auto;
 
     display:block;
 
-
     margin:25px auto;
-
 
 }
 
