@@ -155,8 +155,67 @@ loadFAQ();
 
 
 }
+    
+window.deleteFAQ = async function(id){
+
+
+const confirmDelete =
+
+confirm(
+"정말 삭제하시겠습니까?"
+);
+
+
+if(!confirmDelete){
+
+return;
+
+}
+
+
+
+try{
+
+
+await deleteDoc(
+
+doc(
+db,
+"faq",
+id
+)
 
 );
+
+
+
+alert(
+"삭제되었습니다."
+);
+
+
+
+location.reload();
+
+
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+alert(
+"삭제 중 오류가 발생했습니다."
+);
+
+
+}
+
+
+};
 
 
 
@@ -310,7 +369,7 @@ data.answer ||
 </p>
 
 
-${editButton}
+${actionButton}
 
 
 
