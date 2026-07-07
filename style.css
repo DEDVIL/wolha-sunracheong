@@ -1,0 +1,935 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+
+/* =====================================
+   月下巡邏廳 Internal Network
+   Main Style
+===================================== */
+
+
+/* =====================
+   기본 설정
+===================== */
+
+* {
+
+    box-sizing:border-box;
+
+}
+
+
+
+body {
+
+    margin:0;
+
+    min-height:100vh;
+
+
+    background:
+
+    linear-gradient(
+        rgba(10,10,10,0.94),
+        rgba(10,10,10,0.94)
+    ),
+
+    url("./assets/images/paper-texture.png");
+
+
+    background-size:cover;
+
+
+    font-family:
+
+    "Pretendard",
+
+    sans-serif;
+
+
+    color:#e8e2d6;
+
+}
+
+
+
+
+/* =====================
+   공통 중앙 배치
+===================== */
+
+
+.main-container {
+
+
+    min-height:100vh;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+/* =====================
+   로그인 / 등록
+===================== */
+
+
+.login-container {
+
+
+    width:100%;
+
+
+    height:100vh;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+.login-box {
+
+
+    width:380px;
+
+
+    padding:45px 40px;
+
+
+    background:
+
+
+    linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+
+    border:1px solid #8b0000;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+/* =====================
+   제목
+===================== */
+
+
+h1 {
+
+
+    margin:0;
+
+
+    font-size:34px;
+
+
+    letter-spacing:3px;
+
+
+    color:#c8a96a;
+
+
+    font-family:
+
+    "Noto Serif KR",
+
+    serif;
+
+
+}
+
+
+
+
+.subtitle {
+
+
+    margin-top:15px;
+
+
+    margin-bottom:35px;
+
+
+    color:#b8b0a0;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+/* =====================
+   입력 폼
+===================== */
+
+
+.login-form {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+}
+
+
+
+
+
+.login-form input,
+
+.login-form select {
+
+
+    height:45px;
+
+
+    padding:0 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-size:15px;
+
+
+    font-family:
+
+    "Pretendard",
+
+    sans-serif;
+
+
+}
+
+
+
+
+
+.login-form input:focus,
+
+.login-form select:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.login-form button {
+
+
+    height:48px;
+
+
+    margin-top:10px;
+
+
+    background:#8b0000;
+
+
+    border:none;
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    letter-spacing:5px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+.login-form button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+.notice {
+
+
+    margin-top:30px;
+
+
+    font-size:12px;
+
+
+    color:#8d867b;
+
+
+}
+
+
+
+
+/* =====================
+   관리자 / 문서 공통 박스
+===================== */
+
+
+.admin-box,
+
+.content-box {
+
+
+    width:90%;
+
+
+    max-width:1400px;
+
+
+    min-height:80vh;
+
+
+    padding:50px;
+
+
+
+    background:
+
+
+    linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+
+    border:1px solid #4a4035;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+    margin:40px auto;
+
+
+}
+
+
+
+
+
+.content-box h1 {
+
+
+    text-align:center;
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+/* =====================
+   메뉴
+===================== */
+
+
+.menu {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+    margin-top:30px;
+
+
+}
+
+
+
+
+
+.menu a {
+
+
+    display:block;
+
+
+    padding:15px;
+
+
+    color:#e8e2d6;
+
+
+    text-decoration:none;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.menu a:hover {
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+
+
+.system-message {
+
+
+    margin-top:20px;
+
+
+    line-height:1.8;
+
+
+    color:#b8b0a0;
+
+
+}
+
+ 
+/* =====================
+   FAQ
+===================== */
+
+
+.faq-card {
+
+
+    margin-top:20px;
+
+
+    padding:25px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    text-align:left;
+
+
+}
+
+
+
+.faq-card h3 {
+
+
+    color:#c8a96a;
+
+
+    margin-top:0;
+
+
+}
+
+
+
+.faq-card p {
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+
+.faq-card a {
+
+
+    display:inline-block;
+
+
+    margin-top:10px;
+
+
+    padding:8px 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#c8a96a;
+
+
+    text-decoration:none;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+.faq-card a:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.faq-card button {
+
+
+    margin-top:10px;
+
+
+    margin-left:10px;
+
+
+    padding:8px 15px;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:#fff;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard", sans-serif;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+.faq-card button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+/* =====================
+   입력창
+===================== */
+
+
+textarea {
+
+
+    width:100%;
+
+
+    min-height:150px;
+
+
+    padding:15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-family:"Pretendard", sans-serif;
+
+
+    resize:none;
+
+
+}
+
+
+
+
+textarea:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+label {
+
+
+    display:block;
+
+
+    margin:15px 0;
+
+
+    color:#b8b0a0;
+
+
+}
+
+
+
+
+/* =====================
+   Quill Editor
+===================== */
+
+
+
+#editor {
+
+
+    background:#0b0b0b;
+
+
+    color:#e8e2d6;
+
+
+    min-height:300px;
+
+
+}
+
+
+
+
+
+.ql-toolbar {
+
+
+    background:#e8e2d6;
+
+
+}
+
+
+
+
+
+/* =====================
+   본청 / 문서 카드
+===================== */
+
+
+.notice-card {
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    padding:35px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+.notice-card h2 {
+
+
+    color:#c8a96a;
+
+
+    font-size:24px;
+
+
+    margin-top:0;
+
+
+    margin-bottom:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.post-content {
+
+
+    color:#e8e2d6;
+
+
+    font-size:16px;
+
+
+    line-height:2;
+
+
+    margin-top:20px;
+
+
+}
+
+
+
+
+/* =====================
+   이미지
+===================== */
+
+
+/*
+   큰 이미지는 최대 900px
+   작은 화면에서는 자동 축소
+*/
+
+
+.post-content img {
+
+
+    max-width:900px;
+
+
+    width:100%;
+
+
+    height:auto;
+
+
+    display:block;
+
+
+    object-fit:contain;
+
+
+    margin:25px auto;
+
+
+}
+
+
+
+
+
+#editor img {
+
+
+    max-width:900px;
+
+
+    width:100%;
+
+
+    height:auto;
+
+
+}
+
+
+
+
+
+.notice-date {
+
+
+    margin-top:30px;
+
+
+    padding-top:15px;
+
+
+    border-top:1px solid #4a4035;
+
+
+    color:#8d867b;
+
+
+    font-size:13px;
+
+
+}
+
+
+
+
+/* =====================
+   모바일
+===================== */
+
+
+@media(max-width:700px){
+
+
+
+    .login-box,
+
+    .admin-box,
+
+    .content-box {
+
+
+        width:95%;
+
+
+        padding:25px;
+
+
+    }
+
+
+
+
+
+    h1 {
+
+
+        font-size:28px;
+
+
+    }
+
+
+
+
+
+    .notice-card {
+
+
+        padding:20px;
+
+
+    }
+
+
+
+
+
+    .post-content {
+
+
+        font-size:15px;
+
+
+    }
+
+
+
+}
