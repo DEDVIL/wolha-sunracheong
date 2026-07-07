@@ -133,13 +133,7 @@ placeholder="이미지 URL"
 </label>
 
 
-<textarea
-
-id="secretContent"
-
-placeholder="비공개 설정">
-
-</textarea>
+<div id="secret-editor"></div>
 
 
 
@@ -451,7 +445,40 @@ toolbar:[
 );
 
 
+const secretQuill = new Quill(
 
+"#secret-editor",
+
+{
+
+theme:"snow",
+
+modules:{
+
+toolbar:[
+
+[
+"bold",
+"italic",
+"underline"
+],
+
+[
+"link",
+"image"
+],
+
+[
+"clean"
+]
+
+]
+
+}
+
+}
+
+);
 
 
 
@@ -499,7 +526,42 @@ url
 );
 
 
+secretQuill
+.getModule("toolbar")
+.addHandler(
 
+"image",
+
+()=>{
+
+
+const url = prompt(
+"이미지 주소(URL)를 입력해주세요."
+);
+
+
+if(url){
+
+const range =
+secretQuill.getSelection();
+
+
+secretQuill.insertEmbed(
+
+range.index,
+
+"image",
+
+url
+
+);
+
+}
+
+
+}
+
+);
 
 
 
