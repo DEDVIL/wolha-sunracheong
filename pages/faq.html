@@ -248,20 +248,27 @@ box.className =
 
 
 
-let editButton = "";
+let actionButton = "";
 
 
 if(
     data.writerUid === currentUser.uid
 ){
 
-    editButton = `
+    actionButton = `
 
     <a href="./faq-edit.html?id=${doc.id}">
     
     ⌜ 수정 ⌟
 
     </a>
+
+
+    <button onclick="deleteFAQ('${doc.id}')">
+
+    ⌜ 삭제 ⌟
+
+    </button>
 
     `;
 
