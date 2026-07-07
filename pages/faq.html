@@ -248,6 +248,28 @@ box.className =
 
 
 
+let editButton = "";
+
+
+if(
+    data.writerUid === currentUser.uid
+){
+
+    editButton = `
+
+    <a href="./faq-edit.html?id=${doc.id}">
+    
+    ⌜ 수정 ⌟
+
+    </a>
+
+    `;
+
+}
+
+
+
+
 box.innerHTML = `
 
 
@@ -279,6 +301,9 @@ data.answer ||
 }
 
 </p>
+
+
+${editButton}
 
 
 
