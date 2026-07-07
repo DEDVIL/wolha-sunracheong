@@ -223,6 +223,19 @@ window.createProfile = async function(){
     const department =
     document.getElementById("department").value;
 
+if(
+    name === "" ||
+    department === ""
+){
+
+    alert(
+    "멤버와 소속을 모두 선택해주세요."
+    );
+
+    return;
+
+}
+    
 
 // 이름 중복 확인
 
