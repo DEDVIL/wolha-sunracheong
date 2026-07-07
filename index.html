@@ -87,14 +87,10 @@
 
 <script type="module">
 
-import "./firebase.js";
-
-import "./auth.js";
-
+import { login } from "./auth.js";
 
 
 window.loginUser = function(){
-
 
     const email =
     document.getElementById("email").value;
@@ -104,15 +100,12 @@ window.loginUser = function(){
     document.getElementById("password").value;
 
 
-
-    window.login(
+    login(
         email,
         password
     );
 
-
 }
-
 
 </script>
 
