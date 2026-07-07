@@ -216,7 +216,7 @@ let currentUser = null;
 let currentProfile = null;
 
 
-function previewContent(content){
+function fixContent(content){
 
 
     const div = document.createElement("div");
@@ -225,13 +225,28 @@ function previewContent(content){
     div.innerHTML = content;
 
 
+
     const images = div.querySelectorAll("img");
+
 
 
     images.forEach((img)=>{
 
 
-        img.replaceWith("[이미지 첨부]");
+        img.removeAttribute("width");
+
+        img.removeAttribute("height");
+
+        img.removeAttribute("style");
+
+
+        img.style.maxWidth = "100%";
+
+        img.style.width = "100%";
+
+        img.style.height = "auto";
+
+        img.style.display = "block";
 
 
     });
