@@ -21,6 +21,7 @@ from
 // 로그인 함수
 
 const login = async (email, password) => {
+    console.log("로그인 시도");
 
     try {
 
