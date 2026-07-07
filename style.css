@@ -561,3 +561,28 @@ textarea:focus {
     font-size:14px;
 
 }
+
+.faq-card button {
+
+    margin-left:10px;
+
+    padding:5px 12px;
+
+    background:#8b0000;
+
+    border:none;
+
+    color:#fff;
+
+    cursor:pointer;
+
+}
+
+
+.faq-card a {
+
+    color:#c8a96a;
+
+    text-decoration:none;
+
+}
