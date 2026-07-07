@@ -165,7 +165,9 @@ from "../firebase.js";
 import {
 doc,
 setDoc,
-serverTimestamp
+serverTimestamp,
+collection,
+getDocs
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -222,7 +224,44 @@ window.createProfile = async function(){
     document.getElementById("department").value;
 
 
+// 이름 중복 확인
 
+const usersSnapshot =
+await getDocs(
+    collection(db,"users")
+);
+
+
+let duplicate = false;
+
+
+usersSnapshot.forEach((doc)=>{
+
+
+    if(
+        doc.data().name === name
+    ){
+
+        duplicate = true;
+
+    }
+
+
+});
+
+
+
+if(duplicate){
+
+
+    alert(
+    "이미 등록된 캐릭터입니다."
+    );
+
+
+    return;
+
+}
     await setDoc(
 
         doc(
