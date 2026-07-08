@@ -1,0 +1,1544 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+
+/* =====================================
+   月下巡邏廳 Internal Network
+   Main Style
+===================================== */
+
+
+/* =====================
+   기본 설정
+===================== */
+
+
+* {
+
+    box-sizing:border-box;
+
+}
+
+
+html,
+body {
+
+    width:100%;
+
+    overflow-x:hidden;
+
+}
+
+
+
+body {
+
+    margin:0;
+
+    min-height:100vh;
+
+
+    background:
+
+    linear-gradient(
+        rgba(10,10,10,0.94),
+        rgba(10,10,10,0.94)
+    ),
+
+    url("./assets/images/paper-texture.png");
+
+
+    background-size:cover;
+
+
+    font-family:
+
+    "Pretendard",
+    sans-serif;
+
+
+    color:#e8e2d6;
+
+}
+
+
+
+/* =====================
+   공통 레이아웃
+===================== */
+
+
+.main-container {
+
+    min-height:100vh;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+}
+
+
+
+.content-box,
+.admin-box {
+
+
+    width:90%;
+
+
+    max-width:1400px;
+
+
+    min-height:80vh;
+
+
+    padding:50px;
+
+
+    margin:40px auto;
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+
+    border:1px solid #4a4035;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+.content-box {
+
+    overflow:hidden;
+
+}
+
+
+
+/* =====================
+   제목
+===================== */
+
+
+h1 {
+
+
+    margin:0;
+
+
+    font-size:34px;
+
+
+    letter-spacing:3px;
+
+
+    color:#c8a96a;
+
+
+    font-family:
+
+    "Noto Serif KR",
+    serif;
+
+
+    text-align:center;
+
+
+}
+
+
+
+.subtitle {
+
+
+    margin-top:15px;
+
+
+    margin-bottom:35px;
+
+
+    color:#b8b0a0;
+
+
+    letter-spacing:3px;
+
+
+    text-align:center !important;
+
+
+}
+
+
+
+.content-box h1,
+.admin-box h1,
+.content-box .subtitle,
+.admin-box .subtitle {
+
+
+    text-align:center !important;
+
+
+}
+
+
+
+
+
+/* =====================
+   로그인 / 입력폼
+===================== */
+
+
+.login-container {
+
+
+    width:100%;
+
+
+    height:100vh;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+}
+
+
+
+.login-box {
+
+
+    width:380px;
+
+
+    padding:45px 40px;
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #171717,
+        #101010
+    );
+
+
+    border:1px solid #8b0000;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+.login-form {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+}
+
+
+
+
+
+.login-form input,
+.login-form select {
+
+
+    height:45px;
+
+
+    padding:0 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-size:15px;
+
+
+    font-family:
+
+    "Pretendard",
+    sans-serif;
+
+
+}
+
+
+
+.login-form input:focus,
+.login-form select:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+textarea {
+
+
+    width:100%;
+
+
+    min-height:150px;
+
+
+    padding:15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-family:
+
+    "Pretendard",
+    sans-serif;
+
+
+    resize:none;
+
+
+}
+
+
+
+textarea:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+label {
+
+
+    display:block;
+
+
+    margin:15px 0;
+
+
+    color:#b8b0a0;
+
+
+}
+
+
+
+/* =====================
+   버튼
+===================== */
+
+
+.login-form button,
+#secret-area button {
+
+
+    height:48px;
+
+
+    margin-top:10px;
+
+
+    background:#8b0000;
+
+
+    border:none;
+
+
+    color:white;
+
+
+    font-size:16px;
+
+
+    letter-spacing:5px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.login-form button:hover,
+#secret-area button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+.write-button {
+
+
+    display:block;
+
+
+    width:180px;
+
+
+    margin:30px auto;
+
+
+    padding:12px;
+
+
+    text-align:center;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+.write-button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+/* =====================
+   메뉴
+===================== */
+
+
+.menu {
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:15px;
+
+
+    margin-top:30px;
+
+
+}
+
+
+
+.menu a {
+
+
+    display:block;
+
+
+    padding:15px;
+
+
+    color:#c8a96a;
+
+
+    text-decoration:none;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.system-message {
+
+
+    margin-top:20px;
+
+
+    line-height:1.8;
+
+
+    color:#b8b0a0;
+
+
+}
+
+/* =====================
+   Quill Editor
+===================== */
+
+
+#editor,
+#secret-editor {
+
+
+    background:#0b0b0b;
+
+
+    color:#e8e2d6;
+
+
+    min-height:350px;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.ql-toolbar {
+
+
+    background:#e8e2d6;
+
+
+}
+
+
+
+.ql-editor {
+
+
+    overflow-wrap:break-word;
+
+
+    word-break:break-word;
+
+
+}
+
+
+
+.ql-editor img {
+
+
+    max-width:100% !important;
+
+
+    width:auto !important;
+
+
+    height:auto !important;
+
+
+    display:block;
+
+
+    margin:20px auto;
+
+
+}
+
+
+
+
+
+/* =====================
+   공지 / 문서
+===================== */
+
+
+.notice-card {
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    padding:35px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+.notice-card h2 {
+
+
+    color:#c8a96a;
+
+
+    font-size:24px;
+
+
+    margin-top:0;
+
+
+    margin-bottom:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+.post-content {
+
+
+    color:#e8e2d6;
+
+
+    font-size:16px;
+
+
+    line-height:2;
+
+
+    margin-top:20px;
+
+
+    overflow:hidden;
+
+
+    word-break:break-word;
+
+
+}
+
+
+
+
+
+.post-content img {
+
+
+    display:block;
+
+
+    max-width:100% !important;
+
+
+    width:auto !important;
+
+
+    height:auto !important;
+
+
+    object-fit:contain;
+
+
+    margin:25px auto;
+
+
+}
+
+
+
+
+
+.post-content iframe,
+.post-content video {
+
+
+    max-width:100%;
+
+
+    height:auto;
+
+
+}
+
+
+
+
+.notice-date {
+
+
+    margin-top:30px;
+
+
+    padding-top:15px;
+
+
+    border-top:1px solid #4a4035;
+
+
+    color:#8d867b;
+
+
+    font-size:13px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   FAQ
+===================== */
+
+
+.faq-card {
+
+
+    margin-top:20px;
+
+
+    padding:25px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    text-align:left;
+
+
+}
+
+
+
+.faq-card h3 {
+
+
+    color:#c8a96a;
+
+
+    margin-top:0;
+
+
+}
+
+
+
+.faq-card p {
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+
+.faq-card a {
+
+
+    display:inline-block;
+
+
+    margin-top:10px;
+
+
+    padding:8px 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#c8a96a;
+
+
+    text-decoration:none;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+.faq-card a:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+
+.faq-card button {
+
+
+    margin-top:10px;
+
+
+    margin-left:10px;
+
+
+    padding:8px 15px;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:#fff;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard", sans-serif;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+.faq-card button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   비밀 설정
+===================== */
+
+
+#secret-area {
+
+
+    margin-top:50px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+#secret-area input {
+
+
+    width:200px;
+
+
+    height:40px;
+
+
+    padding:10px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+.secret-box {
+
+
+    margin-top:30px;
+
+
+    padding:25px;
+
+
+    border:1px solid #4a4035;
+
+
+    background:#0b0b0b;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   공통 이미지 대응
+===================== */
+
+
+img {
+
+
+    max-width:100%;
+
+
+    height:auto;
+
+
+}
+
+/* =====================
+   인명부 갤러리
+===================== */
+
+
+.member-department {
+
+
+    margin-top:40px;
+
+
+}
+
+
+
+.member-department h2 {
+
+
+    color:#c8a96a;
+
+
+    text-align:center;
+
+
+    margin-bottom:25px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+.member-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+
+    repeat(auto-fill, minmax(180px, 1fr));
+
+
+    gap:30px;
+
+
+}
+
+
+
+
+
+.member-card {
+
+
+    display:block;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    padding:15px;
+
+
+    text-decoration:none;
+
+
+    color:#e8e2d6;
+
+
+    text-align:center;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+.member-card:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+.member-card img {
+
+
+    width:100%;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+
+.member-name {
+
+
+    color:#c8a96a;
+
+
+    font-size:18px;
+
+
+    margin-bottom:8px;
+
+
+}
+
+
+
+
+.member-department-name {
+
+
+    color:#b8b0a0;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+.empty-member {
+
+
+    color:#8d867b;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   인명부 상세
+===================== */
+
+
+.member-profile {
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+.member-profile-image {
+
+
+    width:100%;
+
+
+    max-width:400px;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+    margin:0 auto 30px;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.member-profile h2 {
+
+
+    color:#c8a96a;
+
+
+    font-size:28px;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+.member-profile-department {
+
+
+    color:#b8b0a0;
+
+
+    margin-bottom:40px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+
+
+.member-profile .post-content {
+
+
+    text-align:center;
+
+
+}
+
+
+
+.member-profile .post-content p {
+
+
+    text-align:center;
+
+
+}
+
+
+
+.member-profile .post-content strong {
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   캐치프레이즈
+===================== */
+
+
+.catchphrase-title {
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+    color:#c8a96a;
+
+
+    margin-top:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.catchphrase-text {
+
+
+    font-size:26px;
+
+
+    font-weight:bold;
+
+
+    margin:20px 0 40px;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+
+
+.separator {
+
+
+    color:#8d867b;
+
+
+    margin:30px 0;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   프로필 이미지
+===================== */
+
+
+.member-avatar {
+
+
+    width:100%;
+
+
+    max-width:400px;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   작성 버튼
+===================== */
+
+
+.write-button {
+
+
+    display:block;
+
+
+    width:180px;
+
+
+    margin:30px auto;
+
+
+    padding:12px;
+
+
+    text-align:center;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+.write-button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   모바일 대응
+===================== */
+
+
+@media(max-width:700px){
+
+
+
+.content-box,
+.admin-box {
+
+
+    width:95%;
+
+
+    padding:25px;
+
+
+}
+
+
+
+
+h1 {
+
+
+    font-size:28px;
+
+
+}
+
+
+
+
+.notice-card {
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+.post-content {
+
+
+    font-size:15px;
+
+
+}
+
+
+
+
+.member-grid {
+
+
+    grid-template-columns:
+
+
+    repeat(2, 1fr);
+
+
+    gap:15px;
+
+
+}
+
+
+
+
+.member-profile-image {
+
+
+    max-width:100%;
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:400px){
+
+
+
+.member-grid {
+
+
+    grid-template-columns:
+
+
+    repeat(1, 1fr);
+
+
+}
+
+
+
+}
