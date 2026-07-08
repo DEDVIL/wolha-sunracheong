@@ -1505,3 +1505,12 @@ label {
     background:#a00000;
 
 }
+
+.content-box h1,
+.content-box .subtitle,
+.admin-box h1,
+.admin-box .subtitle {
+
+    text-align:center;
+
+}
