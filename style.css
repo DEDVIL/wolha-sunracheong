@@ -967,3 +967,206 @@ label {
     margin:20px auto;
 
 }
+
+/* =====================
+   인명부 갤러리
+===================== */
+
+
+.member-department {
+
+    margin-top:40px;
+
+}
+
+
+
+.member-department h2 {
+
+    color:#c8a96a;
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    letter-spacing:3px;
+
+}
+
+
+
+
+
+.member-grid {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(auto-fill, minmax(180px, 1fr));
+
+
+    gap:30px;
+
+
+}
+
+
+
+
+
+
+.member-card {
+
+
+    display:block;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    padding:15px;
+
+
+    text-decoration:none;
+
+
+    color:#e8e2d6;
+
+
+    text-align:center;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+
+
+
+.member-card:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.member-card img {
+
+
+    width:100%;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+
+.member-name {
+
+
+    color:#c8a96a;
+
+
+    font-size:18px;
+
+
+    margin-bottom:8px;
+
+
+}
+
+
+
+
+
+.member-department-name {
+
+
+    color:#b8b0a0;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+.empty-member {
+
+
+    color:#8d867b;
+
+
+}
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+    .member-grid {
+
+
+        grid-template-columns:
+
+        repeat(2, 1fr);
+
+
+        gap:15px;
+
+
+    }
+
+
+}
+
+
+
+@media(max-width:400px){
+
+
+    .member-grid {
+
+
+        grid-template-columns:
+
+        repeat(1, 1fr);
+
+
+    }
+
+
+}
