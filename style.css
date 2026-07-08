@@ -398,8 +398,7 @@ label {
 ===================== */
 
 
-.login-form button,
-#secret-area button {
+.login-form button {
 
 
     height:48px;
@@ -1661,20 +1660,48 @@ h1 {
 }
 
 /* =====================
-   비공개 열기 버튼 복구
+   비공개 열기 버튼
 ===================== */
 
 
-#secret-area button {
+#secret-area {
+
+    text-align:center;
+
+}
 
 
-    width:auto;
+
+#secret-area input {
+
+
+    width:200px;
 
 
     height:40px;
 
 
-    padding:0 20px;
+    padding:0 10px;
+
+
+    vertical-align:middle;
+
+
+}
+
+
+
+
+#secret-area button {
+
+
+    width:70px;
+
+
+    height:40px;
+
+
+    padding:0;
 
 
     margin-left:10px;
@@ -1683,13 +1710,13 @@ h1 {
     margin-top:0;
 
 
-    display:inline-block;
+    vertical-align:middle;
 
 
     background:#8b0000;
 
 
-    border:none;
+    border:1px solid #8b0000;
 
 
     color:white;
@@ -1704,9 +1731,6 @@ h1 {
     cursor:pointer;
 
 
-    box-sizing:border-box;
-
-
 }
 
 
@@ -1716,25 +1740,5 @@ h1 {
 
     background:#a00000;
 
-
-}
-
-#secret-area {
-
-text-align:center;
-
-}
-
-
-#secret-area input {
-
-vertical-align:middle;
-
-}
-
-
-#secret-area button {
-
-vertical-align:middle;
 
 }
