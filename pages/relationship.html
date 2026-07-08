@@ -408,7 +408,9 @@ serverTimestamp,
 
 deleteDoc,
 
-doc
+doc,
+
+updateDoc
 
 }
 
@@ -1049,9 +1051,7 @@ member:member
 function setDefaultLayout(){
 
 
-
 const count =
-
 nodeList.length;
 
 
@@ -1065,28 +1065,19 @@ return;
 
 
 
-
 const width =
-
 relationshipArea.clientWidth;
 
 
 
 const height =
-
 relationshipArea.clientHeight;
 
 
 
 
 
-
-
-// 캐릭터 수에 따른 그리드
-
-
 const columns =
-
 Math.ceil(
 Math.sqrt(count)
 );
@@ -1094,14 +1085,12 @@ Math.sqrt(count)
 
 
 const gapX =
-
 width /
 (columns+1);
 
 
 
 const rows =
-
 Math.ceil(
 count / columns
 );
@@ -1109,7 +1098,6 @@ count / columns
 
 
 const gapY =
-
 height /
 (rows+1);
 
@@ -1124,14 +1112,50 @@ nodeList.forEach(
 
 
 
-const col =
+const member =
+node.member;
 
+
+
+// 저장된 위치 있으면 사용
+
+
+if(
+member.layout &&
+member.layout.x !== undefined
+){
+
+
+node.element.style.left =
+
+member.layout.x+"px";
+
+
+
+node.element.style.top =
+
+member.layout.y+"px";
+
+
+
+return;
+
+
+}
+
+
+
+
+
+// 없으면 자동 배치
+
+
+const col =
 index % columns;
 
 
 
 const row =
-
 Math.floor(
 index / columns
 );
@@ -1139,30 +1163,36 @@ index / columns
 
 
 
+
 node.element.style.left =
 
 (
-gapX * (col+1)
+gapX*(col+1)
 
 )
 
 +
 
 "px";
-
 
 
 
 node.element.style.top =
 
 (
-gapY * (row+1)
+gapY*(row+1)
 
 )
 
 +
 
 "px";
+
+
+
+saveNodePosition(
+node
+);
 
 
 
@@ -1173,10 +1203,74 @@ gapY * (row+1)
 }
 
 
+// ===============================
+// 위치 저장 함수 추가
+// ===============================
+
+async function saveNodePosition(node){
+
+
+const x =
+node.element.offsetLeft;
+
+
+
+const y =
+node.element.offsetTop;
 
 
 
 
+try{
+
+
+await updateDoc(
+
+doc(
+
+db,
+
+"members",
+
+node.member.id
+
+),
+
+{
+
+
+layout:{
+
+x:x,
+
+y:y
+
+}
+
+
+}
+
+);
+
+
+}
+
+
+catch(error){
+
+
+console.error(
+"좌표 저장 실패",
+error
+);
+
+
+
+}
+
+
+
+}
 
 
 
@@ -2277,6 +2371,37 @@ document.addEventListener(
 ()=>{
 
 
+if(draggingNode){
+
+
+
+const node =
+
+nodeList.find(
+
+(item)=>
+
+item.element === draggingNode
+
+);
+
+
+
+if(node){
+
+
+saveNodePosition(node);
+
+
+
+}
+
+
+
+}
+
+
+
 draggingNode=null;
 
 
@@ -2302,9 +2427,6 @@ window.addEventListener(
 "resize",
 
 ()=>{
-
-
-setDefaultLayout();
 
 
 drawRelationshipLines();
