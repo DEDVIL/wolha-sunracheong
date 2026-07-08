@@ -2040,6 +2040,28 @@ document.getElementById(
 "delete-relation"
 );
 
+const editRelationName =
+document.getElementById(
+"edit-relation-name"
+);
+
+
+const editRelationContent =
+document.getElementById(
+"edit-relation-content"
+);
+
+
+const saveEditButton =
+document.getElementById(
+"save-edit-relation"
+);
+
+
+const detailEditArea =
+document.getElementById(
+"detail-edit-area"
+);
 
 const editRelationButton =
 
@@ -2057,6 +2079,8 @@ let selectedRelationData = null;
 
 function openDetailModal(relation){
 
+detailEditArea.style.display =
+"none";
 
 selectedRelationId =
 
@@ -2233,46 +2257,22 @@ editRelationButton.addEventListener(
 
 "click",
 
-async()=>{
+()=>{
 
 
-if(!selectedRelationData){
+detailEditArea.style.display =
+"block";
 
-return;
+
+editRelationName.value =
+selectedRelationData.relationName;
+
+
+editRelationContent.value =
+selectedRelationData.relationContent || "";
+
 
 }
-
-
-
-const newName =
-
-prompt(
-
-"새 관계명",
-
-selectedRelationData.relationName
-
-);
-
-
-
-if(newName===null){
-
-return;
-
-}
-
-
-
-
-
-const newContent =
-
-prompt(
-
-"새 관계 설명",
-
-selectedRelationData.relationContent || ""
 
 );
 
@@ -2336,6 +2336,13 @@ location.reload();
 }
 
 );
+
+
+
+
+// ===============================
+// 저장
+// ===============================
 
 
 
