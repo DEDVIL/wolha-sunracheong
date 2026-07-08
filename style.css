@@ -1659,3 +1659,82 @@ h1 {
 
 
 }
+
+/* =====================
+   비공개 열기 버튼 복구
+===================== */
+
+
+#secret-area button {
+
+
+    width:auto;
+
+
+    height:40px;
+
+
+    padding:0 20px;
+
+
+    margin-left:10px;
+
+
+    margin-top:0;
+
+
+    display:inline-block;
+
+
+    background:#8b0000;
+
+
+    border:none;
+
+
+    color:white;
+
+
+    font-size:14px;
+
+
+    letter-spacing:2px;
+
+
+    cursor:pointer;
+
+
+    box-sizing:border-box;
+
+
+}
+
+
+
+#secret-area button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+#secret-area {
+
+text-align:center;
+
+}
+
+
+#secret-area input {
+
+vertical-align:middle;
+
+}
+
+
+#secret-area button {
+
+vertical-align:middle;
+
+}
