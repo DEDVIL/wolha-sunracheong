@@ -1714,26 +1714,6 @@ h1 {
 ===================== */
 
 
-.owner-button-group button {
-
-
-    appearance:none;
-
-
-    -webkit-appearance:none;
-
-
-    border-radius:0;
-
-
-    margin:0;
-
-
-    outline:none;
-
-
-}
-
 
 .owner-button-group .owner-delete-button {
 
@@ -1752,6 +1732,41 @@ h1 {
 
 
     background:#a00000;
+
+
+}
+
+
+/* =====================
+   인명부 작성자 버튼 보정
+===================== */
+
+
+.owner-button-group .owner-delete-button {
+
+
+    appearance:none;
+
+
+    -webkit-appearance:none;
+
+
+    border-radius:0;
+
+
+    margin:0;
+
+
+    padding:0;
+
+
+    outline:none;
+
+
+    width:110px;
+
+
+    height:40px;
 
 
 }
