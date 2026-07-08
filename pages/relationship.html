@@ -1466,6 +1466,7 @@ error
 // ===============================
 
 
+
 function drawRelationshipLines(){
 
 
@@ -1482,9 +1483,7 @@ svg.innerHTML = "";
 relationships.forEach((relation)=>{
 
 
-const fromNode =
-
-nodeList.find(
+const fromNode = nodeList.find(
 
 (node)=>
 
@@ -1494,9 +1493,7 @@ node.member.id === relation.fromUid
 
 
 
-const toNode =
-
-nodeList.find(
+const toNode = nodeList.find(
 
 (node)=>
 
@@ -1527,39 +1524,71 @@ document.createElementNS(
 
 
 line.setAttribute(
+
 "x1",
-fromNode.element.offsetLeft +
+
+fromNode.element.offsetLeft
+
++
+
 fromNode.element.offsetWidth / 2
+
 );
 
 
+
 line.setAttribute(
+
 "y1",
-fromNode.element.offsetTop +
+
+fromNode.element.offsetTop
+
++
+
 fromNode.element.offsetHeight / 2
+
 );
 
 
+
 line.setAttribute(
+
 "x2",
-toNode.element.offsetLeft +
+
+toNode.element.offsetLeft
+
++
+
 toNode.element.offsetWidth / 2
+
 );
+
 
 
 line.setAttribute(
+
 "y2",
-toNode.element.offsetTop +
+
+toNode.element.offsetTop
+
++
+
 toNode.element.offsetHeight / 2
+
 );
+
 
 
 line.classList.add(
+
 "relationship-line"
+
 );
 
 
+
 svg.appendChild(line);
+
 
 
 });
@@ -1567,11 +1596,7 @@ svg.appendChild(line);
 
 }
 
-
-
-
-
-
+  
 // 노드 이동 후 관계선 갱신
 
 
