@@ -430,21 +430,13 @@ return;
 
 await loadMembers();
 
-
-
-
-
-
-
 createNodes();
 
-
-
-
-
-
-
 setDefaultLayout();
+
+await loadRelationships();
+
+drawRelationshipLines();
 
 
 
@@ -550,7 +542,7 @@ id:doc.id,
 
 
 
-
+createTargetMemberList();
 
 
 
@@ -706,13 +698,8 @@ node.addEventListener(
 
 ()=>{
 
-
-
 location.href =
-
-"./member-view.html?id=${member.id}";
-
-
+`./member-view.html?id=${member.id}`;
 
 }
 
@@ -1830,20 +1817,6 @@ targetMemberSelect.appendChild(option);
 
 
 }
-
-
-
-
-
-
-
-createTargetMemberList();
-
-
-
-
-
-
 
 
 
