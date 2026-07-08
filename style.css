@@ -1810,15 +1810,13 @@ h1 {
 ================================= */
 
 
-/* 상단 메뉴 */
-
 .relationship-top-menu{
 
 display:flex;
 
-align-items:center;
-
 justify-content:space-between;
+
+align-items:center;
 
 gap:15px;
 
@@ -1836,13 +1834,13 @@ display:flex;
 
 gap:10px;
 
+align-items:center;
+
 }
 
 
 
 
-
-/* 검색 영역 */
 
 .relationship-search-box{
 
@@ -1858,16 +1856,17 @@ align-items:center;
 
 .relationship-search-box input{
 
-
-width:220px;
+width:230px;
 
 height:40px;
 
 padding:0 15px;
 
-border-radius:8px;
+border-radius:20px;
 
-border:1px solid #ccc;
+border:1px solid rgba(120,90,160,0.35);
+
+background:rgba(255,255,255,0.8);
 
 font-size:14px;
 
@@ -1878,7 +1877,6 @@ font-size:14px;
 
 
 /* 관계도 공간 */
-
 
 .relationship-area{
 
@@ -1893,13 +1891,33 @@ margin-top:20px;
 
 overflow:hidden;
 
-border-radius:15px;
+border-radius:22px;
+
+
 
 background:
 
-rgba(255,255,255,0.35);
+linear-gradient(
 
-border:1px solid rgba(0,0,0,0.15);
+135deg,
+
+rgba(35,25,55,0.96),
+
+rgba(70,45,90,0.92)
+
+);
+
+
+
+border:
+
+1px solid rgba(255,255,255,0.15);
+
+
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,0.25);
 
 
 }
@@ -1908,8 +1926,9 @@ border:1px solid rgba(0,0,0,0.15);
 
 
 
-.relationship-svg{
 
+
+.relationship-svg{
 
 position:absolute;
 
@@ -1923,15 +1942,15 @@ top:0;
 
 z-index:1;
 
-
 }
 
 
 
 
 
-.relationship-nodes{
 
+
+.relationship-nodes{
 
 position:absolute;
 
@@ -1945,7 +1964,6 @@ top:0;
 
 z-index:2;
 
-
 }
 
 
@@ -1954,17 +1972,15 @@ z-index:2;
 
 
 
-/* 인물 노드 */
 
 
 .relationship-node{
-
 
 position:absolute;
 
 transform:translate(-50%,-50%);
 
-width:90px;
+width:110px;
 
 text-align:center;
 
@@ -1972,6 +1988,7 @@ cursor:grab;
 
 user-select:none;
 
+transition:.2s;
 
 }
 
@@ -1979,15 +1996,14 @@ user-select:none;
 
 .relationship-node:hover{
 
-
 transform:
 
 translate(-50%,-50%)
 
-scale(1.08);
-
+scale(1.12);
 
 }
+
 
 
 
@@ -1997,17 +2013,29 @@ scale(1.08);
 .relationship-avatar{
 
 
-width:70px;
+width:78px;
 
-height:70px;
+height:78px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:3px solid #333;
 
-background:white;
+
+border:
+
+3px solid rgba(230,210,255,0.9);
+
+
+
+box-shadow:
+
+0 0 18px rgba(210,180,255,0.45);
+
+
+
+background:#fff;
 
 
 }
@@ -2016,20 +2044,38 @@ background:white;
 
 
 
+
+
 .relationship-name{
 
 
-margin-top:8px;
+margin-top:10px;
+
 
 font-weight:bold;
 
+
 font-size:14px;
 
-background:white;
 
-padding:4px 8px;
 
-border-radius:10px;
+color:#33294a;
+
+
+
+background:
+
+rgba(255,255,255,0.92);
+
+
+
+padding:
+
+6px 12px;
+
+
+
+border-radius:15px;
 
 
 }
@@ -2046,7 +2092,11 @@ border-radius:10px;
 .relationship-line{
 
 
-stroke:#555;
+stroke:
+
+rgba(210,200,240,0.75);
+
+
 
 stroke-width:2;
 
@@ -2062,11 +2112,15 @@ stroke-width:2;
 
 font-size:14px;
 
+
 font-weight:bold;
 
-fill:#333;
+
+fill:#f4eaff;
+
 
 text-anchor:middle;
+
 
 }
 
@@ -2077,7 +2131,7 @@ text-anchor:middle;
 
 
 
-/* 관계 등록 박스 */
+/* 등록 박스 */
 
 
 .relationship-control-box{
@@ -2085,30 +2139,29 @@ text-anchor:middle;
 
 margin-top:30px;
 
+
 padding:25px;
 
-border-radius:15px;
+
+border-radius:20px;
+
+
 
 background:
 
-rgba(255,255,255,0.6);
-
-border:1px solid #ddd;
-
-
-}
+rgba(255,255,255,0.78);
 
 
 
+border:
+
+1px solid rgba(130,100,170,0.25);
 
 
-.relationship-control-box h2,
 
+box-shadow:
 
-.relationship-list-box h2{
-
-
-margin-bottom:20px;
+0 8px 25px rgba(0,0,0,0.12);
 
 
 }
@@ -2117,95 +2170,6 @@ margin-bottom:20px;
 
 
 
-.relationship-control-box label{
-
-
-display:block;
-
-margin-top:15px;
-
-margin-bottom:7px;
-
-font-weight:bold;
-
-
-}
-
-
-
-
-
-.relationship-select,
-
-
-.relationship-input,
-
-
-.relationship-textarea{
-
-
-width:100%;
-
-box-sizing:border-box;
-
-padding:12px;
-
-border-radius:10px;
-
-border:1px solid #ccc;
-
-font-size:14px;
-
-
-}
-
-
-
-
-
-.relationship-select{
-
-
-height:45px;
-
-
-}
-
-
-
-
-
-.relationship-textarea{
-
-
-height:120px;
-
-resize:vertical;
-
-
-}
-
-
-
-
-
-.relationship-save-button{
-
-
-margin-top:20px;
-
-width:100%;
-
-
-}
-
-
-
-
-
-
-
-/* 관계 목록 */
 
 
 .relationship-list-box{
@@ -2213,18 +2177,28 @@ width:100%;
 
 margin-top:30px;
 
+
 padding:25px;
 
-border-radius:15px;
+
+border-radius:20px;
+
+
 
 background:
 
-rgba(255,255,255,0.6);
+rgba(255,255,255,0.78);
 
-border:1px solid #ddd;
+
+
+border:
+
+1px solid rgba(130,100,170,0.25);
 
 
 }
+
+
 
 
 
@@ -2235,37 +2209,29 @@ border:1px solid #ddd;
 
 padding:18px;
 
+
 margin-bottom:15px;
 
-border-radius:12px;
 
-background:white;
-
-border:1px solid #ddd;
-
-
-}
+border-radius:15px;
 
 
 
+background:
 
-
-.relationship-item h3{
-
-
-margin-top:0;
-
-
-}
+rgba(255,255,255,0.95);
 
 
 
+border:
+
+1px solid rgba(120,90,160,0.2);
 
 
-.relationship-item p{
 
+box-shadow:
 
-line-height:1.6;
+0 5px 15px rgba(0,0,0,0.08);
 
 
 }
@@ -2276,30 +2242,10 @@ line-height:1.6;
 
 .empty-message{
 
-
 text-align:center;
 
 padding:20px;
 
 color:#777;
-
-
-}
-
-
-
-
-
-.delete-button{
-
-
-padding:8px 15px;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
 
 }
