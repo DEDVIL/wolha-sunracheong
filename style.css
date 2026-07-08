@@ -1506,11 +1506,9 @@ label {
 
 }
 
-.content-box h1,
 .content-box .subtitle,
-.admin-box h1,
 .admin-box .subtitle {
 
-    text-align:center;
+    text-align:center !important;
 
 }
