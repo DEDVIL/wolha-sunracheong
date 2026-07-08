@@ -1546,7 +1546,7 @@ h1 {
 }
 
 /* =====================
-   인명부 작성자 버튼
+   인명부 상세 이동 버튼
 ===================== */
 
 
@@ -1556,6 +1556,8 @@ h1 {
 
     justify-content:center;
 
+    align-items:center;
+
     gap:15px;
 
     margin-top:40px;
@@ -1564,6 +1566,8 @@ h1 {
 
 
 
+
+.owner-list-button,
 .owner-edit-button,
 .owner-delete-button {
 
@@ -1583,9 +1587,6 @@ h1 {
     height:42px;
 
 
-    border-radius:0;
-
-
     font-family:"Pretendard", sans-serif;
 
 
@@ -1595,16 +1596,51 @@ h1 {
     letter-spacing:2px;
 
 
-    cursor:pointer;
-
-
     text-decoration:none;
+
+
+    cursor:pointer;
 
 
     transition:0.2s;
 
 
 }
+
+
+
+
+
+/* 목록 */
+
+.owner-list-button {
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+.owner-list-button:hover {
+
+
+    border-color:#c8a96a;
+
+
+    color:#c8a96a;
+
+
+}
+
+
 
 
 
@@ -1633,6 +1669,8 @@ h1 {
 
 
 }
+
+
 
 
 
