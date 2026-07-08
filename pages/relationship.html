@@ -1,107 +1,321 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+
 <head>
+
 
 <meta charset="UTF-8">
 
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <title>
 월하순라청 관계도
 </title>
 
+
 <link rel="stylesheet" href="../style.css">
+
 
 </head>
 
+
+
+
 <body>
+
+
 
 <main class="main-container">
 
+
+
 <section class="content-box relationship-wrapper">
+
+
 
 <h1>
 月下巡邏廳
 </h1>
 
+
+
 <p class="subtitle">
 관계도
 </p>
 
+
+
+
+
 <div class="relationship-toolbar">
+
+
 
 <a
 class="home-button"
 href="./home.html">
+
 홈으로
+
 </a>
+
+
+
 
 <a
 class="home-button"
 href="./member-list.html">
+
 인명부
+
 </a>
 
+
+
+
+
 <input
+
 id="relationship-search"
+
 class="relationship-search"
+
 type="text"
-placeholder="이름 검색">
+
+placeholder="인물 검색"
+
+>
+
+
+
 
 <button
+
 id="reset-layout"
+
 class="write-button">
-초기 위치
+
+배치 초기화
+
 </button>
+
+
 
 </div>
 
+
+
+
+
+
+
+
 <div
-id="relationship-canvas"
-class="relationship-canvas">
+id="relationship-area"
+
+class="relationship-area">
+
+
+
+
 
 <svg
-id="relationship-lines"
-class="relationship-lines"
-width="100%"
-height="100%">
+
+id="relationship-svg"
+
+class="relationship-svg">
 
 </svg>
 
+
+
+
+
+
+<div
+
+id="relationship-nodes"
+
+class="relationship-nodes">
+
 </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<div
+class="relationship-control-box">
+
+
+<h2>
+관계 추가
+</h2>
+
+
+
+<select
+id="target-member">
+
+
+<option value="">
+대상 인물 선택
+</option>
+
+
+</select>
+
+
+
+
+<input
+
+id="relation-name"
+
+type="text"
+
+placeholder="관계명 예) 동료, 사제, 적대"
+
+>
+
+
+
+
+<textarea
+
+id="relation-content"
+
+placeholder="관계 설명">
+
+</textarea>
+
+
+
+
+<button
+
+id="save-relation"
+
+class="write-button">
+
+관계 등록
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div
+class="relationship-list-box">
+
+
+<h2>
+등록한 관계
+</h2>
+
+
+
+<div
+id="relationship-list">
+
+불러오는 중...
+
+</div>
+
+
+
+</div>
+
+
+
 
 </section>
 
+
 </main>
+
+
+
+
+
+
+
+
+
 
 <script type="module">
 
+
+
 import {
 
+
 auth,
+
 db
+
 
 }
 
 from "../firebase.js";
 
+
+
+
+
+
+
 import {
 
+
 onAuthStateChanged
+
 
 }
 
 from
 
+
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+
+
 
 import {
 
 collection,
+
 getDocs,
+
 query,
-orderBy
+
+orderBy,
+
+addDoc,
+
+deleteDoc,
+
+doc,
+
+serverTimestamp
 
 }
 
@@ -109,336 +323,590 @@ from
 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const canvas =
+
+
+
+
+
+
+
+const relationshipNodes =
+
 document.getElementById(
-"relationship-canvas"
+
+"relationship-nodes"
+
 );
 
-const svg =
+
+
+
+
+const relationshipArea =
+
 document.getElementById(
-"relationship-lines"
+
+"relationship-area"
+
 );
+
+
+
+
+
 
 const searchInput =
+
 document.getElementById(
+
 "relationship-search"
+
 );
 
+
+
+
+
+
 const resetButton =
+
 document.getElementById(
+
 "reset-layout"
+
 );
+
+
+
+
+
+
+
+
 
 let members = [];
 
-let nodes = [];
+let nodeList = [];
 
-let draggingNode = null;
 
-let offsetX = 0;
 
-let offsetY = 0;
+
+
+
+
+
 
 onAuthStateChanged(
 
+
 auth,
+
 
 async(user)=>{
 
+
+
+
+
 if(!user){
+
+
 
 location.href="../index.html";
 
+
+
 return;
 
+
+
 }
+
+
+
+
+
+
 
 await loadMembers();
 
+
+
+
+
+
+
 createNodes();
 
-layoutNodes();
+
+
+
+
+
+
+setDefaultLayout();
+
+
+
+
 
 }
 
+
+
 );
+
+
+
+
+
+
+
+
+
+
+
+
+// 회원 정보 불러오기
+
 
 async function loadMembers(){
 
+
+
+try{
+
+
+
+
+
 const q = query(
 
+
+
 collection(
+
 db,
+
 "members"
+
 ),
 
+
+
 orderBy(
+
 "writerName"
+
 )
+
+
 
 );
 
+
+
+
+
+
+
 const snapshot =
+
 await getDocs(q);
+
+
+
+
+
+
 
 members = [];
 
+
+
+
+
+
+
 snapshot.forEach((doc)=>{
 
+
+
 members.push({
+
+
 
 id:doc.id,
 
 ...doc.data()
 
-});
+
 
 });
+
+
+
+});
+
+
+
+
+
+
 
 }
+
+catch(error){
+
+
+
+console.error(error);
+
+
+
+alert(
+
+"인원 정보를 불러오지 못했습니다."
+
+);
+
+
+
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// 관계도 노드 생성
+
 
 function createNodes(){
 
-canvas
-.querySelectorAll(".relationship-node")
-.forEach(node=>node.remove());
 
-nodes = [];
 
-members.forEach((member,index)=>{
+
+
+relationshipNodes.innerHTML = "";
+
+
+
+
+
+nodeList = [];
+
+
+
+
+
+
+members.forEach((member)=>{
+
+
+
+
+
 
 const node =
+
 document.createElement("div");
 
+
+
+
+
+
+
 node.className =
+
 "relationship-node";
 
+
+
+
+
+
+
 node.dataset.id =
+
 member.id;
+
+
+
+
+
+
 
 node.innerHTML = `
 
+
+
 <img
+
 class="relationship-avatar"
+
 src="${
+
 member.portraitImage ||
+
 '../assets/images/default-avatar.png'
-}">
+
+}"
+
+>
+
+
 
 <div
+
 class="relationship-name">
 
-${member.writerName}
+${
+
+member.writerName || ""
+
+}
 
 </div>
 
+
+
 `;
 
-canvas.appendChild(node);
 
-nodes.push({
+
+
+
+
+
+relationshipNodes.appendChild(node);
+
+
+
+
+
+
+
+node.addEventListener(
+
+"click",
+
+()=>{
+
+
+
+location.href =
+
+"./member-view.html?id=${member.id}";
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+nodeList.push({
+
+
 
 element:node,
 
-member
+member:member
+
+
 
 });
 
-node.addEventListener(
 
-"mousedown",
 
-(event)=>{
 
-draggingNode=node;
 
-offsetX=
-event.offsetX;
 
-offsetY=
-event.offsetY;
-
-}
-
-);
-
-node.addEventListener(
-
-"dblclick",
-
-()=>{
-
-location.href=
-"./member-view.html?id="+member.id;
-
-}
-
-);
 
 });
 
+
+
+
+
+
 }
 
-function layoutNodes(){
+
+
+
+
+
+
+
+
+
+
+// 기본 원형 배치
+
+
+function setDefaultLayout(){
+
+
 
 const width =
-canvas.clientWidth;
+
+relationshipArea.clientWidth;
+
+
+
+
+
 
 const height =
-canvas.clientHeight;
+
+relationshipArea.clientHeight;
+
+
+
+
+
+
 
 const centerX =
+
 width / 2;
 
+
+
+
+
+
 const centerY =
+
 height / 2;
 
+
+
+
+
+
+
 const radius =
-Math.min(width,height) * 0.35;
 
-const total =
-nodes.length;
+Math.min(width,height)
 
-nodes.forEach((node,index)=>{
+*
+
+0.35;
+
+
+
+
+
+
+
+
+nodeList.forEach((node,index)=>{
+
+
+
+
+
 
 const angle =
-(index / total) * Math.PI * 2;
+
+(index / nodeList.length)
+
+*
+
+Math.PI
+
+*
+
+2;
+
+
+
+
+
+
 
 const x =
+
 centerX +
-Math.cos(angle) * radius;
+
+Math.cos(angle)
+
+*
+
+radius;
+
+
+
+
+
+
 
 const y =
+
 centerY +
-Math.sin(angle) * radius;
+
+Math.sin(angle)
+
+*
+
+radius;
+
+
+
+
+
+
 
 node.element.style.left =
+
 x + "px";
+
+
+
+
+
+
 
 node.element.style.top =
+
 y + "px";
+
+
+
+
+
 
 });
 
-drawLines();
+
+
+
 
 }
 
-function drawLines(){
 
-svg.innerHTML = "";
 
-}
-
-document.addEventListener(
-
-"mousemove",
-
-(event)=>{
-
-if(!draggingNode){
-
-return;
-
-}
-
-const rect =
-canvas.getBoundingClientRect();
-
-let x =
-event.clientX -
-rect.left -
-offsetX;
-
-let y =
-event.clientY -
-rect.top -
-offsetY;
-
-const maxX =
-canvas.clientWidth -
-draggingNode.offsetWidth;
-
-const maxY =
-canvas.clientHeight -
-draggingNode.offsetHeight;
-
-x =
-Math.max(
-0,
-Math.min(maxX,x)
-);
-
-y =
-Math.max(
-0,
-Math.min(maxY,y)
-);
-
-draggingNode.style.left =
-x + "px";
-
-draggingNode.style.top =
-y + "px";
-
-drawLines();
-
-}
-
-);
-
-document.addEventListener(
-
-"mouseup",
-
-()=>{
-
-draggingNode = null;
-
-}
-
-);
-
-searchInput.addEventListener(
-
-"input",
-
-()=>{
-
-const keyword =
-searchInput.value
-.trim()
-.toLowerCase();
-
-nodes.forEach((node)=>{
-
-const name =
-(node.member.writerName || "")
-.toLowerCase();
-
-if(
-keyword === "" ||
-name.includes(keyword)
-){
-
-node.element.style.display =
-"flex";
-
-}
-else{
-
-node.element.style.display =
-"none";
-
-}
-
-});
-
-drawLines();
-
-}
-
-);
 
 resetButton.addEventListener(
 
@@ -446,125 +914,1881 @@ resetButton.addEventListener(
 
 ()=>{
 
-layoutNodes();
+
+
+setDefaultLayout();
+
+
 
 }
 
 );
 
-async function loadRelationships(){
 
-const snapshot =
-await getDocs(
 
-collection(
-db,
-"relationships"
+
+
+
+
+searchInput.addEventListener(
+
+"input",
+
+()=>{
+
+
+
+
+
+const keyword =
+
+searchInput.value
+
+.toLowerCase()
+
+.trim();
+
+
+
+
+
+
+
+nodeList.forEach((node)=>{
+
+
+
+
+
+const name =
+
+(node.member.writerName || "")
+
+.toLowerCase();
+
+
+
+
+
+
+
+if(
+
+keyword === "" ||
+
+name.includes(keyword)
+
+){
+
+
+
+node.element.style.display =
+
+"flex";
+
+
+
+}
+
+else{
+
+
+
+node.element.style.display =
+
+"none";
+
+
+
+}
+
+
+
+
+
+});
+
+
+
+
+
+}
+
+);
+
+
+// ===============================
+// 노드 드래그 기능
+// ===============================
+
+
+let draggingNode = null;
+
+let offsetX = 0;
+
+let offsetY = 0;
+
+
+
+
+
+nodeList.forEach((node)=>{
+
+
+
+const element = node.element;
+
+
+
+
+
+
+element.addEventListener(
+
+"mousedown",
+
+(event)=>{
+
+
+
+draggingNode = element;
+
+
+
+
+
+
+const rect =
+
+element.getBoundingClientRect();
+
+
+
+
+
+
+const parentRect =
+
+relationshipArea.getBoundingClientRect();
+
+
+
+
+
+
+offsetX =
+
+event.clientX -
+
+parentRect.left -
+
+element.offsetLeft;
+
+
+
+
+
+
+
+offsetY =
+
+event.clientY -
+
+parentRect.top -
+
+element.offsetTop;
+
+
+
+
+
+
+element.style.cursor =
+
+"grabbing";
+
+
+
+
+
+}
+
+);
+
+
+
+});
+
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mousemove",
+
+(event)=>{
+
+
+
+
+
+if(!draggingNode){
+
+return;
+
+}
+
+
+
+
+
+
+
+const rect =
+
+relationshipArea.getBoundingClientRect();
+
+
+
+
+
+
+let x =
+
+event.clientX -
+
+rect.left -
+
+offsetX;
+
+
+
+
+
+
+let y =
+
+event.clientY -
+
+rect.top -
+
+offsetY;
+
+
+
+
+
+
+
+
+const maxX =
+
+relationshipArea.clientWidth -
+
+draggingNode.offsetWidth;
+
+
+
+
+
+
+
+const maxY =
+
+relationshipArea.clientHeight -
+
+draggingNode.offsetHeight;
+
+
+
+
+
+
+
+
+x = Math.max(
+
+0,
+
+Math.min(
+
+x,
+
+maxX
+
 )
 
 );
 
-const relations = [];
+
+
+
+
+
+
+y = Math.max(
+
+0,
+
+Math.min(
+
+y,
+
+maxY
+
+)
+
+);
+
+
+
+
+
+
+
+
+draggingNode.style.left =
+
+x + "px";
+
+
+
+
+
+
+
+draggingNode.style.top =
+
+y + "px";
+
+
+
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mouseup",
+
+()=>{
+
+
+
+if(draggingNode){
+
+
+
+draggingNode.style.cursor =
+
+"grab";
+
+
+
+}
+
+
+
+draggingNode = null;
+
+
+
+}
+
+);
+
+
+// ===============================
+// 관계 데이터 로드
+// ===============================
+
+
+let relationships = [];
+
+
+
+
+
+
+async function loadRelationships(){
+
+
+
+try{
+
+
+
+
+
+const snapshot =
+
+await getDocs(
+
+
+
+collection(
+
+db,
+
+"relationships"
+
+)
+
+
+
+);
+
+
+
+
+
+
+
+relationships = [];
+
+
+
+
+
+
 
 snapshot.forEach((doc)=>{
 
-relations.push({
 
-id:doc.id,
+
+relationships.push({
+
+
+
+id: doc.id,
 
 ...doc.data()
 
-});
+
 
 });
 
-drawRelationshipLines(relations);
+
+
+});
+
+
+
+
+
+
+
+drawRelationshipLines();
+
+
+
+
+
 
 }
 
-function drawRelationshipLines(relations){
+catch(error){
+
+
+
+console.error(
+
+"관계 데이터 불러오기 실패",
+
+error
+
+);
+
+
+
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// ===============================
+// 관계선 표시
+// ===============================
+
+
+function drawRelationshipLines(){
+
+
+
+const svg =
+
+document.getElementById(
+
+"relationship-svg"
+
+);
+
+
+
+
+
 
 svg.innerHTML = "";
 
-relations.forEach((relation)=>{
+
+
+
+
+
+
+
+relationships.forEach((relation)=>{
+
+
+
+
+
 
 const fromNode =
-nodes.find(
-node=>node.member.id===relation.fromUid
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.fromUid
+
 );
+
+
+
+
+
+
 
 const toNode =
-nodes.find(
-node=>node.member.id===relation.toUid
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.toUid
+
 );
 
-if(
-!fromNode ||
-!toNode
-){
-return;
-}
+
+
+
+
+
 
 if(
-fromNode.element.style.display==="none" ||
-toNode.element.style.display==="none"
+
+!fromNode ||
+
+!toNode
+
 ){
+
+
+
 return;
+
+
+
 }
+
+
+
+
+
+
+
+
 
 const x1 =
+
 fromNode.element.offsetLeft +
-(fromNode.element.offsetWidth/2);
+
+fromNode.element.offsetWidth / 2;
+
+
+
+
+
+
 
 const y1 =
+
 fromNode.element.offsetTop +
-(fromNode.element.offsetHeight/2);
+
+fromNode.element.offsetHeight / 2;
+
+
+
+
+
+
 
 const x2 =
+
 toNode.element.offsetLeft +
-(toNode.element.offsetWidth/2);
+
+toNode.element.offsetWidth / 2;
+
+
+
+
+
+
 
 const y2 =
+
 toNode.element.offsetTop +
-(toNode.element.offsetHeight/2);
+
+toNode.element.offsetHeight / 2;
+
+
+
+
+
+
+
+
 
 const line =
+
 document.createElementNS(
+
 "http://www.w3.org/2000/svg",
+
 "line"
+
 );
 
-line.setAttribute("x1",x1);
-line.setAttribute("y1",y1);
-line.setAttribute("x2",x2);
-line.setAttribute("y2",y2);
 
-line.setAttribute(
-"stroke",
-"#b9a47d"
-);
+
+
+
+
+
 
 line.setAttribute(
-"stroke-width",
-"2"
+
+"x1",
+
+x1
+
 );
 
+
+
+
+
 line.setAttribute(
-"opacity",
-"0.9"
+
+"y1",
+
+y1
+
 );
+
+
+
+
+
+line.setAttribute(
+
+"x2",
+
+x2
+
+);
+
+
+
+
+
+line.setAttribute(
+
+"y2",
+
+y2
+
+);
+
+
+
+
+
+
+
+line.classList.add(
+
+"relationship-line"
+
+);
+
+
+
+
+
+
+
 
 svg.appendChild(line);
 
+
+
+
+
+
+
 });
+
+
+
+
 
 }
 
+
+
+
+
+
+
+
+
+
+
+// 노드 이동 후 관계선 갱신
+
+
+document.addEventListener(
+
+"mouseup",
+
+()=>{
+
+
+
+drawRelationshipLines();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+// 초기 관계 불러오기
+
+
 await loadRelationships();
 
+
+
+// ===============================
+// 관계 추가 기능
+// ===============================
+
+
+const targetMemberSelect =
+
+document.getElementById(
+
+"target-member"
+
+);
+
+
+
+const relationNameInput =
+
+document.getElementById(
+
+"relation-name"
+
+);
+
+
+
+const relationContentInput =
+
+document.getElementById(
+
+"relation-content"
+
+);
+
+
+
+const saveRelationButton =
+
+document.getElementById(
+
+"save-relation"
+
+);
+
+
+
+
+
+
+
+
+
+
+// 대상 인물 목록 생성
+
+
+function createTargetMemberList(){
+
+
+
+targetMemberSelect.innerHTML = `
+
+<option value="">
+
+대상 인물 선택
+
+</option>
+
+`;
+
+
+
+
+
+
+members.forEach((member)=>{
+
+
+
+const option =
+
+document.createElement("option");
+
+
+
+
+
+option.value =
+
+member.id;
+
+
+
+
+
+
+option.textContent =
+
+member.writerName;
+
+
+
+
+
+
+targetMemberSelect.appendChild(option);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+createTargetMemberList();
+
+
+
+
+
+
+
+
+
+
+
+// 저장 버튼
+
+
+saveRelationButton.addEventListener(
+
+"click",
+
+async()=>{
+
+
+
+
+
+const user =
+
+auth.currentUser;
+
+
+
+
+
+
+
+if(!user){
+
+return;
+
+}
+
+
+
+
+
+
+
+
+const targetUid =
+
+targetMemberSelect.value;
+
+
+
+
+
+
+
+const relationName =
+
+relationNameInput.value.trim();
+
+
+
+
+
+
+
+const relationContent =
+
+relationContentInput.value.trim();
+
+
+
+
+
+
+
+
+if(!targetUid){
+
+
+
+alert(
+
+"대상 인물을 선택해주세요."
+
+);
+
+
+
+return;
+
+
+
+}
+
+
+
+
+
+
+
+
+if(!relationName){
+
+
+
+alert(
+
+"관계명을 입력해주세요."
+
+);
+
+
+
+return;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+try{
+
+
+
+
+
+await addDoc(
+
+
+
+collection(
+
+db,
+
+"relationships"
+
+),
+
+
+
+{
+
+
+
+fromUid:user.uid,
+
+
+
+toUid:targetUid,
+
+
+
+relationName:relationName,
+
+
+
+relationContent:relationContent,
+
+
+
+createdAt:serverTimestamp()
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+alert(
+
+"관계가 등록되었습니다."
+
+);
+
+
+
+
+
+
+
+location.reload();
+
+
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(error);
+
+
+
+alert(
+
+"관계 등록 실패"
+
+);
+
+
+
+}
+
+
+
+
+
+}
+
+);
+
+
+// ===============================
+// 관계 목록 출력
+// ===============================
+
+
+const relationshipList =
+
+document.getElementById(
+
+"relationship-list"
+
+);
+
+
+
+
+
+
+
+async function loadMyRelationships(){
+
+
+
+const user =
+
+auth.currentUser;
+
+
+
+
+
+
+
+if(!user){
+
+return;
+
+}
+
+
+
+
+
+
+
+const snapshot =
+
+await getDocs(
+
+
+
+collection(
+
+db,
+
+"relationships"
+
+)
+
+
+
+);
+
+
+
+
+
+
+
+relationshipList.innerHTML = "";
+
+
+
+
+
+
+let count = 0;
+
+
+
+
+
+
+
+
+snapshot.forEach((docSnap)=>{
+
+
+
+
+
+const data =
+
+docSnap.data();
+
+
+
+
+
+
+
+if(
+
+data.fromUid !== user.uid
+
+){
+
+return;
+
+}
+
+
+
+
+
+
+
+count++;
+
+
+
+
+
+
+
+const target =
+
+members.find(
+
+(member)=>
+
+member.id === data.toUid
+
+);
+
+
+
+
+
+
+
+
+const box =
+
+document.createElement("div");
+
+
+
+
+
+box.className =
+
+"relationship-item";
+
+
+
+
+
+
+box.innerHTML = `
+
+
+
+<h3>
+
+${data.relationName}
+
+</h3>
+
+
+
+<p>
+
+대상:
+
+${
+
+target
+
+?
+
+target.writerName
+
+:
+
+"알 수 없음"
+
+}
+
+</p>
+
+
+
+<p>
+
+${data.relationContent || ""}
+
+</p>
+
+
+
+<button
+
+class="delete-button"
+
+data-id="${docSnap.id}">
+
+삭제
+
+</button>
+
+
+
+`;
+
+
+
+
+
+
+
+relationshipList.appendChild(box);
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+if(count === 0){
+
+
+
+relationshipList.innerHTML =
+
+`
+
+<p>
+
+등록된 관계가 없습니다.
+
+</p>
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+document
+
+.querySelectorAll(
+
+".delete-button"
+
+)
+
+.forEach((button)=>{
+
+
+
+
+
+button.addEventListener(
+
+"click",
+
+async()=>{
+
+
+
+
+
+const check =
+
+confirm(
+
+"관계를 삭제하시겠습니까?"
+
+);
+
+
+
+
+
+
+
+
+if(!check){
+
+return;
+
+}
+
+
+
+
+
+
+
+await deleteDoc(
+
+
+
+doc(
+
+db,
+
+"relationships",
+
+button.dataset.id
+
+)
+
+
+
+);
+
+
+
+
+
+
+
+alert(
+
+"삭제되었습니다."
+
+);
+
+
+
+
+
+
+
+location.reload();
+
+
+
+
+
+
+}
+
+);
+
+
+
+
+
+});
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// 관계 목록 실행
+
+
+await loadMyRelationships();
+
+
+
+
+
+
+
+
+
+
+// ===============================
+// 관계명 SVG 표시 개선
+// ===============================
+
+
+function drawRelationshipLines(){
+
+
+
+const svg =
+
+document.getElementById(
+
+"relationship-svg"
+
+);
+
+
+
+
+
+
+svg.innerHTML = "";
+
+
+
+
+
+
+
+
+relationships.forEach((relation)=>{
+
+
+
+
+
+
+const fromNode =
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.fromUid
+
+);
+
+
+
+
+
+
+
+const toNode =
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.toUid
+
+);
+
+
+
+
+
+
+
+
+if(
+
+!fromNode ||
+
+!toNode
+
+){
+
+return;
+
+}
+
+
+
+
+
+
+
+
+const x1 =
+
+fromNode.element.offsetLeft +
+
+fromNode.element.offsetWidth / 2;
+
+
+
+
+
+
+
+const y1 =
+
+fromNode.element.offsetTop +
+
+fromNode.element.offsetHeight / 2;
+
+
+
+
+
+
+
+const x2 =
+
+toNode.element.offsetLeft +
+
+toNode.element.offsetWidth / 2;
+
+
+
+
+
+
+
+const y2 =
+
+toNode.element.offsetTop +
+
+toNode.element.offsetHeight / 2;
+
+
+
+
+
+
+
+
+
+const line =
+
+document.createElementNS(
+
+"http://www.w3.org/2000/svg",
+
+"line"
+
+);
+
+
+
+
+
+
+
+
+line.setAttribute(
+
+"x1",
+
+x1
+
+);
+
+
+
+
+
+line.setAttribute(
+
+"y1",
+
+y1
+
+);
+
+
+
+
+
+line.setAttribute(
+
+"x2",
+
+x2
+
+);
+
+
+
+
+
+line.setAttribute(
+
+"y2",
+
+y2
+
+);
+
+
+
+
+
+
+
+line.classList.add(
+
+"relationship-line"
+
+);
+
+
+
+
+
+
+
+
+svg.appendChild(line);
+
+
+
+
+
+
+
+
+
+const text =
+
+document.createElementNS(
+
+"http://www.w3.org/2000/svg",
+
+"text"
+
+);
+
+
+
+
+
+
+
+text.setAttribute(
+
+"x",
+
+(x1+x2)/2
+
+);
+
+
+
+
+
+
+
+text.setAttribute(
+
+"y",
+
+(y1+y2)/2
+
+);
+
+
+
+
+
+
+
+
+text.classList.add(
+
+"relationship-label"
+
+);
+
+
+
+
+
+
+
+text.textContent =
+
+relation.relationName;
+
+
+
+
+
+
+
+
+svg.appendChild(text);
+
+
+
+
+
+
+
+});
+
+
+
+
+
+}
+  
 </script>
+
+
 
 </body>
 
+
 </html>
-  
+
