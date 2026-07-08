@@ -1336,22 +1336,10 @@ label {
 
 
 
-.post-content img {
+/* =====================
+   인명부 프로필 스타일
+===================== */
 
-
-    max-width:100% !important;
-
-
-    height:auto !important;
-
-
-    display:block;
-
-
-    margin:20px auto;
-
-
-}
 
 .member-profile .post-content {
 
@@ -1373,94 +1361,112 @@ label {
 
 
 
+.member-profile .post-content strong {
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+
+.catchphrase-title {
+
+
+    font-size:22px;
+
+
+    font-weight:bold;
+
+
+    color:#c8a96a;
+
+
+    margin-top:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.catchphrase-text {
+
+
+    font-size:26px;
+
+
+    font-weight:bold;
+
+
+    margin:20px 0 40px;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+
+
+.separator {
+
+
+    color:#8d867b;
+
+
+    margin:30px 0;
+
+
+}
+
+
+
+
+
+
+.member-profile-image {
+
+
+    width:100%;
+
+
+    max-width:400px;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+    height:auto;
+
+
+}
+
+
+
 .member-profile .post-content img {
 
 
-    margin:20px auto;
+    max-width:100% !important;
+
+
+    height:auto !important;
+
+
+    display:block;
+
+
+    margin:25px auto;
 
 
 }
-
-.secret-guide {
-
-
-color:#8d867b;
-
-font-size:14px;
-
-margin-bottom:20px;
-
-
-}
-
-.catchphrase-title {
-
-
-    font-size:22px;
-
-
-    font-weight:bold;
-
-
-    color:#c8a96a;
-
-
-    margin-top:20px;
-
-
-}
-
-
-.catchphrase-text {
-
-
-    font-size:24px;
-
-
-    font-weight:bold;
-
-
-    margin-bottom:40px;
-
-
-}
-
-.content-box .subtitle,
-.admin-box .subtitle {
-
-    text-align:center;
-
-}
-
-.catchphrase-title {
-
-
-    font-size:22px;
-
-
-    font-weight:bold;
-
-
-    color:#c8a96a;
-
-
-    margin-top:20px;
-
-
-}
-
-
-.catchphrase-text {
-
-
-    font-size:24px;
-
-
-    font-weight:bold;
-
-
-    margin-bottom:40px;
-
-
-}
-
