@@ -52,7 +52,8 @@
 
 </div>
 
-
+  
+<div id="owner-buttons"></div>
 
 
 
@@ -147,7 +148,9 @@ import {
 
 doc,
 
-getDoc
+getDoc,
+
+deleteDoc
 
 }
 
@@ -206,7 +209,7 @@ document.getElementById(
 
 
 let memberData = null;
-
+let currentUser = null;
 
 
 
@@ -219,6 +222,26 @@ onAuthStateChanged(
 auth,
 
 async(user)=>{
+
+
+if(!user){
+
+location.href="../index.html";
+
+return;
+
+}
+
+
+currentUser = user;
+
+
+loadProfile();
+
+
+}
+
+);
 
 
 
@@ -310,7 +333,27 @@ return;
 
 memberData = snap.data();
 
+if(currentUser.uid === memberId){
 
+
+document.getElementById("owner-buttons").innerHTML = `
+
+
+<a href="./member-edit.html?id=${memberId}">
+수정
+</a>
+
+
+<button onclick="deleteProfile()">
+삭제
+</button>
+
+
+`;
+
+
+
+}
 
 
 
@@ -499,7 +542,50 @@ alert(
 };
 
 
+window.deleteProfile = async function(){
 
+
+const check = confirm(
+"정말 삭제하시겠습니까?"
+);
+
+
+
+if(!check){
+
+return;
+
+}
+
+
+
+await deleteDoc(
+
+doc(
+
+db,
+
+"members",
+
+memberId
+
+)
+
+);
+
+
+
+alert(
+"삭제되었습니다."
+);
+
+
+
+location.href="./member-list.html";
+
+
+
+};
 
 
 
