@@ -1544,3 +1544,120 @@ h1 {
 
 
 }
+
+/* =====================
+   인명부 작성자 버튼
+===================== */
+
+
+.owner-button-group {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:40px;
+
+}
+
+
+
+.owner-edit-button,
+.owner-delete-button {
+
+
+    display:inline-flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    width:120px;
+
+
+    height:42px;
+
+
+    border-radius:0;
+
+
+    font-family:"Pretendard", sans-serif;
+
+
+    font-size:14px;
+
+
+    letter-spacing:2px;
+
+
+    cursor:pointer;
+
+
+    text-decoration:none;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+/* 수정 */
+
+.owner-edit-button {
+
+
+    background:#c8a96a;
+
+
+    border:1px solid #c8a96a;
+
+
+    color:#101010;
+
+
+}
+
+
+
+.owner-edit-button:hover {
+
+
+    background:#e0c27b;
+
+
+}
+
+
+
+/* 삭제 */
+
+.owner-delete-button {
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:white;
+
+
+}
+
+
+
+.owner-delete-button:hover {
+
+
+    background:#a00000;
+
+
+}
