@@ -175,7 +175,7 @@ h1 {
 
     letter-spacing:3px;
    
-    text-align:center;
+    text-align:center !important;
 
 }
 
