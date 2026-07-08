@@ -578,7 +578,7 @@ createNodes();
 setDefaultLayout();
 
 
-await loadRelationships();
+await loadRelationshipList(user);
 
 
 loadRelationshipList();
@@ -658,7 +658,7 @@ id:docSnap.id,
 
 });
 
-
+console.log("불러온 members:", members);
 
 }
 
@@ -2127,29 +2127,7 @@ alert(
 // ===============================
 
 
-async function loadRelationshipList(){
-
-
-
-const user =
-
-auth.currentUser;
-
-
-
-
-
-
-if(!user){
-
-
-return;
-
-
-}
-
-
-
+async function loadRelationshipList(user){
 
 
 
