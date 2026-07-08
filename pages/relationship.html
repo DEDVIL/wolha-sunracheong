@@ -1469,14 +1469,103 @@ error
 function drawRelationshipLines(){
 
 
-
 const svg =
 
 document.getElementById(
-
 "relationship-svg"
+);
+
+
+svg.innerHTML = "";
+
+
+relationships.forEach((relation)=>{
+
+
+const fromNode =
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.fromUid
 
 );
+
+
+
+const toNode =
+
+nodeList.find(
+
+(node)=>
+
+node.member.id === relation.toUid
+
+);
+
+
+
+if(!fromNode || !toNode){
+
+return;
+
+}
+
+
+
+const line =
+
+document.createElementNS(
+
+"http://www.w3.org/2000/svg",
+
+"line"
+
+);
+
+
+
+line.setAttribute(
+"x1",
+fromNode.element.offsetLeft +
+fromNode.element.offsetWidth / 2
+);
+
+
+line.setAttribute(
+"y1",
+fromNode.element.offsetTop +
+fromNode.element.offsetHeight / 2
+);
+
+
+line.setAttribute(
+"x2",
+toNode.element.offsetLeft +
+toNode.element.offsetWidth / 2
+);
+
+
+line.setAttribute(
+"y2",
+toNode.element.offsetTop +
+toNode.element.offsetHeight / 2
+);
+
+
+line.classList.add(
+"relationship-line"
+);
+
+
+svg.appendChild(line);
+
+
+});
+
+
+}
 
 
 
