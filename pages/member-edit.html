@@ -568,6 +568,28 @@ toolbar:[
 );
 
 
+  // 여기에 추가
+
+quill.root.addEventListener(
+
+"paste",
+
+()=>{
+
+setTimeout(()=>{
+
+window.scrollTo({
+
+top:window.scrollY
+
+});
+
+},50);
+
+
+}
+
+);
 
 
 
