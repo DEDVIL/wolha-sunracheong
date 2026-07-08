@@ -2004,11 +2004,15 @@ document.getElementById(
 );
 
 
+const editRelationButton =
 
+document.getElementById(
+"edit-relation"
+);
 
 
 let selectedRelationId = null;
-
+let selectedRelationData = null;
 
 
 
@@ -2022,7 +2026,9 @@ selectedRelationId =
 relation.id;
 
 
-
+selectedRelationData =
+  
+relation;
 
 
 const from =
@@ -2182,7 +2188,117 @@ location.reload();
 
 
 
+// ===============================
+// 수정
+// ===============================
 
+editRelationButton.addEventListener(
+
+"click",
+
+async()=>{
+
+
+if(!selectedRelationData){
+
+return;
+
+}
+
+
+
+const newName =
+
+prompt(
+
+"새 관계명",
+
+selectedRelationData.relationName
+
+);
+
+
+
+if(newName===null){
+
+return;
+
+}
+
+
+
+
+
+const newContent =
+
+prompt(
+
+"새 관계 설명",
+
+selectedRelationData.relationContent || ""
+
+);
+
+
+
+if(newContent===null){
+
+return;
+
+}
+
+
+
+
+
+await updateDoc(
+
+doc(
+
+db,
+
+"relationships",
+
+selectedRelationId
+
+),
+
+{
+
+
+relationName:
+
+newName.trim(),
+
+
+
+relationContent:
+
+newContent.trim()
+
+
+
+}
+
+);
+
+
+
+
+
+alert(
+"수정되었습니다."
+);
+
+
+
+location.reload();
+
+
+
+}
+
+);
 
 
 
