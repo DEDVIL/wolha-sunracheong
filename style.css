@@ -1708,3 +1708,50 @@ h1 {
 
 
 }
+
+/* =====================
+   인명부 상세 버튼 최종 보정
+===================== */
+
+
+.owner-button-group button {
+
+
+    appearance:none;
+
+
+    -webkit-appearance:none;
+
+
+    border-radius:0;
+
+
+    margin:0;
+
+
+    outline:none;
+
+
+}
+
+
+.owner-button-group .owner-delete-button {
+
+
+    padding:0;
+
+
+    line-height:1;
+
+
+}
+
+
+
+.owner-button-group .owner-delete-button:hover {
+
+
+    background:#a00000;
+
+
+}
