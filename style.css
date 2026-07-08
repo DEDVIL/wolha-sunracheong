@@ -560,21 +560,23 @@ label {
 #editor,
 #secret-editor {
 
-
     background:#0b0b0b;
-
 
     color:#e8e2d6;
 
-
     min-height:350px;
-
-
-    overflow:hidden;
-
 
 }
 
+
+#editor .ql-editor,
+#secret-editor .ql-editor {
+
+    min-height:350px;
+
+    overflow-y:auto;
+
+}
 
 
 .ql-toolbar {
