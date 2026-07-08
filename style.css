@@ -1545,8 +1545,10 @@ h1 {
 
 }
 
+
+
 /* =====================
-   인명부 상세 버튼
+   인명부 상세 버튼 최종
 ===================== */
 
 
@@ -1558,7 +1560,7 @@ h1 {
 
     align-items:center;
 
-    gap:10px;
+    gap:12px;
 
     margin-top:40px;
 
@@ -1566,29 +1568,30 @@ h1 {
 
 
 
-.owner-button-group a,
-.owner-button-group button {
-
-
-    display:inline-flex;
-
-
-    justify-content:center;
-
-
-    align-items:center;
+.owner-button-group .owner-list-button,
+.owner-button-group .owner-edit-button,
+.owner-button-group .owner-delete-button {
 
 
     width:110px;
 
-
     height:40px;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
 
     padding:0;
 
 
-    border-radius:0;
+    margin:0;
+
+
+    box-sizing:border-box;
 
 
     font-family:"Pretendard", sans-serif;
@@ -1600,16 +1603,10 @@ h1 {
     letter-spacing:2px;
 
 
-    text-decoration:none;
-
-
     cursor:pointer;
 
 
-    box-sizing:border-box;
-
-
-    transition:0.2s;
+    text-decoration:none;
 
 
 }
@@ -1617,9 +1614,7 @@ h1 {
 
 
 
-/* 목록 */
-
-.owner-list-button {
+.owner-button-group .owner-list-button {
 
 
     background:#0b0b0b;
@@ -1635,24 +1630,7 @@ h1 {
 
 
 
-.owner-list-button:hover {
-
-
-    border-color:#c8a96a;
-
-
-    color:#c8a96a;
-
-
-}
-
-
-
-
-
-/* 수정 */
-
-.owner-edit-button {
+.owner-button-group .owner-edit-button {
 
 
     background:#c8a96a;
@@ -1668,24 +1646,7 @@ h1 {
 
 
 
-.owner-edit-button:hover {
-
-
-    background:#e0c27b;
-
-
-    border-color:#e0c27b;
-
-
-}
-
-
-
-
-
-/* 삭제 */
-
-.owner-delete-button {
+.owner-button-group .owner-delete-button {
 
 
     background:#8b0000;
@@ -1694,79 +1655,7 @@ h1 {
     border:1px solid #8b0000;
 
 
-    color:#fff;
-
-
-}
-
-
-
-.owner-delete-button:hover {
-
-
-    background:#a00000;
-
-
-}
-
-/* =====================
-   인명부 상세 버튼 최종 보정
-===================== */
-
-
-
-.owner-button-group .owner-delete-button {
-
-
-    padding:0;
-
-
-    line-height:1;
-
-
-}
-
-
-
-.owner-button-group .owner-delete-button:hover {
-
-
-    background:#a00000;
-
-
-}
-
-
-/* =====================
-   인명부 작성자 버튼 보정
-===================== */
-
-
-.owner-button-group .owner-delete-button {
-
-
-    appearance:none;
-
-
-    -webkit-appearance:none;
-
-
-    border-radius:0;
-
-
-    margin:0;
-
-
-    padding:0;
-
-
-    outline:none;
-
-
-    width:110px;
-
-
-    height:40px;
+    color:white;
 
 
 }
