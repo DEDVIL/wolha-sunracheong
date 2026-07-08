@@ -1791,3 +1791,59 @@ h1 {
 
 
 }
+
+/* =====================
+   관계도 전용 홈 버튼
+===================== */
+
+
+.relationship-home-button {
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    width:120px;
+
+    height:40px;
+
+
+    margin:20px auto;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    text-decoration:none;
+
+
+    font-size:14px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.relationship-home-button:hover {
+
+
+    border-color:#c8a96a;
+
+
+    color:#c8a96a;
+
+
+}
