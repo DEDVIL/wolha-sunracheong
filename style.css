@@ -1170,3 +1170,185 @@ label {
 
 
 }
+
+/* =====================
+   인명부 상세
+===================== */
+
+
+.member-profile {
+
+    text-align:center;
+
+}
+
+
+
+.member-profile-image {
+
+
+    width:100%;
+
+
+    max-width:400px;
+
+
+    aspect-ratio:1 / 1;
+
+
+    object-fit:cover;
+
+
+    display:block;
+
+
+    margin:0 auto 30px;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+
+.member-profile h2 {
+
+
+    color:#c8a96a;
+
+
+    font-size:28px;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+.member-profile-department {
+
+
+    color:#b8b0a0;
+
+
+    margin-bottom:40px;
+
+
+}
+
+
+
+
+
+.secret-box {
+
+
+    margin-top:30px;
+
+
+    padding:25px;
+
+
+    border:1px solid #4a4035;
+
+
+    background:#0b0b0b;
+
+
+}
+
+
+
+
+
+#secret-area {
+
+
+    margin-top:50px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+#secret-area input {
+
+
+    width:200px;
+
+
+    height:40px;
+
+
+    padding:10px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+#secret-area button {
+
+
+    height:40px;
+
+
+    padding:0 20px;
+
+
+    margin-left:10px;
+
+
+    background:#8b0000;
+
+
+    border:none;
+
+
+    color:white;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.post-content img {
+
+
+    max-width:100% !important;
+
+
+    height:auto !important;
+
+
+    display:block;
+
+
+    margin:20px auto;
+
+
+}
