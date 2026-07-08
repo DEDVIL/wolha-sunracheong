@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 관계도
+</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body>
+
+<main class="main-container">
+
+<section class="content-box relationship-wrapper">
+
+<h1>
+月下巡邏廳
+</h1>
+
+<p class="subtitle">
+관계도
+</p>
+
+<div class="relationship-toolbar">
+
+<a
+class="home-button"
+href="./home.html">
+홈으로
+</a>
+
+<a
+class="home-button"
+href="./member-list.html">
+인명부
+</a>
+
+<input
+id="relationship-search"
+class="relationship-search"
+type="text"
+placeholder="이름 검색">
+
+<button
+id="reset-layout"
+class="write-button">
+초기 위치
+</button>
+
+</div>
+
+<div
+id="relationship-canvas"
+class="relationship-canvas">
+
+<svg
+id="relationship-lines"
+class="relationship-lines"
+width="100%"
+height="100%">
+
+</svg>
+
+</div>
+
+</section>
+
+</main>
+
+<script type="module">
+
+import {
+
+auth,
+db
+
+}
+
+from "../firebase.js";
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+
+collection,
+getDocs,
+query,
+orderBy
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const canvas =
+document.getElementById(
+"relationship-canvas"
+);
+
+const svg =
+document.getElementById(
+"relationship-lines"
+);
+
+const searchInput =
+document.getElementById(
+"relationship-search"
+);
+
+const resetButton =
+document.getElementById(
+"reset-layout"
+);
+
+let members = [];
+
+let nodes = [];
+
+let draggingNode = null;
+
+let offsetX = 0;
+
+let offsetY = 0;
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+if(!user){
+
+location.href="../index.html";
+
+return;
+
+}
+
+await loadMembers();
+
+createNodes();
+
+layoutNodes();
+
+}
+
+);
+
+async function loadMembers(){
+
+const q = query(
+
+collection(
+db,
+"members"
+),
+
+orderBy(
+"writerName"
+)
+
+);
+
+const snapshot =
+await getDocs(q);
+
+members = [];
+
+snapshot.forEach((doc)=>{
+
+members.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+});
+
+}
+
+function createNodes(){
+
+canvas
+.querySelectorAll(".relationship-node")
+.forEach(node=>node.remove());
+
+nodes = [];
+
+members.forEach((member,index)=>{
+
+const node =
+document.createElement("div");
+
+node.className =
+"relationship-node";
+
+node.dataset.id =
+member.id;
+
+node.innerHTML = `
+
+<img
+class="relationship-avatar"
+src="${
+member.portraitImage ||
+'../assets/images/default-avatar.png'
+}">
+
+<div
+class="relationship-name">
+
+${member.writerName}
+
+</div>
+
+`;
+
+canvas.appendChild(node);
+
+nodes.push({
+
+element:node,
+
+member
+
+});
+
+node.addEventListener(
+
+"mousedown",
+
+(event)=>{
+
+draggingNode=node;
+
+offsetX=
+event.offsetX;
+
+offsetY=
+event.offsetY;
+
+}
+
+);
+
+node.addEventListener(
+
+"dblclick",
+
+()=>{
+
+location.href=
+"./member-view.html?id="+member.id;
+
+}
+
+);
+
+});
+
+}
+
+function layoutNodes(){
+
+const width =
+canvas.clientWidth;
+
+const height =
+canvas.clientHeight;
+
+const centerX =
+width / 2;
+
+const centerY =
+height / 2;
+
+const radius =
+Math.min(width,height) * 0.35;
+
+const total =
+nodes.length;
+
+nodes.forEach((node,index)=>{
+
+const angle =
+(index / total) * Math.PI * 2;
+
+const x =
+centerX +
+Math.cos(angle) * radius;
+
+const y =
+centerY +
+Math.sin(angle) * radius;
+
+node.element.style.left =
+x + "px";
+
+node.element.style.top =
+y + "px";
+
+});
+
+drawLines();
+
+}
+
+function drawLines(){
+
+svg.innerHTML = "";
+
+}
+
+document.addEventListener(
+
+"mousemove",
+
+(event)=>{
+
+if(!draggingNode){
+
+return;
+
+}
+
+const rect =
+canvas.getBoundingClientRect();
+
+let x =
+event.clientX -
+rect.left -
+offsetX;
+
+let y =
+event.clientY -
+rect.top -
+offsetY;
+
+const maxX =
+canvas.clientWidth -
+draggingNode.offsetWidth;
+
+const maxY =
+canvas.clientHeight -
+draggingNode.offsetHeight;
+
+x =
+Math.max(
+0,
+Math.min(maxX,x)
+);
+
+y =
+Math.max(
+0,
+Math.min(maxY,y)
+);
+
+draggingNode.style.left =
+x + "px";
+
+draggingNode.style.top =
+y + "px";
+
+drawLines();
+
+}
+
+);
+
+document.addEventListener(
+
+"mouseup",
+
+()=>{
+
+draggingNode = null;
+
+}
+
+);
+
+searchInput.addEventListener(
+
+"input",
+
+()=>{
+
+const keyword =
+searchInput.value
+.trim()
+.toLowerCase();
+
+nodes.forEach((node)=>{
+
+const name =
+(node.member.writerName || "")
+.toLowerCase();
+
+if(
+keyword === "" ||
+name.includes(keyword)
+){
+
+node.element.style.display =
+"flex";
+
+}
+else{
+
+node.element.style.display =
+"none";
+
+}
+
+});
+
+drawLines();
+
+}
+
+);
+
+resetButton.addEventListener(
+
+"click",
+
+()=>{
+
+layoutNodes();
+
+}
+
+);
+
+async function loadRelationships(){
+
+const snapshot =
+await getDocs(
+
+collection(
+db,
+"relationships"
+)
+
+);
+
+const relations = [];
+
+snapshot.forEach((doc)=>{
+
+relations.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+});
+
+drawRelationshipLines(relations);
+
+}
+
+function drawRelationshipLines(relations){
+
+svg.innerHTML = "";
+
+relations.forEach((relation)=>{
+
+const fromNode =
+nodes.find(
+node=>node.member.id===relation.fromUid
+);
+
+const toNode =
+nodes.find(
+node=>node.member.id===relation.toUid
+);
+
+if(
+!fromNode ||
+!toNode
+){
+return;
+}
+
+if(
+fromNode.element.style.display==="none" ||
+toNode.element.style.display==="none"
+){
+return;
+}
+
+const x1 =
+fromNode.element.offsetLeft +
+(fromNode.element.offsetWidth/2);
+
+const y1 =
+fromNode.element.offsetTop +
+(fromNode.element.offsetHeight/2);
+
+const x2 =
+toNode.element.offsetLeft +
+(toNode.element.offsetWidth/2);
+
+const y2 =
+toNode.element.offsetTop +
+(toNode.element.offsetHeight/2);
+
+const line =
+document.createElementNS(
+"http://www.w3.org/2000/svg",
+"line"
+);
+
+line.setAttribute("x1",x1);
+line.setAttribute("y1",y1);
+line.setAttribute("x2",x2);
+line.setAttribute("y2",y2);
+
+line.setAttribute(
+"stroke",
+"#b9a47d"
+);
+
+line.setAttribute(
+"stroke-width",
+"2"
+);
+
+line.setAttribute(
+"opacity",
+"0.9"
+);
+
+svg.appendChild(line);
+
+});
+
+}
+
+await loadRelationships();
+
+</script>
+
+</body>
+
+</html>
+  
