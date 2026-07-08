@@ -66,68 +66,10 @@ class="home-button">
 </a>
 
 
-
-<a
-href="./member-list.html"
-class="home-button">
-
-인명부
-
-</a>
-
-
-
 </div>
 
 
-
-
-
-<div class="relationship-search-box">
-
-
-<input
-
-id="relationship-search"
-
-type="text"
-
-placeholder="인물 검색"
-
->
-
-
-<button
-
-id="search-button"
-
-class="write-button">
-
-검색
-
-</button>
-
-
-
 </div>
-
-
-
-<button
-
-id="reset-layout"
-
-class="write-button">
-
-배치 초기화
-
-</button>
-
-
-
-</div>
-
-
 
 
 
@@ -181,110 +123,20 @@ class="relationship-nodes">
 <!-- 관계 등록 -->
 
 
-<div
 
-class="relationship-control-box">
-
-
-
-<h2>
-새로운 관계 등록
-</h2>
-
-
-
-
-<label>
-대상 인물
-</label>
-
-
-
-<select
-
-id="target-member"
-
-class="relationship-select">
-
-
-<option value="">
-
-대상 인물 선택
-
-</option>
-
-
-</select>
-
-
-
-
-
-
-
-<label>
-관계명
-</label>
-
-
-
-<input
-
-id="relation-name"
-
-class="relationship-input"
-
-type="text"
-
-placeholder="예) 동료, 사제, 적대, 보호자"
-
->
-
-
-
-
-
-
-
-<label>
-관계 설명
-</label>
-
-
-
-<textarea
-
-id="relation-content"
-
-class="relationship-textarea"
-
-placeholder="두 사람의 관계를 설명해주세요."
-
-></textarea>
-
-
-
-
-
+<div class="relationship-add-area">
 
 
 <button
+id="open-relation-modal"
+class="write-button">
 
-id="save-relation"
-
-class="write-button relationship-save-button">
-
-관계 등록
+관계 추가
 
 </button>
 
 
-
-
-
 </div>
-
-
 
 
 
@@ -299,7 +151,137 @@ class="write-button relationship-save-button">
 
 class="relationship-list-box">
 
+<div
+id="relationship-modal"
+class="relationship-modal">
 
+
+<div
+class="relationship-modal-content">
+
+
+<h2>
+관계 추가
+</h2>
+
+
+
+<label>
+캐릭터 A
+</label>
+
+
+<select
+id="relation-from"
+class="relationship-select">
+
+
+<option value="">
+선택
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+캐릭터 B
+</label>
+
+
+<select
+id="relation-to"
+class="relationship-select">
+
+
+<option value="">
+선택
+</option>
+
+
+</select>
+
+
+
+
+
+<label>
+관계명
+</label>
+
+
+<input
+
+id="modal-relation-name"
+
+class="relationship-input"
+
+maxlength="10"
+
+placeholder="예) 동료, 악연"
+
+>
+
+
+
+
+
+<label>
+관계 상세
+</label>
+
+
+<textarea
+
+id="modal-relation-content"
+
+class="relationship-textarea"
+
+placeholder="두 사람의 관계"
+
+></textarea>
+
+
+
+
+
+<div class="modal-button-group">
+
+
+<button
+
+id="save-modal-relation"
+
+class="write-button">
+
+저장
+
+</button>
+
+
+
+<button
+
+id="close-relation-modal"
+
+class="home-button">
+
+닫기
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
 
 <h2>
 등록한 관계
