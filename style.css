@@ -1470,3 +1470,36 @@ label {
 
 
 }
+
+.write-button {
+
+
+    display:block;
+
+    width:180px;
+
+    margin:30px auto;
+
+    padding:12px;
+
+    text-align:center;
+
+    background:#8b0000;
+
+    border:1px solid #8b0000;
+
+    color:white;
+
+    text-decoration:none;
+
+    letter-spacing:3px;
+
+}
+
+
+.write-button:hover {
+
+
+    background:#a00000;
+
+}
