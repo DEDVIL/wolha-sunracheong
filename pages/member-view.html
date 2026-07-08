@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
 월하순라청 인명부
 </title>
 
-
 <link rel="stylesheet" href="../style.css">
 
-
 </head>
-
 
 
 <body>
@@ -27,15 +22,12 @@
 <main class="main-container">
 
 
-
 <section class="content-box">
-
 
 
 <h1>
 月下巡邏廳
 </h1>
-
 
 
 <p class="subtitle">
@@ -52,8 +44,11 @@
 
 </div>
 
-  
+
+
+
 <div id="owner-buttons"></div>
+
 
 
 
@@ -66,11 +61,14 @@
 ▼ 비공개란
 </h2>
 
+
 <p class="secret-guide">
 
 🔒 비밀번호 입력 후 열람 가능합니다.
 
 </p>
+
+
 
 <input
 
@@ -80,9 +78,7 @@ type="password"
 
 placeholder="비밀번호 입력"
 
-
 >
-
 
 
 <button onclick="openSecret()">
@@ -93,6 +89,7 @@ placeholder="비밀번호 입력"
 
 
 
+
 <div id="secret-content"></div>
 
 
@@ -100,15 +97,10 @@ placeholder="비밀번호 입력"
 
 
 
-
-
-
-
 </section>
 
 
 </main>
-
 
 
 
@@ -130,9 +122,6 @@ from "../firebase.js";
 
 
 
-
-
-
 import {
 
 onAuthStateChanged
@@ -142,9 +131,6 @@ onAuthStateChanged
 from
 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-
 
 
 
@@ -161,7 +147,6 @@ deleteDoc
 from
 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 
 
@@ -188,6 +173,7 @@ params.get("id");
 
 
 
+
 const profileView =
 
 document.getElementById(
@@ -208,12 +194,11 @@ document.getElementById(
 
 
 
-
-
-
-
 let memberData = null;
+
 let currentUser = null;
+
+
 
 
 
@@ -230,11 +215,15 @@ async(user)=>{
 
 if(!user){
 
+
 location.href="../index.html";
+
 
 return;
 
+
 }
+
 
 
 currentUser = user;
@@ -243,32 +232,12 @@ currentUser = user;
 loadProfile();
 
 
-}
-
-);
-
-
-
-if(!user){
-
-
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-loadProfile();
-
-
 
 }
 
 );
+
+
 
 
 
@@ -281,8 +250,28 @@ loadProfile();
 async function loadProfile(){
 
 
-
 try{
+
+
+
+if(!memberId){
+
+
+alert(
+"잘못된 접근입니다."
+);
+
+
+location.href="./member-list.html";
+
+
+return;
+
+
+}
+
+
+
 
 
 
@@ -337,20 +326,47 @@ return;
 
 memberData = snap.data();
 
-if(currentUser.uid === memberId){
 
 
-document.getElementById("owner-buttons").innerHTML = `
+
+
+
+
+
+// 작성자 본인만 버튼 표시
+
+
+if(
+
+currentUser.uid === memberData.uid
+
+){
+
+
+
+document.getElementById(
+
+"owner-buttons"
+
+).innerHTML = `
+
 
 
 <a href="./member-edit.html?id=${memberId}">
+
 수정
+
 </a>
 
 
+
+
 <button onclick="deleteProfile()">
+
 삭제
+
 </button>
+
 
 
 `;
@@ -365,13 +381,13 @@ document.getElementById("owner-buttons").innerHTML = `
 
 
 
+
+
 const image =
 
 memberData.portraitImage ||
 
 "../assets/images/default-avatar.png";
-
-
 
 
 
@@ -397,19 +413,14 @@ src="${image}"
 
 alt="두상 이미지"
 
-
-
 >
-
-
-
 
 
 
 
 <h2>
 
-${memberData.writerName}
+${memberData.writerName || ""}
 
 </h2>
 
@@ -417,10 +428,9 @@ ${memberData.writerName}
 
 
 
-
 <p class="member-profile-department">
 
-${memberData.department}
+${memberData.department || ""}
 
 </p>
 
@@ -432,11 +442,10 @@ ${memberData.department}
 
 <div class="post-content">
 
-
-${memberData.profileContent}
-
+${memberData.profileContent || ""}
 
 </div>
+
 
 
 
@@ -451,8 +460,8 @@ ${memberData.profileContent}
 
 
 
-
 }
+
 
 catch(error){
 
@@ -465,7 +474,6 @@ console.error(error);
 profileView.innerHTML =
 
 "프로필을 불러오지 못했습니다.";
-
 
 
 }
@@ -498,9 +506,6 @@ document.getElementById(
 
 
 
-
-
-
 if(
 
 input === memberData.secretPassword
@@ -515,11 +520,10 @@ secretContentBox.innerHTML = `
 
 <div class="post-content secret-box">
 
-
-${memberData.secretContent}
-
+${memberData.secretContent || ""}
 
 </div>
+
 
 
 `;
@@ -538,7 +542,6 @@ alert(
 );
 
 
-
 }
 
 
@@ -546,11 +549,21 @@ alert(
 };
 
 
+
+
+
+
+
+
+
 window.deleteProfile = async function(){
 
 
+
 const check = confirm(
+
 "정말 삭제하시겠습니까?"
+
 );
 
 
@@ -563,7 +576,10 @@ return;
 
 
 
+
 await deleteDoc(
+
+
 
 doc(
 
@@ -575,12 +591,16 @@ memberId
 
 )
 
+
+
 );
 
 
 
 alert(
+
 "삭제되었습니다."
+
 );
 
 
@@ -596,8 +616,6 @@ location.href="./member-list.html";
 
 
 </script>
-
-
 
 
 
