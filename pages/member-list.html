@@ -46,7 +46,11 @@
 </p>
 
 
+
+
 <div id="member-action"></div>
+
+
 
 
 
@@ -71,14 +75,19 @@
 
 
 
+
+
 <script type="module">
+
 
 
 import {
 
+
 auth,
 
 db
+
 
 }
 
@@ -88,9 +97,13 @@ from "../firebase.js";
 
 
 
+
+
 import {
 
+
 onAuthStateChanged
+
 
 }
 
@@ -102,7 +115,11 @@ from
 
 
 
+
+
+
 import {
+
 
 collection,
 
@@ -110,7 +127,12 @@ getDocs,
 
 query,
 
-orderBy
+orderBy,
+
+doc,
+
+getDoc
+
 
 }
 
@@ -124,11 +146,25 @@ from
 
 
 
+
+
 const memberList =
 
 document.getElementById(
 
 "member-list"
+
+);
+
+
+
+
+
+const memberAction =
+
+document.getElementById(
+
+"member-action"
 
 );
 
@@ -156,11 +192,16 @@ const departments = [
 
 
 
+
+
 onAuthStateChanged(
+
 
 auth,
 
+
 async(user)=>{
+
 
 
 if(!user){
@@ -176,13 +217,128 @@ return;
 
 
 
+
+
+checkMyProfile(user.uid);
+
+
+
 loadMembers();
 
 
 
 }
 
+
+
 );
+
+
+
+
+
+
+
+
+
+
+
+// 작성 / 수정 버튼 확인
+
+
+async function checkMyProfile(uid){
+
+
+
+const myProfile = await getDoc(
+
+
+
+doc(
+
+db,
+
+"members",
+
+uid
+
+)
+
+
+
+);
+
+
+
+
+
+
+
+if(myProfile.exists()){
+
+
+
+memberAction.innerHTML = `
+
+
+
+<a
+
+href="./member-edit.html?id=${uid}"
+
+class="write-button"
+
+
+>
+
+내 인명부 수정
+
+</a>
+
+
+
+`;
+
+
+
+}
+
+else{
+
+
+
+memberAction.innerHTML = `
+
+
+
+<a
+
+href="./member-edit.html"
+
+class="write-button"
+
+
+>
+
+인명부 작성
+
+</a>
+
+
+
+`;
+
+
+
+}
+
+
+
+}
+
+
+
+
 
 
 
@@ -202,7 +358,10 @@ try{
 
 
 
+
+
 const q = query(
+
 
 
 collection(
@@ -214,17 +373,27 @@ db,
 ),
 
 
+
 orderBy(
 
 "writerName"
 
 )
 
+
+
 );
 
 
 
+
+
+
+
 const snapshot = await getDocs(q);
+
+
+
 
 
 
@@ -237,21 +406,30 @@ const members = [];
 
 
 
+
+
 snapshot.forEach((doc)=>{
 
 
+
 members.push({
+
+
 
 id:doc.id,
 
 ...doc.data()
 
 
+
+});
+
+
+
+
 });
 
 
-
-});
 
 
 
@@ -267,17 +445,30 @@ memberList.innerHTML = "";
 
 
 
+
 departments.forEach((department)=>{
+
+
+
 
 
 
 const filtered = members.filter(
 
+
+
 (member)=>
+
+
 
 member.department === department
 
+
+
 );
+
+
+
 
 
 
@@ -297,7 +488,12 @@ section.className =
 
 
 
+
+
 section.innerHTML = `
+
+
+
 
 
 <h2>
@@ -307,67 +503,141 @@ ${department}
 </h2>
 
 
+
+
+
+
+
+
 <div class="member-grid">
+
+
+
+
+
 
 
 ${
 
 
+
+
 filtered.length === 0
+
+
 
 
 ?
 
 
-`<p class="empty-member">
+
+
+
+`
+
+<p class="empty-member">
 
 등록된 인원이 없습니다.
 
-</p>`
+</p>
+
+`
+
+
+
 
 
 :
+
+
+
+
+
 
 
 filtered.map((member)=>`
 
 
 
-<a class="member-card"
+
+
+<a
+
+class="member-card"
 
 href="./member-view.html?id=${member.id}"
 
 >
 
 
-<img src="${
+
+
+
+
+
+<img
+
+
+
+src="${
+
+
 
 member.portraitImage ||
 
+
+
 '../assets/images/default-avatar.png'
+
+
 
 }"
 
+
+
 alt="두상 이미지"
+
+
+
+
 
 
 
 >
 
 
+
+
+
+
+
+
 <div class="member-name">
+
 
 ${member.writerName}
 
+
 </div>
+
+
+
+
+
 
 
 
 <div class="member-department-name">
 
+
 ${member.department}
 
+
 </div>
+
+
+
+
 
 
 
@@ -375,14 +645,30 @@ ${member.department}
 
 
 
+
+
+
+
 `).join("")
+
+
+
 
 
 
 }
 
 
+
+
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -394,11 +680,19 @@ ${member.department}
 
 
 
+
+
 memberList.appendChild(section);
 
 
 
+
+
+
 });
+
+
+
 
 
 
@@ -411,25 +705,40 @@ catch(error){
 
 
 
+
+
 console.error(error);
+
 
 
 
 memberList.innerHTML =
 
+
+
 "인명부를 불러오지 못했습니다.";
 
 
 
+
+
 }
 
 
 
+
 }
+
+
+
+
+
 
 
 
 </script>
+
+
 
 
 
