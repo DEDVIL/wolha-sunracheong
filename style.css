@@ -941,3 +941,29 @@ label {
     height:auto !important;
 
 }
+
+.member-avatar {
+
+    width:100%;
+
+    max-width:400px;
+
+    aspect-ratio:1 / 1;
+
+    object-fit:cover;
+
+}
+
+
+.ql-editor img,
+.post-content img {
+
+    max-width:100% !important;
+
+    height:auto !important;
+
+    display:block;
+
+    margin:20px auto;
+
+}
