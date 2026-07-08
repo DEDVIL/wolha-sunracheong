@@ -336,196 +336,111 @@ id="relationship-list">
 
 
 
-
-
-
-
 <script type="module">
 
-
 import {
-
-
 auth,
-
 db
-
-
 }
-
 from "../firebase.js";
 
 
-
-
-
 import {
-
-
 onAuthStateChanged
-
-
 }
-
 from
-
-
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-
-
-
 import {
-
-
 collection,
-
 getDocs,
-
 query,
-
 orderBy,
-
 addDoc,
-
 deleteDoc,
-
 doc,
-
 serverTimestamp
-
-
 }
-
 from
-
-
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
 
 
-
-
 const relationshipNodes =
-
 document.getElementById(
-
 "relationship-nodes"
-
 );
-
 
 
 const relationshipArea =
-
 document.getElementById(
-
 "relationship-area"
-
 );
-
 
 
 const relationshipSvg =
-
 document.getElementById(
-
 "relationship-svg"
-
 );
-
 
 
 
 const searchInput =
-
 document.getElementById(
-
 "relationship-search"
-
 );
-
 
 
 
 const searchButton =
-
 document.getElementById(
-
 "search-button"
-
 );
-
 
 
 
 const resetButton =
-
 document.getElementById(
-
 "reset-layout"
-
 );
-
-
 
 
 
 const targetMemberSelect =
-
 document.getElementById(
-
 "target-member"
-
 );
-
 
 
 
 const relationNameInput =
-
 document.getElementById(
-
 "relation-name"
-
 );
-
 
 
 
 const relationContentInput =
-
 document.getElementById(
-
 "relation-content"
-
 );
-
 
 
 
 const saveRelationButton =
-
 document.getElementById(
-
 "save-relation"
-
 );
-
 
 
 
 const relationshipList =
-
 document.getElementById(
-
 "relationship-list"
-
 );
-
 
 
 
@@ -534,33 +449,33 @@ document.getElementById(
 
 let members = [];
 
-
 let nodeList = [];
-
 
 let relationships = [];
 
+let currentMemberId = null;
 
 
 
 
+
+
+
+// =================================
+// 인증 시작
+// =================================
 
 
 onAuthStateChanged(
-
 auth,
-
 async(user)=>{
 
 
 if(!user){
 
-
 location.href="../index.html";
 
-
 return;
-
 
 }
 
@@ -578,10 +493,10 @@ createNodes();
 setDefaultLayout();
 
 
-await loadRelationshipList(user);
+await loadRelationships();
 
 
-loadRelationshipList();
+await loadRelationshipList();
 
 
 drawRelationshipLines();
@@ -590,13 +505,19 @@ drawRelationshipLines();
 
 }
 
-
-
 );
 
-// ===============================
-// 회원 정보 불러오기
-// ===============================
+
+
+
+
+
+
+
+
+// =================================
+// 회원 불러오기
+// =================================
 
 
 async function loadMembers(){
@@ -605,34 +526,24 @@ async function loadMembers(){
 try{
 
 
-const q = query(
-
+const q =
+query(
 
 collection(
-
 db,
-
 "members"
-
 ),
 
-
 orderBy(
-
 "writerName"
-
 )
-
 
 );
 
 
 
 const snapshot =
-
 await getDocs(q);
-
-
 
 
 
@@ -640,45 +551,78 @@ members = [];
 
 
 
-
-
-snapshot.forEach((docSnap)=>{
+snapshot.forEach(
+(docSnap)=>{
 
 
 members.push({
-
 
 id:docSnap.id,
 
 ...docSnap.data()
 
-
 });
 
 
 });
 
-console.log("불러온 members:", members);
+
+
+
+
+
+
+const uid =
+auth.currentUser.uid;
+
+
+
+const current =
+members.find(
+(member)=>
+member.uid === uid
+);
+
+
+
+if(current){
+
+
+currentMemberId =
+current.id;
+
 
 }
 
+
+
+console.log(
+"현재 캐릭터 ID",
+currentMemberId
+);
+
+
+
+console.log(
+"members",
+members
+);
+
+
+
+}
 
 catch(error){
 
 
 console.error(
-
-"회원 정보 불러오기 실패",
-
+"members 불러오기 실패",
 error
-
 );
 
 
 alert(
-
-"인원 정보를 불러오지 못했습니다."
-
+"인물 정보를 불러오지 못했습니다."
 );
 
 
@@ -696,72 +640,58 @@ alert(
 
 
 
-// ===============================
-// 대상 인물 선택 목록 생성
-// ===============================
+
+// =================================
+// 대상 인물 선택
+// =================================
 
 
 function createTargetMemberList(){
 
 
-
 targetMemberSelect.innerHTML = `
-
 
 <option value="">
 
-
 대상 인물 선택
 
-
 </option>
-
 
 `;
 
 
 
-
-
-members.forEach((member)=>{
+members.forEach(
+(member)=>{
 
 
 const option =
-
 document.createElement(
-
 "option"
-
 );
 
 
 
-
-
 option.value =
-
 member.id;
 
 
 
-
-
 option.textContent =
-
-member.writerName || "이름 없음";
-
-
+member.writerName ||
+"이름 없음";
 
 
 
-targetMemberSelect.appendChild(option);
+targetMemberSelect.appendChild(
+option
+);
 
 
 
 });
 
 
-
 }
 
 
@@ -772,64 +702,43 @@ targetMemberSelect.appendChild(option);
 
 
 
-
-
-// ===============================
-// 관계도 인물 노드 생성
-// ===============================
+// =================================
+// 관계도 노드 생성
+// =================================
 
 
 function createNodes(){
 
 
+relationshipNodes.innerHTML="";
 
-relationshipNodes.innerHTML = "";
 
-
-nodeList = [];
-
+nodeList=[];
 
 
 
-
-members.forEach((member)=>{
-
-
-
+members.forEach(
+(member)=>{
 
 
 const node =
-
 document.createElement(
-
 "div"
-
 );
 
 
 
-
-
 node.className =
-
 "relationship-node";
 
 
 
-
-
 node.dataset.id =
-
 member.id;
 
 
 
-
-
-
-
 node.innerHTML = `
-
 
 
 <img
@@ -837,9 +746,7 @@ node.innerHTML = `
 class="relationship-avatar"
 
 src="${
-
 member.portraitImage ||
-
 "../assets/images/default-avatar.png"
 
 }"
@@ -847,19 +754,11 @@ member.portraitImage ||
 >
 
 
+<div class="relationship-name">
 
-<div
-
-class="relationship-name">
-
-${
-
-member.writerName || ""
-
-}
+${member.writerName || ""}
 
 </div>
-
 
 
 `;
@@ -867,55 +766,34 @@ member.writerName || ""
 
 
 
-
-
-
-
-relationshipNodes.appendChild(node);
-
-
-
-
+relationshipNodes.appendChild(
+node
+);
 
 
 
 node.addEventListener(
-
 "click",
-
 ()=>{
 
 
 location.href =
-
 `./member-view.html?id=${member.id}`;
-
 
 
 }
 
 );
-
-
-
-
 
 
 
 nodeList.push({
 
-
-
 element:node,
 
 member:member
 
-
-
 });
-
-
-
 
 
 
@@ -933,242 +811,156 @@ member:member
 
 
 
-// ===============================
+// =================================
 // 기본 배치
-// ===============================
+// =================================
 
 
 function setDefaultLayout(){
 
 
-
 const width =
-
 relationshipArea.clientWidth;
 
 
-
-
-
 const height =
-
 relationshipArea.clientHeight;
 
 
 
-
-
 const centerX =
-
 width / 2;
 
 
-
-
-
 const centerY =
-
 height / 2;
 
 
 
-
-
 const radius =
-
 Math.min(
-
 width,
-
 height
-
 )
-
 *
-
 0.35;
 
 
 
 
-
-
-nodeList.forEach((node,index)=>{
-
-
-
+nodeList.forEach(
+(node,index)=>{
 
 
 const angle =
-
-(index / nodeList.length)
-
+(index/nodeList.length)
 *
-
 Math.PI
-
 *
-
 2;
-
-
-
-
-
-const x =
-
-centerX +
-
-Math.cos(angle)
-
-*
-
-radius;
-
-
-
-
-
-const y =
-
-centerY +
-
-Math.sin(angle)
-
-*
-
-radius;
-
-
 
 
 
 node.element.style.left =
 
-x +
+(
+centerX +
+Math.cos(angle)
+*
+radius
 
+)
++
 "px";
-
-
 
 
 
 node.element.style.top =
 
-y +
+(
+centerY +
+Math.sin(angle)
+*
+radius
 
+)
++
 "px";
 
 
 
-
-
 });
-
 
 
 }
 
-// ===============================
+
+// =================================
 // 검색 기능
-// ===============================
+// =================================
 
 
 searchButton.addEventListener(
-
 "click",
-
 ()=>{
 
 
 const keyword =
-
 searchInput.value
-
 .toLowerCase()
-
 .trim();
 
 
 
-
-
-nodeList.forEach((node)=>{
-
-
-
+nodeList.forEach(
+(node)=>{
 
 
 const name =
-
 (node.member.writerName || "")
-
 .toLowerCase();
 
 
 
-
-
-
-
 if(
-
 keyword === ""
-
 ||
-
 name.includes(keyword)
-
 ){
 
 
-
 node.element.style.display =
-
 "flex";
 
 
-
 }
-
 else{
 
 
-
 node.element.style.display =
-
 "none";
-
 
 
 }
 
 
-
-
-
 });
-
 
 
 }
 
 );
-
-
 
 
 
 
 
 searchInput.addEventListener(
-
 "keydown",
-
 (event)=>{
 
 
-if(event.key === "Enter"){
+if(event.key==="Enter"){
 
 
 searchButton.click();
@@ -1188,22 +980,22 @@ searchButton.click();
 
 
 
-
-// ===============================
+// =================================
 // 배치 초기화
-// ===============================
+// =================================
 
 
 resetButton.addEventListener(
-
 "click",
-
 ()=>{
 
 
 setDefaultLayout();
 
 
+drawRelationshipLines();
+
+
 }
 
 );
@@ -1216,111 +1008,69 @@ setDefaultLayout();
 
 
 
-// ===============================
-// 노드 드래그 기능
-// ===============================
+// =================================
+// 드래그 기능
+// =================================
 
 
 let draggingNode = null;
 
-
 let offsetX = 0;
-
 
 let offsetY = 0;
 
 
 
-
-
-
-nodeList.forEach((node)=>{
-
-
-
-const element =
-
-node.element;
-
-
-
-
-
-
-element.addEventListener(
-
+document.addEventListener(
 "mousedown",
-
 (event)=>{
 
 
+if(
+event.target.closest(".relationship-node")
+){
 
-draggingNode = element;
 
-
+draggingNode =
+event.target.closest(
+".relationship-node"
+);
 
 
 
 const rect =
-
 relationshipArea.getBoundingClientRect();
 
 
 
-
-
 offsetX =
-
 event.clientX
-
 -
-
 rect.left
-
 -
-
-element.offsetLeft;
-
-
+draggingNode.offsetLeft;
 
 
 
 offsetY =
-
 event.clientY
-
 -
-
 rect.top
-
 -
-
-element.offsetTop;
-
+draggingNode.offsetTop;
 
 
 
-
-
-element.style.cursor =
-
+draggingNode.style.cursor =
 "grabbing";
 
 
-
+}
 
 
 }
 
 );
-
-
-
-
-});
-
-
-
 
 
 
@@ -1328,13 +1078,8 @@ element.style.cursor =
 
 
 document.addEventListener(
-
 "mousemove",
-
 (event)=>{
-
-
-
 
 
 if(!draggingNode){
@@ -1345,142 +1090,81 @@ return;
 
 
 
-
-
 const rect =
-
 relationshipArea.getBoundingClientRect();
 
 
 
-
-
 let x =
-
 event.clientX
-
 -
-
 rect.left
-
 -
-
 offsetX;
 
 
 
-
-
 let y =
-
 event.clientY
-
 -
-
 rect.top
-
 -
-
 offsetY;
 
 
 
-
-
-
 const maxX =
-
 relationshipArea.clientWidth
-
 -
-
 draggingNode.offsetWidth;
 
 
 
-
-
 const maxY =
-
 relationshipArea.clientHeight
-
 -
-
 draggingNode.offsetHeight;
 
 
 
-
-
-
-x = Math.max(
-
+x =
+Math.max(
 0,
-
 Math.min(
-
 x,
-
 maxX
-
 )
-
 );
 
 
 
-
-
-y = Math.max(
-
+y =
+Math.max(
 0,
-
 Math.min(
-
 y,
-
 maxY
-
 )
-
 );
-
-
-
-
 
 
 
 draggingNode.style.left =
-
-x +
-
-"px";
-
-
+x+"px";
 
 
 
 draggingNode.style.top =
-
-y +
-
-"px";
-
-
+y+"px";
 
 
 
 drawRelationshipLines();
 
 
-
-
-
 }
 
 );
-
 
 
 
@@ -1489,19 +1173,14 @@ drawRelationshipLines();
 
 
 document.addEventListener(
-
 "mouseup",
-
 ()=>{
-
 
 
 if(draggingNode){
 
 
-
 draggingNode.style.cursor =
-
 "grab";
 
 
@@ -1509,19 +1188,27 @@ draggingNode.style.cursor =
 
 
 
-draggingNode = null;
+draggingNode=null;
 
-
-drawRelationshipLines();
 
 
 }
 
 );
 
-// ===============================
-// 관계 데이터 불러오기
-// ===============================
+
+
+
+
+
+
+
+
+
+
+// =================================
+// 관계 불러오기
+// =================================
 
 
 async function loadRelationships(){
@@ -1531,47 +1218,40 @@ try{
 
 
 const snapshot =
-
 await getDocs(
-
-
 collection(
-
 db,
-
 "relationships"
-
 )
-
-
 );
 
 
 
-
-
-relationships = [];
-
+relationships=[];
 
 
 
-
-snapshot.forEach((docSnap)=>{
+snapshot.forEach(
+(docSnap)=>{
 
 
 relationships.push({
-
 
 id:docSnap.id,
 
 ...docSnap.data()
 
+});
+
 
 });
 
 
 
-});
+console.log(
+"relationships",
+relationships
+);
 
 
 
@@ -1581,25 +1261,20 @@ id:docSnap.id,
 catch(error){
 
 
-
 console.error(
-
-"관계 데이터 불러오기 실패",
-
+"관계 불러오기 실패",
 error
-
 );
 
 
 
-relationships = [];
+relationships=[];
 
 
 
 }
 
 
-
 }
 
 
@@ -1612,125 +1287,78 @@ relationships = [];
 
 
 
-// ===============================
-// 관계선 표시
-// ===============================
+
+// =================================
+// 관계선 그리기
+// =================================
 
 
 function drawRelationshipLines(){
 
 
-
-relationshipSvg.innerHTML = "";
-
+relationshipSvg.innerHTML="";
 
 
 
-
-
-
-relationships.forEach((relation)=>{
-
-
-
+relationships.forEach(
+(relation)=>{
 
 
 const fromNode =
-
 nodeList.find(
-
 (node)=>
-
-node.member.id === relation.fromUid
-
+node.member.id === relation.fromMemberId
 );
-
-
 
 
 
 const toNode =
-
 nodeList.find(
-
 (node)=>
-
-node.member.id === relation.toUid
-
+node.member.id === relation.toMemberId
 );
 
 
 
 
-
-
-
-if(!fromNode || !toNode){
-
-
+if(
+!fromNode ||
+!toNode
+){
 
 return;
-
-
 
 }
 
 
 
 
-
-
-
-
 const x1 =
-
 fromNode.element.offsetLeft
-
 +
-
-fromNode.element.offsetWidth / 2;
-
-
+fromNode.element.offsetWidth/2;
 
 
 
 const y1 =
-
 fromNode.element.offsetTop
-
 +
-
-fromNode.element.offsetHeight / 2;
-
-
-
-
+fromNode.element.offsetHeight/2;
 
 
 
 
 const x2 =
-
 toNode.element.offsetLeft
-
 +
-
-toNode.element.offsetWidth / 2;
-
-
+toNode.element.offsetWidth/2;
 
 
 
 const y2 =
-
 toNode.element.offsetTop
-
 +
-
-toNode.element.offsetHeight / 2;
-
-
-
+toNode.element.offsetHeight/2;
 
 
 
@@ -1738,260 +1366,165 @@ toNode.element.offsetHeight / 2;
 
 
 const line =
-
 document.createElementNS(
-
-
 "http://www.w3.org/2000/svg",
-
-
 "line"
-
-
 );
 
 
 
-
-
-
-
-
 line.setAttribute(
-
 "x1",
-
 x1
-
 );
 
 
 
 line.setAttribute(
-
 "y1",
-
 y1
-
 );
 
 
 
 line.setAttribute(
-
 "x2",
-
 x2
-
 );
 
 
 
 line.setAttribute(
-
 "y2",
-
 y2
-
 );
-
-
-
-
 
 
 
 line.classList.add(
-
 "relationship-line"
+);
 
+
+
+relationshipSvg.appendChild(
+line
 );
 
 
 
 
-
-
-
-relationshipSvg.appendChild(line);
-
-
-
-
-
-
-
-
-
-
-
-// 관계명 표시
 
 
 
 const text =
-
 document.createElementNS(
-
-
 "http://www.w3.org/2000/svg",
-
-
 "text"
-
-
 );
 
 
 
-
-
-
 text.setAttribute(
-
 "x",
-
 (x1+x2)/2
-
 );
-
-
-
 
 
 
 text.setAttribute(
-
 "y",
-
 (y1+y2)/2
-
 );
-
-
-
 
 
 
 text.classList.add(
-
 "relationship-label"
-
 );
 
 
 
-
-
-
 text.textContent =
-
 relation.relationName || "";
 
 
 
-
-
-
-relationshipSvg.appendChild(text);
-
-
-
+relationshipSvg.appendChild(
+text
+);
 
 
 
 });
 
 
-
 }
 
 
-// ===============================
+
+
+
+
+
+
+
+// =================================
 // 관계 등록
-// ===============================
+// =================================
 
 
 saveRelationButton.addEventListener(
-
 "click",
-
 async()=>{
 
 
-const user =
-
-auth.currentUser;
-
-
-
-
-
-if(!user){
-
-
-alert(
-
-"로그인이 필요합니다."
-
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-const targetUid =
-
+const targetId =
 targetMemberSelect.value;
 
 
 
-
-
 const relationName =
-
 relationNameInput.value.trim();
 
 
 
-
-
 const relationContent =
-
 relationContentInput.value.trim();
 
 
 
 
 
-
-
-if(!targetUid){
-
+if(!currentMemberId){
 
 
 alert(
-
-"대상 인물을 선택해주세요."
-
+"현재 캐릭터 정보를 찾을 수 없습니다."
 );
-
 
 
 return;
 
 
-
 }
 
 
+
+
+
+if(!targetId){
+
+
+alert(
+"대상 인물을 선택해주세요."
+);
+
+
+return;
+
+
+}
 
 
 
@@ -2000,17 +1533,12 @@ return;
 if(!relationName){
 
 
-
 alert(
-
 "관계명을 입력해주세요."
-
 );
 
 
-
 return;
-
 
 
 }
@@ -2024,57 +1552,51 @@ return;
 try{
 
 
-
 await addDoc(
 
-
 collection(
-
 db,
-
 "relationships"
-
 ),
-
-
 
 {
 
 
-fromUid:user.uid,
+fromMemberId:
+currentMemberId,
 
 
-toUid:targetUid,
+toMemberId:
+targetId,
 
 
-relationName:relationName,
+relationName:
+relationName,
 
 
-relationContent:relationContent,
+relationContent:
+relationContent,
 
 
-createdAt:serverTimestamp()
+createdBy:
+auth.currentUser.uid,
+
+
+createdAt:
+serverTimestamp()
 
 
 }
 
-
-
 );
-
 
 
 
 
 
 alert(
-
 "관계가 등록되었습니다."
-
 );
-
-
-
 
 
 
@@ -2082,24 +1604,20 @@ location.reload();
 
 
 
-
-
 }
-
 
 
 catch(error){
 
 
-
-console.error(error);
+console.error(
+error
+);
 
 
 
 alert(
-
 "관계 등록 실패"
-
 );
 
 
@@ -2108,56 +1626,20 @@ alert(
 
 
 
-
-
 }
 
 );
 
 
+// =================================
+// 관계 목록 (전체 공개)
+// =================================
 
 
+async function loadRelationshipList(){
 
 
-
-
-
-// ===============================
-// 등록 관계 목록
-// ===============================
-
-
-async function loadRelationshipList(user){
-
-
-
-
-const snapshot =
-
-await getDocs(
-
-
-collection(
-
-db,
-
-"relationships"
-
-)
-
-
-);
-
-
-
-
-
-
-
-relationshipList.innerHTML = "";
-
-
-
+relationshipList.innerHTML="";
 
 
 
@@ -2166,43 +1648,8 @@ let count = 0;
 
 
 
-
-
-
-snapshot.forEach((docSnap)=>{
-
-
-
-
-
-const data =
-
-docSnap.data();
-
-
-
-
-
-
-
-if(
-
-data.fromUid !== user.uid
-
-){
-
-
-
-return;
-
-
-
-}
-
-
-
-
-
+relationships.forEach(
+(data)=>{
 
 
 
@@ -2212,19 +1659,21 @@ count++;
 
 
 
-
-
-
 const target =
-
 members.find(
-
 (member)=>
-
-member.id === data.toUid
-
+member.id === data.toMemberId
 );
 
+
+
+
+
+const source =
+members.find(
+(member)=>
+member.id === data.fromMemberId
+);
 
 
 
@@ -2233,22 +1682,52 @@ member.id === data.toUid
 
 
 const item =
-
 document.createElement(
-
 "div"
-
 );
 
 
 
-
-
-
-
 item.className =
-
 "relationship-item";
+
+
+
+
+
+
+
+let deleteButton = "";
+
+
+
+if(
+data.createdBy === auth.currentUser.uid
+){
+
+
+deleteButton = `
+
+
+<button
+
+class="delete-button"
+
+data-id="${data.id}"
+
+>
+
+삭제
+
+</button>
+
+
+`;
+
+
+
+}
+
 
 
 
@@ -2260,10 +1739,9 @@ item.className =
 item.innerHTML = `
 
 
-
 <h3>
 
-${data.relationName}
+${data.relationName || "관계"}
 
 </h3>
 
@@ -2271,21 +1749,37 @@ ${data.relationName}
 
 <p>
 
-대상 :
+<strong>
+
+${
+
+source
+?
+source.writerName
+:
+"알 수 없음"
+
+}
+
+</strong>
+
+&nbsp; → &nbsp;
+
+<strong>
 
 ${
 
 target
-
 ?
-
 target.writerName
-
 :
-
 "알 수 없음"
 
 }
+
+</strong>
+
+
 
 </p>
 
@@ -2295,7 +1789,8 @@ target.writerName
 
 ${
 
-data.relationContent || "설명 없음"
+data.relationContent ||
+"설명 없음"
 
 }
 
@@ -2303,16 +1798,7 @@ data.relationContent || "설명 없음"
 
 
 
-<button
-
-class="delete-button"
-
-data-id="${docSnap.id}">
-
-삭제
-
-</button>
-
+${deleteButton}
 
 
 `;
@@ -2321,14 +1807,9 @@ data-id="${docSnap.id}">
 
 
 
-
-
-
-relationshipList.appendChild(item);
-
-
-
-
+relationshipList.appendChild(
+item
+);
 
 
 
@@ -2341,12 +1822,12 @@ relationshipList.appendChild(item);
 
 
 
-if(count === 0){
+
+if(count===0){
 
 
 
 relationshipList.innerHTML = `
-
 
 
 <p class="empty-message">
@@ -2354,7 +1835,6 @@ relationshipList.innerHTML = `
 등록된 관계가 없습니다.
 
 </p>
-
 
 
 `;
@@ -2369,49 +1849,28 @@ relationshipList.innerHTML = `
 
 
 
-
 document.querySelectorAll(
-
 ".delete-button"
-
 )
-
-.forEach((button)=>{
-
-
-
+.forEach(
+(button)=>{
 
 
 button.addEventListener(
-
 "click",
-
 async()=>{
 
 
-
-
-
-
 const check =
-
 confirm(
-
 "이 관계를 삭제하시겠습니까?"
-
 );
-
-
-
-
 
 
 
 if(!check){
 
-
 return;
-
 
 }
 
@@ -2419,12 +1878,10 @@ return;
 
 
 
-
+try{
 
 
 await deleteDoc(
-
-
 
 doc(
 
@@ -2436,24 +1893,14 @@ button.dataset.id
 
 )
 
-
-
 );
-
-
-
 
 
 
 
 alert(
-
 "삭제되었습니다."
-
 );
-
-
-
 
 
 
@@ -2461,6 +1908,61 @@ location.reload();
 
 
 
+}
+
+
+catch(error){
+
+
+console.error(
+error
+);
+
+
+
+alert(
+"삭제 실패"
+);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =================================
+// 화면 크기 변경 대응
+// =================================
+
+
+window.addEventListener(
+"resize",
+()=>{
+
+
+setDefaultLayout();
+
+
+drawRelationshipLines();
 
 
 }
@@ -2471,8 +1973,4 @@ location.reload();
 
 
 
-});
-
-
-
-}
+</script>
