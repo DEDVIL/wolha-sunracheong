@@ -1750,45 +1750,33 @@ h1 {
 
 .home-button {
 
-
-    display:flex;
-
-
-    justify-content:center;
-
-
-    align-items:center;
-
+    display:block;
 
     width:120px;
 
-
     height:40px;
 
+    line-height:40px;
 
     margin:20px auto;
 
+    padding:0;
+
+    text-align:center;
 
     background:#0b0b0b;
 
-
     border:1px solid #4a4035;
-
 
     color:#e8e2d6;
 
-
     text-decoration:none;
-
 
     font-size:14px;
 
-
     letter-spacing:2px;
 
-
     transition:0.2s;
-
 
 }
 
@@ -1799,9 +1787,7 @@ h1 {
 
     border-color:#c8a96a;
 
-
     color:#c8a96a;
 
 
 }
-
