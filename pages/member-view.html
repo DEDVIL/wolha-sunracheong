@@ -344,33 +344,31 @@ currentUser.uid === memberData.uid
 
 
 
-document.getElementById(
-
-"owner-buttons"
-
-).innerHTML = `
+document.getElementById("owner-buttons").innerHTML = `
 
 
+<div class="owner-button-group">
 
-<a href="./member-edit.html?id=${memberId}">
 
+<a 
+class="owner-edit-button"
+href="./member-edit.html?id=${memberId}">
 수정
-
 </a>
 
 
 
-
-<button onclick="deleteProfile()">
-
+<button 
+class="owner-delete-button"
+onclick="deleteProfile()">
 삭제
-
 </button>
 
 
+</div>
+
 
 `;
-
 
 
 }
