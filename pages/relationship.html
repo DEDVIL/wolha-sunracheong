@@ -374,6 +374,48 @@ document.getElementById(
 );
 
 
+// ===============================
+// 관계 추가 기능
+// ===============================
+
+
+const targetMemberSelect =
+
+document.getElementById(
+
+"target-member"
+
+);
+
+
+
+const relationNameInput =
+
+document.getElementById(
+
+"relation-name"
+
+);
+
+
+
+const relationContentInput =
+
+document.getElementById(
+
+"relation-content"
+
+);
+
+
+
+const saveRelationButton =
+
+document.getElementById(
+
+"save-relation"
+
+);
 
 
 
@@ -1441,234 +1483,6 @@ document.getElementById(
 
 
 
-svg.innerHTML = "";
-
-
-
-
-
-
-
-
-relationships.forEach((relation)=>{
-
-
-
-
-
-
-const fromNode =
-
-nodeList.find(
-
-(node)=>
-
-node.member.id === relation.fromUid
-
-);
-
-
-
-
-
-
-
-const toNode =
-
-nodeList.find(
-
-(node)=>
-
-node.member.id === relation.toUid
-
-);
-
-
-
-
-
-
-
-if(
-
-!fromNode ||
-
-!toNode
-
-){
-
-
-
-return;
-
-
-
-}
-
-
-
-
-
-
-
-
-
-const x1 =
-
-fromNode.element.offsetLeft +
-
-fromNode.element.offsetWidth / 2;
-
-
-
-
-
-
-
-const y1 =
-
-fromNode.element.offsetTop +
-
-fromNode.element.offsetHeight / 2;
-
-
-
-
-
-
-
-const x2 =
-
-toNode.element.offsetLeft +
-
-toNode.element.offsetWidth / 2;
-
-
-
-
-
-
-
-const y2 =
-
-toNode.element.offsetTop +
-
-toNode.element.offsetHeight / 2;
-
-
-
-
-
-
-
-
-
-const line =
-
-document.createElementNS(
-
-"http://www.w3.org/2000/svg",
-
-"line"
-
-);
-
-
-
-
-
-
-
-
-line.setAttribute(
-
-"x1",
-
-x1
-
-);
-
-
-
-
-
-line.setAttribute(
-
-"y1",
-
-y1
-
-);
-
-
-
-
-
-line.setAttribute(
-
-"x2",
-
-x2
-
-);
-
-
-
-
-
-line.setAttribute(
-
-"y2",
-
-y2
-
-);
-
-
-
-
-
-
-
-line.classList.add(
-
-"relationship-line"
-
-);
-
-
-
-
-
-
-
-
-svg.appendChild(line);
-
-
-
-
-
-
-
-});
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
 // 노드 이동 후 관계선 갱신
 
 
@@ -1698,55 +1512,6 @@ drawRelationshipLines();
 
 
 await loadRelationships();
-
-
-
-// ===============================
-// 관계 추가 기능
-// ===============================
-
-
-const targetMemberSelect =
-
-document.getElementById(
-
-"target-member"
-
-);
-
-
-
-const relationNameInput =
-
-document.getElementById(
-
-"relation-name"
-
-);
-
-
-
-const relationContentInput =
-
-document.getElementById(
-
-"relation-content"
-
-);
-
-
-
-const saveRelationButton =
-
-document.getElementById(
-
-"save-relation"
-
-);
-
-
-
-
 
 
 
