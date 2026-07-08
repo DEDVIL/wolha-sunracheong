@@ -1575,32 +1575,20 @@ svg.appendChild(line);
 // 노드 이동 후 관계선 갱신
 
 
-document.addEventListener(
 
-"mouseup",
-
-()=>{
-
-
-
-drawRelationshipLines();
-
-
+function drawRelationshipLines(){
 
 }
 
+
+document.addEventListener(
+"mouseup",
+()=>{
+drawRelationshipLines();
+}
 );
 
 
-
-
-
-
-
-// 초기 관계 불러오기
-
-
-await loadRelationships();
 
 
 
