@@ -1612,19 +1612,17 @@ async function loadMembers(){
 
 
 const snapshot = await getDocs(
-
-
 collection(
-
 db,
-
 "members"
-
 )
-
-
 );
 
+
+console.log(
+"members snapshot size :",
+snapshot.size
+);
 
 
 members=[];
