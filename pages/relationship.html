@@ -1490,18 +1490,14 @@ currentUser = user || null;
 
 if(user){
 
+    currentUser = user;
 
-await loadMyMember();
-
+    await loadMyMember();
 
 }
-
-
 else{
 
-
-addButton.style.display="none";
-
+    addButton.style.display="none";
 
 }
 
@@ -1516,7 +1512,13 @@ await loadRelationships();
 renderNodes(members);
 
 
-loadTargetMembers();
+
+if(myMemberData){
+
+    loadTargetMembers();
+
+}
+
 
 
 renderMyRelationships();
@@ -2685,71 +2687,61 @@ renderNodes(filtered);
 function loadTargetMembers(){
 
 
+    toMemberSelect.innerHTML = `
 
-toMemberSelect.innerHTML = `
+    <option value="">
+    선택
+    </option>
 
-
-<option value="">
-
-
-선택
-
-
-</option>
-
-
-`;
+    `;
 
 
 
+    if(!members || members.length === 0){
 
+        return;
 
-members.forEach((member)=>{
-
-
-
-if(
-
-myMemberData &&
-
-member.id !== myMemberData.id
-
-){
+    }
 
 
 
-const option =
-
-document.createElement("option");
+    members.forEach((member)=>{
 
 
+        if(
+            myMemberData &&
+            member.id === myMemberData.id
+        ){
 
-option.value =
+            return;
 
-member.id;
-
-
-
-option.textContent =
-
-member.writerName;
+        }
 
 
 
-toMemberSelect.appendChild(option);
+        const option =
+        document.createElement("option");
 
 
 
-}
+        option.value =
+        member.id;
 
 
 
-});
+        option.textContent =
+        member.writerName;
 
+
+
+        toMemberSelect.appendChild(option);
+
+
+
+    });
 
 
 }
-
 
 
 
