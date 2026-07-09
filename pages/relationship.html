@@ -1735,7 +1735,184 @@ function getConnectedMembers(){
    관계도 노드
 ===================== */
 
+/* =====================
+   관계선 표시
+===================== */
 
+
+function renderRelationshipLines(){
+
+
+
+lineLayer.innerHTML="";
+
+
+
+relationships.forEach((relation)=>{
+
+
+
+const from =
+
+nodePositions[relation.fromMember];
+
+
+
+const to =
+
+nodePositions[relation.toMember];
+
+
+
+
+
+if(!from || !to){
+
+return;
+
+}
+
+
+
+
+
+const line =
+
+document.createElementNS(
+
+"http://www.w3.org/2000/svg",
+
+"line"
+
+);
+
+
+
+
+
+line.setAttribute(
+
+"x1",
+
+from.x
+
+);
+
+
+
+line.setAttribute(
+
+"y1",
+
+from.y
+
+);
+
+
+
+line.setAttribute(
+
+"x2",
+
+to.x
+
+);
+
+
+
+line.setAttribute(
+
+"y2",
+
+to.y
+
+);
+
+
+
+
+
+line.classList.add(
+
+"relationship-line"
+
+);
+
+
+
+
+
+lineLayer.appendChild(line);
+
+
+
+
+
+
+
+
+const text =
+
+document.createElementNS(
+
+"http://www.w3.org/2000/svg",
+
+"text"
+
+);
+
+
+
+
+
+text.setAttribute(
+
+"x",
+
+(from.x + to.x) / 2
+
+);
+
+
+
+text.setAttribute(
+
+"y",
+
+(from.y + to.y) / 2
+
+);
+
+
+
+text.textContent =
+
+relation.relationName;
+
+
+
+
+
+text.classList.add(
+
+"relationship-line-text"
+
+);
+
+
+
+
+
+lineLayer.appendChild(text);
+
+
+
+});
+
+
+
+}
+   
 function renderNodes(list){
 
 nodeLayer.innerHTML="";
@@ -1987,183 +2164,7 @@ parseInt(node.style.top) + 30
 renderRelationshipLines();
 
 
-/* =====================
-   관계선 표시
-===================== */
 
-
-function renderRelationshipLines(){
-
-
-
-lineLayer.innerHTML="";
-
-
-
-relationships.forEach((relation)=>{
-
-
-
-const from =
-
-nodePositions[relation.fromMember];
-
-
-
-const to =
-
-nodePositions[relation.toMember];
-
-
-
-
-
-if(!from || !to){
-
-return;
-
-}
-
-
-
-
-
-const line =
-
-document.createElementNS(
-
-"http://www.w3.org/2000/svg",
-
-"line"
-
-);
-
-
-
-
-
-line.setAttribute(
-
-"x1",
-
-from.x
-
-);
-
-
-
-line.setAttribute(
-
-"y1",
-
-from.y
-
-);
-
-
-
-line.setAttribute(
-
-"x2",
-
-to.x
-
-);
-
-
-
-line.setAttribute(
-
-"y2",
-
-to.y
-
-);
-
-
-
-
-
-line.classList.add(
-
-"relationship-line"
-
-);
-
-
-
-
-
-lineLayer.appendChild(line);
-
-
-
-
-
-
-
-
-const text =
-
-document.createElementNS(
-
-"http://www.w3.org/2000/svg",
-
-"text"
-
-);
-
-
-
-
-
-text.setAttribute(
-
-"x",
-
-(from.x + to.x) / 2
-
-);
-
-
-
-text.setAttribute(
-
-"y",
-
-(from.y + to.y) / 2
-
-);
-
-
-
-text.textContent =
-
-relation.relationName;
-
-
-
-
-
-text.classList.add(
-
-"relationship-line-text"
-
-);
-
-
-
-
-
-lineLayer.appendChild(text);
-
-
-
-});
-
-
-
-}
 
 /* =====================
    Node Drag
