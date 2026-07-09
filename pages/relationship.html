@@ -409,9 +409,11 @@ width:100%;
 
 height:100%;
 
-z-index:1;
+z-index:3;
 
 pointer-events:auto;
+
+overflow:visible;
 
 }
 
@@ -467,9 +469,6 @@ cursor:pointer;
 
    
 pointer-events:auto;
-
-}
-
 
 }
 
@@ -817,10 +816,6 @@ class="relationship-canvas"
 id="relationship-lines"
 
 class="relationship-lines"
-
-width="100%"
-
-height="100%"
 
 >
 
@@ -1757,6 +1752,24 @@ function renderRelationshipLines(){
 lineLayer.innerHTML="";
 
 
+lineLayer.setAttribute(
+"width",
+canvas.clientWidth
+);
+
+
+lineLayer.setAttribute(
+"height",
+canvas.clientHeight
+);
+
+
+lineLayer.setAttribute(
+"viewBox",
+`0 0 ${canvas.clientWidth} ${canvas.clientHeight}`
+);
+
+
 relationships.forEach((relation)=>{
 
 
@@ -1819,6 +1832,13 @@ line.classList.add(
 lineLayer.appendChild(line);
 
 
+line.addEventListener(
+"click",
+()=>{
+openRelationshipView(relation);
+}
+);
+
 
 const text =
 document.createElementNS(
@@ -1851,16 +1871,17 @@ text.classList.add(
 "relationship-line-text"
 );
 
+
+
+lineLayer.appendChild(text);
+
+   
 text.addEventListener(
 "click",
 ()=>{
 openRelationshipView(relation);
 }
 );
-
-lineLayer.appendChild(text);
-
-
 
 });
 
@@ -2103,12 +2124,13 @@ layer.appendChild(node);
 nodePositions[member.id] = {
 
 x:
-parseInt(node.style.left) + 30,
+parseInt(node.style.left) + 40,
 
 y:
-parseInt(node.style.top) + 30
+parseInt(node.style.top) + 40
 
 };
+   
 
 });
 
