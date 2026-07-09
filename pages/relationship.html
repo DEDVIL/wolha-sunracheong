@@ -1540,25 +1540,50 @@ renderMyRelationships();
 async function loadMyMember(){
 
 
-
-const snap = await getDoc(
-
-console.log("내 캐릭터 문서 존재:", snap.exists());
-console.log("내 UID:", currentUser.uid);
-console.log("내 캐릭터 데이터:", snap.data());
-   
-doc(
-
-db,
-
-"members",
-
+const q = query(
+collection(db,"members"),
+where(
+"uid",
+"==",
 currentUser.uid
-
 )
-
-
 );
+
+
+const snapshot = await getDocs(q);
+
+
+
+if(snapshot.empty){
+
+addButton.style.display="none";
+
+return;
+
+}
+
+
+
+const item = snapshot.docs[0];
+
+
+
+myMemberData = {
+
+id:item.id,
+
+...item.data()
+
+};
+
+
+
+fromMemberInput.value =
+myMemberData.writerName;
+
+
+
+}
 
 
 
