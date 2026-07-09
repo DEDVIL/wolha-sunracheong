@@ -1507,11 +1507,11 @@ else{
 
 await loadMembers();
 
-
 await loadRelationships();
 
+const connectedMembers = getConnectedMembers();
 
-renderNodes(members);
+renderNodes(connectedMembers);
 
 
 
@@ -1706,7 +1706,40 @@ id:item.id,
 }
 
 
+/* =====================
+   관계 있는 캐릭터만 추출
+===================== */
 
+function getConnectedMembers(){
+
+    const connectedIds = new Set();
+
+
+    relationships.forEach((relation)=>{
+
+        connectedIds.add(
+            relation.fromMember
+        );
+
+
+        connectedIds.add(
+            relation.toMember
+        );
+
+    });
+
+
+
+    return members.filter((member)=>{
+
+
+        return connectedIds.has(member.id);
+
+
+    });
+
+
+}
 
 
 
