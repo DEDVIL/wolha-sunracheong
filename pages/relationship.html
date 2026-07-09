@@ -166,6 +166,9 @@
 
     overflow:hidden;
 
+   
+    cursor:grab;
+
 
 }
 
@@ -1439,8 +1442,29 @@ let currentUser = null;
 
 let myMemberData = null;
 
-
 let nodePositions = {};
+
+
+// =====================
+// Relationship Canvas Transform
+// =====================
+
+
+let canvasScale = 1;
+
+let canvasTranslateX = 0;
+
+let canvasTranslateY = 0;
+
+let canvasDragging = false;
+
+let canvasStartX = 0;
+
+let canvasStartY = 0;
+
+let startTranslateX = 0;
+
+let startTranslateY = 0;
 
 
 /* =====================
@@ -2498,9 +2522,239 @@ await saveNodePosition(member);
 
 );
 
+// =====================
+// 모바일 터치 드래그
+// =====================
+
+
+node.addEventListener(
+
+"touchstart",
+
+(e)=>{
+
+
+dragging = true;
+
+
+
+const touch = e.touches[0];
+
+
+
+offsetX =
+
+touch.clientX -
+
+node.offsetLeft;
+
+
+
+offsetY =
+
+touch.clientY -
+
+node.offsetTop;
+
+
+
+node.style.zIndex = 10;
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+node.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+if(!dragging){
+
+return;
+
 }
 
 
+
+e.preventDefault();
+
+
+
+const touch = e.touches[0];
+
+
+
+const x =
+
+touch.clientX - offsetX;
+
+
+
+const y =
+
+touch.clientY - offsetY;
+
+
+
+
+node.style.left =
+
+x + "px";
+
+
+
+node.style.top =
+
+y + "px";
+
+
+
+
+
+member.layout = {
+
+
+x,
+
+y
+
+
+};
+
+
+
+
+
+
+nodePositions[member.id] = {
+
+
+x:x + 30,
+
+
+y:y + 30
+
+
+};
+
+
+
+
+
+renderRelationshipLines();
+
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+
+
+node.addEventListener(
+
+"touchend",
+
+async()=>{
+
+
+dragging = false;
+
+
+
+node.style.zIndex = 2;
+
+
+
+await saveNodePosition(member);
+
+
+
+}
+
+);
+
+
+
+
+}
+
+// =====================
+// Canvas Transform
+// =====================
+
+
+function updateCanvasTransform(){
+
+
+
+const layer =
+
+document.getElementById(
+
+"relationship-layer"
+
+);
+
+
+
+if(!layer){
+
+return;
+
+}
+
+
+
+layer.style.transform =
+
+
+`
+
+translate(
+
+${canvasTranslateX}px,
+
+${canvasTranslateY}px
+
+)
+
+scale(
+
+${canvasScale}
+
+)
+
+`;
+
+
+
+renderRelationshipLines();
+
+
+}
 
 
 // 여기까지 Part 1
@@ -4084,8 +4338,520 @@ renderRelationshipLines();
 
 }
 
+// =====================
+// PC Zoom
+// =====================
 
-   
+
+canvas.addEventListener(
+
+"wheel",
+
+(e)=>{
+
+
+e.preventDefault();
+
+
+
+
+
+if(e.deltaY < 0){
+
+
+canvasScale += 0.1;
+
+
+}
+
+else{
+
+
+canvasScale -= 0.1;
+
+
+}
+
+
+
+
+if(canvasScale < 0.5){
+
+
+canvasScale = 0.5;
+
+
+}
+
+
+
+if(canvasScale > 2){
+
+
+canvasScale = 2;
+
+
+}
+
+
+
+updateCanvasTransform();
+
+
+
+},
+
+{
+passive:false
+
+}
+
+);
+
+// =====================
+// Mobile Pinch Zoom
+// =====================
+
+
+let startDistance = null;
+
+
+
+canvas.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+
+if(e.touches.length !== 2){
+
+return;
+
+}
+
+
+
+e.preventDefault();
+
+
+
+const touch1 = e.touches[0];
+
+const touch2 = e.touches[1];
+
+
+
+
+
+const distance = Math.sqrt(
+
+
+Math.pow(
+
+touch2.clientX-touch1.clientX,
+
+2
+
+)
+
++
+
+Math.pow(
+
+touch2.clientY-touch1.clientY,
+
+2
+
+)
+
+
+
+);
+
+
+
+
+
+
+if(startDistance){
+
+
+
+const diff =
+
+distance - startDistance;
+
+
+
+if(Math.abs(diff)>5){
+
+
+
+if(diff>0){
+
+
+canvasScale += 0.03;
+
+
+}
+
+else{
+
+
+canvasScale -= 0.03;
+
+
+}
+
+
+
+
+if(canvasScale < 0.5){
+
+canvasScale=0.5;
+
+}
+
+
+
+if(canvasScale > 2){
+
+canvasScale=2;
+
+}
+
+
+
+updateCanvasTransform();
+
+
+
+}
+
+
+
+}
+
+
+
+startDistance = distance;
+
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchend",
+
+()=>{
+
+
+startDistance=null;
+
+
+}
+
+);
+
+
+// =====================
+// Canvas Pan
+// =====================
+
+
+canvas.addEventListener(
+
+"mousedown",
+
+(e)=>{
+
+
+// 노드 클릭은 제외
+
+if(
+
+e.target.closest(".relationship-node")
+
+){
+
+return;
+
+}
+
+
+
+canvasDragging = true;
+
+
+
+canvasStartX = e.clientX;
+
+canvasStartY = e.clientY;
+
+
+
+startTranslateX = canvasTranslateX;
+
+startTranslateY = canvasTranslateY;
+
+
+
+canvas.style.cursor="grabbing";
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mousemove",
+
+(e)=>{
+
+
+if(!canvasDragging){
+
+return;
+
+}
+
+
+
+const moveX =
+
+e.clientX - canvasStartX;
+
+
+
+const moveY =
+
+e.clientY - canvasStartY;
+
+
+
+
+canvasTranslateX =
+
+startTranslateX + moveX;
+
+
+
+canvasTranslateY =
+
+startTranslateY + moveY;
+
+
+
+updateCanvasTransform();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mouseup",
+
+()=>{
+
+
+canvasDragging=false;
+
+
+canvas.style.cursor="default";
+
+
+}
+
+);
+
+// =====================
+// Mobile Canvas Pan
+// =====================
+
+
+let panTouch = null;
+
+
+
+canvas.addEventListener(
+
+"touchstart",
+
+(e)=>{
+
+
+// 두 손가락은 줌
+
+if(e.touches.length !== 1){
+
+return;
+
+}
+
+
+
+// 노드는 제외
+
+if(
+
+e.target.closest(".relationship-node")
+
+){
+
+return;
+
+}
+
+
+
+
+panTouch = e.touches[0];
+
+
+
+canvasStartX = panTouch.clientX;
+
+canvasStartY = panTouch.clientY;
+
+
+
+startTranslateX = canvasTranslateX;
+
+startTranslateY = canvasTranslateY;
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+if(
+
+!panTouch ||
+
+e.touches.length !== 1
+
+){
+
+return;
+
+}
+
+
+
+const touch = e.touches[0];
+
+
+
+canvasTranslateX =
+
+startTranslateX +
+
+(
+
+touch.clientX -
+
+canvasStartX
+
+);
+
+
+
+canvasTranslateY =
+
+startTranslateY +
+
+(
+
+touch.clientY -
+
+canvasStartY
+
+);
+
+
+
+
+
+updateCanvasTransform();
+
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchend",
+
+()=>{
+
+
+panTouch=null;
+
+
+}
+
+);
+
 </script>
 
 
