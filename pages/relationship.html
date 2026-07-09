@@ -1587,46 +1587,6 @@ myMemberData.writerName;
 
 
 
-if(!snap.exists()){
-
-console.log(
-"내 캐릭터 없음",
-currentUser.uid
-);
-
-addButton.style.display="none";
-
-
-return;
-
-
-}
-
-
-
-myMemberData = {
-
-
-id:snap.id,
-
-
-...snap.data()
-
-
-};
-
-
-
-fromMemberInput.value =
-
-myMemberData.writerName;
-
-
-
-}
-
-
-
 
 
 
@@ -3307,9 +3267,7 @@ window.addEventListener(
 ()=>{
 
 
-
-renderNodes(members);
-
+renderNodes(getConnectedMembers());
 
 
 }
