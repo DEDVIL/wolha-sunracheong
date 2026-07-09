@@ -486,6 +486,19 @@ z-index:2;
 
 }
 
+.relationship-lines{
+
+z-index:1;
+
+}
+
+
+.relationship-node-layer{
+
+z-index:2;
+
+}
+
 
 
 /* =====================
@@ -1760,6 +1773,15 @@ width < 600
 
 150;
 
+
+const oldLayer =
+document.getElementById("relationship-layer");
+
+if(oldLayer){
+
+oldLayer.remove();
+
+}
 
 const layer = document.createElement("div");
 
@@ -3130,6 +3152,8 @@ renderMyRelationships();
 
 
 
+renderNodes(members);
+
 };   
 
 
@@ -3773,7 +3797,7 @@ viewModal.style.display="none";
 
 await loadRelationships();
 
-
+renderNodes(members);
 
 renderMyRelationships();
 
