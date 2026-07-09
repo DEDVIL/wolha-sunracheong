@@ -1322,12 +1322,6 @@ document.getElementById(
 
 // 관계도 확대/축소 상태
 
-let canvasScale = 1;
-
-let canvasOffsetX = 0;
-
-let canvasOffsetY = 0;
-
 
 
 const lineLayer =
@@ -1928,7 +1922,7 @@ location.href =
 
 
 
-nodeLayer.appendChild(node);
+layer.appendChild(node);
 
 nodePositions[member.id] = {
 
@@ -1943,11 +1937,8 @@ parseInt(node.style.top) + 30
 });
 
 
-
-}
-
-
 renderRelationshipLines();
+
 
 /* =====================
    관계선 표시
