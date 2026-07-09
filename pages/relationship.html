@@ -2670,7 +2670,7 @@ searchInput.value.trim();
 if(keyword === ""){
 
 
-renderNodes(members);
+renderNodes(getConnectedMembers());
 
 
 return;
@@ -2682,9 +2682,7 @@ return;
 
 
 
-const filtered =
-
-members.filter((member)=>{
+const filtered = getConnectedMembers().filter((member)=>{
 
 
 return (
