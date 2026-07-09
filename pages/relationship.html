@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>
+월하순라청 관계도
+</title>
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<style>
+
+/* =====================================
+   月下巡邏廳 Relationship System
+   전용 스타일
+===================================== */
+
+
+.relationship-page {
+
+
+    width:100%;
+
+
+    min-height:100vh;
+
+
+    background:
+
+
+    radial-gradient(
+        circle,
+        rgba(200,169,106,0.05),
+        transparent 60%
+    );
+
+
+}
+
+
+
+
+
+.relationship-header {
+
+
+    text-align:center;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+.relationship-header h1 {
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+.relationship-search {
+
+
+    margin:30px auto;
+
+
+    max-width:500px;
+
+
+}
+
+
+
+.relationship-search input {
+
+
+    width:100%;
+
+
+    height:45px;
+
+
+    padding:0 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-family:"Pretendard",sans-serif;
+
+
+}
+
+
+
+.relationship-search input:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.relationship-canvas {
+
+
+    position:relative;
+
+
+    width:100%;
+
+
+    min-height:600px;
+
+
+    margin-top:30px;
+
+
+    padding:40px;
+
+
+    background:
+
+
+    rgba(0,0,0,0.25);
+
+
+    border:1px solid #4a4035;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+.relationship-node {
+
+
+    position:absolute;
+
+
+    width:80px;
+
+
+    text-align:center;
+
+
+    cursor:pointer;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+.relationship-node:hover {
+
+
+    transform:scale(1.08);
+
+
+}
+
+
+
+
+
+.relationship-node-image {
+
+
+    width:60px;
+
+
+    height:60px;
+
+
+    border-radius:50%;
+
+
+    object-fit:cover;
+
+
+    border:2px solid #c8a96a;
+
+
+    margin:auto;
+
+
+    display:block;
+
+
+}
+
+
+
+
+
+.relationship-node-name {
+
+
+    margin-top:8px;
+
+
+    font-size:13px;
+
+
+    color:#e8e2d6;
+
+
+    word-break:keep-all;
+
+
+}
+
+
+
+
+
+
+.relationship-action {
+
+
+    text-align:center;
+
+
+    margin:35px 0;
+
+
+}
+
+
+
+
+
+.relationship-add-button {
+
+
+    display:inline-block;
+
+
+    width:180px;
+
+
+    padding:12px;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    cursor:pointer;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+.relationship-add-button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+.relationship-my-list {
+
+
+    margin-top:40px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.relationship-my-list h2 {
+
+
+    color:#c8a96a;
+
+
+    text-align:center;
+
+
+    font-size:22px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+.relationship-list-item {
+
+
+    margin:15px 0;
+
+
+    padding:15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+.relationship-list-item:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   Modal
+===================== */
+
+
+
+.relationship-modal {
+
+
+    display:none;
+
+
+    position:fixed;
+
+
+    top:0;
+
+
+    left:0;
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    background:
+
+
+    rgba(0,0,0,0.7);
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    z-index:999;
+
+
+}
+
+
+
+
+
+
+.relationship-modal-box {
+
+
+    position:relative;
+
+
+    width:500px;
+
+
+    max-width:90%;
+
+
+    padding:40px;
+
+
+    background:#171717;
+
+
+    border:1px solid #4a4035;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+
+
+.modal-close {
+
+
+    position:absolute;
+
+
+    top:15px;
+
+
+    right:15px;
+
+
+    background:none;
+
+
+    border:none;
+
+
+    color:#b8b0a0;
+
+
+    font-size:22px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.modal-close:hover {
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+
+
+.relationship-modal-box h2 {
+
+
+    text-align:center;
+
+
+    color:#c8a96a;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+.relationship-canvas {
+
+
+    min-height:500px;
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+
+.relationship-node {
+
+
+    width:60px;
+
+
+}
+
+
+
+
+
+.relationship-node-image {
+
+
+    width:45px;
+
+
+    height:45px;
+
+
+}
+
+
+
+
+
+.relationship-node-name {
+
+
+    font-size:11px;
+
+
+}
+
+
+
+
+.relationship-modal-box {
+
+
+    padding:30px 20px;
+
+
+}
+
+
+
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<main class="main-container relationship-page">
+
+
+<section class="content-box">
+
+
+
+<div class="relationship-header">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+
+<p class="subtitle">
+관계도
+</p>
+
+
+
+<a 
+class="home-button"
+href="./home.html"
+>
+
+홈으로
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================
+     검색
+===================== -->
+
+
+<div class="relationship-search">
+
+
+<input
+
+id="relationship-search-input"
+
+type="text"
+
+placeholder="캐릭터 검색"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================
+     관계도 Canvas
+===================== -->
+
+
+<div
+
+id="relationship-canvas"
+
+class="relationship-canvas"
+
+>
+
+
+<!-- 캐릭터 노드 생성 영역 -->
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================
+     관계 추가
+===================== -->
+
+
+<div class="relationship-action">
+
+
+<button
+
+id="relationship-add-button"
+
+class="relationship-add-button"
+
+>
+
+관계 추가
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================
+     내 관계 목록
+===================== -->
+
+
+<section class="relationship-my-list">
+
+
+<h2>
+
+내 관계 목록
+
+</h2>
+
+
+
+<div
+
+id="my-relationship-list"
+
+>
+
+
+등록된 관계가 없습니다.
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     관계 추가 Modal
+===================== -->
+
+
+
+<div
+
+id="relationship-add-modal"
+
+class="relationship-modal"
+
+>
+
+
+
+<div
+
+class="relationship-modal-box"
+
+>
+
+
+
+
+<button
+
+class="modal-close"
+
+id="relationship-add-close"
+
+>
+
+✕
+
+</button>
+
+
+
+
+
+
+
+<h2>
+
+관계 추가
+
+</h2>
+
+
+
+
+
+
+
+
+
+<label>
+
+내 캐릭터
+
+</label>
+
+
+
+<input
+
+id="relationship-from-member"
+
+type="text"
+
+readonly
+
+>
+
+
+
+
+
+
+
+
+
+<label>
+
+상대 캐릭터
+
+</label>
+
+
+
+<select
+
+id="relationship-to-member"
+
+>
+
+
+<option value="">
+
+선택
+
+</option>
+
+
+</select>
+
+
+
+
+
+
+
+
+
+<label>
+
+관계명
+
+</label>
+
+
+
+<input
+
+id="relationship-name"
+
+maxlength="10"
+
+placeholder="관계명"
+
+>
+
+
+
+
+
+
+
+
+
+<label>
+
+관계 상세
+
+</label>
+
+
+
+<textarea
+
+id="relationship-detail"
+
+placeholder="관계 설명"
+
+></textarea>
+
+
+
+
+
+
+
+<div
+
+style="text-align:center; margin-top:25px;"
+
+>
+
+
+
+<button
+
+id="relationship-save-button"
+
+class="relationship-add-button"
+
+>
+
+저장
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script type="module">
+
+<script>
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+import {
+
+collection,
+
+getDocs,
+
+doc,
+
+getDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+const canvas =
+
+document.getElementById(
+
+"relationship-canvas"
+
+);
+
+
+
+const searchInput =
+
+document.getElementById(
+
+"relationship-search-input"
+
+);
+
+
+
+const addButton =
+
+document.getElementById(
+
+"relationship-add-button"
+
+);
+
+
+
+const addModal =
+
+document.getElementById(
+
+"relationship-add-modal"
+
+);
+
+
+
+const closeButton =
+
+document.getElementById(
+
+"relationship-add-close"
+
+);
+
+
+
+const fromMemberInput =
+
+document.getElementById(
+
+"relationship-from-member"
+
+);
+
+
+
+const toMemberSelect =
+
+document.getElementById(
+
+"relationship-to-member"
+
+);
+
+
+
+
+
+const myRelationshipList =
+
+document.getElementById(
+
+"my-relationship-list"
+
+);
+
+
+
+
+
+
+let members = [];
+
+let currentUser = null;
+
+let myMemberData = null;
+
+
+
+
+
+
+
+
+// =====================
+// 로그인 확인
+// =====================
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+if(user){
+
+
+currentUser = user;
+
+
+await loadMyMember();
+
+
+
+}
+
+else{
+
+
+addButton.style.display="none";
+
+
+}
+
+
+
+loadMembers();
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// 내 캐릭터 확인
+// =====================
+
+
+async function loadMyMember(){
+
+
+const snap = await getDoc(
+
+
+doc(
+
+db,
+
+"members",
+
+currentUser.uid
+
+)
+
+
+);
+
+
+
+if(snap.exists()){
+
+
+myMemberData = {
+
+
+id:snap.id,
+
+...snap.data()
+
+
+};
+
+
+
+fromMemberInput.value =
+
+myMemberData.writerName;
+
+
+}
+
+else{
+
+
+addButton.style.display="none";
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================
+// 전체 캐릭터 불러오기
+// =====================
+
+
+async function loadMembers(){
+
+
+const snapshot = await getDocs(
+
+
+collection(
+
+db,
+
+"members"
+
+)
+
+
+);
+
+
+
+members=[];
+
+
+
+snapshot.forEach((item)=>{
+
+
+members.push({
+
+
+id:item.id,
+
+
+...item.data()
+
+
+});
+
+
+
+});
+
+
+
+
+
+renderNodes(members);
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// 캐릭터 표시
+// =====================
+
+
+function renderNodes(list){
+
+
+
+canvas.innerHTML="";
+
+
+
+const width =
+
+canvas.clientWidth;
+
+
+
+const columns =
+
+width < 600
+
+?
+
+2
+
+:
+
+5;
+
+
+
+const gapX = 150;
+
+const gapY = 140;
+
+
+
+
+
+list.forEach((member,index)=>{
+
+
+
+const row =
+
+Math.floor(index / columns);
+
+
+
+const col =
+
+index % columns;
+
+
+
+
+
+const node =
+
+document.createElement("div");
+
+
+
+node.className =
+
+"relationship-node";
+
+
+
+
+
+node.style.left =
+
+(
+
+80 +
+
+(col * gapX)
+
+)
+
++
+
+"px";
+
+
+
+node.style.top =
+
+(
+
+80 +
+
+(row * gapY)
+
+)
+
++
+
+"px";
+
+
+
+
+
+
+node.innerHTML = `
+
+
+
+<img
+
+class="relationship-node-image"
+
+src="${
+
+member.portraitImage ||
+
+"../assets/images/default-avatar.png"
+
+}"
+
+>
+
+
+
+<div class="relationship-node-name">
+
+${
+
+member.writerName || ""
+
+}
+
+</div>
+
+
+
+`;
+
+
+
+
+
+node.onclick=()=>{
+
+
+location.href =
+
+`./member-view.html?id=${member.id}`;
+
+
+
+};
+
+
+
+canvas.appendChild(node);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// 검색
+// =====================
+
+
+
+searchInput.addEventListener(
+
+"input",
+
+()=>{
+
+
+const keyword =
+
+searchInput.value.trim();
+
+
+
+if(keyword===""){
+
+
+
+renderNodes(members);
+
+
+
+return;
+
+
+
+}
+
+
+
+
+const filtered =
+
+members.filter((member)=>{
+
+
+return (
+
+member.writerName || ""
+
+)
+
+.includes(keyword);
+
+
+
+});
+
+
+
+
+renderNodes(filtered);
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+// =====================
+// 관계 추가 팝업
+// =====================
+
+
+
+addButton.onclick=()=>{
+
+
+addModal.style.display="flex";
+
+
+};
+
+
+
+
+
+closeButton.onclick=()=>{
+
+
+addModal.style.display="none";
+
+
+};
+
+
+
+
+
+
+addModal.addEventListener(
+
+"click",
+
+(e)=>{
+
+
+if(e.target===addModal){
+
+
+addModal.style.display="none";
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+document.addEventListener(
+
+"keydown",
+
+(e)=>{
+
+
+if(e.key==="Escape"){
+
+
+addModal.style.display="none";
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+// =====================
+// 상대 캐릭터 선택
+// =====================
+
+
+
+function loadTargetMembers(){
+
+
+
+toMemberSelect.innerHTML = `
+
+<option value="">
+
+선택
+
+</option>
+
+`;
+
+
+
+
+
+members.forEach((member)=>{
+
+
+
+if(
+
+!myMemberData ||
+
+member.id !== myMemberData.id
+
+){
+
+
+
+const option =
+
+document.createElement("option");
+
+
+
+option.value =
+
+member.id;
+
+
+
+option.textContent =
+
+member.writerName;
+
+
+
+toMemberSelect.appendChild(option);
+
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+setTimeout(()=>{
+
+
+loadTargetMembers();
+
+
+},500);
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+
+</html>
