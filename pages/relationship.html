@@ -427,17 +427,13 @@ height:100%;
 
 
 
-.relationship-line {
+.relationship-line{
 
+stroke-width:8;
 
-stroke:#8d867b;
+cursor:pointer;
 
-
-stroke-width:1.5;
-
-
-opacity:0.7;
-
+pointer-events:stroke;
 
 }
 
@@ -475,9 +471,11 @@ z-index:2;
 
 }
 
+   
 .relationship-lines{
 
-z-index:1;
+z-index:3;
+pointer-events:auto;
 
 }
 
@@ -1731,27 +1729,18 @@ function getConnectedMembers(){
 
 function renderRelationshipLines(){
 
-
-
 lineLayer.innerHTML="";
-
 
 
 relationships.forEach((relation)=>{
 
 
-
 const from =
-
 nodePositions[relation.fromMember];
 
 
-
 const to =
-
 nodePositions[relation.toMember];
-
-
 
 
 
@@ -1763,142 +1752,86 @@ return;
 
 
 
-
-
 const line =
-
 document.createElementNS(
-
 "http://www.w3.org/2000/svg",
-
 "line"
-
 );
 
 
 
-
-
 line.setAttribute(
-
 "x1",
-
 from.x
-
 );
 
 
-
 line.setAttribute(
-
 "y1",
-
 from.y
-
 );
 
 
-
 line.setAttribute(
-
 "x2",
-
 to.x
-
 );
-
 
 
 line.setAttribute(
-
 "y2",
-
 to.y
-
 );
-
-
 
 
 
 line.classList.add(
-
 "relationship-line"
-
 );
-
-
 
 
 
 lineLayer.appendChild(line);
 
-line.onclick = ()=>{
-
-openRelationshipView(relation);
-
-};
-
-
-
-
 
 
 const text =
-
 document.createElementNS(
-
 "http://www.w3.org/2000/svg",
-
 "text"
-
 );
 
 
 
-
-
 text.setAttribute(
-
 "x",
-
-(from.x + to.x) / 2
-
+(from.x+to.x)/2
 );
 
 
 
 text.setAttribute(
-
 "y",
-
-(from.y + to.y) / 2
-
+(from.y+to.y)/2
 );
 
 
 
 text.textContent =
-
 relation.relationName;
-
-text.onclick = ()=>{
-
-openRelationshipView(relation);
-
-};
 
 
 
 text.classList.add(
-
 "relationship-line-text"
-
 );
 
-
-
-
+text.addEventListener(
+"click",
+()=>{
+openRelationshipView(relation);
+}
+);
 
 lineLayer.appendChild(text);
 
@@ -1907,8 +1840,11 @@ lineLayer.appendChild(text);
 });
 
 
-
 }
+
+
+
+
    
 function renderNodes(list){
 
@@ -1918,13 +1854,7 @@ nodePositions = {};
 
 
 
-const oldTransform =
 
-document.getElementById(
-
-"relationship-layer"
-
-);
 
 const width = canvas.clientWidth;
 
@@ -2148,10 +2078,10 @@ layer.appendChild(node);
 nodePositions[member.id] = {
 
 x:
-parseInt(node.style.left) + 30 + canvasTranslateX,
+parseInt(node.style.left) + 30,
 
 y:
-parseInt(node.style.top) + 30 + canvasTranslateY
+parseInt(node.style.top) + 30
 
 };
 
