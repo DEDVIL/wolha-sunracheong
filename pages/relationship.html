@@ -520,6 +520,8 @@ height:100%;
 
 transform-origin:0 0;
 
+z-index:1;
+
 }
 
 
@@ -1938,15 +1940,6 @@ text.addEventListener(
 openRelationshipView(relation);
 }
 );
-
-lineLayer.style.transform =
-`
-translate(${canvasTranslateX}px, ${canvasTranslateY}px)
-scale(${canvasScale})
-`;
-
-lineLayer.style.transformOrigin="0 0";
-   
 });
 
 
@@ -2419,16 +2412,10 @@ await saveNodePosition(member);
 
 function updateCanvasTransform(){
 
-
-
 const layer =
-
 document.getElementById(
-
 "relationship-layer"
-
 );
-
 
 
 if(!layer){
@@ -2436,7 +2423,6 @@ if(!layer){
 return;
 
 }
-
 
 
 layer.style.transform =
@@ -2452,27 +2438,10 @@ ${canvasScale}
 `;
 
 
-lineLayer.style.transform =
-
-`
-translate(
-${canvasTranslateX}px,
-${canvasTranslateY}px
-)
-scale(
-${canvasScale}
-)
-`;
-
-lineLayer.style.transformOrigin="0 0";
-
-
-
 renderRelationshipLines();
 
 
 }
-
 
 // 여기까지 Part 1
 
@@ -3994,15 +3963,10 @@ passive:false
 function applyCanvasTransform(){
 
 
-
 const layer =
-
 document.getElementById(
-
 "relationship-layer"
-
 );
-
 
 
 if(!layer){
@@ -4012,8 +3976,7 @@ return;
 }
 
 
-
-lineLayer.style.transform =
+layer.style.transform =
 
 `
 translate(
@@ -4024,9 +3987,6 @@ scale(
 ${canvasScale}
 )
 `;
-
-lineLayer.style.transformOrigin="0 0";
-
 
 
 renderRelationshipLines();
