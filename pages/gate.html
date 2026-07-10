@@ -1229,16 +1229,83 @@ return;
 
 
 
-alert(
 
-"탐사 종료 기능 연결 준비 완료"
+try{
+
+
+
+await updateDoc(
+
+
+
+doc(
+
+db,
+
+"gates",
+
+gateId
+
+),
+
+
+
+{
+
+
+status:"closed",
+
+
+endedAt:serverTimestamp(),
+
+
+endedBy:characterName
+
+
+
+}
+
+
 
 );
 
 
 
-};
 
+
+alert(
+
+"탐사가 종료되었습니다."
+
+);
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(error);
+
+
+
+alert(
+
+"탐사 종료 중 오류가 발생했습니다."
+
+);
+
+
+
+}
+
+
+
+};
 
 
 
