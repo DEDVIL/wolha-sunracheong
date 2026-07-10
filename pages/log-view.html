@@ -1,130 +1,444 @@
 <!DOCTYPE html>
 <html lang="ko">
 
+
 <head>
 
+
 <meta charset="UTF-8">
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>월하순라청 :: 개인 로그</title>
+
+<title>
+
+월하순라청 :: 개인 로그
+
+</title>
 
 
-<link rel="stylesheet" href="../assets/css/style.css">
 
-
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
 
 
 
 <style>
 
 
-.main-container{
+.log-view-box{
 
-    width:100%;
+
+    width:90%;
+
 
     max-width:1000px;
 
+
     margin:40px auto;
 
-    padding:20px;
-
-    box-sizing:border-box;
 
 }
 
 
 
-.content-box{
 
-    background:white;
+.log-header{
 
-    border:1px solid #ddd;
-
-    border-radius:12px;
-
-    padding:30px;
-
-}
-
-
-
-.page-title{
 
     text-align:center;
 
-    margin-bottom:30px;
+
+    margin-bottom:40px;
+
 
 }
 
 
 
-.page-title h1{
+
+.log-header h1{
+
 
     margin:0;
 
-    font-family:"Noto Serif KR",serif;
-
-    font-size:30px;
 
 }
 
 
 
-.log-title{
 
-    font-size:26px;
+.log-detail-title{
 
-    font-weight:700;
 
-    margin-bottom:15px;
+    font-size:28px;
+
+
+    color:#c8a96a;
+
+
+    margin-bottom:20px;
+
+
+    letter-spacing:2px;
+
 
 }
+
+
 
 
 
 .log-info{
 
+
     display:flex;
+
 
     justify-content:space-between;
 
-    color:#777;
-
-    font-size:14px;
 
     padding-bottom:20px;
 
-    border-bottom:1px solid #ddd;
+
+    border-bottom:1px solid #4a4035;
+
+
+    color:#b8b0a0;
+
+
+    font-size:14px;
+
 
 }
+
+
 
 
 
 .log-content{
 
-    padding:30px 0;
 
-    min-height:250px;
+    min-height:300px;
 
-    line-height:1.8;
+
+    padding:40px 10px;
+
+
+    line-height:2;
+
+
+    color:#e8e2d6;
+
+
+    word-break:break-word;
+
 
 }
 
 
 
+
+
 .log-content img{
 
+
     max-width:100%;
+
+
+    display:block;
+
+
+    margin:20px auto;
+
+
+}
+
+
+
+
+
+.button-area{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.view-btn{
+
+
+    width:110px;
+
+
+    height:40px;
+
+
+    border:1px solid #4a4035;
+
+
+    background:#0b0b0b;
+
+
+    color:#e8e2d6;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard",sans-serif;
+
+
+}
+
+
+
+
+.view-btn:hover{
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.edit-btn{
+
+
+    background:#c8a96a;
+
+
+    color:#111;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.delete-btn{
+
+
+    background:#8b0000;
+
+
+    color:white;
+
+
+    border-color:#8b0000;
+
+
+}
+
+
+
+
+
+
+.comment-section{
+
+
+    margin-top:50px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.comment-title{
+
+
+    color:#c8a96a;
+
+
+    font-size:22px;
+
+
+    margin-bottom:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.comment-form{
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+.comment-form textarea{
+
+
+    flex:1;
+
+
+    min-height:80px;
+
+
+    resize:none;
+
+
+}
+
+
+
+
+
+.comment-item{
+
+
+    padding:20px 0;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.comment-header{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    color:#b8b0a0;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+.comment-content{
+
+
+    line-height:1.8;
+
+
+    white-space:pre-wrap;
+
+
+}
+
+
+
+
+
+.comment-buttons{
+
+
+    margin-top:10px;
+
+
+}
+
+
+
+
+.comment-buttons button{
+
+
+    padding:5px 12px;
+
+
+    margin-right:8px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+.log-info{
+
+
+    flex-direction:column;
+
+
+    gap:10px;
+
 
 }
 
@@ -132,203 +446,44 @@
 
 .button-area{
 
-    display:flex;
 
-    justify-content:center;
+    flex-direction:column;
 
-    gap:10px;
-
-    border-top:1px solid #ddd;
-
-    padding-top:20px;
 
 }
 
 
 
-.btn{
+.view-btn{
 
-    padding:10px 20px;
 
-    border:1px solid #ccc;
+    width:100%;
 
-    background:white;
-
-    border-radius:8px;
-
-    cursor:pointer;
 
 }
 
-
-
-.btn:hover{
-
-    background:#f5f5f5;
-
-}
-
-
-
-.btn.delete{
-
-    color:#a33;
-
-}
-
-
-
-.comment-section{
-
-    margin-top:40px;
-
-    border-top:1px solid #ddd;
-
-    padding-top:30px;
-
-}
-
-
-
-.comment-title{
-
-    font-size:20px;
-
-    font-weight:700;
-
-    margin-bottom:20px;
-
-}
 
 
 .comment-form{
 
-    display:flex;
 
-    gap:10px;
+    flex-direction:column;
 
-    margin-bottom:20px;
-
-}
-
-
-.comment-form textarea{
-
-    flex:1;
-
-    min-height:80px;
-
-    padding:12px;
-
-    border:1px solid #ccc;
-
-    border-radius:8px;
-
-    resize:none;
-
-    box-sizing:border-box;
 
 }
 
 
 
-.comment-item{
-
-    border-bottom:1px solid #eee;
-
-    padding:15px 0;
-
 }
 
 
-
-.comment-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-bottom:8px;
-
-    font-size:14px;
-
-}
-
-
-
-.comment-header span{
-
-    color:#888;
-
-}
-
-
-
-.comment-content{
-
-    line-height:1.6;
-
-    white-space:pre-wrap;
-
-}
-
-
-
-.comment-buttons{
-
-    margin-top:10px;
-
-    display:flex;
-
-    gap:8px;
-
-}
-
-
-
-.comment-buttons button{
-
-    padding:5px 10px;
-
-    border:1px solid #ccc;
-
-    background:white;
-
-    border-radius:6px;
-
-    cursor:pointer;
-
-}
-
-
-
-@media(max-width:700px){
-
-
-    .log-info{
-
-        flex-direction:column;
-
-        gap:8px;
-
-    }
-
-
-
-    .comment-form{
-
-        flex-direction:column;
-
-    }
-
-
-
-}
 
 </style>
 
 
 </head>
+
+
 
 
 <body>
@@ -337,16 +492,29 @@
 <main class="main-container">
 
 
-<section class="content-box">
+<section class="content-box log-view-box">
 
 
-<div class="page-title">
+<div class="log-header">
 
-<h1>月下巡邏廳</h1>
 
-<p>개인 로그</p>
+<h1>
+
+月下巡邏廳
+
+</h1>
+
+
+<p class="subtitle">
+
+개인 로그
+
+</p>
+
 
 </div>
+
+
 
 
 
@@ -364,6 +532,8 @@
 
 
 
+
+
 <div class="comment-section">
 
 
@@ -374,13 +544,17 @@
 </div>
 
 
-<div id="comment-list">
+
+<div id="comment-form-area"></div>
+
+
+<div id="comment-list"></div>
 
 
 </div>
 
 
-</div>
+
 
 
 </section>
@@ -388,10 +562,42 @@
 
 </main>
 
+
 <script type="module">
 
 
-import { auth, db } from "../js/firebase.js";
+import {
+
+
+    auth,
+
+    db
+
+
+}
+
+
+from "../firebase.js";
+
+
+
+
+import {
+
+
+    onAuthStateChanged
+
+
+}
+
+
+from
+
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
 
 
 import {
@@ -420,14 +626,18 @@ import {
     serverTimestamp
 
 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+}
+
+
+from
+
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-const params = new URLSearchParams(location.search);
 
 
-const logId = params.get("id");
 
 
 
@@ -438,10 +648,40 @@ let logData = null;
 
 
 
-const logArea = document.getElementById("log-area");
+
+const params =
+
+new URLSearchParams(location.search);
 
 
-const commentList = document.getElementById("comment-list");
+
+const logId =
+
+params.get("id");
+
+
+
+
+
+const logArea =
+
+document.getElementById("log-area");
+
+
+
+const commentList =
+
+document.getElementById("comment-list");
+
+
+
+const commentFormArea =
+
+document.getElementById("comment-form-area");
+
+
+
+
 
 
 
@@ -450,29 +690,37 @@ const commentList = document.getElementById("comment-list");
 function formatDate(timestamp){
 
 
-    if(!timestamp) return "-";
+    if(!timestamp){
+
+
+        return "-";
+
+
+    }
+
+
 
 
     const date = timestamp.toDate();
 
 
-    const y = date.getFullYear();
-
-
-    const m = String(date.getMonth()+1).padStart(2,"0");
-
-
-    const d = String(date.getDate()).padStart(2,"0");
-
-
-    const h = String(date.getHours()).padStart(2,"0");
-
-
-    const min = String(date.getMinutes()).padStart(2,"0");
 
 
 
-    return `${y}.${m}.${d} ${h}:${min}`;
+    return `
+
+    ${date.getFullYear()}.
+
+    ${String(date.getMonth()+1).padStart(2,"0")}.
+
+    ${String(date.getDate()).padStart(2,"0")}
+
+    ${String(date.getHours()).padStart(2,"0")}:
+
+    ${String(date.getMinutes()).padStart(2,"0")}
+
+    `;
+
 
 
 }
@@ -481,10 +729,16 @@ function formatDate(timestamp){
 
 
 
+
+
+
+
 async function loadLog(){
 
 
+
     if(!logId){
+
 
 
         location.href="logs.html";
@@ -497,18 +751,40 @@ async function loadLog(){
 
 
 
+
+
+
     const snap = await getDoc(
 
-        doc(db,"logs",logId)
+
+
+        doc(
+
+            db,
+
+            "logs",
+
+            logId
+
+        )
+
 
     );
+
+
 
 
 
     if(!snap.exists()){
 
 
-        alert("존재하지 않는 글입니다.");
+
+        alert(
+
+            "존재하지 않는 글입니다."
+
+        );
+
 
 
         location.href="logs.html";
@@ -518,6 +794,8 @@ async function loadLog(){
 
 
     }
+
+
 
 
 
@@ -526,10 +804,14 @@ async function loadLog(){
 
         id:snap.id,
 
+
         ...snap.data()
 
 
+
     };
+
+
 
 
 
@@ -543,14 +825,27 @@ async function loadLog(){
 
 
 
+
+
+
+
 function renderLog(){
+
+
+
 
 
     const isWriter =
 
-        currentUser &&
 
-        currentUser.uid === logData.writerUid;
+    currentUser &&
+
+
+    currentUser.uid === logData.writerUid;
+
+
+
+
 
 
 
@@ -558,87 +853,160 @@ function renderLog(){
 
 
 
-        <div class="log-title">
 
-            ${logData.title || "제목 없음"}
-
-        </div>
+    <div class="log-detail-title">
 
 
-
-        <div class="log-info">
-
-
-            <div>
-
-                ${logData.writerName || "익명"}
-
-            </div>
+        ${logData.title || "제목 없음"}
 
 
-            <div>
+    </div>
 
-                ${formatDate(logData.createdAt)}
 
-            </div>
+
+
+
+    <div class="log-info">
+
+
+
+        <div>
+
+
+            작성자 : ${logData.writerName || "익명"}
 
 
         </div>
 
 
 
-        <div class="log-content">
-
-            ${logData.content}
-
-        </div>
+        <div>
 
 
-
-        <div class="button-area">
-
-
-            <button class="btn" id="list-btn">
-
-                목록
-
-            </button>
-
-
-
-            ${
-                isWriter
-
-                ?
-
-                `
-
-                <button class="btn" id="edit-btn">
-
-                    수정
-
-                </button>
-
-
-                <button class="btn delete" id="delete-btn">
-
-                    삭제
-
-                </button>
-
-                `
-
-                :
-
-                ""
-
-            }
+            ${formatDate(logData.createdAt)}
 
 
         </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="log-content">
+
+
+        ${logData.content || ""}
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="button-area">
+
+
+
+        <button
+
+        class="view-btn"
+
+        id="list-btn"
+
+        >
+
+
+            목록
+
+
+        </button>
+
+
+
+
+
+
+        ${
+
+
+        isWriter
+
+
+        ?
+
+
+        `
+
+
+
+        <button
+
+        class="view-btn edit-btn"
+
+        id="edit-btn"
+
+        >
+
+
+            수정
+
+
+        </button>
+
+
+
+
+
+        <button
+
+        class="view-btn delete-btn"
+
+        id="delete-btn"
+
+        >
+
+
+            삭제
+
+
+        </button>
+
+
+
+        `
+
+
+        :
+
+
+        ""
+
+
+
+        }
+
+
+
+
+    </div>
+
+
 
 
     `;
+
+
+
+
 
 
 
@@ -646,13 +1014,25 @@ function renderLog(){
 
     .getElementById("list-btn")
 
-    .addEventListener("click",()=>{
+    .addEventListener(
+
+        "click",
+
+        ()=>{
 
 
-        location.href="logs.html";
+            location.href="logs.html";
 
 
-    });
+        }
+
+
+    );
+
+
+
+
+
 
 
 
@@ -660,17 +1040,32 @@ function renderLog(){
 
 
 
+
+
         document
 
         .getElementById("edit-btn")
 
-        .addEventListener("click",()=>{
+        .addEventListener(
+
+            "click",
+
+            ()=>{
 
 
-            location.href=`log-write.html?id=${logId}`;
+                location.href =
+
+                `log-write.html?id=${logId}`;
 
 
-        });
+            }
+
+
+        );
+
+
+
+
 
 
 
@@ -678,42 +1073,94 @@ function renderLog(){
 
         .getElementById("delete-btn")
 
-        .addEventListener("click",deleteLog);
+        .addEventListener(
+
+            "click",
+
+            deleteLog
+
+
+        );
 
 
 
     }
 
 
+
+
+
 }
+
+
+
+
+
+
 
 
 
 async function deleteLog(){
 
 
-    const confirmDelete = confirm(
+
+    const result = confirm(
+
+
 
         "정말 삭제하시겠습니까?"
+
+
 
     );
 
 
-    if(!confirmDelete) return;
+
+
+    if(!result){
+
+
+
+        return;
+
+
+    }
+
+
+
 
 
 
     try{
 
 
+
         await deleteDoc(
 
-            doc(db,"logs",logId)
+
+
+            doc(
+
+                db,
+
+                "logs",
+
+                logId
+
+            )
+
+
 
         );
 
 
+
+
+
         location.href="logs.html";
+
+
+
 
 
     }
@@ -721,16 +1168,26 @@ async function deleteLog(){
     catch(error){
 
 
+
         console.error(error);
 
 
-        alert("삭제 중 오류가 발생했습니다.");
+
+        alert(
+
+            "삭제 중 오류가 발생했습니다."
+
+        );
 
 
     }
 
 
+
+
+
 }
+
 
 
 
@@ -743,32 +1200,63 @@ async function loadComments(){
 
     commentList.innerHTML = `
 
-        <div class="loading-message">
 
-            댓글을 불러오는 중입니다.
+    <div class="loading-message">
 
-        </div>
+        댓글을 불러오는 중입니다.
+
+    </div>
+
 
     `;
+
+
 
 
 
     try{
 
 
+
         const q = query(
 
 
-            collection(db,"logComments"),
+
+            collection(
+
+                db,
+
+                "logComments"
+
+            ),
 
 
-            where("logId","==",logId),
+
+            where(
+
+                "logId",
+
+                "==",
+
+                logId
+
+            ),
 
 
-            orderBy("createdAt","asc")
+
+            orderBy(
+
+                "createdAt",
+
+                "asc"
+
+            )
+
 
 
         );
+
+
 
 
 
@@ -776,7 +1264,13 @@ async function loadComments(){
 
 
 
+
+
         commentList.innerHTML = "";
+
+
+
+
 
 
 
@@ -787,14 +1281,17 @@ async function loadComments(){
             commentList.innerHTML = `
 
 
-                <div class="empty-message">
+            <div class="empty-message">
 
-                    아직 댓글이 없습니다.
 
-                </div>
+                아직 댓글이 없습니다.
+
+
+            </div>
 
 
             `;
+
 
 
             return;
@@ -805,155 +1302,172 @@ async function loadComments(){
 
 
 
-        snapshot.forEach(docSnap=>{
+
+
+
+
+        snapshot.forEach((docSnap)=>{
+
 
 
             const data = docSnap.data();
 
 
 
-            const comment = document.createElement("div");
-
-
-
-            comment.className = "comment-item";
-
-
 
             const isOwner =
 
-                currentUser &&
-
-                currentUser.uid === data.uid;
 
 
-
-            comment.innerHTML = `
-
-
-                <div class="comment-header">
-
-
-                    <strong>
-
-                        ${data.writerName || "익명"}
-
-                    </strong>
+            currentUser &&
 
 
 
-                    <span>
-
-                        ${formatDate(data.createdAt)}
-
-                    </span>
-
-
-                </div>
+            currentUser.uid === data.uid;
 
 
 
-                <div class="comment-content">
 
 
-                    ${data.content}
 
 
-                    ${data.updatedAt ? "(수정)" : ""}
+            const item =
+
+            document.createElement("div");
 
 
-                </div>
+
+
+            item.className =
+
+            "comment-item";
+
+
+
+
+
+
+
+            item.innerHTML = `
+
+
+
+
+
+            <div class="comment-header">
+
+
+                <strong>
+
+                    ${data.writerName || "익명"}
+
+                </strong>
+
+
+
+                <span>
+
+                    ${formatDate(data.createdAt)}
+
+                </span>
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="comment-content">
+
+
+                ${data.content}
 
 
 
                 ${
-                    isOwner
 
-                    ?
+                data.updatedAt
 
-                    `
+                ?
 
-                    <div class="comment-buttons">
+                "(수정)"
 
+                :
 
-                        <button
-
-                        class="comment-edit"
-
-                        >
-
-                            수정
-
-                        </button>
-
-
-
-                        <button
-
-                        class="comment-delete"
-
-                        >
-
-                            삭제
-
-                        </button>
-
-
-                    </div>
-
-                    `
-
-                    :
-
-                    ""
+                ""
 
                 }
 
 
-            `;
-
-
-
-            if(isOwner){
-
-
-
-                comment
-
-                .querySelector(".comment-edit")
-
-                .addEventListener("click",()=>{
-
-
-                    editComment(
-
-                        docSnap.id,
-
-                        data.content
-
-                    );
-
-
-                });
+            </div>
 
 
 
 
-                comment
-
-                .querySelector(".comment-delete")
-
-                .addEventListener("click",()=>{
 
 
-                    deleteComment(
 
-                        docSnap.id
-
-                    );
+            ${
 
 
-                });
+
+            isOwner
+
+
+
+            ?
+
+
+
+            `
+
+
+
+            <div class="comment-buttons">
+
+
+                <button
+
+                class="comment-edit"
+
+                >
+
+                수정
+
+                </button>
+
+
+
+
+
+                <button
+
+                class="comment-delete"
+
+                >
+
+                삭제
+
+                </button>
+
+
+
+            </div>
+
+
+
+            `
+
+
+
+            :
+
+
+
+            ""
 
 
 
@@ -961,29 +1475,117 @@ async function loadComments(){
 
 
 
-            commentList.appendChild(comment);
+
+
+            `;
+
+
+
+
+
+
+
+
+            if(isOwner){
+
+
+
+                item
+
+                .querySelector(".comment-edit")
+
+                .addEventListener(
+
+                    "click",
+
+                    ()=>{
+
+
+                        editComment(
+
+                            docSnap.id,
+
+                            data.content
+
+                        );
+
+
+                    }
+
+
+                );
+
+
+
+
+
+
+
+
+                item
+
+                .querySelector(".comment-delete")
+
+                .addEventListener(
+
+                    "click",
+
+                    ()=>{
+
+
+                        deleteComment(
+
+                            docSnap.id
+
+                        );
+
+
+                    }
+
+
+                );
+
+
+
+            }
+
+
+
+
+
+
+
+            commentList.appendChild(item);
 
 
 
         });
 
 
+
+
+
     }
 
+
     catch(error){
+
 
 
         console.error(error);
 
 
+
         commentList.innerHTML = `
 
 
-            <div class="empty-message">
+        <div class="empty-message">
 
-                댓글을 불러오지 못했습니다.
 
-            </div>
+            댓글을 불러오지 못했습니다.
+
+
+        </div>
 
 
         `;
@@ -993,7 +1595,14 @@ async function loadComments(){
 
 
 
+
 }
+
+
+
+
+
+
 
 
 
@@ -1001,38 +1610,43 @@ function createCommentForm(){
 
 
 
-    const form = document.createElement("div");
 
 
-    form.className = "comment-form";
+    commentFormArea.innerHTML = `
 
 
 
-    form.innerHTML = `
+    <div class="comment-form">
 
 
 
         <textarea
 
-            id="comment-input"
+        id="comment-input"
 
-            placeholder="댓글을 입력해주세요."
+        placeholder="댓글을 입력해주세요."
 
         ></textarea>
 
 
 
+
+
         <button
 
-            class="btn"
+        class="view-btn"
 
-            id="comment-submit"
+        id="comment-submit"
 
         >
 
-            댓글 작성
+        작성
 
         </button>
+
+
+
+    </div>
 
 
 
@@ -1040,13 +1654,7 @@ function createCommentForm(){
 
 
 
-    commentList.parentElement.insertBefore(
 
-        form,
-
-        commentList
-
-    );
 
 
 
@@ -1054,11 +1662,23 @@ function createCommentForm(){
 
     .getElementById("comment-submit")
 
-    .addEventListener("click",addComment);
+    .addEventListener(
+
+        "click",
+
+        addComment
+
+    );
+
 
 
 
 }
+
+
+
+
+
 
 
 
@@ -1066,32 +1686,76 @@ function createCommentForm(){
 async function getWriterName(){
 
 
-    const userDoc = await getDoc(
 
-        doc(db,"users",currentUser.uid)
+    const snap = await getDoc(
+
+
+
+        doc(
+
+            db,
+
+            "users",
+
+            currentUser.uid
+
+        )
+
 
     );
 
 
 
-    if(userDoc.exists()){
-
-
-        const data = userDoc.data();
 
 
 
-        return data.characterName || data.name || "익명";
+    if(snap.exists()){
+
+
+
+        const data = snap.data();
+
+
+
+
+        return (
+
+
+
+            data.characterName
+
+            ||
+
+            data.name
+
+            ||
+
+            "익명"
+
+
+
+        );
+
 
 
     }
 
 
 
+
+
+
+
     return "익명";
 
 
+
 }
+
+
+
+
+
 
 
 
@@ -1100,18 +1764,34 @@ async function addComment(){
 
 
 
-    const input = document.getElementById("comment-input");
+    const input =
+
+    document.getElementById("comment-input");
 
 
 
-    const content = input.value.trim();
+
+
+    const content =
+
+    input.value.trim();
+
+
+
+
 
 
 
     if(!content){
 
 
-        alert("댓글 내용을 입력해주세요.");
+
+        alert(
+
+            "댓글 내용을 입력해주세요."
+
+        );
+
 
 
         return;
@@ -1121,49 +1801,90 @@ async function addComment(){
 
 
 
+
+
+
+
+
     try{
 
 
-        const writerName = await getWriterName();
+
+
+
+        const writerName =
+
+        await getWriterName();
+
+
+
 
 
 
         await addDoc(
 
-            collection(db,"logComments"),
+
+
+            collection(
+
+                db,
+
+                "logComments"
+
+            ),
+
+
+
 
             {
+
 
 
                 logId:logId,
 
 
+
                 uid:currentUser.uid,
+
 
 
                 writerName:writerName,
 
 
+
                 content:content,
 
 
-                createdAt:serverTimestamp(),
+
+                createdAt:
+
+                serverTimestamp(),
+
 
 
                 updatedAt:null
 
 
+
             }
+
+
 
         );
 
 
 
-        input.value = "";
+
+
+
+        input.value="";
 
 
 
         loadComments();
+
+
+
 
 
 
@@ -1172,17 +1893,30 @@ async function addComment(){
     catch(error){
 
 
+
         console.error(error);
 
 
-        alert("댓글 작성 중 오류가 발생했습니다.");
+
+        alert(
+
+            "댓글 작성 중 오류가 발생했습니다."
+
+        );
 
 
     }
 
 
 
+
+
 }
+
+
+
+
+
 
 
 
@@ -1191,135 +1925,27 @@ async function editComment(id,oldContent){
 
 
 
-    const newContent = prompt(
+
+
+    const result = prompt(
+
+
 
         "댓글 수정",
 
         oldContent
 
-    );
 
-
-
-    if(newContent===null) return;
-
-
-
-    const content = newContent.trim();
-
-
-
-    if(!content) return;
-
-
-
-    try{
-
-
-        await updateDoc(
-
-            doc(db,"logComments",id),
-
-            {
-
-
-                content:content,
-
-
-                updatedAt:serverTimestamp()
-
-
-            }
-
-        );
-
-
-
-        loadComments();
-
-
-
-    }
-
-    catch(error){
-
-
-        console.error(error);
-
-
-        alert("댓글 수정 중 오류가 발생했습니다.");
-
-
-    }
-
-
-}
-
-
-
-
-async function deleteComment(id){
-
-
-
-    const confirmDelete = confirm(
-
-        "댓글을 삭제하시겠습니까?"
 
     );
 
 
 
-    if(!confirmDelete) return;
 
 
 
-    try{
+    if(result === null){
 
-
-        await deleteDoc(
-
-            doc(db,"logComments",id)
-
-        );
-
-
-
-        loadComments();
-
-
-
-    }
-
-    catch(error){
-
-
-        console.error(error);
-
-
-        alert("댓글 삭제 중 오류가 발생했습니다.");
-
-
-    }
-
-
-
-}
-
-
-<script type="module">
-
-
-auth.onAuthStateChanged(async(user)=>{
-
-
-    if(!user){
-
-
-        alert("승인된 멤버만 이용할 수 있습니다.");
-
-
-        location.href="../index.html";
 
 
         return;
@@ -1329,29 +1955,259 @@ auth.onAuthStateChanged(async(user)=>{
 
 
 
-    currentUser = user;
 
 
 
-    await loadLog();
+    const content =
+
+    result.trim();
 
 
 
-    createCommentForm();
+
+
+    if(!content){
 
 
 
-    await loadComments();
+        return;
+
+
+    }
 
 
 
-});
+
+
+
+    await updateDoc(
+
+
+
+        doc(
+
+            db,
+
+            "logComments",
+
+            id
+
+        ),
+
+
+
+        {
+
+
+
+            content:content,
+
+
+
+            updatedAt:
+
+            serverTimestamp()
+
+
+
+        }
+
+
+
+    );
+
+
+
+
+
+
+    loadComments();
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function deleteComment(id){
+
+
+
+
+
+    const result = confirm(
+
+
+
+        "댓글을 삭제하시겠습니까?"
+
+
+
+    );
+
+
+
+
+
+
+
+    if(!result){
+
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    await deleteDoc(
+
+
+
+        doc(
+
+            db,
+
+            "logComments",
+
+            id
+
+        )
+
+
+
+    );
+
+
+
+
+
+
+
+    loadComments();
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/*
+
+    로그인 체크
+
+*/
+
+
+
+onAuthStateChanged(
+
+
+
+    auth,
+
+
+
+    async(user)=>{
+
+
+
+
+
+
+        if(!user){
+
+
+
+            alert(
+
+                "승인된 멤버만 이용할 수 있습니다."
+
+            );
+
+
+
+            location.href="../index.html";
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+        currentUser = user;
+
+
+
+
+
+
+
+        await loadLog();
+
+
+
+
+
+
+
+        createCommentForm();
+
+
+
+
+
+
+        await loadComments();
+
+
+
+
+
+    }
+
+
+
+
+);
+
+
 
 
 
 </script>
 
 
+
 </body>
+
 
 </html>
