@@ -2900,3 +2900,75 @@ h1 {
 
 
 }
+
+/* =====================
+   귀문 등급
+===================== */
+
+
+.gate-grade {
+
+
+    display:inline-block;
+
+
+    padding:5px 15px;
+
+
+    margin-top:8px;
+
+
+    border-radius:20px;
+
+
+    font-size:14px;
+
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+.grade-low {
+
+
+    background:rgba(120,160,120,0.25);
+
+
+}
+
+
+
+
+.grade-middle {
+
+
+    background:rgba(200,170,80,0.3);
+
+
+}
+
+
+
+
+.grade-high {
+
+
+    background:rgba(180,90,70,0.35);
+
+
+}
+
+
+
+
+.grade-danger {
+
+
+    background:rgba(120,30,30,0.5);
+
+
+}
