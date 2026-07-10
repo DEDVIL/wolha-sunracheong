@@ -1889,6 +1889,14 @@ openRelationshipView(relation);
 }
 );
 
+lineLayer.style.transform =
+`
+translate(${canvasTranslateX}px, ${canvasTranslateY}px)
+scale(${canvasScale})
+`;
+
+lineLayer.style.transformOrigin="0 0";
+   
 });
 
 
@@ -2130,10 +2138,10 @@ layer.appendChild(node);
 nodePositions[member.id] = {
 
 x:
-parseInt(node.style.left) + 30,
+parseInt(node.style.left) + (node.offsetWidth / 2),
 
 y:
-parseInt(node.style.top) + 30
+parseInt(node.style.top) + (node.offsetHeight / 2)
 
 };
    
