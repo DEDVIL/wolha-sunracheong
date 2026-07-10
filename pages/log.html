@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>월하순라청 :: 개인 로그</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        .main-container{
+
+            width:100%;
+            max-width:1200px;
+
+            margin:40px auto;
+
+            padding:20px;
+
+            box-sizing:border-box;
+
+        }
+
+        .content-box{
+
+            background:#fff;
+
+            border:1px solid #d9d9d9;
+
+            border-radius:12px;
+
+            padding:30px;
+
+            box-shadow:0 5px 18px rgba(0,0,0,.05);
+
+        }
+
+        .page-title{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+        }
+
+        .page-title h1{
+
+            margin:0;
+
+            font-size:32px;
+
+            font-family:"Noto Serif KR", serif;
+
+            font-weight:700;
+
+        }
+
+        .page-title p{
+
+            margin-top:10px;
+
+            color:#777;
+
+        }
+
+        .top-buttons{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            gap:10px;
+
+            margin-bottom:20px;
+
+        }
+
+        .left-buttons{
+
+            display:flex;
+
+            gap:10px;
+
+            flex-wrap:wrap;
+
+        }
+
+        .right-buttons{
+
+            display:flex;
+
+            gap:10px;
+
+        }
+
+        .btn{
+
+            padding:9px 18px;
+
+            border:1px solid #c8c8c8;
+
+            background:white;
+
+            cursor:pointer;
+
+            border-radius:8px;
+
+            transition:.2s;
+
+            font-size:14px;
+
+        }
+
+        .btn:hover{
+
+            background:#f5f5f5;
+
+        }
+
+        .btn.active{
+
+            background:#222;
+
+            color:white;
+
+            border-color:#222;
+
+        }
+
+        #character-filter{
+
+            display:none;
+
+            margin-bottom:20px;
+
+            gap:8px;
+
+            flex-wrap:wrap;
+
+        }
+
+        #character-filter.show{
+
+            display:flex;
+
+        }
+
+        .character-btn{
+
+            padding:7px 14px;
+
+            border-radius:20px;
+
+            border:1px solid #ccc;
+
+            background:white;
+
+            cursor:pointer;
+
+            transition:.2s;
+
+        }
+
+        .character-btn:hover{
+
+            background:#efefef;
+
+        }
+
+        .character-btn.active{
+
+            background:#222;
+
+            color:white;
+
+            border-color:#222;
+
+        }
+
+        .search-box{
+
+            margin-bottom:20px;
+
+        }
+
+        .search-box input{
+
+            width:100%;
+
+            padding:12px;
+
+            border:1px solid #ccc;
+
+            border-radius:8px;
+
+            box-sizing:border-box;
+
+            font-size:14px;
+
+        }
+
+        .logs-table{
+
+            border:1px solid #ddd;
+
+            border-radius:10px;
+
+            overflow:hidden;
+
+        }
+
+        .logs-header{
+
+            display:grid;
+
+            grid-template-columns:
+
+            140px
+
+            1fr
+
+            180px
+
+            80px;
+
+            background:#f7f7f7;
+
+            border-bottom:1px solid #ddd;
+
+            position:sticky;
+
+            top:0;
+
+            z-index:10;
+
+            font-weight:600;
+
+        }
+
+        .logs-header>div{
+
+            padding:14px;
+
+            text-align:center;
+
+        }
+
+        #logs-list{
+
+            width:100%;
+
+        }
+
+      
+        .logs-row{
+
+            display:grid;
+
+            grid-template-columns:
+
+            140px
+
+            1fr
+
+            180px
+
+            80px;
+
+            align-items:center;
+
+            border-bottom:1px solid #ececec;
+
+            cursor:pointer;
+
+            transition:.18s;
+
+        }
+
+        .logs-row:last-child{
+
+            border-bottom:none;
+
+        }
+
+        .logs-row:hover{
+
+            background:#fafafa;
+
+        }
+
+        .logs-row>div{
+
+            padding:14px;
+
+            box-sizing:border-box;
+
+        }
+
+        .logs-writer{
+
+            text-align:center;
+
+            font-weight:500;
+
+            white-space:nowrap;
+
+            overflow:hidden;
+
+            text-overflow:ellipsis;
+
+        }
+
+        .logs-title{
+
+            overflow:hidden;
+
+            white-space:nowrap;
+
+            text-overflow:ellipsis;
+
+        }
+
+        .logs-date{
+
+            text-align:center;
+
+            color:#777;
+
+            font-size:13px;
+
+            white-space:nowrap;
+
+        }
+
+        .logs-comment{
+
+            text-align:center;
+
+            color:#666;
+
+            font-size:13px;
+
+            white-space:nowrap;
+
+        }
+
+        .empty-message{
+
+            padding:70px 20px;
+
+            text-align:center;
+
+            color:#777;
+
+            line-height:1.8;
+
+        }
+
+        .empty-message strong{
+
+            display:block;
+
+            font-size:17px;
+
+            color:#333;
+
+            margin-bottom:8px;
+
+        }
+
+        .loading-message{
+
+            padding:50px;
+
+            text-align:center;
+
+            color:#777;
+
+        }
+
+        @media (max-width:700px){
+
+            .content-box{
+
+                padding:18px;
+
+            }
+
+            .top-buttons{
+
+                flex-direction:column;
+
+                align-items:stretch;
+
+            }
+
+            .left-buttons,
+
+            .right-buttons{
+
+                width:100%;
+
+            }
+
+            .right-buttons .btn{
+
+                width:100%;
+
+            }
+
+            .logs-header{
+
+                display:none;
+
+            }
+
+            .logs-row{
+
+                display:flex;
+
+                flex-direction:column;
+
+                align-items:flex-start;
+
+                gap:6px;
+
+                padding:14px;
+
+            }
+
+            .logs-row>div{
+
+                padding:0;
+
+                width:100%;
+
+                text-align:left;
+
+            }
+
+            .logs-title{
+
+                font-size:16px;
+
+                font-weight:600;
+
+            }
+
+            .logs-date{
+
+                color:#888;
+
+            }
+
+            .logs-comment{
+
+                color:#555;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<main class="main-container">
+
+    <section class="content-box">
+
+        <div class="page-title">
+
+            <h1>月下巡邏廳</h1>
+
+            <p>개인 로그</p>
+
+        </div>
+
+        <div class="top-buttons">
+
+            <div class="left-buttons">
+
+                <button
+                    class="btn active"
+                    id="show-all-btn">
+
+                    전체글
+
+                </button>
+
+                <button
+                    class="btn"
+                    id="show-character-btn">
+
+                    캐릭터별
+
+                </button>
+
+            </div>
+
+            <div class="right-buttons">
+
+                <button
+                    class="btn"
+                    id="home-btn">
+
+                    홈
+
+                </button>
+
+                <button
+                    class="btn"
+                    id="write-btn">
+
+                    글쓰기
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="character-filter">
+
+        </div>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search-input"
+                placeholder="캐릭터명 또는 제목 검색">
+
+        </div>
+
+        <div class="logs-table">
+
+            <div class="logs-header">
+
+                <div>작성자</div>
+
+                <div>제목</div>
+
+                <div>작성일</div>
+
+                <div>댓글</div>
+
+            </div>
+
+            <div id="logs-list">
+
+                <div class="loading-message">
+
+                    게시글을 불러오는 중입니다...
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script type="module">
+
+import { auth, db } from "../js/firebase.js";
+
+import {
+
+    collection,
+    getDocs,
+    query,
+    orderBy
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let allLogs = [];
+
+let filteredLogs = [];
+
+let currentCharacter = "";
+
+const logsList = document.getElementById("logs-list");
+
+const characterFilter = document.getElementById("character-filter");
+
+const searchInput = document.getElementById("search-input");
+
+const showAllBtn = document.getElementById("show-all-btn");
+
+const showCharacterBtn = document.getElementById("show-character-btn");
+
+const writeBtn = document.getElementById("write-btn");
+
+const homeBtn = document.getElementById("home-btn");
+
+const characterNames = [
+
+    "사신우",
+    "백비안",
+    "조견우",
+    "백화령",
+    "하종오",
+    "서태문",
+    "현진건",
+    "유태겸",
+    "환웅",
+    "주원목",
+    "최현오",
+    "염승민",
+    "표연수"
+
+];
+
+function formatDate(timestamp){
+
+    if(!timestamp) return "-";
+
+    const date = timestamp.toDate();
+
+    const y = date.getFullYear();
+
+    const m = String(date.getMonth()+1).padStart(2,"0");
+
+    const d = String(date.getDate()).padStart(2,"0");
+
+    const h = String(date.getHours()).padStart(2,"0");
+
+    const min = String(date.getMinutes()).padStart(2,"0");
+
+    return `${y}.${m}.${d} ${h}:${min}`;
+
+}
+
+async function getCommentCount(logId){
+
+    const snapshot = await getDocs(collection(db,"logComments"));
+
+    let count = 0;
+
+    snapshot.forEach(doc=>{
+
+        const data = doc.data();
+
+        if(data.logId===logId){
+
+            count++;
+
+        }
+
+    });
+
+    return count;
+
+}
+
+async function loadLogs(){
+
+    logsList.innerHTML = `
+
+        <div class="loading-message">
+
+            게시글을 불러오는 중입니다...
+
+        </div>
+
+    `;
+
+    try{
+
+        const q = query(
+
+            collection(db,"logs"),
+
+            orderBy("createdAt","desc")
+
+        );
+
+        const snapshot = await getDocs(q);
+
+        allLogs = [];
+
+        for(const docSnap of snapshot.docs){
+
+            const data = docSnap.data();
+
+            const commentCount = await getCommentCount(docSnap.id);
+
+            allLogs.push({
+
+                id:docSnap.id,
+
+                ...data,
+
+                commentCount
+
+            });
+
+        }
+
+        filteredLogs = [...allLogs];
+
+        renderLogs(filteredLogs);
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        logsList.innerHTML = `
+
+            <div class="empty-message">
+
+                <strong>게시글을 불러오지 못했습니다.</strong>
+
+                잠시 후 다시 시도해주세요.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+function renderLogs(logs){
+
+    logsList.innerHTML = "";
+
+    if(logs.length === 0){
+
+        logsList.innerHTML = `
+
+            <div class="empty-message">
+
+                <strong>아직 등록된 개인 로그가 없습니다.</strong>
+
+                첫 번째 기록을 남겨보세요.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    logs.forEach(log=>{
+
+
+        const row = document.createElement("div");
+
+        row.className = "logs-row";
+
+
+        row.innerHTML = `
+
+            <div class="logs-writer">
+
+                ${log.writerName || "익명"}
+
+            </div>
+
+
+            <div class="logs-title">
+
+                ${log.title || "제목 없음"}
+
+            </div>
+
+
+            <div class="logs-date">
+
+                ${formatDate(log.createdAt)}
+
+            </div>
+
+
+            <div class="logs-comment">
+
+                ${log.commentCount > 0 ? "💬 " + log.commentCount : "-"}
+
+            </div>
+
+        `;
+
+
+        row.addEventListener("click",()=>{
+
+
+            location.href = `log-view.html?id=${log.id}`;
+
+
+        });
+
+
+        logsList.appendChild(row);
+
+
+    });
+
+
+}
+
+
+
+function renderCharacterButtons(){
+
+    characterFilter.innerHTML = "";
+
+
+    characterNames.forEach(name=>{
+
+
+        const button = document.createElement("button");
+
+
+        button.className = "character-btn";
+
+
+        button.textContent = name;
+
+
+        button.addEventListener("click",()=>{
+
+
+            currentCharacter = name;
+
+
+            document.querySelectorAll(".character-btn")
+
+            .forEach(btn=>{
+
+                btn.classList.remove("active");
+
+            });
+
+
+            button.classList.add("active");
+
+
+            filterLogs();
+
+
+        });
+
+
+        characterFilter.appendChild(button);
+
+
+    });
+
+
+}
+
+
+
+function filterLogs(){
+
+
+    let result = [...allLogs];
+
+
+    if(currentCharacter){
+
+
+        result = result.filter(log=>{
+
+
+            return log.writerName === currentCharacter;
+
+
+        });
+
+
+    }
+
+
+    const keyword = searchInput.value.trim();
+
+
+    if(keyword){
+
+
+        result = result.filter(log=>{
+
+
+            const writer = log.writerName || "";
+
+            const title = log.title || "";
+
+
+            return (
+
+                writer.includes(keyword)
+
+                ||
+
+                title.includes(keyword)
+
+            );
+
+
+        });
+
+
+    }
+
+
+    filteredLogs = result;
+
+
+    renderLogs(filteredLogs);
+
+
+}
+
+
+
+showAllBtn.addEventListener("click",()=>{
+
+
+    currentCharacter = "";
+
+
+    showAllBtn.classList.add("active");
+
+    showCharacterBtn.classList.remove("active");
+
+
+    characterFilter.classList.remove("show");
+
+
+    document.querySelectorAll(".character-btn")
+
+    .forEach(btn=>{
+
+        btn.classList.remove("active");
+
+    });
+
+
+    filterLogs();
+
+
+});
+
+
+
+showCharacterBtn.addEventListener("click",()=>{
+
+
+    showCharacterBtn.classList.add("active");
+
+
+    showAllBtn.classList.remove("active");
+
+
+    characterFilter.classList.add("show");
+
+
+});
+
+
+
+searchInput.addEventListener("input",()=>{
+
+
+    filterLogs();
+
+
+});
+
+
+
+writeBtn.addEventListener("click",()=>{
+
+
+    location.href = "log-write.html";
+
+
+});
+
+
+
+homeBtn.addEventListener("click",()=>{
+
+
+    location.href = "home.html";
+
+
+});
+
+
+
+// 로그인 확인
+
+auth.onAuthStateChanged((user)=>{
+
+
+    if(!user){
+
+        alert("승인된 멤버만 이용할 수 있습니다.");
+
+        location.href="../index.html";
+
+        return;
+
+    }
+
+
+});
+
+
+
+
+// 초기 실행
+
+renderCharacterButtons();
+
+loadLogs();
+
+
+
+</script>
+
+</body>
+
+</html>
