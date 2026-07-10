@@ -1754,21 +1754,24 @@ function renderRelationshipLines(){
 lineLayer.innerHTML="";
 
 
+const layerSize = lineLayer.parentElement;
+
+
 lineLayer.setAttribute(
 "width",
-canvas.clientWidth
+layerSize.clientWidth
 );
 
 
 lineLayer.setAttribute(
 "height",
-canvas.clientHeight
+layerSize.clientHeight
 );
 
 
 lineLayer.setAttribute(
 "viewBox",
-`0 0 ${canvas.clientWidth} ${canvas.clientHeight}`
+`0 0 ${layerSize.clientWidth} ${layerSize.clientHeight}`
 );
 
 
