@@ -206,18 +206,6 @@ class="write-button"
 <section class="gate-end-box">
 
 
-<h2>
-사건 종결
-</h2>
-
-
-<p>
-모든 기록 작성 후<br>
-사건을 종결 처리할 수 있습니다.
-</p>
-
-
-
 <button
 
 id="end-gate-button"
@@ -229,7 +217,6 @@ class="gate-end-button"
 사건 종결 처리
 
 </button>
-
 
 
 </section>
@@ -673,6 +660,10 @@ ${data.content || "-"}
 `;
 
 if(gateClosed){
+
+
+joinButton.style.display =
+"none";
 
 
 commentInput.disabled = true;
@@ -1258,6 +1249,15 @@ loadComments();
 
 endGateButton.onclick = async()=>{
 
+if(gateClosed){
+
+alert(
+"이미 종결된 사건입니다."
+);
+
+return;
+
+}
 
 const check = confirm(
 
@@ -1505,51 +1505,6 @@ loadComments();
 };
 
 
-function getGradeClass(grade){
-
-
-if(!grade){
-
-return "";
-
-}
-
-
-
-if(grade.includes("이물")){
-
-return "grade-low";
-
-}
-
-
-if(grade.includes("이매")){
-
-return "grade-middle";
-
-}
-
-
-
-if(grade.includes("망량")){
-
-return "grade-high";
-
-}
-
-
-
-if(grade.includes("흉령")){
-
-return "grade-danger";
-
-}
-
-
-
-return "";
-
-}
 
 
 </script>
