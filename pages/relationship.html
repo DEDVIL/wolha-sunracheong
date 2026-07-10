@@ -508,6 +508,51 @@ z-index:2;
 }
 
 
+#relationship-layer{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+transform-origin:0 0;
+
+}
+
+
+.relationship-lines{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+z-index:1;
+
+}
+
+
+.relationship-node-layer{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+z-index:2;
+
+}
+
+
 
 /* =====================
    Modal
@@ -812,6 +857,9 @@ class="relationship-canvas"
 >
 
 
+<div id="relationship-layer">
+
+
 <svg
 
 id="relationship-lines"
@@ -834,6 +882,8 @@ class="relationship-node-layer"
 
 </div>
 
+
+</div>
 
 
 </div>
@@ -1961,39 +2011,19 @@ width < 600
 150;
 
 
-const oldLayer =
+const layer =
 document.getElementById("relationship-layer");
-
-if(oldLayer){
-
-oldLayer.remove();
-
-}
-
-const layer = document.createElement("div");
-
-
-layer.id="relationship-layer";
-
-
-layer.style.position="absolute";
-
-
-layer.style.width="100%";
-
-
-layer.style.height="100%";
 
 
 layer.style.transform =
 
-`translate(${canvasOffsetX}px, ${canvasOffsetY}px) scale(${canvasScale})`;
+`
+translate(${canvasTranslateX}px, ${canvasTranslateY}px)
+scale(${canvasScale})
+`;
 
 
 layer.style.transformOrigin="0 0";
-
-
-canvas.appendChild(layer);
 
 
 list.forEach((member,index)=>{
@@ -2133,7 +2163,7 @@ location.href =
 
 
 
-layer.appendChild(node);
+nodeLayer.appendChild(node);
 
 nodePositions[member.id] = {
 
