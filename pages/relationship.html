@@ -1857,46 +1857,45 @@ return;
 
 
 
-const line =
+const path =
 document.createElementNS(
 "http://www.w3.org/2000/svg",
-"line"
+"path"
 );
 
 
+// 두 캐릭터 사이 거리
+const centerX = (from.x + to.x) / 2;
+const centerY = (from.y + to.y) / 2;
 
-line.setAttribute(
-"x1",
-from.x
+
+// 곡선 휘어지는 정도
+const curve = 40;
+
+
+// SVG 곡선 경로
+const pathData = `
+M ${from.x} ${from.y}
+Q ${centerX} ${centerY - curve}
+${to.x} ${to.y}
+`;
+
+
+path.setAttribute(
+"d",
+pathData
 );
 
 
-line.setAttribute(
-"y1",
-from.y
-);
-
-
-line.setAttribute(
-"x2",
-to.x
-);
-
-
-line.setAttribute(
-"y2",
-to.y
-);
-
-
-
-line.classList.add(
+path.classList.add(
 "relationship-line"
 );
 
 
+lineLayer.appendChild(path);
 
-lineLayer.appendChild(line);
+
+
 
 
 line.addEventListener(
