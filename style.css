@@ -3176,3 +3176,105 @@ h1 {
 
 }
 
+/* =====================
+   사건 종결 처리
+===================== */
+
+
+.gate-end-box {
+
+
+    margin-top:60px;
+
+
+    padding:35px 25px;
+
+
+    text-align:center;
+
+
+    border-top:
+
+    1px solid rgba(216,179,106,0.3);
+
+
+
+}
+
+
+
+.gate-end-box h2 {
+
+
+    margin-bottom:15px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+.gate-end-box p {
+
+
+    font-size:14px;
+
+
+    line-height:1.8;
+
+
+    opacity:0.8;
+
+
+}
+
+
+
+
+
+.gate-end-button {
+
+
+    margin-top:25px;
+
+
+    padding:12px 35px;
+
+
+    cursor:pointer;
+
+
+    background:
+
+    rgba(0,0,0,0.35);
+
+
+
+    border:
+
+    1px solid rgba(216,179,106,0.5);
+
+
+
+    color:inherit;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+.gate-end-button:hover {
+
+
+    background:
+
+    rgba(216,179,106,0.12);
+
+
+}
