@@ -2204,3 +2204,251 @@ h1 {
 
 
 }
+
+/* =====================================
+   世界觀 Archive
+   최종 폰트 & 간격 조정
+===================================== */
+
+
+/* =====================
+   세계관 전체 글자 설정
+===================== */
+
+
+.world-section {
+
+    font-size:16px;
+
+    letter-spacing:0.2px;
+
+    line-height:2.1;
+
+}
+
+
+
+.world-section p {
+
+    margin:
+
+    18px 0;
+
+    line-height:2.1;
+
+}
+
+
+
+
+
+/* =====================
+   세계관 제목
+===================== */
+
+
+.world-section h2 {
+
+    font-size:27px;
+
+    letter-spacing:4px;
+
+    margin-bottom:35px;
+
+}
+
+
+
+.world-section h3 {
+
+    font-size:20px;
+
+    letter-spacing:2px;
+
+    margin-top:40px;
+
+    margin-bottom:18px;
+
+}
+
+
+
+
+
+/* =====================
+   본문 강조
+===================== */
+
+
+.world-section strong {
+
+    color:#c8a96a;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+/* =====================
+   조직 카드 간격
+===================== */
+
+
+.organization-box {
+
+    margin-top:35px;
+
+    padding:35px;
+
+}
+
+
+
+.organization-box h3 {
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+
+/* =====================
+   목차 카드 조정
+===================== */
+
+
+.world-index-card {
+
+    min-height:170px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+
+
+.world-index-card h2 {
+
+    font-size:24px;
+
+    letter-spacing:3px;
+
+}
+
+
+
+.world-index-card p {
+
+    margin-top:10px;
+
+    line-height:1.8;
+
+}
+
+
+
+
+
+/* =====================
+   본청 층 안내
+===================== */
+
+
+.world-floor {
+
+    padding:30px;
+
+    margin-top:25px;
+
+}
+
+
+
+.world-floor h3 {
+
+    font-size:21px;
+
+}
+
+
+
+
+
+/* =====================
+   이미지
+===================== */
+
+
+.world-image {
+
+    margin:
+
+    40px auto;
+
+}
+
+
+
+
+
+/* =====================
+   세계관 페이지 하단 버튼
+===================== */
+
+
+.world-section + .home-button {
+
+    margin-top:50px;
+
+}
+
+
+
+
+
+/* =====================
+   모바일
+===================== */
+
+
+@media(max-width:700px){
+
+
+    .world-section {
+
+        font-size:15px;
+
+        line-height:2;
+
+    }
+
+
+
+    .world-section h2 {
+
+        font-size:22px;
+
+        letter-spacing:2px;
+
+    }
+
+
+
+    .world-section h3 {
+
+        font-size:18px;
+
+    }
+
+
+
+}
