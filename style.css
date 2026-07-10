@@ -1793,4 +1793,414 @@ h1 {
 }
 
 
+/* =====================================
+   世界觀 Archive
+   월하순라청 세계관 전용 스타일
+===================================== */
 
+
+/* =====================
+   세계관 기본 섹션
+===================== */
+
+
+.world-section {
+
+    margin-top:50px;
+
+    padding:35px;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    line-height:2;
+
+}
+
+
+
+.world-section:first-of-type {
+
+    margin-top:20px;
+
+}
+
+
+
+
+.world-section h2 {
+
+    margin-top:0;
+
+    margin-bottom:30px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid #4a4035;
+
+    color:#c8a96a;
+
+    font-size:26px;
+
+    letter-spacing:3px;
+
+}
+
+
+
+.world-section h3 {
+
+    margin-top:35px;
+
+    margin-bottom:15px;
+
+    color:#c8a96a;
+
+    font-size:19px;
+
+    letter-spacing:2px;
+
+}
+
+
+
+.world-section p {
+
+    margin:15px 0;
+
+    color:#e8e2d6;
+
+    line-height:2;
+
+}
+
+
+
+
+/* =====================
+   세계관 목록
+===================== */
+
+
+.world-list {
+
+    padding-left:25px;
+
+    margin-top:20px;
+
+}
+
+
+
+.world-list li {
+
+    margin-bottom:15px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* =====================
+   조직 설명 카드
+===================== */
+
+
+.organization-box {
+
+
+    margin-top:30px;
+
+
+    padding:30px;
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #151515,
+        #0b0b0b
+    );
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+.organization-box h3 {
+
+
+    margin-top:0;
+
+
+    padding-bottom:15px;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    color:#c8a96a;
+
+
+    font-size:22px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+.organization-box p {
+
+
+    margin:15px 0;
+
+
+}
+
+
+
+
+
+/* =====================
+   세계관 목차
+===================== */
+
+
+.world-index {
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+    gap:25px;
+
+
+    margin-top:40px;
+
+
+}
+
+
+
+.world-index-card {
+
+
+    display:block;
+
+
+    padding:35px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    text-decoration:none;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+.world-index-card:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+.world-index-card h2 {
+
+
+    margin:0 0 15px;
+
+
+    color:#c8a96a;
+
+
+    font-size:22px;
+
+
+}
+
+
+
+.world-index-card p {
+
+
+    margin:0;
+
+
+    color:#b8b0a0;
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+
+/* =====================
+   본청 층 안내
+===================== */
+
+
+.world-floor {
+
+
+    margin-top:20px;
+
+
+    padding:25px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+.world-floor h3 {
+
+
+    margin-top:0;
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+.world-floor p {
+
+
+    color:#b8b0a0;
+
+
+}
+
+
+
+
+
+/* =====================
+   세계관 이미지
+===================== */
+
+
+.world-image {
+
+
+    display:block;
+
+
+    width:100%;
+
+
+    max-width:900px;
+
+
+    margin:30px auto;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+/* =====================
+   세계관 페이지 모바일
+===================== */
+
+
+@media(max-width:700px){
+
+
+
+    .world-section {
+
+
+        padding:20px;
+
+
+        margin-top:30px;
+
+
+    }
+
+
+
+
+    .world-section h2 {
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+
+    .organization-box {
+
+
+        padding:20px;
+
+
+    }
+
+
+
+
+    .world-index {
+
+
+        grid-template-columns:
+
+        repeat(1,1fr);
+
+
+    }
+
+
+
+}
