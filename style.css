@@ -1797,7 +1797,24 @@ h1 {
 ===================== */
 
 
+.log-header {
 
+    margin-bottom:35px;
+
+    text-align:center;
+
+}
+
+
+.log-header p {
+
+    margin-top:15px;
+
+    color:#b8b0a0;
+
+    letter-spacing:3px;
+
+}
 
 
 
