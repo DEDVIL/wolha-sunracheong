@@ -2398,24 +2398,30 @@ return;
 
 layer.style.transform =
 
+`
+translate(
+${canvasTranslateX}px,
+${canvasTranslateY}px
+)
+scale(
+${canvasScale}
+)
+`;
+
+
+lineLayer.style.transform =
 
 `
-
 translate(
-
 ${canvasTranslateX}px,
-
 ${canvasTranslateY}px
-
 )
-
 scale(
-
 ${canvasScale}
-
 )
-
 `;
+
+lineLayer.style.transformOrigin="0 0";
 
 
 
@@ -3964,26 +3970,19 @@ return;
 
 
 
-layer.style.transform =
-
+lineLayer.style.transform =
 
 `
-
 translate(
-
 ${canvasOffsetX}px,
-
 ${canvasOffsetY}px
-
 )
-
 scale(
-
 ${canvasScale}
-
 )
-
 `;
+
+lineLayer.style.transformOrigin="0 0";
 
 
 
