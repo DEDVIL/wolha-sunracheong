@@ -804,7 +804,9 @@ getDocs,
 
 query,
 
-orderBy
+orderBy,
+
+where
 
 
 }
@@ -969,32 +971,58 @@ logs=[];
 
 
 
-snapshot.forEach(doc=>{
+for(const docSnap of snapshot.docs){
+
+
+    const log = {
+
+
+        id:docSnap.id,
+
+
+        ...docSnap.data(),
+
+
+        commentCount:0
+
+
+    };
 
 
 
-logs.push({
+    const commentQuery = query(
+
+
+        collection(db,"worldComments"),
+
+
+        where(
+
+            "worldId",
+
+            "==",
+
+            log.id
+
+        )
+
+
+    );
 
 
 
-id:doc.id,
+    const commentSnapshot = await getDocs(commentQuery);
 
 
 
-...doc.data(),
+    log.commentCount = commentSnapshot.size;
 
 
 
-commentCount:0
+    logs.push(log);
 
 
-
-});
-
-
-
-});
-
+}
 
 
 
@@ -1158,7 +1186,7 @@ ${formatDate(log.createdAt)}
 <div class="log-comment">
 
 
--
+${log.commentCount || 0}
 
 
 </div>
