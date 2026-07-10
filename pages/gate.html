@@ -1487,7 +1487,51 @@ loadComments();
 };
 
 
+function getGradeClass(grade){
 
+
+if(!grade){
+
+return "";
+
+}
+
+
+
+if(grade.includes("이물")){
+
+return "grade-low";
+
+}
+
+
+if(grade.includes("이매")){
+
+return "grade-middle";
+
+}
+
+
+
+if(grade.includes("망량")){
+
+return "grade-high";
+
+}
+
+
+
+if(grade.includes("흉령")){
+
+return "grade-danger";
+
+}
+
+
+
+return "";
+
+}
 
 
 </script>
