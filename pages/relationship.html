@@ -1753,21 +1753,26 @@ function renderRelationshipLines(){
 lineLayer.innerHTML="";
 
 
+lineLayer.style.width = canvas.scrollWidth + "px";
+
+lineLayer.style.height = canvas.scrollHeight + "px";
+
+
 lineLayer.setAttribute(
 "width",
-canvas.clientWidth
+canvas.scrollWidth
 );
 
 
 lineLayer.setAttribute(
 "height",
-canvas.clientHeight
+canvas.scrollHeight
 );
 
 
 lineLayer.setAttribute(
 "viewBox",
-`0 0 ${canvas.clientWidth} ${canvas.clientHeight}`
+`0 0 ${canvas.scrollWidth} ${canvas.scrollHeight}`
 );
 
 
@@ -2125,10 +2130,10 @@ layer.appendChild(node);
 nodePositions[member.id] = {
 
 x:
-parseInt(node.style.left) + 40,
+parseInt(node.style.left) + 30,
 
 y:
-parseInt(node.style.top) + 40
+parseInt(node.style.top) + 30
 
 };
    
