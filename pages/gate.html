@@ -322,7 +322,7 @@ let currentUser = null;
 let characterName = "";
 
 
-
+let currentGateData = null;
 
 
 
@@ -535,7 +535,9 @@ return;
 const data = gateSnap.data();
 
 
+currentGateData = data;
 
+     
 
 gateCaseInfo.innerHTML = `
 
@@ -1232,7 +1234,105 @@ return;
 
 try{
 
+const participantsSnapshot = await getDocs(
 
+
+collection(
+
+db,
+
+"gates",
+
+gateId,
+
+"participants"
+
+)
+
+
+);
+
+
+
+const participants = [];
+
+
+
+participantsSnapshot.forEach((doc)=>{
+
+
+participants.push(
+
+doc.data().characterName
+
+);
+
+
+});
+
+
+
+
+await addDoc(
+
+
+collection(
+
+db,
+
+"gateRecords"
+
+),
+
+
+
+{
+
+
+gateId:gateId,
+
+
+title:
+currentGateData.title,
+
+
+location:
+currentGateData.location,
+
+
+grade:
+currentGateData.grade,
+
+
+type:
+currentGateData.type,
+
+
+monsterName:
+currentGateData.monsterName,
+
+
+content:
+currentGateData.content,
+
+
+participants:
+participants,
+
+
+endedBy:
+characterName,
+
+
+endedAt:
+serverTimestamp()
+
+
+
+}
+
+
+);
 
 await updateDoc(
 
