@@ -1402,13 +1402,7 @@ async function loadComments(){
 
 
 
-            <div class="comment-content">
-
-            ${data.content}
-
-            ${data.updatedAt ? " (수정)" : ""}
-
-            </div>
+            <div class="comment-content">${data.content.replace(/\n/g, "<br>")}${data.updatedAt ? " (수정)" : ""}</div>
 
 
 
