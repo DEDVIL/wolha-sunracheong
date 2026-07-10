@@ -4,13 +4,534 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>월하순라청 :: 개인 로그</title>
+<title>
+월하순라청 :: 개인 로그
+</title>
 
-<link rel="stylesheet" href="../assets/css/style.css">
+
+<link rel="stylesheet" href="../style.css">
+
+
+<style>
+
+
+/* =====================
+   개인 로그 목록 전용
+===================== */
+
+
+.log-page{
+
+
+    width:100%;
+
+}
+
+
+
+.log-header{
+
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+
+}
+
+
+
+.log-header h1{
+
+
+    margin:0;
+
+}
+
+
+
+.log-header p{
+
+
+    color:#b8b0a0;
+
+    letter-spacing:3px;
+
+}
+
+
+
+
+
+.log-control{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.log-control-left,
+.log-control-right{
+
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+
+
+.log-button{
+
+
+    padding:10px 18px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    text-decoration:none;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard",sans-serif;
+
+
+}
+
+
+
+.log-button:hover{
+
+
+    border-color:#c8a96a;
+
+    color:#c8a96a;
+
+
+}
+
+
+
+.log-button.active{
+
+
+    background:#c8a96a;
+
+    color:#101010;
+
+}
+
+
+
+
+
+.character-list{
+
+
+    display:none;
+
+
+    flex-wrap:wrap;
+
+
+    gap:8px;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.character-list.show{
+
+
+    display:flex;
+
+
+}
+
+
+
+.character-button{
+
+
+    padding:8px 14px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#c8a96a;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.character-button.active{
+
+
+    background:#c8a96a;
+
+
+    color:#101010;
+
+
+}
+
+
+
+
+
+
+.log-search{
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.log-search input{
+
+
+    width:100%;
+
+
+    padding:12px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+
+
+.log-table{
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.log-table-header,
+.log-table-row{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    140px
+
+    1fr
+
+    180px
+
+    80px;
+
+
+}
+
+
+
+
+
+.log-table-header{
+
+
+    background:#0b0b0b;
+
+
+    color:#c8a96a;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    position:sticky;
+
+
+    top:0;
+
+
+}
+
+
+
+
+
+.log-table-header div{
+
+
+    padding:15px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+.log-table-row{
+
+
+    border-bottom:1px solid #2f2a23;
+
+
+    cursor:pointer;
+
+
+    transition:.2s;
+
+
+}
+
+
+
+
+
+.log-table-row:hover{
+
+
+    background:rgba(200,169,106,0.08);
+
+
+}
+
+
+
+
+
+.log-table-row div{
+
+
+    padding:15px;
+
+
+}
+
+
+
+.log-writer{
+
+
+    text-align:center;
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+.log-title{
+
+
+    overflow:hidden;
+
+
+    white-space:nowrap;
+
+
+    text-overflow:ellipsis;
+
+
+}
+
+
+
+.log-date,
+.log-comment{
+
+
+    text-align:center;
+
+
+    color:#b8b0a0;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+.empty-log{
+
+
+    padding:60px 20px;
+
+
+    text-align:center;
+
+
+    color:#8d867b;
+
+
+}
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+.log-control{
+
+
+    flex-direction:column;
+
+
+    align-items:stretch;
+
+
+}
+
+
+
+.log-control-left,
+.log-control-right{
+
+
+    justify-content:center;
+
+
+}
+
+
+
+.log-table-header{
+
+
+    display:none;
+
+
+}
+
+
+
+.log-table-row{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:5px;
+
+
+}
+
+
+
+.log-table-row div{
+
+
+    padding:5px 15px;
+
+
+}
+
+
+
+.log-writer{
+
+
+    padding-top:15px !important;
+
+
+}
+
+
+
+.log-title{
+
+
+    font-size:17px;
+
+
+}
+
+
+
+.log-date,
+.log-comment{
+
+
+    text-align:left;
+
+
+    padding-bottom:15px !important;
+
+
+}
+
+
+}
+
+
+</style>
+
 
 </head>
+
 
 
 <body>
@@ -19,65 +540,79 @@
 <main class="main-container">
 
 
-<section class="content-box">
+<section class="content-box log-page">
+
 
 
 <div class="log-header">
 
-    <h1>月下巡邏廳</h1>
 
-    <p>개인 로그</p>
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p>
+개인 로그
+</p>
+
 
 </div>
+
 
 
 
 <div class="log-control">
 
 
-<div class="log-left">
+<div class="log-control-left">
 
 
 <button
-class="active"
-id="show-all-btn">
+class="log-button active"
+id="all-button">
 
 전체글
 
 </button>
 
 
+
 <button
-id="show-character-btn">
+class="log-button"
+id="character-button">
 
 캐릭터별
 
 </button>
 
 
+
 </div>
 
 
 
-<div class="log-right">
+
+<div class="log-control-right">
 
 
-<button
-class="btn"
-id="home-btn">
+<a
+href="./home.html"
+class="log-button">
 
 홈
 
-</button>
+</a>
 
 
-<button
-class="btn"
-id="write-btn">
+
+<a
+href="./log-write.html"
+class="log-button">
 
 글쓰기
 
-</button>
+</a>
 
 
 </div>
@@ -88,16 +623,18 @@ id="write-btn">
 
 
 
-<div id="character-filter"
-class="character-filter">
 
+<div
+id="character-list"
+class="character-list">
 
 </div>
 
 
 
 
-<div class="search-box">
+
+<div class="log-search">
 
 
 <input
@@ -117,11 +654,10 @@ placeholder="캐릭터명 또는 제목 검색"
 
 
 
-<div class="logs-container">
+<div class="log-table">
 
 
-
-<div class="logs-head">
+<div class="log-table-header">
 
 
 <div>
@@ -144,31 +680,32 @@ placeholder="캐릭터명 또는 제목 검색"
 </div>
 
 
+</div>
+
+
+
+
+<div id="log-list">
+
+
+<div class="empty-log">
+
+게시글을 불러오는 중입니다.
+
+</div>
+
 
 </div>
 
 
 
-<div id="logs-list">
-
-
-<div class="loading-message">
-
-게시글을 불러오는 중입니다...
-
 </div>
 
 
-</div>
-
-
-
-</div>
 
 
 
 </section>
-
 
 
 </main>
@@ -176,13 +713,25 @@ placeholder="캐릭터명 또는 제목 검색"
 
 
 
+
 <script type="module">
 
 
-import { auth, db } from "../js/firebase.js";
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
 
 
 import {
+
 
 collection,
 
@@ -192,22 +741,59 @@ query,
 
 orderBy
 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 import {
 
+
 onAuthStateChanged
 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
 
 
-let allLogs = [];
 
-let filteredLogs = [];
+const logList =
+document.getElementById("log-list");
+
+
+
+const searchInput =
+document.getElementById("search-input");
+
+
+
+const allButton =
+document.getElementById("all-button");
+
+
+
+const characterButton =
+document.getElementById("character-button");
+
+
+
+const characterList =
+document.getElementById("character-list");
+
+
+
+
+let logs = [];
 
 let currentCharacter = "";
 
@@ -215,38 +801,8 @@ let currentCharacter = "";
 
 
 
-const logsList =
-document.getElementById("logs-list");
 
-
-const characterFilter =
-document.getElementById("character-filter");
-
-
-const searchInput =
-document.getElementById("search-input");
-
-
-const showAllBtn =
-document.getElementById("show-all-btn");
-
-
-const showCharacterBtn =
-document.getElementById("show-character-btn");
-
-
-const writeBtn =
-document.getElementById("write-btn");
-
-
-const homeBtn =
-document.getElementById("home-btn");
-
-
-
-
-
-const characterNames = [
+const characters = [
 
 
 "사신우",
@@ -280,6 +836,9 @@ const characterNames = [
 
 
 
+
+
+
 function formatDate(timestamp){
 
 
@@ -294,38 +853,6 @@ return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,"0")}.${Str
 
 }
 
-async function getCommentCount(logId){
-
-
-    const snapshot = await getDocs(
-        collection(db,"logComments")
-    );
-
-
-    let count = 0;
-
-
-    snapshot.forEach(doc=>{
-
-
-        const data = doc.data();
-
-
-        if(data.logId === logId){
-
-            count++;
-
-        }
-
-
-    });
-
-
-    return count;
-
-
-}
-
 
 
 
@@ -333,193 +860,68 @@ async function getCommentCount(logId){
 async function loadLogs(){
 
 
-    logsList.innerHTML = `
 
-    <div class="loading-message">
-
-        게시글을 불러오는 중입니다...
-
-    </div>
-
-    `;
+try{
 
 
+const q = query(
 
-    try{
+collection(db,"logs"),
 
+orderBy("createdAt","desc")
 
-        const q = query(
-
-            collection(db,"logs"),
-
-            orderBy("createdAt","desc")
-
-        );
-
-
-        const snapshot = await getDocs(q);
-
-
-        allLogs = [];
+);
 
 
 
-        for(const docSnap of snapshot.docs){
-
-
-            const data = docSnap.data();
-
-
-            const commentCount =
-            await getCommentCount(docSnap.id);
+const snapshot = await getDocs(q);
 
 
 
-            allLogs.push({
-
-                id:docSnap.id,
-
-                ...data,
-
-                commentCount
-
-            });
+logs = [];
 
 
-        }
+snapshot.forEach(doc=>{
 
 
+logs.push({
 
-        filteredLogs = [...allLogs];
+id:doc.id,
+
+...doc.data(),
+
+commentCount:0
+
+});
 
 
-        renderLogs(filteredLogs);
-
-
-
-    }
-    catch(error){
-
-
-        console.error(error);
+});
 
 
 
-        logsList.innerHTML = `
-
-        <div class="empty-message">
-
-        게시글을 불러오지 못했습니다.
-
-        </div>
-
-        `;
-
-
-    }
+renderLogs(logs);
 
 
 }
 
+catch(error){
 
 
+console.error(error);
 
 
-function renderLogs(logs){
+logList.innerHTML = `
 
+<div class="empty-log">
 
-    logsList.innerHTML = "";
+게시글을 불러오지 못했습니다.
 
+</div>
 
+`;
 
-    if(logs.length === 0){
 
-
-        logsList.innerHTML = `
-
-        <div class="empty-message">
-
-        등록된 개인 로그가 없습니다.
-
-        </div>
-
-        `;
-
-
-        return;
-
-
-    }
-
-
-
-
-    logs.forEach(log=>{
-
-
-        const row =
-        document.createElement("div");
-
-
-        row.className = "logs-row";
-
-
-
-        row.innerHTML = `
-
-
-        <div class="logs-writer">
-
-            ${log.writerName || "익명"}
-
-        </div>
-
-
-
-        <div class="logs-title">
-
-            ${log.title || "제목 없음"}
-
-        </div>
-
-
-
-        <div class="logs-date">
-
-            ${formatDate(log.createdAt)}
-
-        </div>
-
-
-
-        <div class="logs-comment">
-
-            ${log.commentCount > 0 ? log.commentCount : "-"}
-
-        </div>
-
-
-        `;
-
-
-
-        row.addEventListener("click",()=>{
-
-
-            location.href =
-            `log-view.html?id=${log.id}`;
-
-
-        });
-
-
-
-        logsList.appendChild(row);
-
-
-
-    });
-
+}
 
 
 }
@@ -530,70 +932,162 @@ function renderLogs(logs){
 
 
 
-function renderCharacterButtons(){
-
-
-    characterFilter.innerHTML = "";
+function renderLogs(data){
 
 
 
-    characterNames.forEach(name=>{
-
-
-        const button =
-        document.createElement("button");
+logList.innerHTML = "";
 
 
 
-        button.className =
-        "character-btn";
+if(data.length===0){
 
 
 
-        button.textContent =
-        name;
+logList.innerHTML = `
+
+<div class="empty-log">
+
+아직 등록된 개인 로그가 없습니다.
+
+</div>
+
+`;
 
 
-
-        button.addEventListener("click",()=>{
-
-
-            currentCharacter = name;
-
-
-
-            document
-            .querySelectorAll(".character-btn")
-            .forEach(btn=>{
-
-
-                btn.classList.remove("active");
-
-
-            });
-
-
-
-            button.classList.add("active");
-
-
-
-            filterLogs();
-
-
-        });
-
-
-
-        characterFilter.appendChild(button);
-
-
-
-    });
+return;
 
 
 }
 
+
+
+
+
+data.forEach(log=>{
+
+
+const row = document.createElement("div");
+
+
+row.className="log-table-row";
+
+
+
+row.innerHTML=`
+
+
+<div class="log-writer">
+
+${log.writerName || "익명"}
+
+</div>
+
+
+
+<div class="log-title">
+
+${log.title || "제목 없음"}
+
+</div>
+
+
+
+<div class="log-date">
+
+${formatDate(log.createdAt)}
+
+</div>
+
+
+
+<div class="log-comment">
+
+-
+
+</div>
+
+
+`;
+
+
+
+row.onclick=()=>{
+
+
+location.href=
+
+`./log-view.html?id=${log.id}`;
+
+
+};
+
+
+
+logList.appendChild(row);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+function renderCharacters(){
+
+
+
+characterList.innerHTML="";
+
+
+
+characters.forEach(name=>{
+
+
+const button=document.createElement("button");
+
+
+button.className="character-button";
+
+
+button.textContent=name;
+
+
+
+button.onclick=()=>{
+
+
+currentCharacter=name;
+
+
+document
+.querySelectorAll(".character-button")
+.forEach(btn=>btn.classList.remove("active"));
+
+
+button.classList.add("active");
+
+
+filterLogs();
+
+
+};
+
+
+
+characterList.appendChild(button);
+
+
+});
+
+
+}
 
 
 
@@ -603,75 +1097,57 @@ function renderCharacterButtons(){
 function filterLogs(){
 
 
-    let result =
-    [...allLogs];
+let result=[...logs];
 
 
 
-    if(currentCharacter){
+if(currentCharacter){
 
 
-        result =
-        result.filter(log=>{
+result=result.filter(log=>
 
 
-            return log.writerName === currentCharacter;
+log.writerName===currentCharacter
 
 
-        });
+);
 
 
-    }
-
-
-
-
-
-    const keyword =
-    searchInput.value.trim();
+}
 
 
 
 
-    if(keyword){
-
-
-        result =
-        result.filter(log=>{
-
-
-            const writer =
-            log.writerName || "";
-
-
-            const title =
-            log.title || "";
+const keyword =
+searchInput.value.trim();
 
 
 
-            return (
-
-                writer.includes(keyword)
-
-                ||
-
-                title.includes(keyword)
-
-            );
+if(keyword){
 
 
-        });
+result=result.filter(log=>{
 
 
-    }
+return (
+
+(log.writerName || "").includes(keyword)
+
+||
+
+(log.title || "").includes(keyword)
+
+);
+
+
+});
+
+
+}
 
 
 
-
-    filteredLogs = result;
-
-
-    renderLogs(filteredLogs);
+renderLogs(result);
 
 
 }
@@ -681,143 +1157,90 @@ function filterLogs(){
 
 
 
-showAllBtn.addEventListener("click",()=>{
+
+allButton.onclick=()=>{
 
 
-    currentCharacter = "";
+currentCharacter="";
 
 
+allButton.classList.add("active");
 
-    showAllBtn.classList.add("active");
-
-    showCharacterBtn.classList.remove("active");
-
+characterButton.classList.remove("active");
 
 
-    characterFilter.classList.remove("show");
-
-
-
-    document
-    .querySelectorAll(".character-btn")
-    .forEach(btn=>{
-
-
-        btn.classList.remove("active");
-
-
-    });
+characterList.classList.remove("show");
 
 
 
-    filterLogs();
+filterLogs();
 
 
-
-});
+};
 
 
 
 
 
-
-showCharacterBtn.addEventListener("click",()=>{
-
-
-    showCharacterBtn.classList.add("active");
+characterButton.onclick=()=>{
 
 
-    showAllBtn.classList.remove("active");
+characterButton.classList.add("active");
+
+allButton.classList.remove("active");
+
+
+characterList.classList.add("show");
+
+
+};
 
 
 
-    characterFilter.classList.add("show");
 
 
+searchInput.addEventListener(
 
-});
+"input",
+
+filterLogs
+
+);
 
 
 
 
 
 
-searchInput.addEventListener("input",()=>{
+
+onAuthStateChanged(auth,(user)=>{
 
 
-    filterLogs();
+if(!user){
 
 
-});
+location.href="../index.html";
+
+
+return;
+
+
+}
 
 
 
+renderCharacters();
 
-
-
-writeBtn.addEventListener("click",()=>{
-
-
-    location.href =
-    "log-write.html";
+loadLogs();
 
 
 });
 
-
-
-
-
-
-homeBtn.addEventListener("click",()=>{
-
-
-    location.href =
-    "home.html";
-
-
-});
-
-
-
-
-
-
-
-onAuthStateChanged(auth,async(user)=>{
-
-
-    if(!user){
-
-
-        alert(
-        "승인된 멤버만 이용할 수 있습니다."
-        );
-
-
-        location.href =
-        "../index.html";
-
-
-        return;
-
-
-    }
-
-
-
-    renderCharacterButtons();
-
-
-    loadLogs();
-
-
-
-});
 
 
 
 </script>
+
 
 
 </body>
