@@ -717,7 +717,53 @@ z-index:2;
 
 }
 
+.relationship-layer {
 
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+transform-origin:0 0;
+
+}
+
+
+.relationship-lines {
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+overflow:visible;
+
+}
+
+
+.relationship-node-layer {
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+}
 
 }
 
@@ -803,33 +849,34 @@ placeholder="캐릭터 검색"
 
 
 <div
-
 id="relationship-canvas"
-
 class="relationship-canvas"
+>
 
+
+<div
+id="relationship-layer"
+class="relationship-layer"
 >
 
 
 <svg
-
 id="relationship-lines"
-
 class="relationship-lines"
-
 >
-
 </svg>
 
 
 
 <div
-
 id="relationship-node-layer"
-
 class="relationship-node-layer"
-
 >
+</div>
+
+
+</div>
+
 
 </div>
 
@@ -1956,31 +2003,15 @@ oldLayer.remove();
 
 }
 
-const layer = document.createElement("div");
-
-
-layer.id="relationship-layer";
-
-
-layer.style.position="absolute";
-
-
-layer.style.width="100%";
-
-
-layer.style.height="100%";
+const layer =
+document.getElementById("relationship-layer");
 
 
 layer.style.transform =
-
-`translate(${canvasOffsetX}px, ${canvasOffsetY}px) scale(${canvasScale})`;
-
-
-layer.style.transformOrigin="0 0";
-
-
-canvas.appendChild(layer);
-
+`
+translate(${canvasTranslateX}px, ${canvasTranslateY}px)
+scale(${canvasScale})
+`;
 
 list.forEach((member,index)=>{
 
