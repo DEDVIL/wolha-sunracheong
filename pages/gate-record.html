@@ -316,11 +316,16 @@ href="./gate-record-view.html?id=${doc.id}"
 class="gate-record-card"
 >
 
+
+
 <p class="record-label">
 
 CASE FILE
 
 </p>
+
+
+
 
 <h3>
 
@@ -332,89 +337,19 @@ ${data.title || "귀문 사건"}
 
 
 
-<p>
-
-<strong>
-지역
-</strong>
-
-<br>
-
-${data.location || "-"}
-
-</p>
-
-
-
-
-
-<p>
-
-<strong>
-등급
-</strong>
-
-<br>
-
-${data.grade || "-"}
-
-</p>
-
-
-
-
-
-<p>
-
-<strong>
-유형
-</strong>
-
-<br>
-
-${data.type || "-"}
-
-</p>
-
-
-
-
-
-<p>
-
-<strong>
-관련 개체
-</strong>
-
-<br>
-
-${data.monsterName || "-"}
-
-</p>
-
-
-
-
-
-<p>
-
-<strong>
-참여자
-</strong>
-
-<br>
+<p class="record-date">
 
 ${
 
-data.participants
+data.endedAt
 
 ?
 
-data.participants.join(", ")
+data.endedAt.toDate().toLocaleDateString("ko-KR")
 
 :
 
-"-"
+"날짜 미상"
 
 }
 
@@ -424,22 +359,11 @@ data.participants.join(", ")
 
 
 
-<p>
-
-<strong>
-종료자
-</strong>
-
-<br>
-
-${data.endedBy || "-"}
-
-</p>
-
-
-
-
 </a>
+
+
+
+`;
 
 
 
