@@ -324,7 +324,7 @@ let characterName = "";
 
 let currentGateData = null;
 
-
+let gateClosed = false;
 
 
 
@@ -537,7 +537,11 @@ const data = gateSnap.data();
 
 currentGateData = data;
 
-     
+if(data.status === "closed"){
+
+gateClosed = true;
+
+}     
 
 gateCaseInfo.innerHTML = `
 
@@ -650,7 +654,27 @@ ${data.content || "-"}
 
 `;
 
+if(gateClosed){
 
+
+commentInput.disabled = true;
+
+
+commentInput.placeholder =
+"종료된 탐사입니다. 기록 열람만 가능합니다.";
+
+
+
+commentButton.style.display =
+"none";
+
+
+
+endGateButton.style.display =
+"none";
+
+
+}
 
 }
 
@@ -1037,6 +1061,8 @@ let buttonHTML = "";
 if(
 
 currentUser.uid === data.uid
+
+&& !gateClosed
 
 ){
 
