@@ -2452,3 +2452,451 @@ h1 {
 
 
 }
+
+
+/* =====================================
+   귀문탐사
+===================================== */
+
+
+.gate-page,
+.gate-record-page {
+
+    width:100%;
+
+}
+
+
+
+
+/* 제목 영역 */
+
+.gate-page h1,
+.gate-record-page h1 {
+
+    letter-spacing:3px;
+
+}
+
+
+
+.gate-page h2,
+.gate-record-page h2 {
+
+    margin-top:35px;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid rgba(255,255,255,0.15);
+
+}
+
+
+
+
+
+/* =====================
+   사건 카드
+===================== */
+
+
+.gate-case-box {
+
+
+    margin-top:35px;
+
+    padding:30px;
+
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    background:rgba(0,0,0,0.25);
+
+
+}
+
+
+
+
+.gate-case-title {
+
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+
+.gate-case-detail p {
+
+
+    line-height:1.8;
+
+    margin:18px 0;
+
+
+}
+
+
+
+
+
+.gate-case-detail strong {
+
+
+    color:#d8b36a;
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   참가 영역
+===================== */
+
+
+.gate-participant-box {
+
+
+    margin-top:40px;
+
+
+}
+
+
+
+
+.gate-participant-box .write-button {
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.gate-participant {
+
+
+    display:inline-block;
+
+
+    padding:8px 16px;
+
+
+    margin:5px;
+
+
+    border-radius:20px;
+
+
+    background:rgba(255,255,255,0.08);
+
+
+}
+
+
+
+
+
+
+
+/* =====================
+   탐사 기록
+===================== */
+
+
+.gate-log-box {
+
+
+    margin-top:40px;
+
+
+}
+
+
+
+
+
+.gate-comment {
+
+
+    padding:20px;
+
+
+    margin-bottom:15px;
+
+
+    border-left:3px solid #d8b36a;
+
+
+    background:rgba(0,0,0,0.2);
+
+
+}
+
+
+
+
+
+.gate-comment-name {
+
+
+    font-weight:bold;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+.gate-comment-text {
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+.gate-comment-control {
+
+
+    margin-top:15px;
+
+
+}
+
+
+
+
+
+
+
+
+.gate-edit-button,
+.gate-delete-button {
+
+
+    margin-right:8px;
+
+    padding:5px 12px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+   기록 작성
+===================== */
+
+
+.gate-comment-write {
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+
+.gate-comment-write textarea {
+
+
+    width:100%;
+
+
+    min-height:120px;
+
+
+    padding:15px;
+
+
+    resize:vertical;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+   종료 영역
+===================== */
+
+
+.gate-end-box {
+
+
+    margin-top:50px;
+
+
+    padding:25px;
+
+
+    text-align:center;
+
+
+    border-top:1px solid rgba(255,255,255,0.15);
+
+
+}
+
+
+
+
+
+.gate-end-button {
+
+
+    margin-top:15px;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================
+   기록 보관소
+===================== */
+
+
+.gate-record-list-box {
+
+
+    margin-top:40px;
+
+
+}
+
+
+
+
+.gate-record-card {
+
+
+    display:block;
+
+
+    margin-bottom:20px;
+
+
+    padding:25px;
+
+
+    text-decoration:none;
+
+
+    color:inherit;
+
+
+    border:1px solid rgba(255,255,255,0.15);
+
+
+    background:rgba(0,0,0,0.25);
+
+
+}
+
+
+
+
+
+.gate-record-card:hover {
+
+
+    background:rgba(255,255,255,0.05);
+
+
+}
+
+
+
+
+
+
+
+.gate-record-card h3 {
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+
+
+
+
+#record-view {
+
+
+    margin-top:35px;
+
+
+    padding:30px;
+
+
+    background:rgba(0,0,0,0.25);
+
+
+    border:1px solid rgba(255,255,255,0.15);
+
+
+}
+
+
+
+
+
+#record-view p {
+
+
+    line-height:1.8;
+
+
+}
