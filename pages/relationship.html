@@ -552,9 +552,17 @@ height:100%;
 
 z-index:2;
 
+pointer-events:none;
+
 }
 
+.relationship-node{
 
+z-index:2;
+
+pointer-events:auto;
+
+}
 
 /* =====================
    Modal
@@ -1805,26 +1813,27 @@ function renderRelationshipLines(){
 lineLayer.innerHTML="";
 
 
-lineLayer.style.width = canvas.scrollWidth + "px";
+lineLayer.style.width =
+canvas.clientWidth + "px";
 
-lineLayer.style.height = canvas.scrollHeight + "px";
-
+lineLayer.style.height =
+canvas.clientHeight + "px";
 
 lineLayer.setAttribute(
 "width",
-canvas.scrollWidth
+canvas.clientWidth
 );
 
 
 lineLayer.setAttribute(
 "height",
-canvas.scrollHeight
+canvas.clientHeight
 );
 
 
 lineLayer.setAttribute(
 "viewBox",
-`0 0 ${canvas.scrollWidth} ${canvas.scrollHeight}`
+`0 0 ${canvas.clientWidth} ${canvas.clientHeight}`
 );
 
 
@@ -1915,7 +1924,7 @@ text.setAttribute(
 
 text.setAttribute(
 "y",
-(from.y+to.y)/2
+((from.y+to.y)/2)-10
 );
 
 
@@ -2366,9 +2375,9 @@ y
 nodePositions[member.id]={
 
 
-x:x+30+canvasTranslateX,
+x:x + node.offsetWidth / 2,
 
-y:y+30+canvasTranslateY
+y:y + node.offsetHeight / 2
 
 
 };
