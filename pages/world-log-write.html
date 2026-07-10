@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+월하순라청 :: 세계관 확장판 작성
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+
+
+
+<style>
+
+
+.world-log-write-box{
+
+    width:90%;
+
+    max-width:1000px;
+
+    margin:40px auto;
+
+}
+
+
+
+.world-log-title-area{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+
+
+.world-log-title-area h1{
+
+    margin:0;
+
+}
+
+
+
+.world-log-form-group{
+
+    margin-bottom:25px;
+
+}
+
+
+
+.world-log-form-group label{
+
+    color:#c8a96a;
+
+    letter-spacing:2px;
+
+}
+
+
+
+#title{
+
+    width:100%;
+
+    height:45px;
+
+    padding:10px;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    color:#e8e2d6;
+
+    font-family:"Pretendard",sans-serif;
+
+}
+
+
+
+#title:focus{
+
+    outline:none;
+
+    border-color:#c8a96a;
+
+}
+
+
+
+#editor{
+
+    height:400px;
+
+    background:#0b0b0b;
+
+    color:#e8e2d6;
+
+}
+
+
+
+.ql-toolbar{
+
+    background:#e8e2d6;
+
+}
+
+
+
+.button-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+
+
+.btn{
+
+    width:120px;
+
+    height:40px;
+
+    border:1px solid #4a4035;
+
+    background:#0b0b0b;
+
+    color:#e8e2d6;
+
+    cursor:pointer;
+
+    font-family:"Pretendard",sans-serif;
+
+}
+
+
+
+.btn:hover{
+
+    border-color:#c8a96a;
+
+}
+
+
+
+.btn-save{
+
+    background:#8b0000;
+
+    border-color:#8b0000;
+
+    color:white;
+
+}
+
+
+
+.btn-save:hover{
+
+    background:#a00000;
+
+}
+
+
+
+@media(max-width:700px){
+
+
+    .world-log-write-box{
+
+        width:95%;
+
+    }
+
+
+    .button-area{
+
+        flex-direction:column;
+
+    }
+
+
+    .btn{
+
+        width:100%;
+
+    }
+
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<main class="main-container">
+
+
+<section class="content-box world-log-write-box">
+
+
+
+<div class="world-log-title-area">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+세계관 확장판 작성
+</p>
+
+
+</div>
+
+
+
+<div class="world-log-form-group">
+
+
+<label>
+
+제목
+
+</label>
+
+
+<input
+
+id="title"
+
+type="text"
+
+placeholder="제목을 입력해주세요."
+
+
+>
+
+
+</div>
+
+
+
+
+<div class="world-log-form-group">
+
+
+<label>
+
+내용
+
+</label>
+
+
+<div id="editor"></div>
+
+
+</div>
+
+
+
+
+<div class="button-area">
+
+
+<button
+
+class="btn"
+
+id="cancel-btn"
+
+>
+
+취소
+
+</button>
+
+
+
+<button
+
+class="btn btn-save"
+
+id="save-btn"
+
+>
+
+저장
+
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+</main>
+
+
+
+<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+
+<script type="module">
+
+
+import {
+
+    auth,
+
+    db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+    onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+import {
+
+    doc,
+
+    getDoc,
+
+    addDoc,
+
+    updateDoc,
+
+    collection,
+
+    serverTimestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+let currentUser = null;
+
+
+let editMode = false;
+
+
+let editId = null;
+
+
+
+
+
+
+
+const titleInput =
+
+document.getElementById("title");
+
+
+
+const saveBtn =
+
+document.getElementById("save-btn");
+
+
+
+const cancelBtn =
+
+document.getElementById("cancel-btn");
+
+
+
+
+
+
+
+
+
+const params =
+
+new URLSearchParams(location.search);
+
+
+
+
+if(params.has("id")){
+
+
+    editMode = true;
+
+
+    editId = params.get("id");
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+const quill = new Quill(
+
+    "#editor",
+
+    {
+
+
+        theme:"snow",
+
+
+        modules:{
+
+
+            toolbar:{
+
+
+                container:[
+
+
+                    ["bold","italic","underline"],
+
+
+                    [
+                        {
+                            header:[
+                                1,
+                                2,
+                                false
+                            ]
+                        }
+                    ],
+
+
+                    [
+
+                        {
+                            list:"ordered"
+                        },
+
+                        {
+                            list:"bullet"
+                        }
+
+                    ],
+
+
+                    ["link","image"]
+
+
+                ],
+
+
+
+                handlers:{
+
+
+                    image:function(){
+
+
+
+                        const url = prompt(
+
+                            "이미지 URL을 입력해주세요."
+
+                        );
+
+
+
+                        if(url){
+
+
+
+                            const range =
+
+                            quill.getSelection();
+
+
+
+                            quill.insertEmbed(
+
+
+                                range.index,
+
+
+                                "image",
+
+
+                                url
+
+
+                            );
+
+
+                        }
+
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+        }
+
+
+    }
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+function getEditorContent(){
+
+
+    return quill.root.innerHTML;
+
+
+}
+
+
+
+
+
+
+function setEditorContent(content){
+
+
+    quill.root.innerHTML = content || "";
+
+
+}
+
+
+
+
+
+
+
+
+
+async function loadEditData(){
+
+
+
+    if(!editMode){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    const snap = await getDoc(
+
+
+        doc(
+
+            db,
+
+            "worldLogs",
+
+            editId
+
+        )
+
+
+    );
+
+
+
+
+
+    if(!snap.exists()){
+
+
+        alert(
+
+            "존재하지 않는 글입니다."
+
+        );
+
+
+        location.href="world-logs.html";
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    const data = snap.data();
+
+
+
+
+
+
+    if(data.writerUid !== currentUser.uid){
+
+
+        alert(
+
+            "작성자만 수정할 수 있습니다."
+
+        );
+
+
+        location.href =
+
+        `world-log-view.html?id=${editId}`;
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    titleInput.value =
+
+    data.title || "";
+
+
+
+
+
+    setEditorContent(
+
+        data.content
+
+    );
+
+
+
+
+
+    saveBtn.textContent =
+
+    "수정 저장";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+async function getWriterName(){
+
+
+
+    const userSnap = await getDoc(
+
+
+        doc(
+
+            db,
+
+            "users",
+
+            currentUser.uid
+
+        )
+
+
+    );
+
+
+
+
+
+
+    if(userSnap.exists()){
+
+
+
+        const data =
+
+        userSnap.data();
+
+
+
+
+
+        return (
+
+            data.characterName
+
+            ||
+
+            data.name
+
+            ||
+
+            "익명"
+
+        );
+
+
+
+    }
+
+
+
+
+    return "익명";
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+async function saveWorldLog(){
+
+
+
+    const title =
+
+    titleInput.value.trim();
+
+
+
+
+
+    const content =
+
+    getEditorContent();
+
+
+
+
+
+
+
+    if(!title){
+
+
+        alert(
+
+            "제목을 입력해주세요."
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    if(
+
+        !content
+
+        ||
+
+        content === "<p><br></p>"
+
+    ){
+
+
+        alert(
+
+            "내용을 입력해주세요."
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    saveBtn.disabled = true;
+
+
+
+
+
+
+
+    try{
+
+
+
+        const writerName =
+
+        await getWriterName();
+
+
+
+
+
+
+
+
+        if(editMode){
+
+
+
+
+
+            await updateDoc(
+
+
+
+                doc(
+
+                    db,
+
+                    "worldLogs",
+
+                    editId
+
+                ),
+
+
+
+                {
+
+
+                    title:title,
+
+
+                    content:content,
+
+
+                    updatedAt:
+
+                    serverTimestamp()
+
+
+
+                }
+
+
+            );
+
+
+
+
+
+
+
+            location.href =
+
+            `world-log-view.html?id=${editId}`;
+
+
+
+        }
+
+
+
+        else{
+
+
+
+
+
+
+            const newDoc =
+
+            await addDoc(
+
+
+
+                collection(
+
+                    db,
+
+                    "worldLogs"
+
+                ),
+
+
+
+                {
+
+
+                    title:title,
+
+
+                    content:content,
+
+
+
+                    writerUid:
+
+                    currentUser.uid,
+
+
+
+                    writerName:
+
+                    writerName,
+
+
+
+                    createdAt:
+
+                    serverTimestamp(),
+
+
+
+                    updatedAt:
+
+                    serverTimestamp()
+
+
+
+                }
+
+
+
+            );
+
+
+
+
+
+
+
+            location.href =
+
+            `world-log-view.html?id=${newDoc.id}`;
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+    catch(error){
+
+
+
+        console.error(error);
+
+
+
+        alert(
+
+            "저장 중 오류가 발생했습니다."
+
+        );
+
+
+
+        saveBtn.disabled = false;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+/*
+
+    로그인 확인
+
+*/
+
+
+onAuthStateChanged(
+
+
+    auth,
+
+
+    async(user)=>{
+
+
+
+
+
+        if(!user){
+
+
+
+            alert(
+
+                "승인된 멤버만 이용할 수 있습니다."
+
+            );
+
+
+
+            location.href=
+
+            "../index.html";
+
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+
+        currentUser = user;
+
+
+
+
+
+
+        await loadEditData();
+
+
+
+
+
+    }
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+    저장 버튼
+
+*/
+
+
+saveBtn.addEventListener(
+
+
+    "click",
+
+
+    ()=>{
+
+
+        saveWorldLog();
+
+
+    }
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+    취소 버튼
+
+*/
+
+
+cancelBtn.addEventListener(
+
+
+    "click",
+
+
+    ()=>{
+
+
+
+
+
+        if(editMode){
+
+
+
+            location.href =
+
+            `world-log-view.html?id=${editId}`;
+
+
+
+        }
+
+
+        else{
+
+
+
+            location.href =
+
+            "world-logs.html";
+
+
+
+        }
+
+
+
+    }
+
+
+);
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
