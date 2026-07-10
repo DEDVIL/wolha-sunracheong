@@ -1,0 +1,4515 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>
+월하순라청 관계도
+</title>
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<style>
+
+/* =====================================
+   月下巡邏廳 Relationship System
+   전용 스타일
+===================================== */
+
+
+.relationship-page {
+
+
+    width:100%;
+
+
+    min-height:100vh;
+
+
+    background:
+
+
+    radial-gradient(
+        circle,
+        rgba(200,169,106,0.05),
+        transparent 60%
+    );
+
+
+}
+
+
+
+
+
+.relationship-header {
+
+
+    text-align:center;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+.relationship-header h1 {
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+.relationship-search {
+
+
+    margin:30px auto;
+
+
+    max-width:500px;
+
+
+}
+
+
+
+.relationship-search input {
+
+
+    width:100%;
+
+
+    height:45px;
+
+
+    padding:0 15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    font-family:"Pretendard",sans-serif;
+
+
+}
+
+
+
+.relationship-search input:focus {
+
+
+    outline:none;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.relationship-canvas {
+
+
+    position:relative;
+
+
+    width:100%;
+
+
+    min-height:600px;
+
+
+    margin-top:30px;
+
+
+    padding:40px;
+
+
+    background:
+
+
+    rgba(0,0,0,0.25);
+
+
+    border:1px solid #4a4035;
+
+
+    overflow:hidden;
+
+   
+    cursor:grab;
+
+
+}
+
+
+
+
+
+.relationship-node {
+
+
+    position:absolute;
+
+
+    width:80px;
+
+
+    text-align:center;
+
+
+    cursor:pointer;
+
+
+    transition:0.2s;
+
+
+}
+
+
+
+.relationship-node:hover {
+
+
+    transform:scale(1.08);
+
+
+}
+
+
+
+
+
+.relationship-node-image {
+
+
+    width:60px;
+
+
+    height:60px;
+
+
+    border-radius:50%;
+
+
+    object-fit:cover;
+
+
+    border:2px solid #c8a96a;
+
+
+    margin:auto;
+
+
+    display:block;
+
+
+}
+
+
+
+
+
+.relationship-node-name {
+
+
+    margin-top:8px;
+
+
+    font-size:13px;
+
+
+    color:#e8e2d6;
+
+
+    word-break:keep-all;
+
+
+}
+
+
+
+
+
+
+.relationship-action {
+
+
+    text-align:center;
+
+
+    margin:35px 0;
+
+
+}
+
+
+
+
+
+.relationship-add-button {
+
+
+    display:inline-block;
+
+
+    width:180px;
+
+
+    padding:12px;
+
+
+    background:#8b0000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    cursor:pointer;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+.relationship-add-button:hover {
+
+
+    background:#a00000;
+
+
+}
+
+
+
+
+
+.relationship-my-list {
+
+
+    margin-top:40px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.relationship-my-list h2 {
+
+
+    color:#c8a96a;
+
+
+    text-align:center;
+
+
+    font-size:22px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+
+.relationship-list-item {
+
+
+    margin:15px 0;
+
+
+    padding:15px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+.relationship-list-item:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+.relationship-lines {
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+z-index:3;
+
+pointer-events:auto;
+
+overflow:visible;
+
+}
+
+
+.relationship-node-layer {
+
+
+position:absolute;
+
+
+top:0;
+
+
+left:0;
+
+
+width:100%;
+
+
+height:100%;
+
+
+}
+
+
+
+
+.relationship-line{
+
+stroke-width:8;
+
+cursor:pointer;
+
+pointer-events:stroke;
+
+}
+
+
+
+.relationship-line-text {
+
+
+fill:#c8a96a;
+
+
+font-size:12px;
+
+
+text-anchor:middle;
+
+   
+cursor:pointer;
+
+   
+pointer-events:auto;
+
+}
+
+
+
+.relationship-node {
+
+
+z-index:2;
+
+
+}
+
+   
+.relationship-lines {
+
+position:absolute;
+top:0;
+left:0;
+
+z-index:3;
+
+pointer-events:auto;
+
+}
+
+
+.relationship-node-layer {
+
+position:absolute;
+top:0;
+left:0;
+
+z-index:2;
+
+}
+
+
+
+/* =====================
+   Modal
+===================== */
+
+
+
+.relationship-modal {
+
+
+    display:none;
+
+
+    position:fixed;
+
+
+    top:0;
+
+
+    left:0;
+
+
+    width:100%;
+
+
+    height:100%;
+
+
+    background:
+
+
+    rgba(0,0,0,0.7);
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    z-index:999;
+
+
+}
+
+
+
+
+
+
+.relationship-modal-box {
+
+
+    position:relative;
+
+
+    width:500px;
+
+
+    max-width:90%;
+
+
+    padding:40px;
+
+
+    background:#171717;
+
+
+    border:1px solid #4a4035;
+
+
+    box-shadow:
+
+    0 0 30px rgba(0,0,0,0.8);
+
+
+}
+
+
+
+
+
+.modal-close {
+
+
+    position:absolute;
+
+
+    top:15px;
+
+
+    right:15px;
+
+
+    background:none;
+
+
+    border:none;
+
+
+    color:#b8b0a0;
+
+
+    font-size:22px;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+.modal-close:hover {
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+
+
+.relationship-modal-box h2 {
+
+
+    text-align:center;
+
+
+    color:#c8a96a;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+.relationship-canvas {
+
+
+    min-height:500px;
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+
+.relationship-node {
+
+
+    width:60px;
+
+
+}
+
+
+
+
+
+.relationship-node-image {
+
+
+    width:45px;
+
+
+    height:45px;
+
+
+}
+
+
+
+
+
+.relationship-node-name {
+
+
+    font-size:11px;
+
+
+}
+
+
+
+
+.relationship-modal-box {
+
+
+    padding:30px 20px;
+
+
+}
+
+
+
+}
+
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<main class="main-container relationship-page">
+
+
+<section class="content-box">
+
+
+
+<div class="relationship-header">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+
+<p class="subtitle">
+관계도
+</p>
+
+
+
+<a 
+class="home-button"
+href="./home.html"
+>
+
+홈으로
+
+</a>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================
+     검색
+===================== -->
+
+
+<div class="relationship-search">
+
+
+<input
+
+id="relationship-search-input"
+
+type="text"
+
+placeholder="캐릭터 검색"
+
+>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- =====================
+     관계도 Canvas
+===================== -->
+
+
+<div
+
+id="relationship-canvas"
+
+class="relationship-canvas"
+
+>
+
+
+<svg
+
+id="relationship-lines"
+
+class="relationship-lines"
+
+>
+
+</svg>
+
+
+
+<div
+
+id="relationship-node-layer"
+
+class="relationship-node-layer"
+
+>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================
+     관계 추가
+===================== -->
+
+
+<div class="relationship-action">
+
+
+<button
+
+id="relationship-add-button"
+
+class="relationship-add-button"
+
+>
+
+관계 추가
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- =====================
+     내 관계 목록
+===================== -->
+
+
+<section class="relationship-my-list">
+
+
+<h2>
+
+내 관계 목록
+
+</h2>
+
+
+
+<div
+
+id="my-relationship-list"
+
+>
+
+
+등록된 관계가 없습니다.
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     관계 추가 Modal
+===================== -->
+
+
+
+<div
+
+id="relationship-add-modal"
+
+class="relationship-modal"
+
+>
+
+
+
+<div
+
+class="relationship-modal-box"
+
+>
+
+
+
+
+<button
+
+class="modal-close"
+
+id="relationship-add-close"
+
+>
+
+✕
+
+</button>
+
+
+
+
+
+
+
+<h2>
+
+관계 추가
+
+</h2>
+
+
+
+
+
+
+
+
+
+<label>
+
+내 캐릭터
+
+</label>
+
+
+
+<input
+
+id="relationship-from-member"
+
+type="text"
+
+readonly
+
+>
+
+
+
+
+
+
+
+
+
+<label>
+
+상대 캐릭터
+
+</label>
+
+
+
+<select
+
+id="relationship-to-member"
+
+>
+
+
+<option value="">
+
+선택
+
+</option>
+
+
+</select>
+
+
+
+
+
+
+
+
+
+<label>
+
+관계명
+
+</label>
+
+
+
+<input
+
+id="relationship-name"
+
+maxlength="10"
+
+placeholder="관계명"
+
+>
+
+
+
+
+
+
+
+
+
+<label>
+
+관계 상세
+
+</label>
+
+
+
+<textarea
+
+id="relationship-detail"
+
+placeholder="관계 설명"
+
+></textarea>
+
+
+
+
+
+
+
+<div
+
+style="text-align:center; margin-top:25px;"
+
+>
+
+
+
+<button
+
+id="relationship-save-button"
+
+class="relationship-add-button"
+
+>
+
+저장
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+<!-- =====================
+     관계 상세 Modal
+===================== -->
+
+<div
+id="relationship-view-modal"
+class="relationship-modal"
+>
+
+
+<div
+class="relationship-modal-box"
+>
+
+
+<button
+class="modal-close"
+id="relationship-view-close"
+>
+
+✕
+
+</button>
+
+
+
+<h2>
+관계 상세
+</h2>
+
+
+
+<div id="relationship-view-content">
+
+</div>
+
+
+
+<div
+id="relationship-view-buttons"
+style="text-align:center; margin-top:25px;"
+>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+<!-- =====================
+     관계 수정 Modal
+===================== -->
+
+<div
+id="relationship-edit-modal"
+class="relationship-modal"
+>
+
+
+<div
+class="relationship-modal-box"
+>
+
+
+<button
+class="modal-close"
+id="relationship-edit-close"
+>
+
+✕
+
+</button>
+
+
+
+<h2>
+관계 수정
+</h2>
+
+
+
+<label>
+
+관계명
+
+</label>
+
+
+<input
+
+id="relationship-edit-name"
+
+maxlength="10"
+
+>
+
+
+
+<label>
+
+관계 상세
+
+</label>
+
+
+<textarea
+
+id="relationship-edit-detail"
+
+></textarea>
+
+
+
+
+
+<div
+style="text-align:center; margin-top:25px;"
+>
+
+
+<button
+
+id="relationship-edit-save"
+
+class="relationship-add-button"
+
+>
+
+저장
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+
+<script type="module">
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+import {
+
+collection,
+
+getDocs,
+
+doc,
+
+getDoc,
+
+addDoc,
+
+query,
+
+where,
+
+serverTimestamp,
+
+deleteDoc,
+
+updateDoc,
+
+setDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+/* =====================
+   DOM
+===================== */
+
+
+const canvas =
+
+document.getElementById(
+"relationship-canvas"
+);
+
+
+// 관계도 확대/축소 상태
+
+
+
+const lineLayer =
+
+document.getElementById(
+"relationship-lines"
+);
+
+
+
+const nodeLayer =
+
+document.getElementById(
+"relationship-node-layer"
+);
+
+
+const searchInput =
+
+document.getElementById(
+"relationship-search-input"
+);
+
+
+
+const addButton =
+
+document.getElementById(
+"relationship-add-button"
+);
+
+
+
+const addModal =
+
+document.getElementById(
+"relationship-add-modal"
+);
+
+
+
+const closeButton =
+
+document.getElementById(
+"relationship-add-close"
+);
+
+
+
+const fromMemberInput =
+
+document.getElementById(
+"relationship-from-member"
+);
+
+
+
+const toMemberSelect =
+
+document.getElementById(
+"relationship-to-member"
+);
+
+
+
+const relationNameInput =
+
+document.getElementById(
+"relationship-name"
+);
+
+
+
+const relationDetailInput =
+
+document.getElementById(
+"relationship-detail"
+);
+
+
+
+const saveButton =
+
+document.getElementById(
+"relationship-save-button"
+);
+
+
+
+const myRelationshipList =
+
+document.getElementById(
+"my-relationship-list"
+);
+
+
+
+
+
+/* =====================
+   DATA
+===================== */
+
+
+let members = [];
+
+let relationships = [];
+
+let currentUser = null;
+
+let myMemberData = null;
+
+let nodePositions = {};
+
+let canvasOffsetX = 0;
+let canvasOffsetY = 0;
+
+// =====================
+// Relationship Canvas Transform
+// =====================
+
+
+let canvasScale = 1;
+
+let canvasTranslateX = 0;
+
+let canvasTranslateY = 0;
+
+let canvasDragging = false;
+
+let canvasStartX = 0;
+
+let canvasStartY = 0;
+
+let startTranslateX = 0;
+
+let startTranslateY = 0;
+
+
+/* =====================
+   로그인 확인
+===================== */
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+currentUser = user || null;
+
+
+
+if(user){
+
+    currentUser = user;
+
+    await loadMyMember();
+
+}
+else{
+
+    addButton.style.display="none";
+
+}
+
+
+
+await loadMembers();
+
+await loadRelationships();
+
+const connectedMembers = getConnectedMembers();
+
+renderNodes(connectedMembers);
+
+
+
+loadTargetMembers();
+
+
+
+renderMyRelationships();
+
+
+}
+
+
+);
+
+
+
+
+
+
+/* =====================
+   내 캐릭터
+===================== */
+
+
+async function loadMyMember(){
+
+
+const q = query(
+collection(db,"members"),
+where(
+"uid",
+"==",
+currentUser.uid
+)
+);
+
+
+const snapshot = await getDocs(q);
+
+
+
+if(snapshot.empty){
+
+addButton.style.display="none";
+
+return;
+
+}
+
+
+
+const item = snapshot.docs[0];
+
+
+
+myMemberData = {
+
+id:item.id,
+
+...item.data()
+
+};
+
+
+
+fromMemberInput.value =
+myMemberData.writerName;
+
+
+
+}
+
+
+
+
+
+
+/* =====================
+   멤버 불러오기
+===================== */
+
+
+async function loadMembers(){
+
+
+
+const snapshot = await getDocs(
+collection(
+db,
+"members"
+)
+);
+
+
+console.log(
+"members snapshot size :",
+snapshot.size
+);
+
+
+members=[];
+
+
+
+snapshot.forEach((item)=>{
+
+
+members.push({
+
+
+id:item.id,
+
+
+...item.data()
+
+
+});
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+/* =====================
+   관계 불러오기
+===================== */
+
+
+async function loadRelationships(){
+
+
+
+const snapshot = await getDocs(
+
+
+collection(
+
+db,
+
+"relationships"
+
+)
+
+
+);
+
+
+
+relationships=[];
+
+
+
+snapshot.forEach((item)=>{
+
+
+relationships.push({
+
+
+id:item.id,
+
+
+...item.data()
+
+
+});
+
+
+});
+
+
+
+}
+
+
+/* =====================
+   관계 있는 캐릭터만 추출
+===================== */
+
+function getConnectedMembers(){
+
+    const connectedIds = new Set();
+
+
+    relationships.forEach((relation)=>{
+
+        connectedIds.add(
+            relation.fromMember
+        );
+
+
+        connectedIds.add(
+            relation.toMember
+        );
+
+    });
+
+
+
+    return members.filter((member)=>{
+
+
+        return connectedIds.has(member.id);
+
+
+    });
+
+
+}
+
+
+
+/* =====================
+   관계도 노드
+===================== */
+
+/* =====================
+   관계선 표시
+===================== */
+
+
+function renderRelationshipLines(){
+
+lineLayer.innerHTML="";
+
+
+lineLayer.setAttribute(
+"width",
+canvas.clientWidth
+);
+
+
+lineLayer.setAttribute(
+"height",
+canvas.clientHeight
+);
+
+
+lineLayer.setAttribute(
+"viewBox",
+`0 0 ${canvas.clientWidth} ${canvas.clientHeight}`
+);
+
+
+relationships.forEach((relation)=>{
+
+
+const from =
+nodePositions[relation.fromMember];
+
+
+const to =
+nodePositions[relation.toMember];
+
+
+
+if(!from || !to){
+
+return;
+
+}
+
+
+
+const line =
+document.createElementNS(
+"http://www.w3.org/2000/svg",
+"line"
+);
+
+
+
+line.setAttribute(
+"x1",
+from.x
+);
+
+
+line.setAttribute(
+"y1",
+from.y
+);
+
+
+line.setAttribute(
+"x2",
+to.x
+);
+
+
+line.setAttribute(
+"y2",
+to.y
+);
+
+
+
+line.classList.add(
+"relationship-line"
+);
+
+
+
+lineLayer.appendChild(line);
+
+
+line.addEventListener(
+"click",
+()=>{
+openRelationshipView(relation);
+}
+);
+
+
+const text =
+document.createElementNS(
+"http://www.w3.org/2000/svg",
+"text"
+);
+
+
+
+text.setAttribute(
+"x",
+(from.x+to.x)/2
+);
+
+
+
+text.setAttribute(
+"y",
+(from.y+to.y)/2
+);
+
+
+
+text.textContent =
+relation.relationName;
+
+
+
+text.classList.add(
+"relationship-line-text"
+);
+
+
+
+lineLayer.appendChild(text);
+
+   
+text.addEventListener(
+"click",
+()=>{
+openRelationshipView(relation);
+}
+);
+
+});
+
+
+}
+
+
+
+
+   
+function renderNodes(list){
+
+nodeLayer.innerHTML="";
+
+nodePositions = {};
+
+
+
+
+
+const width = canvas.clientWidth;
+
+
+
+const columns =
+
+width < 600
+
+?
+
+3
+
+:
+
+6;
+
+
+
+const gapX =
+
+width < 600
+
+?
+
+90
+
+:
+
+140;
+
+
+
+const gapY =
+
+width < 600
+
+?
+
+120
+
+:
+
+150;
+
+
+const oldLayer =
+document.getElementById("relationship-layer");
+
+if(oldLayer){
+
+oldLayer.remove();
+
+}
+
+const layer = document.createElement("div");
+
+
+layer.id="relationship-layer";
+
+
+layer.style.position="absolute";
+
+
+layer.style.width="100%";
+
+
+layer.style.height="100%";
+
+
+layer.style.transform =
+
+`translate(${canvasOffsetX}px, ${canvasOffsetY}px) scale(${canvasScale})`;
+
+
+layer.style.transformOrigin="0 0";
+
+
+canvas.appendChild(layer);
+
+
+list.forEach((member,index)=>{
+
+
+
+const row =
+
+Math.floor(index / columns);
+
+
+
+const col =
+
+index % columns;
+
+
+
+
+
+const node =
+
+document.createElement("div");
+
+
+
+node.className =
+
+"relationship-node";
+
+
+
+
+
+if(member.layout){
+
+
+node.style.left =
+
+member.layout.x + "px";
+
+
+node.style.top =
+
+member.layout.y + "px";
+
+
+}
+
+else{
+
+
+node.style.left =
+
+(
+
+40 +
+
+(col * gapX)
+
+)
+
++
+
+"px";
+
+
+
+
+node.style.top =
+
+(
+
+40 +
+
+(row * gapY)
+
+)
+
++
+
+"px";
+
+
+}
+
+
+
+
+
+node.innerHTML = `
+
+
+<img
+
+class="relationship-node-image"
+
+src="${
+
+member.portraitImage ||
+
+"../assets/images/default-avatar.png"
+
+}"
+
+>
+
+
+
+<div class="relationship-node-name">
+
+${
+
+member.writerName || ""
+
+}
+
+</div>
+
+
+`;
+
+
+
+makeDraggable(node, member);
+
+node.onclick = ()=>{
+
+
+location.href =
+
+`./member-view.html?id=${member.id}`;
+
+
+};
+
+
+
+
+layer.appendChild(node);
+
+nodePositions[member.id] = {
+
+x:
+parseInt(node.style.left) + 40,
+
+y:
+parseInt(node.style.top) + 40
+
+};
+   
+
+});
+
+renderRelationshipLines();
+
+}
+   
+
+
+
+
+
+/* =====================
+   Node Drag
+===================== */
+
+
+function makeDraggable(node, member){
+
+
+
+let dragging = false;
+
+let offsetX = 0;
+
+let offsetY = 0;
+
+
+
+
+
+
+async function saveNodePosition(member){
+
+
+
+if(!currentUser){
+
+return;
+
+}
+
+
+
+await updateDoc(
+
+
+
+doc(
+
+db,
+
+"members",
+
+member.id
+
+),
+
+
+
+{
+
+
+layout:{
+
+
+x:
+
+parseInt(member.layout.x),
+
+
+
+y:
+
+parseInt(member.layout.y)
+
+
+},
+
+
+updatedAt:
+
+serverTimestamp()
+
+
+
+}
+
+
+
+);
+
+}
+
+/* =====================
+   Mobile Touch Drag
+===================== */
+
+
+node.addEventListener(
+
+"touchstart",
+
+(e)=>{
+
+
+dragging=true;
+
+
+
+const touch =
+
+e.touches[0];
+
+
+
+
+offsetX =
+
+touch.clientX -
+
+node.offsetLeft;
+
+
+
+offsetY =
+
+touch.clientY -
+
+node.offsetTop;
+
+
+
+}
+
+);
+
+
+
+node.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+if(!dragging){
+
+return;
+
+}
+
+
+
+const touch =
+
+e.touches[0];
+
+
+
+
+const x =
+
+touch.clientX-offsetX;
+
+
+
+const y =
+
+touch.clientY-offsetY;
+
+
+
+node.style.left =
+
+x+"px";
+
+
+
+node.style.top =
+
+y+"px";
+
+
+
+member.layout={
+
+x,
+
+y
+
+};
+
+
+
+nodePositions[member.id]={
+
+
+x:x+30+canvasTranslateX,
+
+y:y+30+canvasTranslateY
+
+
+};
+
+
+
+renderRelationshipLines();
+
+
+}
+
+);
+
+
+
+node.addEventListener(
+
+"touchend",
+
+async()=>{
+
+
+dragging=false;
+
+
+
+await saveNodePosition(member);
+
+
+}
+
+);
+
+
+}
+
+// =====================
+// Canvas Transform
+// =====================
+
+
+function updateCanvasTransform(){
+
+
+
+const layer =
+
+document.getElementById(
+
+"relationship-layer"
+
+);
+
+
+
+if(!layer){
+
+return;
+
+}
+
+
+
+layer.style.transform =
+
+
+`
+
+translate(
+
+${canvasTranslateX}px,
+
+${canvasTranslateY}px
+
+)
+
+scale(
+
+${canvasScale}
+
+)
+
+`;
+
+
+
+renderRelationshipLines();
+
+
+}
+
+
+// 여기까지 Part 1
+
+
+
+
+
+/* =====================
+   검색
+===================== */
+
+
+searchInput.addEventListener(
+
+"input",
+
+()=>{
+
+
+const keyword =
+
+searchInput.value.trim();
+
+
+
+if(keyword === ""){
+
+
+renderNodes(getConnectedMembers());
+
+
+return;
+
+
+}
+
+
+
+
+
+const filtered = getConnectedMembers().filter((member)=>{
+
+
+return (
+
+member.writerName || ""
+
+)
+
+.includes(keyword);
+
+
+
+});
+
+
+
+
+renderNodes(filtered);
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+/* =====================
+   상대 캐릭터 선택
+===================== */
+
+
+function loadTargetMembers(){
+
+console.log("members", members);
+console.log("myMemberData", myMemberData);
+
+    toMemberSelect.innerHTML = `
+
+    <option value="">
+    선택
+    </option>
+
+    `;
+
+
+
+    if(!members || members.length === 0){
+
+        return;
+
+    }
+
+
+
+    members.forEach((member)=>{
+
+
+        if(
+            myMemberData &&
+            member.id === myMemberData.id
+        ){
+
+            return;
+
+        }
+
+
+
+        const option =
+        document.createElement("option");
+
+
+
+        option.value =
+        member.id;
+
+
+
+        option.textContent =
+        member.writerName;
+
+
+
+        toMemberSelect.appendChild(option);
+
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================
+   관계 추가 팝업
+===================== */
+
+
+addButton.onclick = ()=>{
+
+
+
+if(!myMemberData){
+
+
+alert(
+
+"등록된 캐릭터가 없습니다."
+
+);
+
+
+return;
+
+
+}
+
+
+
+addModal.style.display="flex";
+
+
+
+};
+
+
+
+
+
+
+
+closeButton.onclick = ()=>{
+
+
+addModal.style.display="none";
+
+
+};
+
+
+
+
+
+
+
+addModal.addEventListener(
+
+"click",
+
+(e)=>{
+
+
+
+if(e.target === addModal){
+
+
+
+addModal.style.display="none";
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+document.addEventListener(
+
+"keydown",
+
+(e)=>{
+
+
+
+if(e.key === "Escape"){
+
+
+
+addModal.style.display="none";
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+/* =====================
+   관계 저장
+===================== */
+
+
+saveButton.onclick = async()=>{
+
+
+
+if(!myMemberData){
+
+
+alert(
+
+"내 캐릭터 정보가 없습니다."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const targetId =
+
+toMemberSelect.value;
+
+
+
+
+
+const relationName =
+
+relationNameInput.value.trim();
+
+
+
+
+
+const relationDetail =
+
+relationDetailInput.value.trim();
+
+
+
+
+
+
+
+if(!targetId){
+
+
+alert(
+
+"상대 캐릭터를 선택해주세요."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+if(!relationName){
+
+
+alert(
+
+"관계명을 입력해주세요."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+if(targetId === myMemberData.id){
+
+
+alert(
+
+"본인과의 관계는 등록할 수 없습니다."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+
+
+// 중복 관계 검사
+
+const duplicate =
+
+relationships.some((relation)=>{
+
+
+
+return (
+
+relation.fromMember === myMemberData.id
+
+&&
+
+relation.toMember === targetId
+
+)
+
+||
+
+(
+
+relation.fromMember === targetId
+
+&&
+
+relation.toMember === myMemberData.id
+
+);
+
+
+
+});
+
+
+
+
+
+
+if(duplicate){
+
+
+alert(
+
+"이미 등록된 관계입니다."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+
+await addDoc(
+
+
+
+collection(
+
+db,
+
+"relationships"
+
+),
+
+
+
+{
+
+
+fromMember:
+
+myMemberData.id,
+
+
+
+toMember:
+
+targetId,
+
+
+
+relationName,
+
+
+
+relationDetail,
+
+
+
+createdBy:
+
+currentUser.uid,
+
+
+
+createdAt:
+
+serverTimestamp(),
+
+
+
+updatedAt:
+
+serverTimestamp()
+
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+
+alert(
+
+"관계가 등록되었습니다."
+
+);
+
+
+
+
+
+addModal.style.display="none";
+
+
+
+
+relationNameInput.value="";
+
+
+
+relationDetailInput.value="";
+
+
+
+await loadRelationships();
+
+renderMyRelationships();
+
+renderNodes(getConnectedMembers());
+
+};   
+
+
+
+
+/* =====================
+   내 관계 목록
+===================== */
+
+
+function renderMyRelationships(){
+
+
+
+if(!currentUser || !myMemberData){
+
+
+
+myRelationshipList.innerHTML =
+
+"로그인 후 이용 가능합니다.";
+
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const myRelations =
+
+relationships.filter((relation)=>{
+
+
+
+return (
+
+relation.fromMember === myMemberData.id
+
+||
+
+relation.toMember === myMemberData.id
+
+);
+
+
+
+});
+
+
+
+
+
+
+if(myRelations.length === 0){
+
+
+
+myRelationshipList.innerHTML =
+
+"등록된 관계가 없습니다.";
+
+
+
+return;
+
+
+
+}
+
+
+
+
+
+
+
+myRelationshipList.innerHTML = "";
+
+
+
+
+
+
+
+myRelations.forEach((relation)=>{
+
+
+
+
+
+const otherMemberId =
+
+
+
+relation.fromMember === myMemberData.id
+
+
+
+?
+
+relation.toMember
+
+
+
+:
+
+relation.fromMember;
+
+
+
+
+
+
+
+const otherMember =
+
+
+
+members.find((member)=>{
+
+
+
+return member.id === otherMemberId;
+
+
+
+});
+
+
+
+
+
+
+
+
+if(!otherMember){
+
+
+
+return;
+
+
+
+}
+
+
+
+
+
+
+
+
+const item =
+
+document.createElement("div");
+
+
+
+item.className =
+
+"relationship-list-item";
+
+
+
+
+
+
+
+item.innerHTML = `
+
+
+
+<div>
+
+<strong>
+
+${myMemberData.writerName}
+
+</strong>
+
+
+
+&nbsp;
+
+─
+
+&nbsp;
+
+
+
+<span>
+
+${relation.relationName}
+
+</span>
+
+
+
+&nbsp;
+
+─
+
+&nbsp;
+
+
+
+<strong>
+
+${otherMember.writerName}
+
+</strong>
+
+
+</div>
+
+
+
+<p>
+
+${relation.relationDetail || ""}
+
+</p>
+
+
+
+`;
+
+
+
+
+
+item.onclick = ()=>{
+
+openRelationshipView(relation);
+
+};
+
+
+myRelationshipList.appendChild(item);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================
+   초기 상대 캐릭터 생성
+===================== */
+
+
+loadTargetMembers();
+
+
+
+
+
+
+
+/* =====================
+   화면 리사이즈 대응
+===================== */
+
+
+window.addEventListener(
+
+"resize",
+
+()=>{
+
+
+renderNodes(getConnectedMembers());
+
+
+}
+
+);
+
+/* =====================
+   관계 상세 Modal
+===================== */
+
+
+const viewModal =
+
+document.getElementById(
+"relationship-view-modal"
+);
+
+
+
+const viewClose =
+
+document.getElementById(
+"relationship-view-close"
+);
+
+
+
+const viewContent =
+
+document.getElementById(
+"relationship-view-content"
+);
+
+
+
+const viewButtons =
+
+document.getElementById(
+"relationship-view-buttons"
+);
+
+
+
+let selectedRelationship = null;
+
+
+
+
+
+
+
+viewClose.onclick = ()=>{
+
+
+viewModal.style.display="none";
+
+
+};
+
+
+
+
+
+viewModal.addEventListener(
+
+"click",
+
+(e)=>{
+
+
+if(e.target === viewModal){
+
+
+viewModal.style.display="none";
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+/* =====================
+   관계 상세 열기
+===================== */
+
+
+function openRelationshipView(relation){
+
+
+
+selectedRelationship = relation;
+
+
+
+
+
+const fromMember =
+
+members.find((member)=>{
+
+
+return member.id === relation.fromMember;
+
+
+});
+
+
+
+
+
+const toMember =
+
+members.find((member)=>{
+
+
+return member.id === relation.toMember;
+
+
+});
+
+
+
+
+
+
+
+viewContent.innerHTML = `
+
+
+
+<div style="text-align:center;">
+
+
+<h3>
+
+${relation.relationName}
+
+</h3>
+
+
+
+<p>
+
+${fromMember?.writerName || ""}
+
+&nbsp;
+
+↔
+
+&nbsp;
+
+${toMember?.writerName || ""}
+
+</p>
+
+
+
+<div class="post-content">
+
+
+${relation.relationDetail || "내용 없음"}
+
+
+</div>
+
+
+
+</div>
+
+
+`;
+
+
+
+
+
+
+viewButtons.innerHTML="";
+
+
+
+
+
+
+
+if(
+
+currentUser &&
+
+relation.createdBy === currentUser.uid
+
+){
+
+
+
+viewButtons.innerHTML = `
+
+<button
+
+class="relationship-add-button"
+
+id="relationship-edit-button"
+
+>
+
+수정
+
+</button>
+
+
+<button
+
+class="relationship-add-button"
+
+id="relationship-delete-button"
+
+>
+
+삭제
+
+</button>
+
+
+`;
+
+
+
+
+
+document
+
+.getElementById(
+"relationship-delete-button"
+)
+
+.onclick = deleteRelationship;
+
+
+document
+
+.getElementById(
+"relationship-edit-button"
+)
+
+.onclick = openRelationshipEdit;
+
+}
+
+
+
+
+
+viewModal.style.display="flex";
+
+
+
+}
+
+
+
+
+
+
+/* =====================
+   관계 삭제
+===================== */
+
+
+async function deleteRelationship(){
+
+
+
+if(!selectedRelationship){
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const check = confirm(
+
+"이 관계를 삭제하시겠습니까?"
+
+);
+
+
+
+
+
+if(!check){
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+await deleteDoc(
+
+
+doc(
+
+db,
+
+"relationships",
+
+selectedRelationship.id
+
+)
+
+
+);
+
+
+
+
+
+
+alert(
+
+"삭제되었습니다."
+
+);
+
+
+
+
+
+viewModal.style.display="none";
+
+
+
+
+
+await loadRelationships();
+
+renderNodes(getConnectedMembers());
+
+renderMyRelationships();
+
+
+
+}
+
+/* =====================
+   관계 수정 Modal
+===================== */
+
+
+const editModal =
+
+document.getElementById(
+"relationship-edit-modal"
+);
+
+
+
+const editClose =
+
+document.getElementById(
+"relationship-edit-close"
+);
+
+
+
+const editName =
+
+document.getElementById(
+"relationship-edit-name"
+);
+
+
+
+const editDetail =
+
+document.getElementById(
+"relationship-edit-detail"
+);
+
+
+
+const editSave =
+
+document.getElementById(
+"relationship-edit-save"
+);
+
+
+
+
+
+
+function openRelationshipEdit(){
+
+
+
+if(!selectedRelationship){
+
+return;
+
+}
+
+
+
+
+
+editName.value =
+
+selectedRelationship.relationName || "";
+
+
+
+
+
+editDetail.value =
+
+selectedRelationship.relationDetail || "";
+
+
+
+
+
+editModal.style.display="flex";
+
+
+
+}
+
+
+
+
+
+
+
+editClose.onclick = ()=>{
+
+
+editModal.style.display="none";
+
+
+};
+
+
+
+
+
+
+editModal.addEventListener(
+
+"click",
+
+(e)=>{
+
+
+if(e.target === editModal){
+
+
+editModal.style.display="none";
+
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+editSave.onclick = async()=>{
+
+
+
+if(!selectedRelationship){
+
+
+return;
+
+
+}
+
+
+
+
+
+const name =
+
+editName.value.trim();
+
+
+
+
+
+const detail =
+
+editDetail.value.trim();
+
+
+
+
+
+
+if(!name){
+
+
+alert(
+
+"관계명을 입력해주세요."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+await updateDoc(
+
+
+
+doc(
+
+db,
+
+"relationships",
+
+selectedRelationship.id
+
+),
+
+
+
+{
+
+
+relationName:name,
+
+
+relationDetail:detail,
+
+
+updatedAt:serverTimestamp()
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+alert(
+
+"수정되었습니다."
+
+);
+
+
+
+
+
+
+editModal.style.display="none";
+
+
+
+viewModal.style.display="none";
+
+
+
+
+
+
+await loadRelationships();
+
+
+
+renderMyRelationships();
+
+
+
+};
+
+/* =====================
+   Canvas Zoom
+===================== */
+
+
+canvas.addEventListener(
+
+"wheel",
+
+(e)=>{
+
+
+if(!e.ctrlKey){
+
+return;
+
+}
+
+
+e.preventDefault();
+
+
+
+if(e.deltaY < 0){
+
+
+canvasScale += 0.1;
+
+
+}
+
+else{
+
+
+canvasScale -= 0.1;
+
+
+}
+
+
+
+
+if(canvasScale < 0.5){
+
+
+canvasScale = 0.5;
+
+
+}
+
+
+if(canvasScale > 2){
+
+
+canvasScale = 2;
+
+
+}
+
+
+
+applyCanvasTransform();
+
+
+},
+
+{
+passive:false
+
+}
+
+);
+
+
+
+
+
+
+
+function applyCanvasTransform(){
+
+
+
+const layer =
+
+document.getElementById(
+
+"relationship-layer"
+
+);
+
+
+
+if(!layer){
+
+return;
+
+}
+
+
+
+layer.style.transform =
+
+
+`
+
+translate(
+
+${canvasOffsetX}px,
+
+${canvasOffsetY}px
+
+)
+
+scale(
+
+${canvasScale}
+
+)
+
+`;
+
+
+
+renderRelationshipLines();
+
+
+}
+
+// =====================
+// PC Zoom
+// =====================
+
+
+canvas.addEventListener(
+
+"wheel",
+
+(e)=>{
+
+
+e.preventDefault();
+
+
+
+
+
+if(e.deltaY < 0){
+
+
+canvasScale += 0.1;
+
+
+}
+
+else{
+
+
+canvasScale -= 0.1;
+
+
+}
+
+
+
+
+if(canvasScale < 0.5){
+
+
+canvasScale = 0.5;
+
+
+}
+
+
+
+if(canvasScale > 2){
+
+
+canvasScale = 2;
+
+
+}
+
+
+
+updateCanvasTransform();
+
+
+
+},
+
+{
+passive:false
+
+}
+
+);
+
+// =====================
+// Mobile Pinch Zoom
+// =====================
+
+
+let startDistance = null;
+
+
+
+canvas.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+
+if(e.touches.length !== 2){
+
+return;
+
+}
+
+
+
+e.preventDefault();
+
+
+
+const touch1 = e.touches[0];
+
+const touch2 = e.touches[1];
+
+
+
+
+
+const distance = Math.sqrt(
+
+
+Math.pow(
+
+touch2.clientX-touch1.clientX,
+
+2
+
+)
+
++
+
+Math.pow(
+
+touch2.clientY-touch1.clientY,
+
+2
+
+)
+
+
+
+);
+
+
+
+
+
+
+if(startDistance){
+
+
+
+const diff =
+
+distance - startDistance;
+
+
+
+if(Math.abs(diff)>5){
+
+
+
+if(diff>0){
+
+
+canvasScale += 0.03;
+
+
+}
+
+else{
+
+
+canvasScale -= 0.03;
+
+
+}
+
+
+
+
+if(canvasScale < 0.5){
+
+canvasScale=0.5;
+
+}
+
+
+
+if(canvasScale > 2){
+
+canvasScale=2;
+
+}
+
+
+
+updateCanvasTransform();
+
+
+
+}
+
+
+
+}
+
+
+
+startDistance = distance;
+
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchend",
+
+()=>{
+
+
+startDistance=null;
+
+
+}
+
+);
+
+
+// =====================
+// Canvas Pan
+// =====================
+
+
+canvas.addEventListener(
+
+"mousedown",
+
+(e)=>{
+
+
+// 노드 클릭은 제외
+
+if(
+
+e.target.closest(".relationship-node")
+
+){
+
+return;
+
+}
+
+
+
+canvasDragging = true;
+
+
+
+canvasStartX = e.clientX;
+
+canvasStartY = e.clientY;
+
+
+
+startTranslateX = canvasTranslateX;
+
+startTranslateY = canvasTranslateY;
+
+
+
+canvas.style.cursor="grabbing";
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mousemove",
+
+(e)=>{
+
+
+if(!canvasDragging){
+
+return;
+
+}
+
+
+
+const moveX =
+
+e.clientX - canvasStartX;
+
+
+
+const moveY =
+
+e.clientY - canvasStartY;
+
+
+
+
+canvasTranslateX =
+
+startTranslateX + moveX;
+
+
+
+canvasTranslateY =
+
+startTranslateY + moveY;
+
+
+
+updateCanvasTransform();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"mouseup",
+
+()=>{
+
+
+canvasDragging=false;
+
+
+canvas.style.cursor="default";
+
+
+}
+
+);
+
+// =====================
+// Mobile Canvas Pan
+// =====================
+
+
+let panTouch = null;
+
+
+
+canvas.addEventListener(
+
+"touchstart",
+
+(e)=>{
+
+
+// 두 손가락은 줌
+
+if(e.touches.length !== 1){
+
+return;
+
+}
+
+
+
+// 노드는 제외
+
+if(
+
+e.target.closest(".relationship-node")
+
+){
+
+return;
+
+}
+
+
+
+
+panTouch = e.touches[0];
+
+
+
+canvasStartX = panTouch.clientX;
+
+canvasStartY = panTouch.clientY;
+
+
+
+startTranslateX = canvasTranslateX;
+
+startTranslateY = canvasTranslateY;
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchmove",
+
+(e)=>{
+
+
+if(
+
+!panTouch ||
+
+e.touches.length !== 1
+
+){
+
+return;
+
+}
+
+
+
+const touch = e.touches[0];
+
+
+
+canvasTranslateX =
+
+startTranslateX +
+
+(
+
+touch.clientX -
+
+canvasStartX
+
+);
+
+
+
+canvasTranslateY =
+
+startTranslateY +
+
+(
+
+touch.clientY -
+
+canvasStartY
+
+);
+
+
+
+
+
+updateCanvasTransform();
+
+
+
+},
+
+{
+passive:false
+}
+
+);
+
+
+
+
+
+
+
+
+canvas.addEventListener(
+
+"touchend",
+
+()=>{
+
+
+panTouch=null;
+
+
+}
+
+);
+
+</script>
+
+
+
+</body>
+
+
+</html>
