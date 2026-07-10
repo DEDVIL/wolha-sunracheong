@@ -1793,4 +1793,377 @@ h1 {
 }
 
 
+/* =====================
+   World
+===================== */
 
+
+.world-section {
+
+
+    margin-bottom:60px;
+
+
+    padding:35px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+
+.world-section h2 {
+
+
+    margin-top:0;
+
+
+    margin-bottom:35px;
+
+
+    padding-bottom:15px;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    color:#c8a96a;
+
+
+    font-size:28px;
+
+
+    letter-spacing:3px;
+
+
+}
+
+
+
+
+.world-section h3 {
+
+
+    margin-top:35px;
+
+
+    margin-bottom:20px;
+
+
+    color:#c8a96a;
+
+
+    font-size:20px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+.world-section p {
+
+
+    margin-bottom:20px;
+
+
+    line-height:2;
+
+
+    color:#e8e2d6;
+
+
+    font-size:16px;
+
+
+    word-break:keep-all;
+
+
+}
+
+
+
+
+.world-list {
+
+
+    padding-left:20px;
+
+
+    margin:25px 0;
+
+
+}
+
+
+
+.world-list li {
+
+
+    margin-bottom:18px;
+
+
+    line-height:1.8;
+
+
+    color:#e8e2d6;
+
+
+}
+
+
+
+.world-list strong {
+
+
+    color:#c8a96a;
+
+
+}
+
+
+
+
+
+
+/* =====================
+   조직도
+===================== */
+
+
+.organization-box {
+
+
+    margin-bottom:30px;
+
+
+    padding:30px;
+
+
+    background:
+
+
+    linear-gradient(
+        145deg,
+        #151515,
+        #101010
+    );
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+.organization-box h3 {
+
+
+    margin-top:0;
+
+
+}
+
+
+
+
+/* =====================
+   층별 안내
+===================== */
+
+
+.floor-box {
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:30px;
+
+
+    padding:20px 25px;
+
+
+    margin-bottom:15px;
+
+
+    background:#101010;
+
+
+    border-left:3px solid #8b0000;
+
+
+    border-top:1px solid #4a4035;
+
+
+    border-right:1px solid #4a4035;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+}
+
+
+
+.floor-box h3 {
+
+
+    width:80px;
+
+
+    margin:0;
+
+
+    color:#c8a96a;
+
+
+    font-size:22px;
+
+
+}
+
+
+
+.floor-box p {
+
+
+    margin:0;
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+/* =====================
+   숙직실 이미지
+===================== */
+
+
+.facility-image {
+
+
+    display:block;
+
+
+    width:100%;
+
+
+    max-width:900px;
+
+
+    margin:0 auto 35px;
+
+
+    border:1px solid #4a4035;
+
+
+}
+
+
+
+.world-section img {
+
+
+    object-fit:contain;
+
+
+}
+
+
+
+
+
+/* =====================
+   World 모바일
+===================== */
+
+
+@media(max-width:700px){
+
+
+
+    .world-section {
+
+
+        padding:20px;
+
+
+        margin-bottom:35px;
+
+
+    }
+
+
+
+    .world-section h2 {
+
+
+        font-size:22px;
+
+
+    }
+
+
+
+    .world-section h3 {
+
+
+        font-size:18px;
+
+
+    }
+
+
+
+    .world-section p {
+
+
+        font-size:15px;
+
+
+    }
+
+
+
+    .floor-box {
+
+
+        display:block;
+
+
+    }
+
+
+
+    .floor-box h3 {
+
+
+        width:auto;
+
+
+        margin-bottom:10px;
+
+
+    }
+
+
+
+}
