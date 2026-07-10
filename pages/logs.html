@@ -732,14 +732,15 @@ from "../firebase.js";
 
 import {
 
-
 collection,
 
 getDocs,
 
 query,
 
-orderBy
+orderBy,
+
+where
 
 
 }
@@ -881,21 +882,43 @@ const snapshot = await getDocs(q);
 logs = [];
 
 
-snapshot.forEach(doc=>{
+for(const docSnap of snapshot.docs){
 
 
-logs.push({
+    const log = {
 
-id:doc.id,
+        id:docSnap.id,
 
-...doc.data(),
+        ...docSnap.data(),
 
-commentCount:0
+        commentCount:0
 
-});
+    };
 
 
-});
+    const commentQuery = query(
+
+        collection(db,"logComments"),
+
+        where(
+            "logId",
+            "==",
+            log.id
+        )
+
+    );
+
+
+    const commentSnapshot = await getDocs(commentQuery);
+
+
+    log.commentCount = commentSnapshot.size;
+
+
+    logs.push(log);
+
+
+}
 
 
 
@@ -1003,7 +1026,7 @@ ${formatDate(log.createdAt)}
 
 <div class="log-comment">
 
--
+${log.commentCount || 0}
 
 </div>
 
