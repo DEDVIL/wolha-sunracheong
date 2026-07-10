@@ -471,6 +471,12 @@ cursor:pointer;
    
 pointer-events:auto;
 
+paint-order:stroke;
+
+stroke:#0b0b0b;
+
+stroke-width:4px;
+
 }
 
 
@@ -1898,7 +1904,7 @@ lineLayer.appendChild(path);
 
 
 
-line.addEventListener(
+path.addEventListener(
 "click",
 ()=>{
 openRelationshipView(relation);
@@ -1923,7 +1929,7 @@ text.setAttribute(
 
 text.setAttribute(
 "y",
-((from.y+to.y)/2)-10
+((from.y+to.y)/2)-25
 );
 
 
