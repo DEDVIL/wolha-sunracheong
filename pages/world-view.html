@@ -1,0 +1,2225 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>
+월하순라청 :: 세계관 확장판
+</title>
+
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<style>
+
+
+.log-view-box{
+
+
+    width:90%;
+
+
+    max-width:1000px;
+
+
+    margin:40px auto;
+
+
+}
+
+
+
+
+.log-header{
+
+
+    text-align:center;
+
+
+    margin-bottom:40px;
+
+
+}
+
+
+
+
+.log-header h1{
+
+
+    margin:0;
+
+
+}
+
+
+
+
+.log-detail-title{
+
+
+    font-size:28px;
+
+
+    color:#c8a96a;
+
+
+    margin-bottom:20px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.log-info{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    padding-bottom:20px;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+    color:#b8b0a0;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+.log-content{
+
+
+    min-height:300px;
+
+
+    padding:40px 10px;
+
+
+    line-height:2;
+
+
+    color:#e8e2d6;
+
+
+    word-break:break-word;
+
+
+}
+
+
+
+
+
+.log-content img{
+
+
+    max-width:100%;
+
+
+    display:block;
+
+
+    margin:20px auto;
+
+
+}
+
+
+
+
+
+.button-area{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.view-btn{
+
+
+    width:110px;
+
+
+    height:40px;
+
+
+    border:1px solid #4a4035;
+
+
+    background:#0b0b0b;
+
+
+    color:#e8e2d6;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard",sans-serif;
+
+
+}
+
+
+
+
+
+.view-btn:hover{
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.edit-btn{
+
+
+    background:#c8a96a;
+
+
+    color:#111;
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+.delete-btn{
+
+
+    background:#8b0000;
+
+
+    color:white;
+
+
+    border-color:#8b0000;
+
+
+}
+
+
+
+
+
+
+.comment-section{
+
+
+    margin-top:50px;
+
+
+    padding-top:30px;
+
+
+    border-top:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.comment-title{
+
+
+    color:#c8a96a;
+
+
+    font-size:22px;
+
+
+    margin-bottom:25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+
+.comment-form{
+
+
+    display:flex;
+
+
+    gap:10px;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+
+
+.comment-form textarea{
+
+
+    flex:1;
+
+
+    min-height:80px;
+
+
+    resize:none;
+
+
+}
+
+
+
+
+
+.comment-item{
+
+
+    padding:20px 0;
+
+
+    border-bottom:1px solid #4a4035;
+
+
+}
+
+
+
+
+
+.comment-header{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    color:#b8b0a0;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+.comment-content{
+
+
+    line-height:1.8;
+
+
+    white-space:pre-wrap;
+
+
+}
+
+
+
+
+
+.comment-buttons{
+
+
+    margin-top:10px;
+
+
+}
+
+
+
+
+
+.comment-buttons button{
+
+
+    padding:5px 12px;
+
+
+    margin-right:8px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#e8e2d6;
+
+
+    cursor:pointer;
+
+
+}
+
+
+
+@media(max-width:700px){
+
+
+
+.log-info{
+
+
+    flex-direction:column;
+
+
+    gap:10px;
+
+
+}
+
+
+
+.button-area{
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+.view-btn{
+
+
+    width:100%;
+
+
+}
+
+
+
+.comment-form{
+
+
+    flex-direction:column;
+
+
+}
+
+
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+<main class="main-container">
+
+
+<section class="content-box log-view-box">
+
+
+<div class="log-header">
+
+
+<h1>
+
+월下巡邏廳
+
+</h1>
+
+
+<p class="subtitle">
+
+세계관 확장판
+
+</p>
+
+
+</div>
+
+<div id="log-area">
+
+
+<div class="loading-message">
+
+글을 불러오는 중입니다.
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="comment-section">
+
+
+<div class="comment-title">
+
+댓글
+
+</div>
+
+
+
+<div id="comment-form-area"></div>
+
+
+<div id="comment-list"></div>
+
+
+</div>
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+
+    auth,
+
+    db
+
+
+}
+
+
+from "../firebase.js";
+
+
+
+
+
+import {
+
+
+    onAuthStateChanged
+
+
+}
+
+
+from
+
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+
+
+import {
+
+
+    doc,
+
+    getDoc,
+
+    deleteDoc,
+
+    collection,
+
+    getDocs,
+
+    query,
+
+    where,
+
+    orderBy,
+
+    addDoc,
+
+    updateDoc,
+
+    serverTimestamp
+
+
+}
+
+
+from
+
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+let currentUser = null;
+
+
+let worldData = null;
+
+
+
+
+
+const params =
+
+new URLSearchParams(location.search);
+
+
+
+const worldId =
+
+params.get("id");
+
+
+
+
+
+const logArea =
+
+document.getElementById("log-area");
+
+
+
+const commentList =
+
+document.getElementById("comment-list");
+
+
+
+const commentFormArea =
+
+document.getElementById("comment-form-area");
+
+
+
+
+
+
+
+function formatDate(timestamp){
+
+
+
+    if(!timestamp){
+
+
+        return "-";
+
+
+    }
+
+
+
+
+
+    const date = timestamp.toDate();
+
+
+
+
+
+    return `
+
+    ${date.getFullYear()}.
+
+    ${String(date.getMonth()+1).padStart(2,"0")}.
+
+    ${String(date.getDate()).padStart(2,"0")}
+
+    ${String(date.getHours()).padStart(2,"0")}:
+
+    ${String(date.getMinutes()).padStart(2,"0")}
+
+    `;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+async function loadWorld(){
+
+
+
+    if(!worldId){
+
+
+        location.href="world-logs.html";
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    const snap = await getDoc(
+
+
+
+        doc(
+
+            db,
+
+            "worldLogs",
+
+            worldId
+
+        )
+
+
+    );
+
+
+
+
+
+
+
+    if(!snap.exists()){
+
+
+
+        alert(
+
+            "존재하지 않는 글입니다."
+
+        );
+
+
+
+        location.href="world-logs.html";
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    worldData = {
+
+
+        id:snap.id,
+
+
+        ...snap.data()
+
+
+
+    };
+
+
+
+
+
+
+    renderWorld();
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function renderWorld(){
+
+
+
+
+
+    const isWriter =
+
+
+    currentUser &&
+
+
+    currentUser.uid === worldData.writerUid;
+
+
+
+
+
+
+
+
+    logArea.innerHTML = `
+
+
+
+
+
+    <div class="log-detail-title">
+
+
+        ${worldData.title || "제목 없음"}
+
+
+    </div>
+
+
+
+
+
+
+    <div class="log-info">
+
+
+
+        <div>
+
+
+            작성자 : ${worldData.writerName || "익명"}
+
+
+        </div>
+
+
+
+
+
+        <div>
+
+
+            ${formatDate(worldData.createdAt)}
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="log-content">
+
+
+        ${worldData.content || ""}
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="button-area">
+
+
+
+
+
+        <button
+
+        class="view-btn"
+
+        id="list-btn"
+
+        >
+
+
+            목록
+
+
+        </button>
+
+
+
+
+
+
+
+        ${
+
+
+        isWriter
+
+
+        ?
+
+
+        `
+
+
+
+        <button
+
+        class="view-btn edit-btn"
+
+        id="edit-btn"
+
+        >
+
+
+            수정
+
+
+        </button>
+
+
+
+
+
+
+        <button
+
+        class="view-btn delete-btn"
+
+        id="delete-btn"
+
+        >
+
+
+            삭제
+
+
+        </button>
+
+
+
+        `
+
+
+        :
+
+
+        ""
+
+
+
+        }
+
+
+
+
+    </div>
+
+
+
+
+    `;
+
+
+
+
+
+
+
+
+
+    document
+
+    .getElementById("list-btn")
+
+    .addEventListener(
+
+
+        "click",
+
+
+        ()=>{
+
+
+            location.href="world-logs.html";
+
+
+        }
+
+
+    );
+
+
+
+
+
+
+
+
+
+
+    if(isWriter){
+
+
+
+
+
+        document
+
+        .getElementById("edit-btn")
+
+        .addEventListener(
+
+
+            "click",
+
+
+            ()=>{
+
+
+                location.href =
+
+                `world-write.html?id=${worldId}`;
+
+
+            }
+
+
+        );
+
+
+
+
+
+
+
+
+        document
+
+        .getElementById("delete-btn")
+
+        .addEventListener(
+
+
+            "click",
+
+
+            deleteWorld
+
+
+        );
+
+
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function deleteWorld(){
+
+
+
+    const result = confirm(
+
+
+
+        "정말 삭제하시겠습니까?"
+
+
+
+    );
+
+
+
+
+    if(!result){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+    try{
+
+
+
+        await deleteDoc(
+
+
+
+            doc(
+
+                db,
+
+                "worldLogs",
+
+                worldId
+
+            )
+
+
+
+        );
+
+
+
+
+
+
+        location.href="world-logs.html";
+
+
+
+
+
+    }
+
+
+    catch(error){
+
+
+
+        console.error(error);
+
+
+
+        alert(
+
+            "삭제 중 오류가 발생했습니다."
+
+        );
+
+
+    }
+
+
+
+}
+
+async function loadComments(){
+
+
+
+    commentList.innerHTML = `
+
+
+    <div class="loading-message">
+
+        댓글을 불러오는 중입니다.
+
+    </div>
+
+
+    `;
+
+
+
+
+
+    try{
+
+
+
+        const q = query(
+
+
+
+            collection(
+
+                db,
+
+                "worldComments"
+
+            ),
+
+
+
+
+            where(
+
+                "worldId",
+
+                "==",
+
+                worldId
+
+            ),
+
+
+
+
+
+            orderBy(
+
+                "createdAt",
+
+                "asc"
+
+            )
+
+
+
+        );
+
+
+
+
+
+
+        const snapshot = await getDocs(q);
+
+
+
+
+
+        commentList.innerHTML = "";
+
+
+
+
+
+
+
+        if(snapshot.empty){
+
+
+
+            commentList.innerHTML = `
+
+
+            <div class="empty-message">
+
+
+                아직 댓글이 없습니다.
+
+
+            </div>
+
+
+            `;
+
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+
+        snapshot.forEach((docSnap)=>{
+
+
+
+            const data = docSnap.data();
+
+
+
+
+            const isOwner =
+
+
+
+            currentUser &&
+
+
+
+            currentUser.uid === data.uid;
+
+
+
+
+
+
+
+            const item =
+
+            document.createElement("div");
+
+
+
+
+
+            item.className =
+
+            "comment-item";
+
+
+
+
+
+
+
+            item.innerHTML = `
+
+
+
+
+
+
+            <div class="comment-header">
+
+
+                <strong>
+
+                    ${data.writerName || "익명"}
+
+                </strong>
+
+
+
+
+                <span>
+
+                    ${formatDate(data.createdAt)}
+
+                </span>
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="comment-content">
+
+            ${data.content}
+
+            ${data.updatedAt ? " (수정)" : ""}
+
+            </div>
+
+
+
+
+
+
+
+            ${
+
+
+
+            isOwner
+
+
+
+            ?
+
+
+
+            `
+
+
+
+            <div class="comment-buttons">
+
+
+                <button
+
+                class="comment-edit"
+
+                >
+
+                수정
+
+                </button>
+
+
+
+
+
+
+                <button
+
+                class="comment-delete"
+
+                >
+
+                삭제
+
+                </button>
+
+
+
+            </div>
+
+
+
+            `
+
+
+
+            :
+
+
+
+            ""
+
+
+
+            }
+
+
+
+
+
+
+
+            `;
+
+
+
+
+
+
+
+            if(isOwner){
+
+
+
+
+
+                item
+
+                .querySelector(".comment-edit")
+
+                .addEventListener(
+
+
+                    "click",
+
+
+                    ()=>{
+
+
+                        editComment(
+
+                            docSnap.id,
+
+                            data.content
+
+                        );
+
+
+                    }
+
+
+                );
+
+
+
+
+
+
+
+
+                item
+
+                .querySelector(".comment-delete")
+
+                .addEventListener(
+
+
+                    "click",
+
+
+                    ()=>{
+
+
+                        deleteComment(
+
+                            docSnap.id
+
+                        );
+
+
+                    }
+
+
+                );
+
+
+
+            }
+
+
+
+
+
+
+
+            commentList.appendChild(item);
+
+
+
+        });
+
+
+
+
+
+
+
+    }
+
+
+    catch(error){
+
+
+
+        console.error(error);
+
+
+
+        commentList.innerHTML = `
+
+
+        <div class="empty-message">
+
+
+            댓글을 불러오지 못했습니다.
+
+
+        </div>
+
+
+        `;
+
+
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function createCommentForm(){
+
+
+
+
+
+    commentFormArea.innerHTML = `
+
+
+
+
+    <div class="comment-form">
+
+
+
+
+
+        <textarea
+
+        id="comment-input"
+
+        placeholder="댓글을 입력해주세요."
+
+        ></textarea>
+
+
+
+
+
+
+        <button
+
+        class="view-btn"
+
+        id="comment-submit"
+
+        >
+
+        작성
+
+        </button>
+
+
+
+
+    </div>
+
+
+
+
+
+    `;
+
+
+
+
+
+
+
+    document
+
+    .getElementById("comment-submit")
+
+    .addEventListener(
+
+
+        "click",
+
+
+        addComment
+
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function getWriterName(){
+
+
+
+    const snap = await getDoc(
+
+
+
+        doc(
+
+            db,
+
+            "users",
+
+            currentUser.uid
+
+        )
+
+
+    );
+
+
+
+
+
+
+    if(snap.exists()){
+
+
+
+        const data = snap.data();
+
+
+
+
+
+        return (
+
+
+            data.characterName
+
+            ||
+
+            data.name
+
+            ||
+
+            "익명"
+
+
+
+        );
+
+
+
+    }
+
+
+
+
+
+    return "익명";
+
+
+}
+
+
+
+
+
+
+
+
+
+async function addComment(){
+
+
+
+    const input =
+
+    document.getElementById("comment-input");
+
+
+
+
+
+    const content =
+
+    input.value.trim();
+
+
+
+
+
+
+
+    if(!content){
+
+
+
+        alert(
+
+            "댓글 내용을 입력해주세요."
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    try{
+
+
+
+
+
+        const writerName =
+
+        await getWriterName();
+
+
+
+
+
+
+
+        await addDoc(
+
+
+
+            collection(
+
+                db,
+
+                "worldComments"
+
+            ),
+
+
+
+
+            {
+
+
+
+                worldId:worldId,
+
+
+
+                uid:currentUser.uid,
+
+
+
+                writerName:writerName,
+
+
+
+                content:content,
+
+
+
+                createdAt:
+
+                serverTimestamp(),
+
+
+
+                updatedAt:null
+
+
+
+            }
+
+
+
+        );
+
+
+
+
+
+
+
+        input.value="";
+
+
+
+        loadComments();
+
+
+
+
+
+    }
+
+
+    catch(error){
+
+
+
+        console.error(error);
+
+
+
+        alert(
+
+            "댓글 작성 중 오류가 발생했습니다."
+
+        );
+
+
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function editComment(id,oldContent){
+
+
+
+    const result = prompt(
+
+
+        "댓글 수정",
+
+
+        oldContent
+
+
+
+    );
+
+
+
+
+
+
+    if(result === null){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    const content =
+
+    result.trim();
+
+
+
+
+
+
+    if(!content){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+
+    await updateDoc(
+
+
+
+        doc(
+
+            db,
+
+            "worldComments",
+
+            id
+
+        ),
+
+
+
+        {
+
+
+            content:content,
+
+
+            updatedAt:
+
+            serverTimestamp()
+
+
+
+        }
+
+
+
+    );
+
+
+
+
+
+
+    loadComments();
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+async function deleteComment(id){
+
+
+
+    const result = confirm(
+
+
+
+        "댓글을 삭제하시겠습니까?"
+
+
+
+    );
+
+
+
+
+
+
+    if(!result){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    await deleteDoc(
+
+
+
+        doc(
+
+            db,
+
+            "worldComments",
+
+            id
+
+        )
+
+
+
+    );
+
+
+
+
+
+
+
+    loadComments();
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+onAuthStateChanged(
+
+
+
+    auth,
+
+
+
+    async(user)=>{
+
+
+
+
+
+
+        if(!user){
+
+
+
+            alert(
+
+                "승인된 멤버만 이용할 수 있습니다."
+
+            );
+
+
+
+            location.href="../index.html";
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+
+        currentUser = user;
+
+
+
+
+
+
+
+        await loadWorld();
+
+
+
+
+
+
+
+        createCommentForm();
+
+
+
+
+
+
+
+        await loadComments();
+
+
+
+
+
+    }
+
+
+
+
+);
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+
+</html>
