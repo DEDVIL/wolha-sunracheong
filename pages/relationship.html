@@ -443,7 +443,9 @@ height:100%;
 
 .relationship-line{
 
-stroke-width:8;
+stroke:#c8a96a;
+
+stroke-width:3;
 
 cursor:pointer;
 
@@ -1970,14 +1972,18 @@ layer.style.width="100%";
 
 layer.style.height="100%";
 
-
+layer.appendChild(lineLayer);
+   
 layer.style.transform =
 
 `translate(${canvasOffsetX}px, ${canvasOffsetY}px) scale(${canvasScale})`;
 
 
+   
 layer.style.transformOrigin="0 0";
 
+
+lineLayer.remove();
 
 canvas.appendChild(layer);
 
