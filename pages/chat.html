@@ -1011,6 +1011,13 @@ messageInput.value="";
 
 // 메시지 불러오기
 
+if(!roomId){
+    console.log("roomId 없음");
+    return;
+}
+
+console.log("메시지 불러오는 방:", roomId);
+    
 const messagesArea =
 document.querySelector(".messages");
 
