@@ -3339,3 +3339,31 @@ h1 {
     gap:5px;
 
 }
+
+.faq-write-buttons a {
+
+    background:transparent;
+
+    color:#ddd;
+
+    border:1px solid #555;
+
+    text-decoration:none;
+
+}
+
+
+.faq-write-buttons a:visited {
+
+    color:#ddd;
+
+}
+
+
+.faq-write-buttons a:hover {
+
+    color:#c8a96a;
+
+    border-color:#c8a96a;
+
+}
