@@ -249,7 +249,7 @@ placeholder="대화 검색">
 <div class="chat-header">
 
 
-<div>
+<div id="currentChatName">
 
 백비안
 
@@ -267,7 +267,7 @@ placeholder="대화 검색">
 
 
 
-<div class="messages">
+<div class="messages" id="messageArea">
 
 
 <div class="message">
@@ -807,6 +807,86 @@ console.log(
 "선택한 방:",
 roomId
 );
+
+
+const roomDoc =
+await getDocs(
+query(
+collection(db,"chatRooms")
+)
+);
+
+
+roomDoc.forEach(doc=>{
+
+
+if(doc.id === roomId){
+
+
+const room = doc.data();
+
+
+// 상대 이름 찾기
+
+const opponentUid =
+room.members.find(
+(uid)=>uid !== myUid
+);
+
+
+const opponentQuery =
+query(
+collection(db,"members"),
+where("uid","==",opponentUid)
+);
+
+
+const opponentSnap =
+await getDocs(opponentQuery);
+
+
+opponentSnap.forEach(memberDoc=>{
+
+
+const data =
+memberDoc.data();
+
+
+document.querySelector("#currentChatName")
+.innerText =
+data.writerName;
+
+
+});
+
+
+// 메시지 초기화
+
+document.querySelector("#messageArea")
+.innerHTML =
+`
+<div class="message">
+
+<div class="sender">
+시스템
+</div>
+
+<div>
+새로운 대화가 시작되었습니다.
+</div>
+
+</div>
+`;
+
+
+}
+
+
+
+});
+
+
+}
 
 
 
