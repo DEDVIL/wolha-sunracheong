@@ -475,6 +475,110 @@ doc.data();
 
 
 
+async function createPrivateChat(target){
+
+
+const roomName =
+`${myCharacter} ↔ ${target.writerName}`;
+
+
+
+// 중복 채팅방 확인
+
+const rooms =
+await getDocs(
+collection(db,"chatRooms")
+);
+
+
+
+let exists = false;
+
+
+rooms.forEach(doc=>{
+
+const room = doc.data();
+
+
+if(
+room.members &&
+room.members.includes(myUid) &&
+room.members.includes(target.uid)
+){
+
+exists = true;
+
+}
+
+
+});
+
+
+
+if(exists){
+
+alert("이미 존재하는 채팅방입니다.");
+
+return;
+
+}
+
+
+
+// 새 채팅방 생성
+
+await addDoc(
+
+collection(db,"chatRooms"),
+
+{
+
+name:roomName,
+
+
+type:"private",
+
+
+members:[
+
+myUid,
+
+target.uid
+
+],
+
+
+createdAt:serverTimestamp()
+
+
+}
+
+
+);
+
+
+
+alert(
+"새 대화가 생성되었습니다."
+);
+
+
+modal.style.display="none";
+
+loadChatRooms();
+
+
+}
+
+// 내 캐릭터 제외
+if(data.uid === myUid){
+
+    return;
+
+}
+
+    
+
 const div =
 document.createElement("div");
 
@@ -497,17 +601,18 @@ ${data.department}
 
 div.innerHTML=
 `
-${data.writerName}
-<br>
-<small>
+<strong>${data.writerName}</strong>
+<span style="float:right; color:#aaa;">
 ${data.department}
-</small>
+</span>
 `;
 
 
 div.onclick = function(){
 
-    createChatRoom(doc.id, data);
+    createPrivateChat(
+        data
+    );
 
 };
 
