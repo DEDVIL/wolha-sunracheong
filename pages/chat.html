@@ -537,14 +537,6 @@ characterList.appendChild(div);
     
 
 
-snapshot.forEach(doc=>{
-
-
-const data =
-doc.data();
-
-
-
 async function createPrivateChat(target){
 
 
@@ -552,14 +544,10 @@ const roomName =
 `${myCharacter} ↔ ${target.writerName}`;
 
 
-
-// 중복 채팅방 확인
-
 const rooms =
 await getDocs(
 collection(db,"chatRooms")
 );
-
 
 
 let exists = false;
@@ -580,9 +568,7 @@ exists = true;
 
 }
 
-
 });
-
 
 
 if(exists){
@@ -595,8 +581,6 @@ return;
 
 
 
-// 새 채팅방 생성
-
 await addDoc(
 
 collection(db,"chatRooms"),
@@ -605,9 +589,7 @@ collection(db,"chatRooms"),
 
 name:roomName,
 
-
 type:"private",
-
 
 members:[
 
@@ -617,12 +599,9 @@ target.uid
 
 ],
 
-
 createdAt:serverTimestamp()
 
-
 }
-
 
 );
 
@@ -633,7 +612,12 @@ alert(
 );
 
 
+const modal =
+document.querySelector("#characterModal");
+
+
 modal.style.display="none";
+
 
 loadChatRooms();
 
