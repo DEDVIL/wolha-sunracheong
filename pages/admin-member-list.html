@@ -148,7 +148,9 @@ orderBy,
 
 deleteDoc,
 
-doc
+doc,
+
+getDoc
 
 }
 
@@ -216,6 +218,36 @@ location.href="../index.html";
 return;
 
 }
+
+
+
+const userSnap = await getDoc(
+
+doc(
+db,
+"users",
+user.uid
+)
+
+);
+
+
+
+if(
+!userSnap.exists() ||
+userSnap.data().role !== "admin"
+){
+
+alert(
+"관리자 권한이 필요합니다."
+);
+
+location.href="./home.html";
+
+return;
+
+}
+
 
 
 loadMembers();
