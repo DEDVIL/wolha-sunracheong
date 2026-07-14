@@ -989,12 +989,18 @@ const room =
 doc.data();
 
 
+if(room.type==="public"){
+
+    continue;
+
+}
+
 
 if(
-(room.type==="public")
-||
-(room.members && room.members.includes(myUid))
+room.members &&
+room.members.includes(myUid)
 ){
+
 
 
 let displayName =
