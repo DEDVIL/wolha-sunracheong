@@ -158,14 +158,24 @@
 
 }
 
-
 .input-area {
 
-    border-top:1px solid #333;
-    padding:12px;
-    display:flex;
-    gap:10px;
-    align-items:center;
+display:flex;
+align-items:center;
+gap:8px;
+
+padding:10px 15px;
+
+}
+
+
+.send-btn {
+
+height:38px;
+
+padding:0 20px;
+
+flex-shrink:0;
 
 }
 
@@ -173,13 +183,18 @@
 .input-area textarea {
 
 flex:1;
-height:45px;
-padding:12px;
-resize:none;
-box-sizing:border-box;
-background:#222;
+height:38px;
+min-height:38px;
+max-height:38px;
+
+padding:8px 12px;
+
+background:#1a1a1a;
 border:1px solid #444;
+
 color:white;
+
+resize:none;
 
 }
 
@@ -246,6 +261,35 @@ float:right;
 
 }
 
+
+.chat-title-header {
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:20px 30px;
+
+}
+
+
+.chat-title h1 {
+
+margin:0;
+font-size:28px;
+letter-spacing:2px;
+
+}
+
+
+.chat-title span {
+
+display:block;
+margin-top:6px;
+font-size:13px;
+color:#888;
+letter-spacing:1px;
+
+}
     
 </style>
 
@@ -255,17 +299,21 @@ float:right;
 <body>
 
 
-<header>
+<header class="chat-title-header">
+
+<div class="chat-title">
 
 <h1>월하톡</h1>
 
-    <span>월하순라청 내부 메신저</span>
+<span>월하순라청 내부 메신저</span>
+
+</div>
 
 
 <a href="./home.html" class="home-button">
 ← 본청
 </a>
-    
+
 </header>
 
 
