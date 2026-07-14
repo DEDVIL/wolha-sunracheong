@@ -3245,24 +3245,52 @@ h1 {
 ===================== */
 
 
-.faq-list-button {
-    display: block;
-    width: 160px;
-    margin: 25px auto 0;
-    padding: 12px 0;
+/* FAQ 질문 작성 페이지 버튼 */
 
-    text-align: center;
+.faq-write-buttons {
 
-    border: 1px solid #777;
-    border-radius: 8px;
+    display: flex;
 
-    background: #111;
-    color: #eee;
+    gap: 10px;
 
-    text-decoration: none;
-    font-size: 14px;
+    margin-top: 25px;
+
 }
 
-.faq-list-button:hover {
-    background: #222;
+
+.faq-write-buttons button,
+.faq-write-buttons a {
+
+    flex: 1;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+}
+
+
+.faq-write-buttons button {
+
+    border: none;
+
+}
+
+
+.faq-write-buttons a {
+
+    border: 1px solid #555;
+
 }
