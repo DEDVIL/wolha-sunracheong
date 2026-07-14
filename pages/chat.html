@@ -285,12 +285,10 @@ placeholder="대화 검색">
 
 <div id="currentChatName">
 
-백비안
-
 </div>
 
 
-<button class="profile-btn" id="profileBtn">
+<button class="profile-btn" id="profileBtn" style="display:none;">
 
 프로필 보기
 
@@ -406,7 +404,9 @@ let myMemberId = null;
 let currentRoomId = null;
 let unsubscribeMessages = null;
 let currentOpponentUid = null;
-    
+
+const profileBtn =
+document.querySelector("#profileBtn");
 
 const messageInput =
 document.querySelector(".input-area input");
@@ -881,6 +881,7 @@ document.querySelector("#currentChatName")
 .innerText =
 data.writerName;
 
+profileBtn.style.display="block";
 
 });
 
