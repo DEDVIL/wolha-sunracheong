@@ -3237,3 +3237,20 @@ h1 {
     color:#aaa;
 
 }
+
+
+
+/* =====================
+   FAQ
+===================== */
+
+
+.faq-list-button {
+    display:block;
+    width:fit-content;
+    margin:30px auto 0;
+    padding:10px 20px;
+    border:1px solid #555;
+    border-radius:6px;
+    text-decoration:none;
+}
