@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 인명부 관리
+</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body>
+
+
+<main class="main-container">
+
+
+<section class="content-box">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+관리자 인명부 관리
+</p>
+
+
+<a class="home-button" href="./admin.html">
+관리자 홈
+</a>
+
+
+
+<div id="admin-member-list">
+
+불러오는 중...
+
+</div>
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+import {
+
+collection,
+
+getDocs,
+
+query,
+
+orderBy,
+
+deleteDoc,
+
+doc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+const list = document.getElementById(
+"admin-member-list"
+);
+
+
+
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+if(!user){
+
+location.href="../index.html";
+
+return;
+
+}
+
+
+loadMembers();
+
+
+}
+
+);
+
+
+
+
+
+
+async function loadMembers(){
+
+
+try{
+
+
+const q = query(
+
+collection(db,"members"),
+
+orderBy("writerName")
+
+);
+
+
+
+const snapshot = await getDocs(q);
+
+
+
+let html = `
+
+
+<table class="admin-table">
+
+
+<thead>
+
+<tr>
+
+<th>이름</th>
+
+<th>부서</th>
+
+<th>공개상태</th>
+
+<th>관리</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody>
+
+
+`;
+
+
+
+
+
+snapshot.forEach((item)=>{
+
+
+const member = item.data();
+
+const id = item.id;
+
+
+
+const visible =
+
+member.visible === false
+
+? "비공개"
+
+: "공개";
+
+
+
+
+
+html += `
+
+
+<tr>
+
+
+<td>
+${member.writerName || ""}
+</td>
+
+
+<td>
+${member.department || ""}
+</td>
+
+
+<td>
+${visible}
+</td>
+
+
+<td>
+
+
+<a href="./member-view.html?id=${id}">
+보기
+</a>
+
+
+<a href="./admin-member-edit.html?id=${id}">
+수정
+</a>
+
+
+<button onclick="deleteMember('${id}')">
+삭제
+</button>
+
+
+</td>
+
+
+</tr>
+
+
+
+`;
+
+
+
+});
+
+
+
+
+
+html += `
+
+
+</tbody>
+
+</table>
+
+
+`;
+
+
+
+list.innerHTML = html;
+
+
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+list.innerHTML =
+"인명부를 불러오지 못했습니다.";
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+window.deleteMember = async function(id){
+
+
+
+const check = confirm(
+
+"정말 삭제하시겠습니까?"
+
+);
+
+
+
+if(!check){
+
+return;
+
+}
+
+
+
+
+
+await deleteDoc(
+
+doc(
+
+db,
+
+"members",
+
+id
+
+)
+
+);
+
+
+
+alert(
+
+"삭제되었습니다."
+
+);
+
+
+
+loadMembers();
+
+
+};
+
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
