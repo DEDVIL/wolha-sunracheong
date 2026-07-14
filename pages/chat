@@ -180,7 +180,7 @@ class="chat-search"
 placeholder="대화 검색">
 
 
-<button class="new-chat-btn">
+<button class="new-chat-btn" id="newChatBtn">
 + 새 대화
 </button>
 
@@ -322,6 +322,39 @@ placeholder="대화 검색">
 
 </div>
 
+<div id="characterModal" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+">
+
+<div style="
+background:#111;
+width:400px;
+margin:100px auto;
+padding:20px;
+border:1px solid #555;
+">
+
+<h2>
+새 대화
+</h2>
+
+<div id="characterList"></div>
+
+<button id="closeModal">
+닫기
+</button>
+
+</div>
+
+</div>
+
+
 <script type="module">
 
 
@@ -352,7 +385,7 @@ document.querySelector(".chat-list");
 
 
 let myCharacter = null;
-
+let myUid = null;
 
 
 // 로그인 확인
@@ -367,6 +400,9 @@ location.href="../index.html";
 return;
 
 }
+
+myUid = user.uid;
+
 
 
 
@@ -404,6 +440,80 @@ data.characterName;
 
 loadChatRooms();
 
+const newChatBtn =
+document.querySelector("#newChatBtn");
+
+
+const modal =
+document.querySelector("#characterModal");
+
+
+newChatBtn.onclick = function(){
+
+    modal.style.display="block";
+
+    loadMembers();
+
+};
+
+async function loadMembers(){
+
+
+const characterList =
+document.querySelector("#characterList");
+
+
+characterList.innerHTML="";
+
+
+const snapshot =
+await getDocs(
+collection(db,"members")
+);
+
+
+
+snapshot.forEach(doc=>{
+
+
+const data =
+doc.data();
+
+
+
+const div =
+document.createElement("div");
+
+
+div.className="chat-item";
+
+
+div.innerHTML =
+`
+${data.writerName}
+<br>
+<small>${data.department}</small>
+`;
+
+
+
+characterList.appendChild(div);
+
+
+});
+
+
+}
+
+const closeModal =
+document.querySelector("#closeModal");
+
+
+closeModal.onclick=function(){
+
+modal.style.display="none";
+
+};
 
 });
 
