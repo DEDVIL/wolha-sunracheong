@@ -3185,3 +3185,55 @@ h1 {
 
 }
 
+#characterList {
+
+    max-height:400px;
+    overflow-y:auto;
+
+}
+
+
+.character-select-item {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px;
+
+    margin-bottom:8px;
+
+    background:#1a1a1a;
+
+    border:1px solid #333;
+
+    cursor:pointer;
+
+}
+
+
+.character-select-item:hover {
+
+    background:#252525;
+
+    border-color:#c8a96a;
+
+}
+
+
+.character-name {
+
+    font-weight:bold;
+
+}
+
+
+.character-department {
+
+    font-size:13px;
+
+    color:#aaa;
+
+}
