@@ -642,9 +642,8 @@ from
 
 
 let currentUser = null;
-
-
 let logData = null;
+let isAdmin = false;
 
 
 
@@ -1325,7 +1324,9 @@ async function loadComments(){
 
             currentUser.uid === data.uid;
 
+const canDelete =
 
+isOwner || isAdmin;
 
 
 
@@ -1388,68 +1389,67 @@ async function loadComments(){
 
 
 
-            ${
+${
+
+canDelete
+
+?
+
+`
+
+<div class="comment-buttons">
+
+
+${
+
+isOwner
+
+?
+
+`
+
+<button
+
+class="comment-edit"
+
+>
+
+수정
+
+</button>
+
+`
+
+:
+
+""
+
+}
 
 
 
-            isOwner
+<button
+
+class="comment-delete"
+
+>
+
+삭제
+
+</button>
 
 
 
-            ?
+</div>
 
+`
 
+:
 
-            `
+""
 
+}
 
-
-            <div class="comment-buttons">
-
-
-                <button
-
-                class="comment-edit"
-
-                >
-
-                수정
-
-                </button>
-
-
-
-
-
-                <button
-
-                class="comment-delete"
-
-                >
-
-                삭제
-
-                </button>
-
-
-
-            </div>
-
-
-
-            `
-
-
-
-            :
-
-
-
-            ""
-
-
-
-            }
 
 
 
@@ -1464,68 +1464,37 @@ async function loadComments(){
 
 
 
-            if(isOwner){
+           if(isOwner){
+
+    item
+    .querySelector(".comment-edit")
+    .addEventListener(
+        "click",
+        ()=>{
+            editComment(
+                docSnap.id,
+                data.content
+            );
+        }
+    );
+
+}
 
 
+if(canDelete){
 
-                item
+    item
+    .querySelector(".comment-delete")
+    .addEventListener(
+        "click",
+        ()=>{
+            deleteComment(
+                docSnap.id
+            );
+        }
+    );
 
-                .querySelector(".comment-edit")
-
-                .addEventListener(
-
-                    "click",
-
-                    ()=>{
-
-
-                        editComment(
-
-                            docSnap.id,
-
-                            data.content
-
-                        );
-
-
-                    }
-
-
-                );
-
-
-
-
-
-
-
-
-                item
-
-                .querySelector(".comment-delete")
-
-                .addEventListener(
-
-                    "click",
-
-                    ()=>{
-
-
-                        deleteComment(
-
-                            docSnap.id
-
-                        );
-
-
-                    }
-
-
-                );
-
-
-
-            }
+}
 
 
 
@@ -2144,12 +2113,30 @@ onAuthStateChanged(
         currentUser = user;
 
 
+const userSnap = await getDoc(
+
+doc(
+db,
+"users",
+user.uid
+)
+
+);
+
+
+if(
+userSnap.exists()
+&&
+userSnap.data().role === "admin"
+){
+
+    isAdmin = true;
+
+}
 
 
 
-
-
-        await loadLog();
+await loadLog();
 
 
 
