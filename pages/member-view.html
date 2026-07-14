@@ -328,15 +328,6 @@ return;
 
 memberData = snap.data();
 
-// 관리자 확인
-
-const userSnap = await getDoc(
-doc(db,"users",currentUser.uid)
-);
-
-const isAdmin =
-userSnap.exists() &&
-userSnap.data().role === "admin";
 
 
 
