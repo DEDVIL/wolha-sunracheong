@@ -965,7 +965,12 @@ roomId,
 
 
 const snapshot =
-await getDocs(messageRef);
+await getDocs(
+query(
+messageRef,
+orderBy("createdAt","asc")
+)
+);
 
 
 
@@ -1004,7 +1009,9 @@ messagesArea.appendChild(div);
 
 });
 
-
+messagesArea.scrollTop =
+messagesArea.scrollHeight;
+    
 }
 
 
