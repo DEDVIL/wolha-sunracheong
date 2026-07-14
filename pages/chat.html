@@ -442,6 +442,31 @@ float:right;
 
 }
 
+
+
+.message-search-btn {
+
+background:#222;
+
+border:1px solid #555;
+
+color:white;
+
+padding:8px 15px;
+
+cursor:pointer;
+
+margin-right:8px;
+
+}
+
+
+.message-search-btn:hover {
+
+background:#333;
+
+}
+
     
 </style>
 
@@ -527,6 +552,16 @@ placeholder="채팅방 검색">
 </div>
 
 
+<div>
+
+
+<button class="message-search-btn" id="messageSearchBtn">
+
+🔍 메시지 검색
+
+</button>
+
+
 <button class="profile-btn" id="profileBtn" style="display:none;">
 
 프로필 보기
@@ -536,6 +571,8 @@ placeholder="채팅방 검색">
 
 </div>
 
+
+</div>
 
 
 <div class="messages" id="messageArea">
@@ -599,6 +636,10 @@ border:1px solid #555;
 </div>
 
 
+
+
+
+    
 <script type="module">
 
 
