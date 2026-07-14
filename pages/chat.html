@@ -1084,6 +1084,13 @@ room
 
 function createChatItem(id,name){
 
+if(
+document.querySelector(`[data-room-id="${id}"]`)
+){
+    return;
+}
+
+    
 console.log("채팅 목록 생성:", name);
 
 const div =
@@ -1091,7 +1098,7 @@ document.createElement("div");
 
 
 div.className="chat-item";
-
+div.dataset.roomId=id;
 
 div.innerHTML=
 `
