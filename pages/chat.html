@@ -105,6 +105,22 @@
 .message {
 
     margin-bottom:15px;
+    display:flex;
+    flex-direction:column;
+
+}
+
+
+.message.mine {
+
+    align-items:flex-end;
+
+}
+
+
+.message.other {
+
+    align-items:flex-start;
 
 }
 
@@ -122,12 +138,22 @@
 
 }
 
+
 .date-divider {
 
     text-align:center;
     margin:20px 0;
     color:#888;
     font-size:13px;
+
+}
+
+.message-content {
+
+    background:#222;
+    padding:10px 15px;
+    border-radius:8px;
+    max-width:70%;
 
 }
 
@@ -1026,12 +1052,26 @@ lastDate = dateText;
 
 
 }
+
+
+
     
 const div =
 document.createElement("div");
 
 
-div.className="message";
+
+if(data.senderUid === myUid){
+
+    div.className="message mine";
+
+}
+else{
+
+    div.className="message other";
+
+}
+
 
 
 div.innerHTML =
@@ -1040,15 +1080,16 @@ div.innerHTML =
 ${data.sender}
 </div>
 
-<div>
+
+<div class="message-content">
 ${data.text}
 </div>
+
 
 <div class="time">
 ${data.createdAt?.toDate().toLocaleTimeString() || ""}
 </div>
 `;
-
 
 messagesArea.appendChild(div);
 
