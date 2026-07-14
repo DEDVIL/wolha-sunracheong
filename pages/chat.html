@@ -262,32 +262,121 @@ float:right;
 }
 
 
+/* 월하톡 헤더 */
+
 .chat-title-header {
 
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:20px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 30px;
+
+    background:#151515;
+
+    border-bottom:1px solid #333;
 
 }
 
 
 .chat-title h1 {
 
-margin:0;
-font-size:28px;
-letter-spacing:2px;
+    margin:0;
+
+    font-size:28px;
+
+    letter-spacing:2px;
+
+    font-weight:700;
 
 }
 
 
 .chat-title span {
 
-display:block;
-margin-top:6px;
-font-size:13px;
-color:#888;
-letter-spacing:1px;
+    display:block;
+
+    margin-top:6px;
+
+    color:#999;
+
+    font-size:13px;
+
+    letter-spacing:1px;
+
+}
+
+
+/* 입력 영역 */
+
+.input-area {
+
+    border-top:1px solid #333;
+
+    padding:10px 15px;
+
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+}
+
+
+.input-area textarea {
+
+    flex:1;
+
+    height:38px;
+
+    min-height:38px;
+
+    max-height:38px;
+
+    padding:8px 12px;
+
+    box-sizing:border-box;
+
+    resize:none;
+
+    background:#222;
+
+    border:1px solid #444;
+
+    color:white;
+
+    border-radius:5px;
+
+}
+
+
+/* 전송 버튼 */
+
+.send-btn {
+
+    height:38px;
+
+    padding:0 22px;
+
+    flex-shrink:0;
+
+    background:#333;
+
+    color:white;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+    border-radius:5px;
+
+}
+
+
+.send-btn:hover {
+
+    background:#444;
 
 }
     
