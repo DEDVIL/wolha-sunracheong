@@ -1804,16 +1804,16 @@ data.text &&
 data.text.toLowerCase().includes(keyword)
 ){
 
-resultCount++;
-
 if(addedMessages.has(doc.id)){
 
 return;
 
 }
 
-
 addedMessages.add(doc.id);
+
+resultCount++;
+
 
 
 
