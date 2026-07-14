@@ -329,8 +329,21 @@ return;
 memberData = snap.data();
 
 
+// 비공개 인명부 접근 제한
+if(
+memberData.visible === false &&
+currentUser.uid !== memberData.uid
+){
 
+alert(
+"비공개 처리된 인명부입니다."
+);
 
+location.href="./member-list.html";
+
+return;
+
+}
 
 
 
