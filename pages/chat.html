@@ -816,7 +816,7 @@ collection(db,"chatRooms")
 
 
 
-roomDoc.forEach(async doc=>{
+for(const doc of roomDoc.docs){
 
 
 if(doc.id === roomId){
