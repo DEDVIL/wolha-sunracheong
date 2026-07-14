@@ -212,6 +212,10 @@ resize:none;
     overflow-y:auto;
 
 }
+
+#inputArea {
+    display:none;
+}
     
 </style>
 
@@ -326,7 +330,7 @@ placeholder="대화 검색">
 
 
 
-<div class="input-area">
+<div class="input-area" id="inputArea">
 
 
 <textarea 
@@ -455,6 +459,11 @@ sendBtn.click();
 
 const profileBtn =
 document.querySelector("#profileBtn");
+
+
+const inputArea =
+document.querySelector("#inputArea");
+
     
 // 로그인 확인
 
@@ -926,6 +935,8 @@ data.writerName;
 
 
 profileBtn.style.display="block";
+
+inputArea.style.display="block";
 
 
 });
