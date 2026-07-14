@@ -328,16 +328,27 @@ return;
 
 memberData = snap.data();
 
+// 관리자 확인
 
-// 비공개 인명부 접근 제한
+const userSnap = await getDoc(
+doc(db,"users",currentUser.uid)
+);
+
+const isAdmin =
+userSnap.exists() &&
+userSnap.data().role === "admin";
+
+
+
+// 비공개 접근 제한
+
 if(
 memberData.visible === false &&
-currentUser.uid !== memberData.uid
+currentUser.uid !== memberData.uid &&
+!isAdmin
 ){
 
-alert(
-"비공개 처리된 인명부입니다."
-);
+alert("비공개 처리된 인명부입니다.");
 
 location.href="./member-list.html";
 
@@ -347,24 +358,38 @@ return;
 
 
 
-// 작성자 본인만 버튼 표시
-
+// 작성자 또는 관리자 권한 확인
 
 const userSnap = await getDoc(
-    doc(db,"users",currentUser.uid)
+
+doc(
+db,
+"users",
+currentUser.uid
+)
+
 );
 
+
 const isAdmin =
-    userSnap.exists() &&
-    userSnap.data().role === "admin";
+
+userSnap.exists() &&
+
+userSnap.data().role === "admin";
+
+
 
 
 
 if(
+
 currentUser.uid === memberData.uid ||
+
 isAdmin
+
 ){
 
+    
 
 document.getElementById("owner-buttons").innerHTML = `
 
