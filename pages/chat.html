@@ -680,8 +680,6 @@ loadChatRooms();
 
     
 
-loadChatRooms();
-
 const newChatBtn =
 document.querySelector("#newChatBtn");
 
@@ -720,7 +718,8 @@ closeModal.onclick=function(){
 
 
 // 채팅방 불러오기
-
+    
+loadChatRooms();
 
 function loadChatRooms(){
 
@@ -751,8 +750,6 @@ doc.data();
 if(
 room.members &&
 room.members.includes(myUid)
-||
-room.type==="notice"
 ){
 
 
@@ -827,7 +824,7 @@ displayName
 
 function createChatItem(id,name){
 
-
+console.log("채팅 목록 생성:", name);
 
 const div =
 document.createElement("div");
