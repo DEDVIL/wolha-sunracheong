@@ -415,20 +415,27 @@ const members = [];
 snapshot.forEach((doc)=>{
 
 
+const data = doc.data();
+
+
+
+if(data.visible === false){
+
+return;
+
+}
+
+
 
 members.push({
 
 
-
 id:doc.id,
 
-...doc.data()
-
+...data
 
 
 });
-
-
 
 
 });
