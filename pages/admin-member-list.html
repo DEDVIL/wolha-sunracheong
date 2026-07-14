@@ -258,6 +258,29 @@ id:item.id,
 
 renderMembers();
 
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+list.innerHTML =
+"인명부를 불러오지 못했습니다.";
+
+
+}
+
+
+
+}
+
+
+function renderMembers(){
+
+
 let html = `
 
 
@@ -284,20 +307,17 @@ let html = `
 
 <tbody>
 
-
 `;
 
 
 
+let publicTotal = 0;
+
+let privateTotal = 0;
 
 
-snapshot.forEach((item)=>{
 
-
-const member = item.data();
-
-const id = item.id;
-
+membersData.forEach((member)=>{
 
 
 const visible =
@@ -310,6 +330,17 @@ member.visible === false
 
 
 
+if(member.visible === false){
+
+privateTotal++;
+
+}
+else{
+
+publicTotal++;
+
+}
+
 
 
 html += `
@@ -319,34 +350,40 @@ html += `
 
 
 <td>
+
 ${member.writerName || ""}
+
 </td>
 
 
 <td>
+
 ${member.department || ""}
+
 </td>
 
 
 <td>
+
 ${visible}
+
 </td>
 
 
 <td>
 
 
-<a href="./member-view.html?id=${id}">
+<a href="./member-view.html?id=${member.id}">
 열람
 </a>
 
 
-<a href="./admin-member-edit.html?id=${id}">
+<a href="./admin-member-edit.html?id=${member.id}">
 수정
 </a>
 
 
-<button onclick="deleteMember('${id}')">
+<button onclick="deleteMember('${member.id}')">
 삭제
 </button>
 
@@ -357,14 +394,11 @@ ${visible}
 </tr>
 
 
-
 `;
 
 
 
 });
-
-
 
 
 
@@ -375,7 +409,6 @@ html += `
 
 </table>
 
-
 `;
 
 
@@ -384,26 +417,15 @@ list.innerHTML = html;
 
 
 
-}
+totalCount.innerText = membersData.length;
 
-catch(error){
+publicCount.innerText = publicTotal;
 
-
-console.error(error);
-
-
-list.innerHTML =
-"인명부를 불러오지 못했습니다.";
-
-
-}
+privateCount.innerText = privateTotal;
 
 
 
 }
-
-
-
 
 
 
