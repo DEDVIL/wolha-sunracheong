@@ -216,6 +216,18 @@ resize:none;
 #inputArea {
     display:none;
 }
+
+
+.unread-badge{
+
+background:#c00;
+color:white;
+font-size:12px;
+border-radius:20px;
+padding:3px 7px;
+float:right;
+
+}
     
 </style>
 
@@ -431,7 +443,10 @@ let currentRoomId = null;
 let unsubscribeMessages = null;
 let currentOpponentUid = null;
 let currentOpponentMemberId = null;
+let lastReadTime = null;
 
+
+    
 const messageInput =
 document.querySelector(".message-input");
 
@@ -817,7 +832,12 @@ doc.id,
 displayName
 );
 
+updateUnreadBadge(
+doc.id,
+room
+);
 
+    
 }
 
 
@@ -848,9 +868,9 @@ div.className="chat-item";
 
 div.innerHTML=
 `
-${name}
+<span>${name}</span>
+<span class="unread-badge" id="badge-${id}"></span>
 `;
-
 
 
 div.onclick=()=>{
@@ -867,6 +887,70 @@ privateChatList.appendChild(div);
 
 }
 
+async function updateUnreadBadge(roomId, room){
+
+
+const badge =
+document.querySelector(`#badge-${roomId}`);
+
+
+if(!badge) return;
+
+
+const messages =
+await getDocs(
+collection(
+db,
+"chatRooms",
+roomId,
+"messages"
+)
+);
+
+
+let count = 0;
+
+
+messages.forEach(msg=>{
+
+
+const data = msg.data();
+
+
+if(
+data.senderUid !== myUid
+&&
+(
+!room.readBy
+||
+!room.readBy[myUid]
+||
+data.createdAt > room.readBy[myUid]
+)
+){
+
+count++;
+
+}
+
+
+});
+
+
+if(count > 0){
+
+badge.innerText=count;
+
+}
+else{
+
+badge.innerText="";
+
+}
+
+
+}
+
 
 
 async function openChat(roomId){
@@ -879,6 +963,12 @@ roomId
 
 currentRoomId = roomId;
 
+await updateDoc(
+doc(db,"chatRooms",roomId),
+{
+    [`readBy.${myUid}`]: serverTimestamp()
+}
+);
 
 const roomDoc =
 await getDocs(
