@@ -759,6 +759,7 @@ data.writerName;
 
 });
 
+loadChatRooms();
 
 async function loadMembers(){
 
@@ -863,9 +864,10 @@ const room = doc.data();
 
 
 if(
-(room.members && room.members.includes(myUid))
-||
-room.type==="notice"
+room.type==="private" &&
+room.members &&
+room.members.includes(myUid) &&
+room.members.includes(target.uid)
 ){
 
 exists = true;
@@ -929,6 +931,7 @@ modal.style.display="none";
 loadChatRooms();
 
 
+    
 }
 
     
@@ -972,7 +975,7 @@ closeModal.onclick=function(){
 
 // 채팅방 불러오기
     
-loadChatRooms();
+
 
 function loadChatRooms(){
 
