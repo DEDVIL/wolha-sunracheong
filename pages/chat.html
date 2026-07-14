@@ -474,6 +474,57 @@ collection(db,"members")
 
 
 
+
+
+// 내 캐릭터 제외
+if(data.uid === myUid){
+
+    return;
+
+}
+
+    
+
+const div =
+document.createElement("div");
+
+
+div.className="character-select-item";
+
+
+div.innerHTML=
+`
+
+
+
+div.innerHTML=
+`
+<strong>${data.writerName}</strong>
+<span style="float:right; color:#aaa;">
+${data.department}
+</span>
+`;
+
+
+div.onclick = function(){
+
+    createPrivateChat(
+        data
+    );
+
+};
+
+
+characterList.appendChild(div);
+
+
+
+});
+
+
+}
+
+
 snapshot.forEach(doc=>{
 
 
@@ -577,61 +628,7 @@ loadChatRooms();
 
 }
 
-// 내 캐릭터 제외
-if(data.uid === myUid){
-
-    return;
-
-}
-
     
-
-const div =
-document.createElement("div");
-
-
-div.className="character-select-item";
-
-
-div.innerHTML=
-`
-<span class="character-name">
-${data.writerName}
-</span>
-
-<span class="character-department">
-${data.department}
-</span>
-`;
-
-
-
-div.innerHTML=
-`
-<strong>${data.writerName}</strong>
-<span style="float:right; color:#aaa;">
-${data.department}
-</span>
-`;
-
-
-div.onclick = function(){
-
-    createPrivateChat(
-        data
-    );
-
-};
-
-
-characterList.appendChild(div);
-
-
-
-});
-
-
-}
 
 loadChatRooms();
 
@@ -653,79 +650,6 @@ newChatBtn.onclick = function(){
 
 
     
-async function createChatRoom(targetId, targetData){
-
-
-if(!myCharacter){
-
-alert("내 캐릭터 정보를 불러오지 못했습니다.");
-
-return;
-
-}
-
-
-
-const roomData = {
-
-
-name:
-`${myCharacter} ↔ ${targetData.writerName}`,
-
-
-type:
-"private",
-
-
-members:[
-
-myUid,
-
-targetId
-
-],
-
-
-createdAt:
-serverTimestamp()
-
-
-};
-
-
-
-await addDoc(
-
-collection(
-db,
-"chatRooms"
-),
-
-roomData
-
-);
-
-
-
-alert(
-`${targetData.writerName}님과의 대화방이 생성되었습니다.`
-);
-
-
-
-const modal =
-document.querySelector("#characterModal");
-
-
-modal.style.display="none";
-
-
-
-loadChatRooms();
-
-
-}
-
     
 
 // 닫기 버튼
