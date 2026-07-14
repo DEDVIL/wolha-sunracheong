@@ -404,7 +404,7 @@ let myMemberId = null;
 let currentRoomId = null;
 let unsubscribeMessages = null;
 let currentOpponentUid = null;
-
+let currentOpponentMemberId = null;
 
 const messageInput =
 document.querySelector(".input-area input");
@@ -922,11 +922,16 @@ const data =
 memberDoc.data();
 
 
+currentOpponentMemberId = memberDoc.id;
+
+
 document.querySelector("#currentChatName")
 .innerText =
 data.writerName;
 
+
 profileBtn.style.display="block";
+
 
 });
 
