@@ -459,7 +459,6 @@ data.writerName;
 
 async function loadMembers(){
 
-
 const characterList =
 document.querySelector("#characterList");
 
@@ -474,6 +473,11 @@ collection(db,"members")
 
 
 
+snapshot.forEach(doc=>{
+
+
+const data =
+doc.data();
 
 
 // 내 캐릭터 제외
@@ -483,7 +487,7 @@ if(data.uid === myUid){
 
 }
 
-    
+
 
 const div =
 document.createElement("div");
@@ -492,27 +496,25 @@ document.createElement("div");
 div.className="character-select-item";
 
 
-div.innerHTML=
-`
-
-
-
-div.innerHTML=
+div.innerHTML =
 `
 <strong>${data.writerName}</strong>
-<span style="float:right; color:#aaa;">
-${data.department}
+<span style="
+float:right;
+color:#aaa;
+">
+${data.department || ""}
 </span>
 `;
 
 
+
 div.onclick = function(){
 
-    createPrivateChat(
-        data
-    );
+createPrivateChat(data);
 
 };
+
 
 
 characterList.appendChild(div);
@@ -523,6 +525,8 @@ characterList.appendChild(div);
 
 
 }
+
+    
 
 
 snapshot.forEach(doc=>{
@@ -694,7 +698,7 @@ doc.data();
 
 if(
 room.members &&
-room.members.includes(myCharacter)
+room.members.includes(myUid)
 ||
 room.type==="notice"
 ){
