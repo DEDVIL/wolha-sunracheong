@@ -3184,3 +3184,116 @@ h1 {
     align-items:center;
 
 }
+
+
+/* 관리자 인명부 테이블 */
+
+
+.admin-table{
+
+width:100%;
+
+border-collapse:separate;
+
+border-spacing:0 12px;
+
+}
+
+
+
+.admin-table th{
+
+padding:14px;
+
+font-size:14px;
+
+color:#aaa;
+
+border-bottom:1px solid #333;
+
+}
+
+
+
+.admin-table td{
+
+padding:16px;
+
+background:#111;
+
+border-top:1px solid #333;
+
+border-bottom:1px solid #333;
+
+text-align:center;
+
+}
+
+
+
+.admin-table tr td:first-child{
+
+border-left:1px solid #333;
+
+border-radius:8px 0 0 8px;
+
+}
+
+
+
+.admin-table tr td:last-child{
+
+border-right:1px solid #333;
+
+border-radius:0 8px 8px 0;
+
+}
+
+
+
+
+
+.admin-table a,
+
+.admin-table button{
+
+display:inline-block;
+
+margin:3px;
+
+padding:6px 12px;
+
+border-radius:5px;
+
+font-size:13px;
+
+text-decoration:none;
+
+cursor:pointer;
+
+}
+
+
+
+.admin-table a{
+
+background:#222;
+
+color:#ddd;
+
+}
+
+
+
+
+
+.admin-table button{
+
+background:#3a2020;
+
+color:#ddd;
+
+border:1px solid #553333;
+
+}
+
