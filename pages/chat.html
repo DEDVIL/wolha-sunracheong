@@ -1015,7 +1015,12 @@ const data =
 doc.data();
 
 
-if(data.createdAt){
+if(!data.createdAt){
+
+    return;
+
+}
+
 
 const messageDate =
 data.createdAt.toDate();
@@ -1024,11 +1029,7 @@ data.createdAt.toDate();
 const dateText =
 messageDate.toLocaleDateString();
 
-}
 
-
-const dateText =
-messageDate.toLocaleDateString();
 
 if(lastDate !== dateText){
 
