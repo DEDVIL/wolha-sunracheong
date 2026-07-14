@@ -413,52 +413,6 @@ document.querySelector(".input-area input");
 const sendBtn =
 document.querySelector(".send-btn");
 
-const profileBtn =
-document.querySelector("#profileBtn");
-
-
-profileBtn.onclick = async function(){
-
-if(!currentOpponentUid){
-
-alert("채팅 상대가 없습니다.");
-
-return;
-
-}
-
-
-const q =
-query(
-collection(db,"members"),
-where("uid","==",currentOpponentUid)
-);
-
-
-const snap =
-await getDocs(q);
-
-
-snap.forEach(doc=>{
-
-const data = doc.data();
-
-
-alert(
-`
-이름 : ${data.writerName}
-
-부서 : ${data.department || "미정"}
-
-기타 :
-${data.other || "없음"}
-`
-);
-
-});
-
-};
-
 
     
 // 로그인 확인
@@ -1172,7 +1126,21 @@ messagesArea.scrollHeight;
 
 }
 
+profileBtn.onclick = function(){
 
+if(!currentOpponentMemberId){
+
+alert("프로필을 찾을 수 없습니다.");
+
+return;
+
+}
+
+
+location.href =
+`./member-view.html?id=${currentOpponentMemberId}`;
+
+};
 
     
 </script>
