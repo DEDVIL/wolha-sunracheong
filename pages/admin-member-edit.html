@@ -142,7 +142,25 @@ placeholder="이미지 URL 입력"
 
 
 
+<label>
+인명부 공개 설정
+</label>
 
+
+<select id="visible">
+
+
+<option value="true">
+공개
+</option>
+
+
+<option value="false">
+비공개
+</option>
+
+
+</select>
 
 
 
@@ -731,6 +749,21 @@ async function loadProfile(){
 
 
 
+async function loadProfile(){
+
+
+if(!memberId){
+
+alert("잘못된 접근입니다.");
+
+location.href="./admin-member-list.html";
+
+return;
+
+}
+
+
+
 const memberRef = doc(
 
 db,
@@ -743,25 +776,16 @@ memberId
 
 
 
-
-
 const snap = await getDoc(memberRef);
-
-
-
 
 
 
 if(!snap.exists()){
 
 
+alert("캐릭터 정보를 찾을 수 없습니다.");
 
-quill.root.innerHTML = template;
-
-
-secretQuill.root.innerHTML = "";
-
-
+location.href="./admin-member-list.html";
 
 return;
 
@@ -770,58 +794,33 @@ return;
 
 
 
-
-
-
-
 const data = snap.data();
 
 
 
 
-
-
-
 document
-
 .getElementById("writerName")
-
 .value =
-
 data.writerName || "";
 
 
 
 
 
-
-
-
 document
-
 .getElementById("department")
-
 .value =
-
 data.department || "";
 
 
 
 
 
-
-
-
 document
-
 .getElementById("portraitImage")
-
 .value =
-
 data.portraitImage || "";
-
-
-
 
 
 
@@ -835,9 +834,6 @@ data.profileContent || template;
 
 
 
-
-
-
 secretQuill.root.innerHTML =
 
 data.secretContent || "";
@@ -846,23 +842,25 @@ data.secretContent || "";
 
 
 
-
-
-
 document
-
 .getElementById("secretPassword")
-
 .value =
 
 data.secretPassword || "";
 
+document
+.getElementById("visible")
+.value =
 
+data.visible === false
 
+? "false"
 
-
+: "true";
 
 }
+
+
 
 window.saveProfile = async function(){
 
@@ -934,7 +932,11 @@ document
 .value;
 
 
+const visible =
 
+document
+.getElementById("visible")
+.value === "true";
 
 
 
@@ -1003,7 +1005,6 @@ uid:
 currentUser.uid,
 
 
-
 writerName,
 
 
@@ -1021,6 +1022,8 @@ secretContent,
 
 secretPassword,
 
+
+visible,
 
 
 updatedAt:
