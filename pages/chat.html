@@ -980,7 +980,7 @@ orderBy("createdAt","asc")
 )
 );
 
-
+let lastDate = null;
 
 snapshot.forEach(doc=>{
 
@@ -989,6 +989,44 @@ const data =
 doc.data();
 
 
+if(data.createdAt){
+
+const messageDate =
+data.createdAt.toDate();
+
+
+const dateText =
+messageDate.toLocaleDateString();
+
+}
+
+
+const dateText =
+messageDate.toLocaleDateString();
+
+if(lastDate !== dateText){
+
+
+const dateDiv =
+document.createElement("div");
+
+
+dateDiv.className =
+"date-divider";
+
+
+dateDiv.innerText =
+dateText;
+
+
+messagesArea.appendChild(dateDiv);
+
+
+lastDate = dateText;
+
+
+}
+    
 const div =
 document.createElement("div");
 
