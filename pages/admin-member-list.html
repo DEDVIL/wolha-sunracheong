@@ -190,7 +190,17 @@ document.getElementById(
 
 let membersData = [];
 
+searchInput.addEventListener(
 
+"input",
+
+()=>{
+
+renderMembers();
+
+}
+
+);
 
 onAuthStateChanged(
 
@@ -316,8 +326,34 @@ let publicTotal = 0;
 let privateTotal = 0;
 
 
+const keyword =
 
-membersData.forEach((member)=>{
+searchInput.value.toLowerCase();
+
+membersData
+
+.filter((member)=>{
+
+
+return (
+
+member.writerName
+?.toLowerCase()
+.includes(keyword)
+
+||
+
+member.department
+?.toLowerCase()
+.includes(keyword)
+
+);
+
+
+})
+
+
+.forEach((member)=>{
 
 
 const visible =
