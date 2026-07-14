@@ -166,13 +166,15 @@
 }
 
 
-.input-area input {
+.input-area textarea {
 
-    width:80%;
-    padding:12px;
-    background:#222;
-    border:1px solid #444;
-    color:white;
+width:80%;
+height:60px;
+padding:12px;
+background:#222;
+border:1px solid #444;
+color:white;
+resize:none;
 
 }
 
@@ -309,7 +311,9 @@ placeholder="대화 검색">
 <div class="input-area">
 
 
-<input placeholder="메시지 입력">
+<textarea 
+class="message-input"
+placeholder="메시지 입력"></textarea>
 
 
 <button class="send-btn">
@@ -407,13 +411,32 @@ let currentOpponentUid = null;
 let currentOpponentMemberId = null;
 
 const messageInput =
-document.querySelector(".input-area input");
+document.querySelector(".message-input");
 
 
 const sendBtn =
 document.querySelector(".send-btn");
 
 
+messageInput.addEventListener(
+"keydown",
+function(e){
+
+
+if(e.key === "Enter" && !e.shiftKey){
+
+e.preventDefault();
+
+sendBtn.click();
+
+}
+
+
+});
+
+
+const profileBtn =
+document.querySelector("#profileBtn");
     
 // 로그인 확인
 
