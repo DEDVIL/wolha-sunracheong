@@ -610,9 +610,9 @@ const room = doc.data();
 
 
 if(
-room.members &&
-room.members.includes(myUid) &&
-room.members.includes(target.uid)
+(room.members && room.members.includes(myUid))
+||
+room.type==="notice"
 ){
 
 exists = true;
