@@ -491,34 +491,11 @@ placeholder="대화 검색">
 
 <div id="publicChatList">
 
+<div class="chat-item" data-room="special-response">
 
-<div class="chat-item">
-
-📢 본청 공지
-
-</div>
-
-
-<div class="chat-item">
-
-🏮 경야대
+🕯 특별 대응팀
 
 </div>
-
-
-<div class="chat-item">
-
-🔎 추적대
-
-</div>
-
-
-<div class="chat-item">
-
-📜 궁야원
-
-</div>
-
 
 </div>
 
@@ -660,7 +637,17 @@ document.querySelector(".chat-list");
 const privateChatList =
 document.querySelector("#privateChatList");
     
+// 특별 대응팀 공용 채팅
 
+document
+.querySelector('[data-room="special-response"]')
+.onclick=function(){
+
+openChat("special-response");
+
+};
+
+    
 let myCharacter = null;
 let myUid = null;
 let myMemberId = null;
@@ -1217,10 +1204,29 @@ const room = doc.data();
 
 
 
+if(room.type==="public"){
+
+
+document.querySelector("#currentChatName")
+.innerText =
+room.name;
+
+
+profileBtn.style.display="none";
+
+inputArea.style.display="flex";
+
+
+}
+else{
+
+
 const opponentUid =
 room.members.find(
 (uid)=>uid !== myUid
 );
+
+
 currentOpponentUid = opponentUid;
 
 
