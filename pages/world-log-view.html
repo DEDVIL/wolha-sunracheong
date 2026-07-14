@@ -1410,69 +1410,101 @@ isOwner || isAdmin;
 
 
 
-            ${
+          ${
 
 
 
-            isOwner
+(isOwner || isAdmin)
 
 
 
-            ?
+?
 
 
 
-            `
+`
 
 
 
-            <div class="comment-buttons">
-
-
-                <button
-
-                class="comment-edit"
-
-                >
-
-                수정
-
-                </button>
+<div class="comment-buttons">
 
 
 
+${
 
 
 
-                <button
-
-                class="comment-delete"
-
-                >
-
-                삭제
-
-                </button>
+isOwner
 
 
 
-            </div>
+?
 
 
 
-            `
+`
 
 
 
-            :
+<button
+
+class="comment-edit"
+
+>
+
+수정
+
+</button>
 
 
 
-            ""
+`
 
 
 
-            }
+:
+
+
+
+""
+
+
+
+}
+
+
+
+
+
+<button
+
+class="comment-delete"
+
+>
+
+삭제
+
+</button>
+
+
+
+</div>
+
+
+
+`
+
+
+
+:
+
+
+
+""
+
+
+
+}
 
 
 
