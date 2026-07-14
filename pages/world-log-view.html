@@ -638,9 +638,8 @@ from
 
 
 let currentUser = null;
-
-
 let worldData = null;
+let isAdmin = false;
 
 
 
@@ -1334,15 +1333,16 @@ async function loadComments(){
 
 
 
-            const isOwner =
+const isOwner =
+
+currentUser &&
+
+currentUser.uid === data.uid;
 
 
+const canDelete =
 
-            currentUser &&
-
-
-
-            currentUser.uid === data.uid;
+isOwner || isAdmin;
 
 
 
@@ -2166,32 +2166,39 @@ onAuthStateChanged(
 
 
 
-        currentUser = user;
+currentUser = user;
 
 
 
+const userSnap = await getDoc(
+
+doc(
+db,
+"users",
+user.uid
+)
+
+);
 
 
 
+if(
+userSnap.exists()
+&&
+userSnap.data().role === "admin"
+){
 
-        await loadWorld();
+    isAdmin = true;
 
-
-
-
-
-
-
-        createCommentForm();
-
+}
 
 
 
+await loadWorld();
 
+createCommentForm();
 
-
-        await loadComments();
-
+await loadComments();
 
 
 
