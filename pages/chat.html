@@ -456,14 +456,15 @@ data.writerName;
 });
 
 
-
 async function loadMembers(){
+
 
 const characterList =
 document.querySelector("#characterList");
 
 
 characterList.innerHTML="";
+
 
 
 const snapshot =
@@ -480,7 +481,8 @@ const data =
 doc.data();
 
 
-// 내 캐릭터 제외
+
+// 자기 자신 제외
 if(data.uid === myUid){
 
     return;
@@ -493,17 +495,23 @@ const div =
 document.createElement("div");
 
 
-div.className="character-select-item";
+
+div.className =
+"character-select-item";
+
 
 
 div.innerHTML =
 `
 <strong>${data.writerName}</strong>
+
 <span style="
 float:right;
 color:#aaa;
 ">
+
 ${data.department || ""}
+
 </span>
 `;
 
