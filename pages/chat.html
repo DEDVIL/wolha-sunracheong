@@ -696,11 +696,53 @@ room.type==="notice"
 ){
 
 
+let displayName = room.name;
+
+
+// 개인 채팅이면 상대 이름 찾기
+if(
+room.type === "private"
+){
+
+const opponentUid =
+room.members.find(
+(uid)=>uid !== myUid
+);
+
+
+// members 컬렉션에서 상대 찾기
+const opponentQuery =
+query(
+collection(db,"members"),
+where("uid","==",opponentUid)
+);
+
+
+const opponentSnap =
+await getDocs(opponentQuery);
+
+
+opponentSnap.forEach(doc=>{
+
+const data = doc.data();
+
+displayName =
+data.writerName;
+
+});
+
+
+}
+
+
 
 createChatItem(
 doc.id,
-room.name
+displayName
 );
+
+
+}
 
 
 
