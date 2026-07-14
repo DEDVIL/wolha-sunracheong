@@ -3307,24 +3307,32 @@ h1 {
 
 /* 질문 목록 */
 
-.faq-write-buttons a {
+.faq-write-buttons {
 
-    background: transparent;
+    display:flex;
 
-    color: #ddd;
+    width:100%;
 
-    border: 1px solid #555;
+    gap:10px;
+
+    margin-top:10px;
 
 }
 
 
 .faq-write-secret {
 
-    margin-top: 5px;
-
-    margin-bottom: 0;
+    margin:5px 0 0;
 
 }
+
+
+.faq-write-secret label {
+
+    margin:0;
+
+}
+
 
 .faq-write-form {
 
