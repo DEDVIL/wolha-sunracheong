@@ -235,9 +235,10 @@ white-space:nowrap;
 }
 
 #inputArea {
-    display:none;
-}
 
+    display:none;
+
+}
 
 .unread-badge{
 
@@ -266,43 +267,46 @@ float:right;
 
 .chat-title-header {
 
+    width:100%;
+    box-sizing:border-box;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
 
-    padding:20px 30px;
+    padding:20px 35px;
 
     background:#151515;
-
     border-bottom:1px solid #333;
 
 }
 
 
-.chat-title h1 {
+.chat-title {
 
-    margin:0;
-
-    font-size:28px;
-
-    letter-spacing:2px;
-
-    font-weight:700;
+    display:flex;
+    flex-direction:column;
 
 }
 
 
-.chat-title span {
+.home-button {
 
-    display:block;
+    margin-left:auto;
 
-    margin-top:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    color:#999;
+    width:90px;
+    height:36px;
 
-    font-size:13px;
+    color:white;
+    text-decoration:none;
 
-    letter-spacing:1px;
+    border:1px solid #555;
+
+    font-size:14px;
 
 }
 
@@ -379,7 +383,46 @@ float:right;
     background:#444;
 
 }
-    
+
+
+.input-area {
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    display:flex;
+
+    flex-direction:row;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 15px;
+
+}
+
+
+.message-input {
+
+    flex:1;
+
+    height:40px;
+
+}
+
+
+.send-btn {
+
+    width:70px;
+
+    height:40px;
+
+    flex-shrink:0;
+
+}
+
 </style>
 
 </head>
@@ -1188,7 +1231,7 @@ data.writerName;
 
 profileBtn.style.display="block";
 
-inputArea.style.display="block";
+inputArea.style.display="flex";
 
 
 });
