@@ -561,7 +561,7 @@ placeholder="채팅방 검색">
 </div>
 
 
-<div>
+<div class="header-buttons">
 
 
 <button class="profile-btn" id="profileBtn" style="display:none;">
@@ -1329,6 +1329,8 @@ roomId
 
 
 currentRoomId = roomId;
+messageSearchBtn.style.display="block";
+
 
 await updateDoc(
 doc(db,"chatRooms",roomId),
@@ -1365,7 +1367,7 @@ room.name;
 
 
 profileBtn.style.display="none";
-
+messageSearchBtn.style.display="block";
 inputArea.style.display="flex";
 
 
@@ -1411,6 +1413,8 @@ data.writerName;
 
 
 profileBtn.style.display="block";
+
+messageSearchBtn.style.display="block";
 
 inputArea.style.display="flex";
 
