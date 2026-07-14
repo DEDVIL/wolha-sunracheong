@@ -717,16 +717,19 @@ closeModal.onclick=function(){
 // 채팅방 불러오기
 
 
-async function loadChatRooms(){
+function loadChatRooms(){
 
 
 const rooms =
 collection(db,"chatRooms");
 
 
-const snapshot =
-await getDocs(rooms);
+onSnapshot(
+rooms,
+async(snapshot)=>{
 
+
+privateChatList.innerHTML="";
 
 
 for(const doc of snapshot.docs){
@@ -800,11 +803,15 @@ displayName
 }
 
 
-}
 
 }
 
 
+}
+
+);
+
+}
     
 
 // 왼쪽 목록 생성
