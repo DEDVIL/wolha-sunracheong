@@ -3246,11 +3246,23 @@ h1 {
 
 
 .faq-list-button {
-    display:block;
-    width:fit-content;
-    margin:30px auto 0;
-    padding:10px 20px;
-    border:1px solid #555;
-    border-radius:6px;
-    text-decoration:none;
+    display: block;
+    width: 160px;
+    margin: 25px auto 0;
+    padding: 12px 0;
+
+    text-align: center;
+
+    border: 1px solid #777;
+    border-radius: 8px;
+
+    background: #111;
+    color: #eee;
+
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.faq-list-button:hover {
+    background: #222;
 }
