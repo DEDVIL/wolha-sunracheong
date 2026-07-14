@@ -1609,7 +1609,7 @@ lastDate = dateText;
 const div =
 document.createElement("div");
 
-
+div.id = "message-" + doc.id;
 
 if(data.senderUid === myUid){
 
@@ -1759,7 +1759,7 @@ messageSearchInput.value.trim().toLowerCase();
 
 messageSearchResult.innerHTML="";
 
-
+let resultCount = 0;
 
 if(!keyword){
 
@@ -1797,14 +1797,14 @@ snapshot.forEach(doc=>{
 
 const data = doc.data();
 
-
+const messageId = doc.id;
 
 if(
 data.text &&
 data.text.toLowerCase().includes(keyword)
 ){
 
-
+resultCount++;
 
 if(addedMessages.has(doc.id)){
 
@@ -1823,6 +1823,7 @@ document.createElement("div");
 
 div.style.padding="10px";
 div.style.borderBottom="1px solid #333";
+div.style.cursor="pointer";
 
 
 div.innerHTML =
@@ -1850,7 +1851,50 @@ data.createdAt.toDate().toLocaleString()
 
 `;
 
+div.onclick=function(){
 
+
+const target =
+document.querySelector(
+"#message-" + messageId
+);
+
+
+
+if(target){
+
+
+target.scrollIntoView({
+
+behavior:"smooth",
+
+block:"center"
+
+});
+
+
+
+target.style.border =
+"1px solid #aaa";
+
+
+
+setTimeout(()=>{
+
+target.style.border="";
+
+},1500);
+
+
+
+}
+
+
+
+messageSearchModal.style.display="none";
+
+
+};
 
 messageSearchResult.appendChild(div);
 
@@ -1862,7 +1906,13 @@ messageSearchResult.appendChild(div);
 
 });
 
+if(resultCount === 0){
 
+messageSearchResult.innerHTML =
+"검색 결과가 없습니다.";
+
+
+    
 },300);
 
 
