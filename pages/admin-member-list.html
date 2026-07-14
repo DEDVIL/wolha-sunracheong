@@ -164,7 +164,31 @@ const list = document.getElementById(
 "admin-member-list"
 );
 
+const totalCount =
+document.getElementById(
+"total-count"
+);
 
+
+const publicCount =
+document.getElementById(
+"public-count"
+);
+
+
+const privateCount =
+document.getElementById(
+"private-count"
+);
+
+
+const searchInput =
+document.getElementById(
+"member-search"
+);
+
+
+let membersData = [];
 
 
 
@@ -214,7 +238,25 @@ orderBy("writerName")
 
 const snapshot = await getDocs(q);
 
+membersData = [];
 
+
+snapshot.forEach((item)=>{
+
+
+membersData.push({
+
+id:item.id,
+
+...item.data()
+
+});
+
+
+});
+
+
+renderMembers();
 
 let html = `
 
