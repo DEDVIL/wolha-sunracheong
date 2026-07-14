@@ -3245,7 +3245,25 @@ h1 {
 ===================== */
 
 
-/* FAQ 질문 작성 페이지 버튼 */
+/* FAQ 작성 페이지 */
+
+.faq-write-secret {
+
+    margin-top: 25px;
+    margin-bottom: 30px;
+
+    font-size: 14px;
+
+}
+
+
+.faq-write-secret input {
+
+    margin-right: 8px;
+
+}
+
+
 
 .faq-write-buttons {
 
@@ -3253,9 +3271,10 @@ h1 {
 
     gap: 10px;
 
-    margin-top: 25px;
+    width: 100%;
 
 }
+
 
 
 .faq-write-buttons button,
@@ -3263,17 +3282,21 @@ h1 {
 
     flex: 1;
 
-    height: 45px;
+    height: 46px;
 
     display: flex;
 
+    justify-content: center;
+
     align-items: center;
 
-    justify-content: center;
+    box-sizing: border-box;
 
     border-radius: 6px;
 
     font-size: 15px;
+
+    font-weight: 500;
 
     text-decoration: none;
 
@@ -3282,15 +3305,36 @@ h1 {
 }
 
 
+
+/* 등록 */
+
 .faq-write-buttons button {
+
+    background: #8b0000;
+
+    color: white;
 
     border: none;
 
 }
 
 
+
+/* 질문 목록 */
+
 .faq-write-buttons a {
 
+    background: transparent;
+
+    color: #ddd;
+
     border: 1px solid #555;
+
+}
+
+
+.faq-write-buttons a:hover {
+
+    background: #222;
 
 }
