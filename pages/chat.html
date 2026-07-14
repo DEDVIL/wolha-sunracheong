@@ -481,6 +481,26 @@ ${data.department}
 
 
 
+div.innerHTML=
+`
+${data.writerName}
+<br>
+<small>
+${data.department}
+</small>
+`;
+
+
+div.onclick = function(){
+
+    console.log(
+        "선택한 캐릭터:",
+        data.writerName
+    );
+
+};
+
+
 characterList.appendChild(div);
 
 
