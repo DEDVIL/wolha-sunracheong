@@ -373,7 +373,7 @@ import {
     serverTimestamp
 }
 from 
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 import {
@@ -413,6 +413,8 @@ myUid = user.uid;
 
 // 현재 캐릭터 정보 가져오기
 
+console.log("db 확인:", db);
+    
 const memberRef =
 collection(db,"members");
 
