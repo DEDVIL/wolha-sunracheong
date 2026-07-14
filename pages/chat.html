@@ -377,7 +377,8 @@ import {
     getDocs,
     orderBy,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    onSnapshot
 }
 from 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -799,7 +800,7 @@ privateChatList.appendChild(div);
 
 
 
-function openChat(roomId){
+async function openChat(roomId){
 
 
 console.log(
@@ -808,7 +809,66 @@ roomId
 );
 
 
-// 다음 단계에서 메시지 로딩 추가
+
+const messagesArea =
+document.querySelector(".messages");
+
+
+messagesArea.innerHTML="";
+
+
+
+const messageRef =
+collection(
+db,
+"chatRooms",
+roomId,
+"messages"
+);
+
+
+
+const snapshot =
+await getDocs(messageRef);
+
+
+
+snapshot.forEach(doc=>{
+
+
+const data =
+doc.data();
+
+
+
+const div =
+document.createElement("div");
+
+
+div.className="message";
+
+
+div.innerHTML =
+`
+<div class="sender">
+${data.sender}
+</div>
+
+<div>
+${data.text}
+</div>
+
+<div class="time">
+${data.createdAt?.toDate().toLocaleTimeString() || ""}
+</div>
+`;
+
+
+
+messagesArea.appendChild(div);
+
+
+});
 
 
 }
