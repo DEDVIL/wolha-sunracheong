@@ -403,8 +403,17 @@ document.querySelector("#privateChatList");
 let myCharacter = null;
 let myUid = null;
 let myMemberId = null;
+let currentRoomId = null;
 
 
+const messageInput =
+document.querySelector(".input-area input");
+
+
+const sendBtn =
+document.querySelector(".send-btn");
+
+    
 // 로그인 확인
 
 onAuthStateChanged(auth, async(user)=>{
@@ -807,6 +816,9 @@ roomId
 );
 
 
+currentRoomId = roomId;
+
+
 const roomDoc =
 await getDocs(
 query(
@@ -868,6 +880,70 @@ data.writerName;
 }
 
 
+sendBtn.onclick = async function(){
+
+
+if(!currentRoomId){
+
+alert("채팅방을 선택해주세요.");
+
+return;
+
+}
+
+
+
+const text =
+messageInput.value.trim();
+
+
+
+if(!text){
+
+return;
+
+}
+
+
+
+await addDoc(
+
+collection(
+db,
+"chatRooms",
+currentRoomId,
+"messages"
+),
+
+{
+
+sender:
+myCharacter,
+
+senderUid:
+myUid,
+
+text:
+text,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+
+messageInput.value="";
+
+
+openChat(currentRoomId);
+
+
+};
+
+    
 
 // 메시지 불러오기
 
