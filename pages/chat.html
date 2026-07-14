@@ -365,7 +365,9 @@ import {
     query,
     where,
     getDocs,
-    orderBy
+    orderBy,
+    addDoc,
+    serverTimestamp
 }
 from 
 "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -408,13 +410,13 @@ myUid = user.uid;
 
 // 현재 캐릭터 정보 가져오기
 
-const userRef =
-collection(db,"users");
+const memberRef =
+collection(db,"members");
 
 
 const q =
 query(
-userRef,
+memberRef,
 where("uid","==",user.uid)
 );
 
@@ -431,12 +433,62 @@ snap.forEach(doc=>{
 const data = doc.data();
 
 myCharacter =
-data.characterName;
+data.writerName;
+
+
+});
+
+async function loadMembers(){
+
+
+const characterList =
+document.querySelector("#characterList");
+
+
+characterList.innerHTML="";
+
+
+const snapshot =
+await getDocs(
+collection(db,"members")
+);
+
+
+
+snapshot.forEach(doc=>{
+
+
+const data =
+doc.data();
+
+
+
+const div =
+document.createElement("div");
+
+
+div.className="chat-item";
+
+
+div.innerHTML=
+`
+${data.writerName}
+<br>
+<small>
+${data.department}
+</small>
+`;
+
+
+
+characterList.appendChild(div);
+
 
 
 });
 
 
+}
 
 loadChatRooms();
 
@@ -456,6 +508,19 @@ newChatBtn.onclick = function(){
 
 };
 
+
+// 닫기 버튼
+
+const closeModal =
+document.querySelector("#closeModal");
+
+
+closeModal.onclick=function(){
+
+    modal.style.display="none";
+
+};
+    
 async function loadMembers(){
 
 
