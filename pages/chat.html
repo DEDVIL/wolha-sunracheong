@@ -738,7 +738,28 @@ document.querySelector("#privateChatList");
 const chatSearch =
 document.querySelector("#chatSearch");
 
+const messageSearchBtn =
+document.querySelector("#messageSearchBtn");
 
+
+const messageSearchModal =
+document.querySelector("#messageSearchModal");
+
+
+const messageSearchInput =
+document.querySelector("#messageSearchInput");
+
+
+const messageSearchResult =
+document.querySelector("#messageSearchResult");
+
+
+const closeMessageSearch =
+document.querySelector("#closeMessageSearch");
+
+
+
+    
     
 // 특별 대응팀 공용 채팅
 
@@ -1677,6 +1698,36 @@ item.style.display="none";
 
 });
 
+messageSearchBtn.onclick=function(){
+
+
+if(!currentRoomId){
+
+alert("먼저 채팅방을 선택해주세요.");
+
+return;
+
+}
+    
+messageSearchModal.style.display="block";
+
+
+};
+
+
+
+closeMessageSearch.onclick=function(){
+
+
+messageSearchModal.style.display="none";
+
+
+};
+
+messageSearchModal.style.display="block";
+
+
+};
 
 </script>
 
