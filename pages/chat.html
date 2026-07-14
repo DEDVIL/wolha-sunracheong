@@ -391,6 +391,7 @@ document.querySelector(".chat-list");
 
 let myCharacter = null;
 let myUid = null;
+let myMemberId = null;
 
 
 // 로그인 확인
@@ -437,11 +438,17 @@ snap.forEach(doc=>{
 
 const data = doc.data();
 
+
+myMemberId = doc.id;
+
+
 myCharacter =
 data.writerName;
 
 
 });
+
+
 
 async function loadMembers(){
 
@@ -500,10 +507,7 @@ ${data.department}
 
 div.onclick = function(){
 
-    console.log(
-        "선택한 캐릭터:",
-        data.writerName
-    );
+    createChatRoom(doc.id, data);
 
 };
 
@@ -535,6 +539,82 @@ newChatBtn.onclick = function(){
 
 };
 
+
+    
+async function createChatRoom(targetId, targetData){
+
+
+if(!myCharacter){
+
+alert("내 캐릭터 정보를 불러오지 못했습니다.");
+
+return;
+
+}
+
+
+
+const roomData = {
+
+
+name:
+`${myCharacter} ↔ ${targetData.writerName}`,
+
+
+type:
+"private",
+
+
+members:[
+
+myUid,
+
+targetId
+
+],
+
+
+createdAt:
+serverTimestamp()
+
+
+};
+
+
+
+await addDoc(
+
+collection(
+db,
+"chatRooms"
+),
+
+roomData
+
+);
+
+
+
+alert(
+`${targetData.writerName}님과의 대화방이 생성되었습니다.`
+);
+
+
+
+const modal =
+document.querySelector("#characterModal");
+
+
+modal.style.display="none";
+
+
+
+loadChatRooms();
+
+
+}
+
+    
 
 // 닫기 버튼
 
