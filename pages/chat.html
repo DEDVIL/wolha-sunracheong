@@ -817,7 +817,7 @@ collection(db,"chatRooms")
 );
 
 
-roomDoc.forEach(doc=>{
+roomDoc.forEach(async doc=>{
 
 
 if(doc.id === roomId){
@@ -845,7 +845,7 @@ const opponentSnap =
 await getDocs(opponentQuery);
 
 
-opponentSnap.forEach(memberDoc=>{
+opponentSnap.forEach(async memberDoc=>{
 
 
 const data =
