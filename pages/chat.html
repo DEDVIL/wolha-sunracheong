@@ -991,8 +991,9 @@ doc.data();
 
 
 if(
-room.members &&
-room.members.includes(myUid)
+(room.type==="public")
+||
+(room.members && room.members.includes(myUid))
 ){
 
 
