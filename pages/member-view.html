@@ -350,12 +350,20 @@ return;
 // 작성자 본인만 버튼 표시
 
 
+const userSnap = await getDoc(
+    doc(db,"users",currentUser.uid)
+);
+
+const isAdmin =
+    userSnap.exists() &&
+    userSnap.data().role === "admin";
+
+
+
 if(
-
-currentUser.uid === memberData.uid
-
+currentUser.uid === memberData.uid ||
+isAdmin
 ){
-
 
 
 document.getElementById("owner-buttons").innerHTML = `
