@@ -656,7 +656,7 @@ let unsubscribeMessages = null;
 let currentOpponentUid = null;
 let currentOpponentMemberId = null;
 let lastReadTime = null;
-
+let unsubscribeChatRooms = null;
 
     
 const messageInput =
@@ -915,9 +915,6 @@ document.querySelector("#characterModal");
 modal.style.display="none";
 
 
-loadChatRooms();
-
-
     
 }
 
@@ -974,6 +971,14 @@ orderBy("lastMessageAt","desc")
 );
 
 
+if(unsubscribeChatRooms){
+
+    unsubscribeChatRooms();
+
+}
+
+
+unsubscribeChatRooms =
 onSnapshot(
 rooms,
 async(snapshot)=>{
