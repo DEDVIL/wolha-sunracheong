@@ -799,9 +799,7 @@ privateChatList.appendChild(div);
 
 
 
-
 async function openChat(roomId){
-
 
 console.log(
 "선택한 방:",
@@ -809,13 +807,13 @@ roomId
 );
 
 
-// 방 찾기
 const roomDoc =
 await getDocs(
 query(
 collection(db,"chatRooms")
 )
 );
+
 
 
 roomDoc.forEach(async doc=>{
@@ -827,11 +825,12 @@ if(doc.id === roomId){
 const room = doc.data();
 
 
-// 상대 이름 찾기
+
 const opponentUid =
 room.members.find(
 (uid)=>uid !== myUid
 );
+
 
 
 const opponentQuery =
@@ -841,8 +840,10 @@ where("uid","==",opponentUid)
 );
 
 
+
 const opponentSnap =
 await getDocs(opponentQuery);
+
 
 
 opponentSnap.forEach(memberDoc=>{
@@ -868,7 +869,8 @@ data.writerName;
 
 
 
-// 여기부터 메시지 로딩
+// 메시지 불러오기
+
 const messagesArea =
 document.querySelector(".messages");
 
@@ -885,8 +887,10 @@ roomId,
 );
 
 
+
 const snapshot =
 await getDocs(messageRef);
+
 
 
 snapshot.forEach(doc=>{
