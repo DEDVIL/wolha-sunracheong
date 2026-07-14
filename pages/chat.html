@@ -1737,15 +1737,28 @@ messageSearchModal.style.display="none";
 
 };
 
+let searchTimer = null;
+
+
 messageSearchInput.addEventListener(
 "input",
-async function(){
+function(){
+
+
+clearTimeout(searchTimer);
+
+
+
+searchTimer = setTimeout(async()=>{
+
 
 const keyword =
 messageSearchInput.value.trim().toLowerCase();
 
 
+
 messageSearchResult.innerHTML="";
+
 
 
 if(!keyword){
@@ -1775,17 +1788,33 @@ currentRoomId,
 
 
 
+const addedMessages = new Set();
+
+
+
 snapshot.forEach(doc=>{
 
 
-const data =
-doc.data();
+const data = doc.data();
+
 
 
 if(
 data.text &&
 data.text.toLowerCase().includes(keyword)
 ){
+
+
+
+if(addedMessages.has(doc.id)){
+
+return;
+
+}
+
+
+addedMessages.add(doc.id);
+
 
 
 const div =
@@ -1796,7 +1825,7 @@ div.style.padding="10px";
 div.style.borderBottom="1px solid #333";
 
 
-div.innerHTML=
+div.innerHTML =
 `
 <strong>${data.sender}</strong>
 <br>
@@ -1810,7 +1839,8 @@ font-size:12px;
 color:#777;
 ">
 
-${data.createdAt ?
+${
+data.createdAt ?
 data.createdAt.toDate().toLocaleString()
 :
 ""
@@ -1825,6 +1855,7 @@ data.createdAt.toDate().toLocaleString()
 messageSearchResult.appendChild(div);
 
 
+
 }
 
 
@@ -1832,8 +1863,12 @@ messageSearchResult.appendChild(div);
 });
 
 
+},300);
+
+
 });
 
+    
 </script>
 
 </body>
