@@ -472,16 +472,18 @@ const div =
 document.createElement("div");
 
 
-div.className="chat-item";
+div.className="character-select-item";
 
 
 div.innerHTML=
 `
+<span class="character-name">
 ${data.writerName}
-<br>
-<small>
+</span>
+
+<span class="character-department">
 ${data.department}
-</small>
+</span>
 `;
 
 
