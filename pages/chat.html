@@ -412,7 +412,9 @@ import {
     orderBy,
     addDoc,
     serverTimestamp,
-    onSnapshot
+    onSnapshot,
+    doc,
+    updateDoc
 }
 from 
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -648,12 +650,15 @@ target.uid
 
 ],
 
-createdAt:serverTimestamp()
+createdAt:serverTimestamp(),
+
+lastMessage:"",
+
+lastMessageAt:serverTimestamp()
 
 }
 
 );
-
 
 
 alert(
@@ -721,7 +726,10 @@ function loadChatRooms(){
 
 
 const rooms =
-collection(db,"chatRooms");
+query(
+collection(db,"chatRooms"),
+orderBy("lastMessageAt","desc")
+);
 
 
 onSnapshot(
@@ -976,7 +984,23 @@ serverTimestamp()
 
 );
 
+await updateDoc(
 
+doc(
+db,
+"chatRooms",
+currentRoomId
+),
+
+{
+
+lastMessage:text,
+
+lastMessageAt:serverTimestamp()
+
+}
+
+);
 
 messageInput.value="";
 
