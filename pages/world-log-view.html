@@ -1520,75 +1520,51 @@ class="comment-delete"
 
 
 
-            if(isOwner){
+            if(isOwnif(isOwner){
+
+
+    item
+
+    .querySelector(".comment-edit")
+
+    .addEventListener(
+        "click",
+        ()=>{
+
+            editComment(
+                docSnap.id,
+                data.content
+            );
+
+        }
+    );
+
+
+}
 
 
 
 
-
-                item
-
-                .querySelector(".comment-edit")
-
-                .addEventListener(
+if(canDelete){
 
 
-                    "click",
+    item
+
+    .querySelector(".comment-delete")
+
+    .addEventListener(
+        "click",
+        ()=>{
+
+            deleteComment(
+                docSnap.id
+            );
+
+        }
+    );
 
 
-                    ()=>{
-
-
-                        editComment(
-
-                            docSnap.id,
-
-                            data.content
-
-                        );
-
-
-                    }
-
-
-                );
-
-
-
-
-
-
-
-
-                item
-
-                .querySelector(".comment-delete")
-
-                .addEventListener(
-
-
-                    "click",
-
-
-                    ()=>{
-
-
-                        deleteComment(
-
-                            docSnap.id
-
-                        );
-
-
-                    }
-
-
-                );
-
-
-
-            }
-
+}
 
 
 
