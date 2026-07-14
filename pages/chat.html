@@ -394,7 +394,10 @@ from
 const chatList =
 document.querySelector(".chat-list");
 
-
+    
+const privateChatList =
+document.querySelector("#privateChatList");
+    
 
 let myCharacter = null;
 let myUid = null;
@@ -680,7 +683,7 @@ await getDocs(rooms);
 
 
 
-snapshot.forEach(doc=>{
+snapshot.forEach(async(doc)=>{
 
 
 const room =
@@ -699,10 +702,9 @@ room.type==="notice"
 let displayName = room.name;
 
 
-// 개인 채팅이면 상대 이름 찾기
-if(
-room.type === "private"
-){
+
+if(room.type === "private"){
+
 
 const opponentUid =
 room.members.find(
@@ -710,7 +712,7 @@ room.members.find(
 );
 
 
-// members 컬렉션에서 상대 찾기
+
 const opponentQuery =
 query(
 collection(db,"members"),
@@ -718,16 +720,22 @@ where("uid","==",opponentUid)
 );
 
 
+
 const opponentSnap =
 await getDocs(opponentQuery);
 
 
+
 opponentSnap.forEach(doc=>{
 
-const data = doc.data();
+
+const data =
+doc.data();
+
 
 displayName =
 data.writerName;
+
 
 });
 
@@ -745,16 +753,13 @@ displayName
 }
 
 
-
-}
-
-
 });
 
 
 }
 
 
+    
 
 // 왼쪽 목록 생성
 
@@ -785,7 +790,7 @@ openChat(id);
 
 
 
-chatList.appendChild(div);
+privateChatList.appendChild(div);
 
 
 
