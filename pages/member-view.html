@@ -586,16 +586,22 @@ alert(
 window.deleteProfile = async function(){
 
 
-
-const check = confirm(
-
-"정말 삭제하시겠습니까?"
-
+const userSnap = await getDoc(
+doc(db,"users",currentUser.uid)
 );
 
 
+const isAdmin =
+userSnap.exists() &&
+userSnap.data().role === "admin";
 
-if(!check){
+
+if(
+currentUser.uid !== memberData.uid &&
+!isAdmin
+){
+
+alert("삭제 권한이 없습니다.");
 
 return;
 
@@ -603,37 +609,32 @@ return;
 
 
 
-
-await deleteDoc(
-
-
-
-doc(
-
-db,
-
-"members",
-
-memberId
-
-)
-
-
-
+const check = confirm(
+"정말 삭제하시겠습니까?"
 );
 
+
+if(!check){
+return;
+}
+
+
+
+await deleteDoc(
+doc(
+db,
+"members",
+memberId
+)
+);
 
 
 alert(
-
 "삭제되었습니다."
-
 );
 
 
-
 location.href="./member-list.html";
-
 
 
 };
