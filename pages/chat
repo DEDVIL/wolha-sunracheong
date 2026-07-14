@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>월하톡</title>
+
+<link rel="stylesheet" href="../style.css">
+
+<style>
+
+.chat-container {
+    display:flex;
+    height: calc(100vh - 120px);
+    background:#111;
+    border:1px solid #333;
+}
+
+/* 왼쪽 목록 */
+.chat-list {
+    width:320px;
+    border-right:1px solid #333;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+.chat-search {
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    background:#222;
+    border:1px solid #444;
+    color:white;
+}
+
+.new-chat-btn {
+    width:100%;
+    padding:12px;
+    margin-bottom:20px;
+    background:#222;
+    color:white;
+    border:1px solid #555;
+    cursor:pointer;
+}
+
+
+.chat-item {
+
+    padding:15px;
+    border-bottom:1px solid #333;
+    cursor:pointer;
+
+}
+
+.chat-item:hover {
+    background:#222;
+}
+
+
+/* 오른쪽 */
+
+.chat-main {
+
+    flex:1;
+    display:flex;
+    flex-direction:column;
+
+}
+
+
+.chat-header {
+
+    height:70px;
+    border-bottom:1px solid #333;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+
+.profile-btn {
+
+    background:#222;
+    border:1px solid #555;
+    color:white;
+    padding:8px 15px;
+    cursor:pointer;
+
+}
+
+
+
+.messages {
+
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+
+}
+
+
+.message {
+
+    margin-bottom:15px;
+
+}
+
+
+.sender {
+
+    font-weight:bold;
+}
+
+
+.time {
+
+    font-size:12px;
+    color:#777;
+
+}
+
+
+
+.input-area {
+
+    border-top:1px solid #333;
+    padding:15px;
+
+}
+
+
+.input-area input {
+
+    width:80%;
+    padding:12px;
+    background:#222;
+    border:1px solid #444;
+    color:white;
+
+}
+
+
+.send-btn {
+
+    padding:12px;
+    background:#333;
+    color:white;
+    border:1px solid #555;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>월하톡(月下Talk)</h1>
+
+</header>
+
+
+<div class="chat-container">
+
+
+<!-- 왼쪽 -->
+
+<div class="chat-list">
+
+
+<input 
+class="chat-search"
+placeholder="대화 검색">
+
+
+<button class="new-chat-btn">
++ 새 대화
+</button>
+
+
+<div class="chat-item">
+
+📢 본청 공지
+
+</div>
+
+
+<div class="chat-item">
+
+🏮 경야대
+
+</div>
+
+
+<div class="chat-item">
+
+🔎 추적대
+
+</div>
+
+
+<div class="chat-item">
+
+📜 궁야원
+
+</div>
+
+
+
+<div class="chat-item">
+
+백비안
+
+</div>
+
+
+<div class="chat-item">
+
+조견우
+
+</div>
+
+
+
+</div>
+
+
+
+<!-- 오른쪽 -->
+
+
+<div class="chat-main">
+
+
+<div class="chat-header">
+
+
+<div>
+
+백비안
+
+</div>
+
+
+<button class="profile-btn">
+
+프로필 보기
+
+</button>
+
+
+</div>
+
+
+
+<div class="messages">
+
+
+<div class="message">
+
+<div class="sender">
+백비안
+</div>
+
+<div>
+확인했습니다. 조사 자료 전달 바랍니다.
+</div>
+
+<div class="time">
+23:42
+</div>
+
+</div>
+
+
+
+<div class="message">
+
+<div class="sender">
+사신우
+</div>
+
+<div>
+확인했습니다.
+</div>
+
+<div class="time">
+23:45
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="input-area">
+
+
+<input placeholder="메시지 입력">
+
+
+<button class="send-btn">
+전송
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+</body>
+</html>
