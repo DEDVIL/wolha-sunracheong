@@ -684,7 +684,7 @@ await getDocs(rooms);
 
 
 
-snapshot.forEach(async(doc)=>{
+snapshot.forEach(doc=>{
 
 
 const room =
@@ -809,6 +809,7 @@ roomId
 );
 
 
+// 방 찾기
 const roomDoc =
 await getDocs(
 query(
@@ -827,7 +828,6 @@ const room = doc.data();
 
 
 // 상대 이름 찾기
-
 const opponentUid =
 room.members.find(
 (uid)=>uid !== myUid
@@ -845,7 +845,7 @@ const opponentSnap =
 await getDocs(opponentQuery);
 
 
-opponentSnap.forEach(async memberDoc=>{
+opponentSnap.forEach(memberDoc=>{
 
 
 const data =
@@ -860,25 +860,6 @@ data.writerName;
 });
 
 
-// 메시지 초기화
-
-document.querySelector("#messageArea")
-.innerHTML =
-`
-<div class="message">
-
-<div class="sender">
-시스템
-</div>
-
-<div>
-새로운 대화가 시작되었습니다.
-</div>
-
-</div>
-`;
-
-
 }
 
 
@@ -886,16 +867,13 @@ document.querySelector("#messageArea")
 });
 
 
-}
 
-
-
+// 여기부터 메시지 로딩
 const messagesArea =
 document.querySelector(".messages");
 
 
 messagesArea.innerHTML="";
-
 
 
 const messageRef =
@@ -907,10 +885,8 @@ roomId,
 );
 
 
-
 const snapshot =
 await getDocs(messageRef);
-
 
 
 snapshot.forEach(doc=>{
@@ -918,7 +894,6 @@ snapshot.forEach(doc=>{
 
 const data =
 doc.data();
-
 
 
 const div =
@@ -942,7 +917,6 @@ ${data.text}
 ${data.createdAt?.toDate().toLocaleTimeString() || ""}
 </div>
 `;
-
 
 
 messagesArea.appendChild(div);
