@@ -203,7 +203,11 @@ data.possessionType || "-"
 data.possessedObject || "-"
 );
 
-
+.replaceAll(
+"{affectedArea}",
+data.affectedArea || "-"
+);
+    
 }
 
 
@@ -437,18 +441,39 @@ randomPickValue(incident.keyword),
 
 
 possessionTarget:
-target.possessionTarget,
+randomPickValue(
+    target.possessionTarget
+),
 
 
 possessionType:
-target.possessionType,
+randomPickValue(
+    target.possessionType
+),
 
 
 possessedObject:
-randomPickValue(target.possessedObject),
+randomPickValue(
+    target.possessedObject
+),
+
 
 affectedArea:
-target.affectedArea
+randomPickValue(
+    target.affectedArea
+),
+
+
+incidentKeyword:
+randomPickValue(
+    target.incidentKeyword
+),
+
+
+relatedPhenomenon:
+randomPickValue(
+    target.relatedPhenomenon
+)
 
     
 }
@@ -566,23 +591,27 @@ target.manifestation || "",
 // 빙의
 
 possessionTarget:
-
-target.possessionTarget || "",
+randomPickValue(
+    target.possessionTarget
+),
 
 
 possessionType:
-
-target.possessionType || "",
+randomPickValue(
+    target.possessionType
+),
 
 
 possessedObject:
-
-randomPickValue(target.possessedObject),
+randomPickValue(
+    target.possessedObject
+),
 
 
 affectedArea:
-
-target.affectedArea || "",
+randomPickValue(
+    target.affectedArea
+),
 
 
 createdAt:
