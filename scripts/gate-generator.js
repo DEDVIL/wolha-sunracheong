@@ -238,15 +238,15 @@ randomPick(
     targetList
 );
 
-console.log("선택 대상", target);
-console.log("위치 데이터", location);
-console.log("템플릿 수", templates.length);
+
 
 const selectedLocation =
 
 randomPick(
     locations
 );
+
+console.log("선택 위치", selectedLocation);
 
 
 
