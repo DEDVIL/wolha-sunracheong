@@ -242,7 +242,7 @@ console.log("선택 대상", target);
 console.log("위치 데이터", location);
 console.log("템플릿 수", templates.length);
 
-const location =
+const selectedLocation =
 
 randomPick(
     locations
@@ -315,11 +315,11 @@ const template = randomPick(
 
 
 
-    const locationName =
+const locationName =
 
-    location.fullName ||
+selectedLocation.fullName ||
 
-    `${location.city} ${location.district} ${location.area}`;
+`${selectedLocation.city} ${selectedLocation.district} ${selectedLocation.area}`;
 
 
 
