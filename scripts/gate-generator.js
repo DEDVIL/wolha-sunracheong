@@ -76,13 +76,24 @@ async function getCollectionData(name){
     snapshot.forEach(doc=>{
 
 
-        data.push({
+const rawData = doc.data();
 
-            id:doc.id,
+const cleanData = {};
 
-            ...doc.data()
+Object.keys(rawData).forEach(key=>{
 
-        });
+    cleanData[key.trim()] = rawData[key];
+
+});
+
+
+data.push({
+
+    id:doc.id,
+
+    ...cleanData
+
+});
 
 
     });
