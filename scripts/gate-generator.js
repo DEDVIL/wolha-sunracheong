@@ -354,6 +354,35 @@ randomPickValue(target.relatedPhenomenon);
 
 
 if(
+    phenomenon.includes("|")
+){
+
+    phenomenon =
+    randomPickValue(phenomenon);
+
+}
+
+
+if(
+    phenomenon === "-"
+){
+
+    phenomenon =
+    randomPick([
+        "원인을 확인할 수 없는 이상 현상",
+        "심야 시간대 발생한 비정상 반응",
+        "대상 개체와 관련된 특이 현상",
+        "주변 환경 변화와 관련된 이상 징후",
+        "정체불명의 기이 현상"
+    ]);
+
+}
+randomPickValue(
+    target.relatedPhenomenon
+);
+
+
+if(
     phenomenon === "-"
 ){
 
