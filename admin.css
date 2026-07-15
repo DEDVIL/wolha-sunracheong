@@ -347,3 +347,77 @@ box-shadow:
 }
 
 
+/* =====================
+   귀문 생성 타입 선택
+===================== */
+
+
+.gate-type-buttons {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin:20px 0;
+
+}
+
+
+
+.gate-select-button {
+
+
+    width:140px;
+
+    height:45px;
+
+
+    background:#111;
+
+
+    border:1px solid #4a4035;
+
+
+    color:#ddd;
+
+
+    cursor:pointer;
+
+
+    font-family:"Pretendard", sans-serif;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+
+.gate-select-button:hover {
+
+
+    border-color:#c8a96a;
+
+
+}
+
+
+
+
+.gate-select-button.active {
+
+
+    background:#8b0000;
+
+
+    border-color:#c8a96a;
+
+
+    color:white;
+
+
+}
