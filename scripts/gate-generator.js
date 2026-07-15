@@ -417,80 +417,109 @@ console.log("선택 문장", templateText);
 
 
 
-    const result = {
+const result = {
+
+    title:
+    `${locationName} 귀문 사건`,
+
+
+    location:
+    locationName,
+
+
+    grade:
+    target.grade || "미상",
+
+
+    type:
+    incidentType,
+
+
+    targetName:
+    target.name,
+
+
+    originalName:
+    target.originalName || "",
+
+
+    category:
+    target.category || "",
+
+
+    content:
+    content,
+
+
+    relatedPhenomenon:
+    target.relatedPhenomenon || "",
+
+
+    sourceType:
+    type,
 
 
 
-        title:
+    // =====================
+    // 요괴 정보
+    // =====================
 
-        `${locationName} 귀문 사건`,
-
-
-
-        location:
-
-        locationName,
+    appearance:
+    target.appearance || "",
 
 
-
-        grade:
-
-        target.grade || "미상",
+    behavior:
+    target.behavior || "",
 
 
+    habitat:
+    target.habitat || "",
 
-        type:
 
-        incidentType,
+    preferredLocation:
+    target.preferredLocation || "",
 
 
 
-        targetName:
+    // =====================
+    // 악귀 정보
+    // =====================
 
-        target.name,
-
-
-
-        originalName:
-
-        target.originalName || "",
+    origin:
+    target.origin || "",
 
 
-
-        category:
-
-        target.category || "",
+    manifestation:
+    target.manifestation || "",
 
 
 
-        content:
+    // =====================
+    // 빙의 정보
+    // 빙의 사건일 경우만 사용
+    // =====================
+
+    possessionTarget:
+    target.possessionTarget || "",
+
+
+    possessionType:
+    target.possessionType || "",
+
+
+    possessedObject:
+    target.possessedObject || "",
+
+
+    affectedArea:
+    target.affectedArea || "",
 
 
 
-        content,
+    createdAt:
+    new Date()
 
-
-
-        relatedPhenomenon:
-
-        target.relatedPhenomenon || "",
-
-
-
-        sourceType:
-
-        type,
-
-
-
-        createdAt:
-
-        new Date()
-
-
-
-
-    };
+};
 
 
 
