@@ -237,6 +237,15 @@ db
 from "../firebase.js";
 
 
+import {
+
+generateGate
+
+}
+
+from "../scripts/gate-generator.js";
+
+
 
 
 
@@ -542,56 +551,53 @@ document
 .onclick = async()=>{
 
 
+try{
+
 
 resultBox.innerHTML = `
 
-
 <p>
-
-${selectedType === "yokai"
-
-?
-
-"요괴"
-
-:
-
-"악귀"
-
-}
-
-데이터 생성 준비 중...
-
+귀문 데이터 생성 중...
 </p>
-
 
 `;
 
 
 
-
-
-/*
-
-추후 연결 예정
-
-
 generatedGate =
-await generateGate(selectedType);
+
+await generateGate(
+selectedType
+);
 
 
 
 showGateResult();
 
 
-*/
+
+}
+
+catch(error){
 
 
+console.error(error);
+
+
+resultBox.innerHTML = `
+
+<p>
+생성 중 오류가 발생했습니다.
+</p>
+
+`;
+
+
+}
 
 
 
 };
-
 
 
 
