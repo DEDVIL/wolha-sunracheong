@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 관리자 귀문 관리
+</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body>
+
+
+<main class="main-container">
+
+
+<section class="content-box">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+관리자 귀문 관리
+</p>
+
+
+
+<div class="page-buttons">
+
+
+<a href="./home.html" class="home-button">
+홈으로
+</a>
+
+
+<a href="./gate.html" class="home-button">
+귀문탐사
+</a>
+
+
+</div>
+
+
+
+
+
+<section class="gate-admin-box">
+
+
+<h2>
+귀문 생성
+</h2>
+
+
+
+<button
+id="generate-button"
+class="write-button"
+>
+
+랜덤 귀문 생성
+
+</button>
+
+
+
+
+<div id="generated-result">
+
+
+생성 버튼을 눌러주세요.
+
+</div>
+
+
+
+
+
+<button
+
+id="save-button"
+
+class="write-button"
+
+style="display:none;"
+
+>
+
+귀문 등록
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+<section class="gate-admin-list">
+
+
+<h2>
+현재 귀문 목록
+</h2>
+
+
+<div id="gate-list">
+
+불러오는 중...
+
+</div>
+
+
+</section>
+
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+auth,
+db
+
+}
+
+from "../firebase.js";
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+import {
+
+doc,
+getDoc,
+collection,
+addDoc,
+getDocs,
+query,
+orderBy,
+serverTimestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+let currentUser = null;
+
+let generatedGate = null;
+
+
+
+
+
+const generateButton =
+document.getElementById(
+"generate-button"
+);
+
+
+const saveButton =
+document.getElementById(
+"save-button"
+);
+
+
+const resultBox =
+document.getElementById(
+"generated-result"
+);
+
+
+const gateList =
+document.getElementById(
+"gate-list"
+);
+
+
+
+
+
+
+
+
+// 로그인 + 관리자 확인
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+if(!user){
+
+location.href="../index.html";
+
+return;
+
+}
+
+
+
+currentUser = user;
+
+
+
+const userSnap =
+await getDoc(
+
+doc(
+db,
+"users",
+user.uid
+)
+
+);
+
+
+
+if(!userSnap.exists()){
+
+alert(
+"사용자 정보를 찾을 수 없습니다."
+);
+
+location.href="./home.html";
+
+return;
+
+}
+
+
+
+const data =
+userSnap.data();
+
+
+
+if(data.role !== "admin"){
+
+
+alert(
+"관리자만 접근 가능합니다."
+);
+
+
+location.href="./home.html";
+
+
+return;
+
+
+}
+
+
+
+loadGates();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+// 랜덤 데이터
+
+
+const locations = [
+
+"강남구",
+"강동구",
+"강북구",
+"강서구",
+"관악구",
+"광진구",
+"구로구",
+"금천구",
+"노원구",
+"도봉구",
+"동대문구",
+"동작구",
+"마포구",
+"서대문구",
+"서초구",
+"성동구",
+"성북구",
+"송파구",
+"양천구",
+"영등포구",
+"용산구",
+"은평구",
+"종로구",
+"중구",
+"중랑구"
+
+];
+
+
+
+const grades = [
+
+"이물급",
+"이매급",
+"망량급",
+"흉령급"
+
+];
+
+
+
+const types = [
+
+"요괴 출현",
+"이상 현상",
+"빙의 사건",
+"물건 이상",
+"장소 이상",
+"긴급 조사"
+
+];
+
+
+
+const monsters = [
+
+"도깨비불",
+"구미호",
+"물귀신",
+"달그림자",
+"산령",
+"묘귀",
+"야차"
+
+];
+
+
+
+const targets = [
+
+"민간인",
+"순찰 중 발견",
+"시설 관계자",
+"불특정 다수"
+
+];
+
+
+
+
+
+
+
+
+generateButton.onclick = ()=>{
+
+
+
+const location =
+random(locations);
+
+
+const grade =
+randomGrade();
+
+
+const type =
+random(types);
+
+
+const monster =
+random(monsters);
+
+
+const target =
+random(targets);
+
+
+
+
+const title =
+
+`${location} 귀문 사건`;
+
+
+
+
+
+const content =
+
+`${location} 일대에서 ${monster}과 관련된 ${type}이 확인되었다. 현장 조사를 위해 월하순라청 출동 요청이 접수되었다.`;
+
+
+
+
+
+
+generatedGate = {
+
+
+title:title,
+
+location:location,
+
+grade:grade,
+
+type:type,
+
+monsterName:monster,
+
+target:target,
+
+content:content,
+
+status:"open"
+
+
+};
+
+
+
+
+
+
+resultBox.innerHTML = `
+
+
+
+<div class="gate-case-detail">
+
+
+<p>
+<strong>사건명</strong><br>
+${title}
+</p>
+
+
+<p>
+<strong>지역</strong><br>
+${location}
+</p>
+
+
+<p>
+<strong>등급</strong><br>
+${grade}
+</p>
+
+
+<p>
+<strong>유형</strong><br>
+${type}
+</p>
+
+
+<p>
+<strong>관련 개체</strong><br>
+${monster}
+</p>
+
+
+<p>
+<strong>대상</strong><br>
+${target}
+</p>
+
+
+<p>
+<strong>내용</strong><br>
+${content}
+</p>
+
+
+
+</div>
+
+
+`;
+
+
+
+saveButton.style.display="block";
+
+
+};
+
+
+
+
+
+
+
+
+
+saveButton.onclick = async()=>{
+
+
+
+if(!generatedGate){
+
+return;
+
+}
+
+
+
+await addDoc(
+
+collection(
+db,
+"gates"
+),
+
+
+{
+
+...generatedGate,
+
+createdAt:
+serverTimestamp()
+
+}
+
+
+);
+
+
+
+
+alert(
+"귀문이 등록되었습니다."
+);
+
+
+
+generatedGate=null;
+
+
+saveButton.style.display="none";
+
+
+loadGates();
+
+
+};
+
+
+
+
+
+
+
+
+
+async function loadGates(){
+
+
+
+const q = query(
+
+collection(
+db,
+"gates"
+),
+
+orderBy(
+"createdAt",
+"desc"
+)
+
+);
+
+
+
+const snapshot =
+await getDocs(q);
+
+
+
+
+if(snapshot.empty){
+
+
+gateList.innerHTML =
+"등록된 귀문이 없습니다.";
+
+
+return;
+
+
+}
+
+
+
+
+gateList.innerHTML="";
+
+
+
+snapshot.forEach(doc=>{
+
+
+const data =
+doc.data();
+
+
+
+gateList.innerHTML += `
+
+
+<div class="gate-record-card">
+
+
+<h3>
+${data.title}
+</h3>
+
+
+<p>
+${data.location}
+/
+${data.grade}
+</p>
+
+
+<p>
+${data.status}
+</p>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+function random(array){
+
+return array[
+Math.floor(
+Math.random()*array.length
+)
+];
+
+}
+
+
+
+
+function randomGrade(){
+
+
+const value =
+Math.random()*100;
+
+
+
+if(value < 40){
+
+return "이물급";
+
+}
+
+else if(value < 75){
+
+return "이매급";
+
+}
+
+else if(value < 95){
+
+return "망량급";
+
+}
+
+else if(value < 99.5){
+
+return "흉령급";
+
+}
+
+else{
+
+return "신급";
+
+}
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
