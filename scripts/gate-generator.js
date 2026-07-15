@@ -333,8 +333,8 @@ template.templates
 
 ?
 
-(template.templates || "")
-.split("|")
+const templateList =
+(template.templates || "").split("|");
 
 :
 
