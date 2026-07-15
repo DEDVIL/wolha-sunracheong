@@ -419,7 +419,10 @@ target.possessionType,
 possessedObject:
 target.possessedObject
 
+affectedArea:
+target.affectedArea
 
+    
 }
 
 );
@@ -549,7 +552,9 @@ possessedObject:
 target.possessedObject || "",
 
 
+affectedArea:
 
+target.affectedArea || "",
 
 
 createdAt:
