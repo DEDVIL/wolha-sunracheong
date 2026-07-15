@@ -232,19 +232,53 @@ export async function generateGate(type){
 
 
 
-    const target =
+const target =
+
+randomPick(
+    targetList
+);
+
+
+const location =
+
+randomPick(
+    locations
+);
+
+
+
+
+
+let incidentType = "";
+
+
+if(type === "evil"){
+
+
+    incidentType =
 
     randomPick(
-        targetList
+
+        target.incidentType
+        ?.split("|")
+
+        ||
+
+        ["악귀 출현"]
+
     );
 
 
+}
+else{
 
-    const location =
 
-    randomPick(
-        locations
-    );
+    incidentType = "출현";
+
+
+}
+
+
 
 
 
@@ -256,6 +290,7 @@ let availableTemplates = templates.filter(
 );
 
 
+
 if(
     availableTemplates.length === 0
 ){
@@ -265,6 +300,7 @@ if(
     );
 
 }
+
 
 
 const template = randomPick(
@@ -293,45 +329,6 @@ const template = randomPick(
 
 
 
-    let incidentType = "";
-
-
-
-    if(type === "evil"){
-
-
-        incidentType =
-
-        randomPick(
-
-            target.incidentType
-            ?.split("|")
-
-            ||
-
-            ["악귀 출현"]
-
-        );
-
-
-    }
-    else{
-
-
-        incidentType = "출현";
-
-
-    }
-
-
-
-
-
-
-
-
-
-
 
   const templateList =
 
@@ -339,7 +336,8 @@ template.templates
 
 ?
 
-template.templates.split("|")
+(template.templates || "")
+.split("|")
 
 :
 
