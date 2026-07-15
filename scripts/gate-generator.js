@@ -445,7 +445,7 @@ target.possessionType,
 
 
 possessedObject:
-target.possessedObject
+randomPickValue(target.possessedObject),
 
 affectedArea:
 target.affectedArea
@@ -577,7 +577,7 @@ target.possessionType || "",
 
 possessedObject:
 
-target.possessedObject || "",
+randomPickValue(target.possessedObject),
 
 
 affectedArea:
