@@ -410,7 +410,7 @@ possessionTargetData.name
 
 
 symptom:
-target.manifestation || "-"
+target.symptom || "-"
 
 }
 
@@ -523,18 +523,17 @@ target.symptom || "-"
 
 
 
+
 // 악귀
 
-origin:
+behavior:
 
-target.origin || "",
-
-
-manifestation:
-
-target.manifestation || "",
+target.behavior || "",
 
 
+appearance:
+
+target.appearance || "",
 
 
 
