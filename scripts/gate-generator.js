@@ -316,14 +316,35 @@ export async function generateGate(type){
 
 
 
-    const templateText =
+  const templateList =
 
-    randomPick(
+template.templates
 
-        template.templates
-        .split("|")
+?
 
-    );
+template.templates.split("|")
+
+:
+
+[];
+
+
+
+if(templateList.length === 0){
+
+throw new Error(
+"사건 템플릿 데이터가 없습니다."
+);
+
+}
+
+
+
+const templateText =
+
+randomPick(
+templateList
+);
 
 
 
