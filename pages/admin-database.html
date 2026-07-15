@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+월하순라청 데이터 관리
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+<link rel="stylesheet" href="../admin.css">
+
+
+</head>
+
+
+
+<body>
+
+
+<main class="main-container">
+
+
+
+<section class="admin-box">
+
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+관리자 데이터 관리
+</p>
+
+
+
+
+
+<div class="page-buttons">
+
+
+<a
+href="./admin.html"
+class="home-button"
+>
+관리자실
+</a>
+
+
+</div>
+
+
+
+
+
+
+<section class="gate-admin-box">
+
+
+
+<h2>
+CSV 데이터 업로드
+</h2>
+
+
+
+<p class="system-message">
+
+CSV 파일 업로드 시 기존 동일 ID 데이터는 새로운 데이터로 덮어쓰기 됩니다.
+
+</p>
+
+
+
+
+
+
+
+
+<!-- ======================
+     요괴 DB
+====================== -->
+
+
+<div class="admin-search">
+
+
+<h3>
+요괴 DB
+</h3>
+
+
+<input
+type="file"
+id="yokai-file"
+accept=".csv"
+>
+
+
+<button
+class="write-button"
+onclick="uploadCSV('yokaiDB','yokai-file')"
+>
+
+요괴 DB 업로드
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     악귀 DB
+====================== -->
+
+
+<div class="admin-search">
+
+
+<h3>
+악귀 DB
+</h3>
+
+
+<input
+type="file"
+id="evil-file"
+accept=".csv"
+>
+
+
+<button
+class="write-button"
+onclick="uploadCSV('evilDB','evil-file')"
+>
+
+악귀 DB 업로드
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     지역 DB
+====================== -->
+
+
+<div class="admin-search">
+
+
+<h3>
+지역 DB
+</h3>
+
+
+<input
+type="file"
+id="location-file"
+accept=".csv"
+>
+
+
+<button
+class="write-button"
+onclick="uploadCSV('locations','location-file')"
+>
+
+지역 DB 업로드
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ======================
+     사건 템플릿
+====================== -->
+
+
+<div class="admin-search">
+
+
+<h3>
+사건 템플릿 DB
+</h3>
+
+
+<input
+type="file"
+id="template-file"
+accept=".csv"
+>
+
+
+<button
+class="write-button"
+onclick="uploadCSV('incidentTemplates','template-file')"
+>
+
+템플릿 업로드
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+<p id="message"></p>
+
+
+
+
+</section>
+
+
+
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+<script type="module">
+
+
+
+import {
+
+auth,
+
+db
+
+}
+
+from "../firebase.js";
+
+
+
+
+
+
+import {
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+
+
+
+
+import {
+
+doc,
+
+getDoc,
+
+setDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+
+
+
+
+let currentUser = null;
+
+
+
+
+
+const message =
+
+document.getElementById(
+"message"
+);
+
+
+
+
+
+
+
+
+
+// =====================
+// 관리자 확인
+// =====================
+
+
+
+onAuthStateChanged(
+
+auth,
+
+async(user)=>{
+
+
+if(!user){
+
+
+location.href="../index.html";
+
+
+return;
+
+
+}
+
+
+
+
+
+const userSnap =
+
+await getDoc(
+
+
+doc(
+
+db,
+
+"users",
+
+user.uid
+
+)
+
+
+);
+
+
+
+
+
+if(
+
+!userSnap.exists()
+
+||
+
+userSnap.data().role !== "admin"
+
+){
+
+
+alert(
+"관리자 권한이 없습니다."
+);
+
+
+location.href="./home.html";
+
+
+return;
+
+
+}
+
+
+
+
+currentUser=user;
+
+
+
+}
+
+
+);
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// CSV 업로드
+// =====================
+
+
+
+window.uploadCSV = async function(
+
+collectionName,
+
+inputId
+
+){
+
+
+
+const fileInput =
+
+document.getElementById(
+inputId
+);
+
+
+
+
+
+const file =
+
+fileInput.files[0];
+
+
+
+
+
+if(!file){
+
+
+alert(
+"CSV 파일을 선택해주세요."
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+message.innerText =
+"업로드 중입니다...";
+
+
+
+
+
+
+
+
+const text =
+
+await file.text();
+
+
+
+
+
+const rows =
+
+parseCSV(text);
+
+
+
+
+
+
+
+if(rows.length < 2){
+
+
+message.innerText =
+"등록할 데이터가 없습니다.";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+const headers =
+
+rows[0];
+
+
+
+
+
+let count = 0;
+
+
+
+
+
+try{
+
+
+
+
+
+for(let i=1; i<rows.length; i++){
+
+
+
+const row =
+
+rows[i];
+
+
+
+
+
+if(row.length === 0)
+
+continue;
+
+
+
+
+
+
+const data = {};
+
+
+
+
+
+headers.forEach((header,index)=>{
+
+
+data[header] =
+
+row[index] || "";
+
+
+});
+
+
+
+
+
+
+
+if(!data.id)
+
+continue;
+
+
+
+
+
+
+
+await setDoc(
+
+
+doc(
+
+db,
+
+collectionName,
+
+data.id
+
+),
+
+
+data
+
+
+);
+
+
+
+
+
+count++;
+
+
+
+
+
+}
+
+
+
+
+
+message.innerText =
+
+`${collectionName} ${count}건 업로드 완료`;
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(error);
+
+
+
+message.innerText =
+
+"업로드 중 오류가 발생했습니다.";
+
+
+
+
+
+}
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+// =====================
+// CSV Parser
+// =====================
+
+
+
+function parseCSV(text){
+
+
+
+const lines = [];
+
+
+
+let current = "";
+
+let insideQuote = false;
+
+
+
+
+
+
+for(let i=0;i<text.length;i++){
+
+
+
+const char = text[i];
+
+
+
+
+
+if(char === '"'){
+
+
+insideQuote = !insideQuote;
+
+
+}
+
+
+
+
+
+
+
+else if(
+
+char === "\n"
+
+&&
+
+!insideQuote
+
+){
+
+
+
+lines.push(current);
+
+current="";
+
+
+
+}
+
+else{
+
+
+current += char;
+
+
+}
+
+
+
+}
+
+
+
+
+
+if(current){
+
+
+lines.push(current);
+
+
+}
+
+
+
+
+
+
+
+return lines.map(line=>{
+
+
+
+const result=[];
+
+let value="";
+
+let quote=false;
+
+
+
+
+
+
+for(let i=0;i<line.length;i++){
+
+
+
+const char=line[i];
+
+
+
+
+
+if(char === '"'){
+
+
+
+quote=!quote;
+
+
+
+}
+
+else if(
+
+char === ","
+
+&&
+
+!quote
+
+){
+
+
+
+result.push(value);
+
+value="";
+
+
+
+}
+
+else{
+
+
+value += char;
+
+
+}
+
+
+
+}
+
+
+
+result.push(value);
+
+
+
+return result;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
