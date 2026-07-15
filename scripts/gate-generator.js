@@ -248,11 +248,28 @@ export async function generateGate(type){
 
 
 
-    const template =
+let availableTemplates = templates.filter(
+    t =>
+    t.incidentType === incidentType
+    ||
+    t.incidentType === "출현"
+);
 
-    randomPick(
-        templates
+
+if(
+    availableTemplates.length === 0
+){
+
+    throw new Error(
+        "해당 사건 유형의 템플릿이 없습니다."
     );
+
+}
+
+
+const template = randomPick(
+    availableTemplates
+);
 
 
 
