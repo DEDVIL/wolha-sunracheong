@@ -281,7 +281,25 @@ targetList
 );
 
 
+let possessionTargetData=null;
 
+
+if(
+incident.incidentType==="빙의 사건"
+){
+
+const targets =
+await getCollectionData(
+"possessionTargets"
+);
+
+
+possessionTargetData =
+randomPick(
+targets
+);
+
+}
 
 
 // 4.
