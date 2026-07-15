@@ -185,31 +185,18 @@ data.habitat || "-"
 data.incidentKeyword || "-"
 )
 
-
 .replaceAll(
-"{possessionTarget}",
-data.possessionTarget || "-"
+"{victim}",
+data.victim || "-"
 )
 
 
 .replaceAll(
-"{possessionType}",
-data.possessionType || "-"
-)
-
-
-.replaceAll(
-"{possessedObject}",
-data.possessedObject || "-"
-);
-
-.replaceAll(
-"{affectedArea}",
-data.affectedArea || "-"
+"{symptom}",
+data.symptom || "-"
 );
     
 }
-
 
 
 
@@ -255,15 +242,9 @@ if(
 
 incident.incidentType==="빙의 사건"
 
-||
-
-incident.incidentType==="물건 이상"
-
 ){
 
-
 sourceType="evil";
-
 
 }
 
@@ -373,11 +354,11 @@ if(
 
     phenomenon =
     randomPick([
-        "원인을 확인할 수 없는 이상 현상",
-        "심야 시간대 발생한 비정상 반응",
-        "대상 개체와 관련된 특이 현상",
-        "주변 환경 변화와 관련된 이상 징후",
-        "정체불명의 기이 현상"
+"원인을 확인할 수 없는 이상 반응",
+"비정상적인 현장 변화",
+"대상 개체와 관련된 특이 징후",
+"주변 환경 변화",
+"정체불명의 기이 현상"
     ]);
 
 }
@@ -410,7 +391,6 @@ templateText,
 
 {
 
-
 location:
 locationName,
 
@@ -423,13 +403,8 @@ grade:
 target.grade || "미상",
 
 
-    
 relatedPhenomenon:
 phenomenon,
-
-
-dangerLevel:
-target.dangerLevel,
 
 
 habitat:
@@ -437,45 +412,16 @@ target.habitat,
 
 
 incidentKeyword:
-randomPickValue(incident.keyword),
+incident.keyword,
 
 
-possessionTarget:
-randomPickValue(
-    target.possessionTarget
-),
+victim:
+target.victim || "-",
 
 
-possessionType:
-randomPickValue(
-    target.possessionType
-),
+symptom:
+target.symptom || "-"
 
-
-possessedObject:
-randomPickValue(
-    target.possessedObject
-),
-
-
-affectedArea:
-randomPickValue(
-    target.affectedArea
-),
-
-
-incidentKeyword:
-randomPickValue(
-    target.incidentKeyword
-),
-
-
-relatedPhenomenon:
-randomPickValue(
-    target.relatedPhenomenon
-)
-
-    
 }
 
 );
@@ -569,7 +515,17 @@ habitat:
 
 target.habitat || "",
 
+    
+// 빙의
 
+victim:
+
+target.victim || "",
+
+
+symptom:
+
+target.symptom || "",
 
 
 
@@ -588,30 +544,6 @@ target.manifestation || "",
 
 
 
-// 빙의
-
-possessionTarget:
-randomPickValue(
-    target.possessionTarget
-),
-
-
-possessionType:
-randomPickValue(
-    target.possessionType
-),
-
-
-possessedObject:
-randomPickValue(
-    target.possessedObject
-),
-
-
-affectedArea:
-randomPickValue(
-    target.affectedArea
-),
 
 
 createdAt:
