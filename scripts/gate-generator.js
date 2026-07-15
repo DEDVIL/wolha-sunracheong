@@ -404,8 +404,7 @@ target.habitat,
 
 
 incidentKeyword:
-incident.keyword,
-
+randomPickValue(incident.keyword),
 
 
 possessionTarget:
