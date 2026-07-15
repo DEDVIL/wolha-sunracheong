@@ -539,7 +539,7 @@ return;
 
 
 
-const headers = rows[0].map(h => h.trim());
+const headers = rows[0].map(h => h.trim().replace(/^\uFEFF/, ""));
 
 
 
