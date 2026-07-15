@@ -307,7 +307,7 @@ const template = randomPick(
     availableTemplates
 );
 
-
+console.log("선택된 템플릿", template);
 
 
 
@@ -348,7 +348,7 @@ randomPick(
 templateList
 );
 
-
+console.log("선택 문장", templateText);
 
 
 
