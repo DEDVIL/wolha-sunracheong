@@ -284,11 +284,8 @@ else{
 
 let availableTemplates = templates.filter(
     t =>
-    t.incidentType === incidentType
-    ||
     t.incidentType === "출현"
 );
-
 
 
 if(
