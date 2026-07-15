@@ -325,23 +325,10 @@ const template = randomPick(
 
 
 
-
-
-
-
-
-  const templateList =
-
-template.templates
-
-?
-
 const templateList =
 (template.templates || "").split("|");
 
-:
 
-[];
 
 
 
