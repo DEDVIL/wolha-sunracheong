@@ -162,16 +162,12 @@ data.grade
 )
 
 
+
 .replaceAll(
 "{relatedPhenomenon}",
 data.relatedPhenomenon || "-"
 )
 
-
-.replaceAll(
-"{dangerLevel}",
-data.dangerLevel || "-"
-)
 
 
 .replaceAll(
@@ -352,19 +348,9 @@ incident.templates
 // relatedPhenomenon fallback
 // ======================
 
+
 let phenomenon =
 randomPickValue(target.relatedPhenomenon);
-
-
-if(
-    phenomenon.includes("|")
-){
-
-    phenomenon =
-    randomPickValue(phenomenon);
-
-}
-
 
 if(
     phenomenon === "-"
@@ -528,12 +514,12 @@ possessionTargetData
 ?
 possessionTargetData.name
 :
-"",
+target.victim || "-",
 
 
 symptom:
 
-target.manifestation || "",
+target.symptom || "-"
 
 
 
