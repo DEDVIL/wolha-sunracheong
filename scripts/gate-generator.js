@@ -43,7 +43,47 @@ function randomPick(array){
 
 }
 
+// ======================
+// | 구분 데이터 랜덤 선택
+// ======================
 
+function randomPickValue(value){
+
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    if(typeof value !== "string"){
+
+        return "-";
+
+    }
+
+
+    const list =
+
+    value
+    .split("|")
+    .map(v => v.trim())
+    .filter(v => v);
+
+
+
+    if(list.length === 0){
+
+        return "-";
+
+    }
+
+
+    return randomPick(list);
+
+
+}
 
 
 
@@ -388,8 +428,8 @@ console.log("선택 문장", templateText);
             target.grade,
 
 
-            relatedPhenomenon:
-            target.relatedPhenomenon,
+relatedPhenomenon:
+randomPickValue(target.relatedPhenomenon),
 
 
             dangerLevel:
@@ -400,8 +440,8 @@ console.log("선택 문장", templateText);
             target.habitat,
 
 
-            incidentKeyword:
-            target.incidentKeyword
+incidentKeyword:
+randomPickValue(target.incidentKeyword),
 
 
 
