@@ -1,27 +1,19 @@
 // 월하순라청 귀문 랜덤 생성기
-// Gate Generator
+// Gate Generator A안
+
 
 import {
-
     db
-
 }
-
 from "../firebase.js";
 
 
-
 import {
-
     collection,
     getDocs
-
 }
-
 from
-
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 
 
@@ -33,31 +25,25 @@ from
 
 function randomPick(array){
 
-
     return array[
         Math.floor(
             Math.random() * array.length
         )
     ];
 
-
 }
 
+
+
 // ======================
-// | 구분 데이터 랜덤 선택
+// | 데이터 랜덤 선택
 // ======================
+
 
 function randomPickValue(value){
 
 
-    if(!value){
-
-        return "-";
-
-    }
-
-
-    if(typeof value !== "string"){
+    if(!value || typeof value !== "string"){
 
         return "-";
 
@@ -65,15 +51,13 @@ function randomPickValue(value){
 
 
     const list =
-
     value
     .split("|")
-    .map(v => v.trim())
-    .filter(v => v);
+    .map(v=>v.trim())
+    .filter(v=>v);
 
 
-
-    if(list.length === 0){
+    if(list.length===0){
 
         return "-";
 
@@ -82,72 +66,65 @@ function randomPickValue(value){
 
     return randomPick(list);
 
-
 }
 
 
 
-
-
 // ======================
-// Firestore 전체 가져오기
+// Firestore 데이터
 // ======================
 
 
 async function getCollectionData(name){
 
 
-
-    const snapshot = await getDocs(
-
+    const snapshot =
+    await getDocs(
         collection(
             db,
             name
         )
-
     );
 
 
-
-    const data = [];
-
+    const data=[];
 
 
     snapshot.forEach(doc=>{
 
 
-const rawData = doc.data();
-
-const cleanData = {};
-
-Object.keys(rawData).forEach(key=>{
-
-    cleanData[key.trim()] = rawData[key];
-
-});
+        const raw =
+        doc.data();
 
 
-data.push({
+        const clean={};
 
-    id:doc.id,
 
-    ...cleanData
+        Object.keys(raw).forEach(key=>{
 
-});
+            clean[key.trim()] =
+            raw[key];
+
+        });
+
+
+
+        data.push({
+
+            id:doc.id,
+
+            ...clean
+
+        });
 
 
     });
-
 
 
     return data;
 
 
 }
-
-
-
-
 
 
 
@@ -164,48 +141,67 @@ function replaceTemplate(
 ){
 
 
-    return template
-
-    .replaceAll(
-        "{location}",
-        data.location
-    )
+return template
 
 
-    .replaceAll(
-        "{targetName}",
-        data.targetName
-    )
+.replaceAll(
+"{location}",
+data.location
+)
 
 
-    .replaceAll(
-        "{grade}",
-        data.grade
-    )
+.replaceAll(
+"{targetName}",
+data.targetName
+)
 
 
-    .replaceAll(
-        "{relatedPhenomenon}",
-        data.relatedPhenomenon || "-"
-    )
+.replaceAll(
+"{grade}",
+data.grade
+)
 
 
-    .replaceAll(
-        "{dangerLevel}",
-        data.dangerLevel || "-"
-    )
+.replaceAll(
+"{relatedPhenomenon}",
+data.relatedPhenomenon || "-"
+)
 
 
-    .replaceAll(
-        "{habitat}",
-        data.habitat || "-"
-    )
+.replaceAll(
+"{dangerLevel}",
+data.dangerLevel || "-"
+)
 
 
-    .replaceAll(
-        "{incidentKeyword}",
-        data.incidentKeyword || "-"
-    );
+.replaceAll(
+"{habitat}",
+data.habitat || "-"
+)
+
+
+.replaceAll(
+"{incidentKeyword}",
+data.incidentKeyword || "-"
+)
+
+
+.replaceAll(
+"{possessionTarget}",
+data.possessionTarget || "-"
+)
+
+
+.replaceAll(
+"{possessionType}",
+data.possessionType || "-"
+)
+
+
+.replaceAll(
+"{possessedObject}",
+data.possessedObject || "-"
+);
 
 
 }
@@ -214,161 +210,119 @@ function replaceTemplate(
 
 
 
-
-
-
-
-
 // ======================
-// 메인 생성 함수
+// 메인 생성
 // ======================
 
 
-export async function generateGate(type){
+export async function generateGate(){
 
 
 
-    let targetList;
+// 1.
+// 사건 템플릿 선택
+
+
+const templates =
+await getCollectionData(
+"incidentTemplates"
+);
 
 
 
-    // 대상 DB 선택
-
-    if(type === "yokai"){
-
-
-        targetList =
-        await getCollectionData(
-            "yokaiDB"
-        );
-
-
-    }
-    else{
-
-
-        targetList =
-        await getCollectionData(
-            "evilDB"
-        );
-
-
-    }
+const incident =
+randomPick(
+templates
+);
 
 
 
 
 
+// 2.
+// 사건 유형 판단
 
 
-    const locations =
-
-    await getCollectionData(
-        "locations"
-    );
-
-
-
-    const templates =
-
-    await getCollectionData(
-        "incidentTemplates"
-    );
+let sourceType="yokai";
 
 
 
+if(
 
+incident.incidentType==="빙의 사건"
+
+||
+
+incident.incidentType==="물건 이상"
+
+){
+
+
+sourceType="evil";
+
+
+}
+
+
+
+
+// 3.
+// 대상 DB 선택
+
+
+const targetList =
+
+await getCollectionData(
+
+sourceType==="yokai"
+
+?
+
+"yokaiDB"
+
+:
+
+"evilDB"
+
+);
 
 
 
 
 
 const target =
-
 randomPick(
-    targetList
+targetList
+);
+
+
+
+
+
+// 4.
+// 위치 선택
+
+
+const locations =
+await getCollectionData(
+"locations"
 );
 
 
 
 const selectedLocation =
-
 randomPick(
-    locations
+locations
 );
-
-console.log("선택 위치", selectedLocation);
-
-
-
-
-
-let incidentType = "";
-
-
-if(type === "evil"){
-
-
-    incidentType =
-
-    randomPick(
-
-        target.incidentType
-        ?.split("|")
-
-        ||
-
-        ["악귀 출현"]
-
-    );
-
-
-}
-else{
-
-
-    incidentType = "출현";
-
-
-}
-
-
-
-
-
-let availableTemplates = templates.filter(
-    t =>
-    t.incidentType === "출현"
-);
-
-
-if(
-    availableTemplates.length === 0
-){
-
-    throw new Error(
-        "해당 사건 유형의 템플릿이 없습니다."
-    );
-
-}
-
-
-
-const template = randomPick(
-    availableTemplates
-);
-
-console.log("선택된 템플릿", template);
-
-
-
 
 
 
 
 const locationName =
 
-selectedLocation.fullName ||
+selectedLocation.fullName
+
+||
 
 `${selectedLocation.city} ${selectedLocation.district} ${selectedLocation.area}`;
 
@@ -376,196 +330,214 @@ selectedLocation.fullName ||
 
 
 
-const templateList =
-(template.templates || "").split("|");
 
-
-
-
-
-if(templateList.length === 0){
-
-throw new Error(
-"사건 템플릿 데이터가 없습니다."
-);
-
-}
-
+// 5.
+// 사건 문장 선택
 
 
 const templateText =
 
 randomPick(
-templateList
+
+incident.templates
+.split("|")
+
 );
 
-console.log("선택 문장", templateText);
 
 
 
 
+const content =
+
+replaceTemplate(
+
+templateText,
+
+{
 
 
-
-    const content =
-
-    replaceTemplate(
-
-        templateText,
-
-        {
+location:
+locationName,
 
 
-            location:
-            locationName,
+targetName:
+target.name,
 
 
-            targetName:
-            target.name,
-
-
-            grade:
-            target.grade,
+grade:
+target.grade || "미상",
 
 
 relatedPhenomenon:
-randomPickValue(target.relatedPhenomenon),
+randomPickValue(
+target.relatedPhenomenon
+),
 
 
-            dangerLevel:
-            target.dangerLevel,
+dangerLevel:
+target.dangerLevel,
 
 
-            habitat:
-            target.habitat,
+habitat:
+target.habitat,
 
 
 incidentKeyword:
-randomPickValue(target.incidentKeyword),
+incident.keyword,
 
 
 
-        }
-
-    );
-
+possessionTarget:
+target.possessionTarget,
 
 
+possessionType:
+target.possessionType,
 
 
+possessedObject:
+target.possessedObject
 
 
+}
 
-
-const result = {
-
-    title:
-    `${locationName} 귀문 사건`,
-
-
-    location:
-    locationName,
-
-
-    grade:
-    target.grade || "미상",
-
-
-    type:
-    incidentType,
-
-
-    targetName:
-    target.name,
-
-
-    originalName:
-    target.originalName || "",
-
-
-    category:
-    target.category || "",
-
-
-    content:
-    content,
-
-
-    relatedPhenomenon:
-    target.relatedPhenomenon || "",
-
-
-    sourceType:
-    type,
+);
 
 
 
-    // =====================
-    // 요괴 정보
-    // =====================
-
-    appearance:
-    target.appearance || "",
-
-
-    behavior:
-    target.behavior || "",
-
-
-    habitat:
-    target.habitat || "",
-
-
-    preferredLocation:
-    target.preferredLocation || "",
 
 
 
-    // =====================
-    // 악귀 정보
-    // =====================
 
-    origin:
-    target.origin || "",
+return {
 
 
-    manifestation:
-    target.manifestation || "",
+title:
+
+`${locationName} 귀문 사건`,
 
 
 
-    // =====================
-    // 빙의 정보
-    // 빙의 사건일 경우만 사용
-    // =====================
+location:
 
-    possessionTarget:
-    target.possessionTarget || "",
-
-
-    possessionType:
-    target.possessionType || "",
-
-
-    possessedObject:
-    target.possessedObject || "",
-
-
-    affectedArea:
-    target.affectedArea || "",
+locationName,
 
 
 
-    createdAt:
-    new Date()
+grade:
+
+target.grade || "미상",
+
+
+
+type:
+
+incident.incidentType,
+
+
+
+targetName:
+
+target.name,
+
+
+
+originalName:
+
+target.originalName || "",
+
+
+
+category:
+
+target.category || "",
+
+
+
+content,
+
+
+
+incidentId:
+
+incident.id,
+
+
+
+incidentKeyword:
+
+incident.keyword,
+
+
+
+sourceType,
+
+
+
+
+
+// 요괴
+
+appearance:
+
+target.appearance || "",
+
+
+behavior:
+
+target.behavior || "",
+
+
+habitat:
+
+target.habitat || "",
+
+
+
+
+
+// 악귀
+
+origin:
+
+target.origin || "",
+
+
+manifestation:
+
+target.manifestation || "",
+
+
+
+
+
+// 빙의
+
+possessionTarget:
+
+target.possessionTarget || "",
+
+
+possessionType:
+
+target.possessionType || "",
+
+
+possessedObject:
+
+target.possessedObject || "",
+
+
+
+
+
+createdAt:
+
+new Date()
+
 
 };
-
-
-
-
-
-    return result;
 
 
 }
