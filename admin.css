@@ -1,3 +1,7 @@
+/* =================================
+   관리자 공통
+================================= */
+
 
 /* 관리자 인명부 테이블 */
 
@@ -65,9 +69,7 @@ border-radius:0 8px 8px 0;
 
 
 
-
 .admin-table a,
-
 .admin-table button{
 
 display:inline-block;
@@ -87,14 +89,6 @@ cursor:pointer;
 }
 
 
-.admin-search button{
-
-white-space:nowrap;
-
-min-width:160px;
-
-}
-
 
 .admin-table a{
 
@@ -103,7 +97,6 @@ background:#222;
 color:#ddd;
 
 }
-
 
 
 
@@ -119,8 +112,13 @@ border:1px solid #553333;
 }
 
 
+
+
+
+
+
 /* =================================
-   관리자 인명부 통계 카드
+   관리자 통계 카드
 ================================= */
 
 
@@ -170,7 +168,6 @@ color:#aaa;
 
 font-size:14px;
 
-
 }
 
 
@@ -199,65 +196,24 @@ background:#555;
 
 border-radius:12px 12px 0 0;
 
-
 }
-
 
 
 
 .admin-summary strong{
 
-
 display:block;
-
 
 margin-top:12px;
 
-
 font-size:32px;
-
 
 font-weight:600;
 
-
 color:#eee;
 
-
 }
 
-
-
-/* 등록 인원 */
-
-.admin-summary div:first-child strong{
-
-
-color:#ddd;
-
-
-}
-
-
-/* 공개 */
-
-.admin-summary div:nth-child(2) strong{
-
-
-color:#d8d8d8;
-
-
-}
-
-
-/* 비공개 */
-
-.admin-summary div:nth-child(3) strong{
-
-
-color:#aaa;
-
-
-}
 
 
 
@@ -265,30 +221,23 @@ color:#aaa;
 
 
 /* =================================
-   관리자 검색창
+   관리자 검색
 ================================= */
 
 
 .admin-search{
 
-
 margin:30px 0;
-
 
 padding:18px;
 
-
 background:#111;
-
 
 border:1px solid #333;
 
-
 border-radius:12px;
 
-
 }
-
 
 
 
@@ -298,117 +247,148 @@ border-radius:12px;
 
 width:100%;
 
-
 box-sizing:border-box;
-
 
 padding:14px 18px;
 
-
 background:#080808;
-
 
 border:1px solid #444;
 
-
 border-radius:8px;
-
 
 color:#eee;
 
-
 font-size:15px;
-
 
 outline:none;
 
-
 }
-
-
 
 
 
 .admin-search input::placeholder{
 
-
 color:#777;
 
-
 }
-
-
 
 
 
 .admin-search input:focus{
 
 
-border-color:#777;
+border-color:#c8a96a;
 
 
 box-shadow:
 
-0 0 10px rgba(255,255,255,0.08);
-
-
-}
-
-
-/* =====================
-   귀문 생성 타입 선택
-===================== */
-
-
-.gate-type-buttons {
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:15px;
-
-    margin:20px 0;
-
-}
-
-
-
-.gate-select-button {
-
-
-    width:140px;
-
-    height:45px;
-
-
-    background:#111;
-
-
-    border:1px solid #4a4035;
-
-
-    color:#ddd;
-
-
-    cursor:pointer;
-
-
-    font-family:"Pretendard", sans-serif;
-
-
-    letter-spacing:2px;
-
+0 0 10px rgba(200,169,106,0.15);
 
 }
 
 
 
 
-.gate-select-button:hover {
 
 
-    border-color:#c8a96a;
+
+/* =================================
+   귀문 타입 선택
+================================= */
+
+
+.gate-type-buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+margin:20px 0;
+
+}
+
+
+
+.gate-select-button{
+
+
+width:140px;
+
+height:45px;
+
+
+background:#111;
+
+
+border:1px solid #4a4035;
+
+
+color:#ddd;
+
+
+cursor:pointer;
+
+
+font-family:"Pretendard",sans-serif;
+
+
+letter-spacing:2px;
+
+}
+
+
+
+.gate-select-button:hover{
+
+border-color:#c8a96a;
+
+}
+
+
+
+.gate-select-button.active{
+
+
+background:#8b0000;
+
+
+border-color:#c8a96a;
+
+
+color:white;
+
+}
+
+
+
+
+
+
+
+/* =================================
+   귀문 관리자 화면
+================================= */
+
+
+.gate-admin-page h1{
+
+
+letter-spacing:8px;
+
+
+}
+
+
+
+.gate-admin-page .subtitle{
+
+
+color:#888;
+
+letter-spacing:4px;
 
 
 }
@@ -416,66 +396,130 @@ box-shadow:
 
 
 
-.gate-select-button.active {
+
+/* 현재 진행중 귀문 */
 
 
-    background:#8b0000;
+.active-gate-admin-box{
 
 
-    border-color:#c8a96a;
+position:relative;
+
+overflow:hidden;
 
 
+background:
 
-/* ==========================
-   관리자 귀문 상황판
-========================== */
-
-
-.active-gate-admin-box,
-.gate-admin-box {
-
-
-    background:
-
-    linear-gradient(
-        145deg,
-        #101010,
-        #080808
-    );
+linear-gradient(
+145deg,
+#181010,
+#090909
+);
 
 
-    border:1px solid #4a4035;
+border:1px solid #6b3030;
 
 
-    padding:30px;
+padding:30px;
 
 
-    border-radius:12px;
+border-radius:15px;
 
 
-    margin-top:25px;
+margin-top:30px;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,0.5);
 
 
 }
 
 
 
-/* 제목 */
+.active-gate-admin-box::before{
+
+
+content:"ACTIVE CASE";
+
+
+position:absolute;
+
+
+top:18px;
+
+
+right:25px;
+
+
+font-size:11px;
+
+
+letter-spacing:3px;
+
+
+color:#8b0000;
+
+
+}
+
+
+
 
 .active-gate-admin-box h2,
-.gate-admin-box h2 {
+.gate-admin-box h2{
 
 
-    color:#c8a96a;
+color:#c8a96a;
 
 
-    letter-spacing:3px;
+letter-spacing:3px;
 
 
-    border-bottom:1px solid #333;
+border-bottom:1px solid #333;
 
 
-    padding-bottom:15px;
+padding-bottom:15px;
+
+
+}
+
+
+
+
+
+
+/* 귀문 생성 박스 */
+
+
+.gate-admin-box{
+
+
+background:
+
+linear-gradient(
+145deg,
+#101010,
+#080808
+);
+
+
+border:1px solid #4a4035;
+
+
+padding:30px;
+
+
+border-radius:15px;
+
+
+margin-top:30px;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,0.4);
 
 
 }
@@ -483,85 +527,252 @@ box-shadow:
 
 
 
-/* 진행중 사건 강조 */
 
-.active-gate-admin-box {
-
-
-    position:relative;
+/* 생성 버튼 */
 
 
-    overflow:hidden;
+#generate-button{
 
 
-}
+width:240px;
 
 
-
-.active-gate-admin-box::before {
-
-
-    content:"ACTIVE CASE";
+height:55px;
 
 
-    position:absolute;
+background:
+
+linear-gradient(
+135deg,
+#3b0909,
+#140303
+);
 
 
-    top:15px;
+border:1px solid #8b6b45;
 
 
-    right:20px;
+color:#eee;
 
 
-    font-size:11px;
+font-size:16px;
 
 
-    letter-spacing:3px;
+letter-spacing:4px;
 
 
-    color:#8b0000;
+border-radius:8px;
 
 
-}
-
-
-    color:white;
-
-
-}
-
-
-/* 관리자 종료 버튼 */
-
-.gate-end-button {
-
-
-    background:#300000;
-
-
-    border:1px solid #8b0000;
-
-
-    color:#ddd;
-
-
-    padding:12px 25px;
-
-
-    letter-spacing:2px;
+cursor:pointer;
 
 
 }
 
 
 
-.gate-end-button:hover {
+#generate-button:hover{
 
 
-    background:#8b0000;
+background:#8b0000;
 
 
-    color:white;
+border-color:#c8a96a;
+
+
+}
+
+
+
+
+
+
+
+/* =================================
+   귀문 결과 카드
+================================= */
+
+
+.gate-result-box{
+
+
+margin-top:30px;
+
+
+padding:30px;
+
+
+background:#0b0b0b;
+
+
+border:1px solid #333;
+
+
+border-radius:15px;
+
+
+}
+
+
+
+.gate-result-box h3{
+
+
+font-size:24px;
+
+
+color:#c8a96a;
+
+
+letter-spacing:2px;
+
+
+padding-bottom:15px;
+
+
+border-bottom:1px solid #333;
+
+
+}
+
+
+
+
+
+
+.gate-case-detail p{
+
+
+padding:12px 0;
+
+
+border-bottom:1px solid #222;
+
+
+line-height:1.7;
+
+
+}
+
+
+
+.gate-case-detail strong{
+
+
+color:#aaa;
+
+
+letter-spacing:2px;
+
+
+}
+
+
+
+
+
+
+
+/* =================================
+   조사 자료 버튼
+================================= */
+
+
+#detail-button,
+#active-detail-button{
+
+
+margin-top:20px;
+
+
+padding:12px 24px;
+
+
+background:#151515;
+
+
+border:1px solid #555;
+
+
+color:#ddd;
+
+
+cursor:pointer;
+
+
+letter-spacing:2px;
+
+
+border-radius:6px;
+
+
+}
+
+
+
+#detail-button:hover,
+#active-detail-button:hover{
+
+
+border-color:#c8a96a;
+
+
+color:#c8a96a;
+
+
+}
+
+
+
+
+
+
+
+/* =================================
+   관리자 종료 버튼
+================================= */
+
+
+.gate-end-button,
+#admin-end-gate-button{
+
+
+margin-top:25px;
+
+
+padding:12px 28px;
+
+
+background:#300000;
+
+
+border:1px solid #8b0000;
+
+
+color:#ddd;
+
+
+letter-spacing:2px;
+
+
+border-radius:6px;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+.gate-end-button:hover,
+#admin-end-gate-button:hover{
+
+
+background:#8b0000;
+
+
+color:white;
 
 
 }
