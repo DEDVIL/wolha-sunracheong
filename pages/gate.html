@@ -1560,7 +1560,58 @@ doc.data().characterName
 
 });
 
+const logsSnapshot = await getDocs(
 
+query(
+
+collection(
+db,
+"gateComments"
+),
+
+where(
+"gateId",
+"==",
+gateId
+),
+
+orderBy(
+"createdAt",
+"asc"
+)
+
+)
+
+);
+
+
+const logs = [];
+
+
+logsSnapshot.forEach((doc)=>{
+
+
+const data = doc.data();
+
+
+logs.push({
+
+characterName:
+data.characterName || "",
+
+
+content:
+data.content || "",
+
+
+createdAt:
+data.createdAt || null
+
+
+});
+
+
+});
 
 
 await addDoc(
