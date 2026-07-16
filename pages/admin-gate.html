@@ -580,7 +580,7 @@ style="display:none"
 명칭
 </strong>
 <br>
-${generatedGate.targetInfo.name}
+${generatedGate.targetInfo?.name || "-"}
 </p>
 
 
@@ -590,7 +590,7 @@ ${generatedGate.targetInfo.name}
 원명
 </strong>
 <br>
-${generatedGate.targetInfo.originalName}
+${generatedGate.targetInfo?.originalName || "-"}
 </p>
 
 
@@ -601,7 +601,7 @@ ${generatedGate.targetInfo.originalName}
 분류
 </strong>
 <br>
-${generatedGate.targetInfo.category}
+${generatedGate.targetInfo?.category || "-"}
 </p>
 
 
@@ -612,7 +612,7 @@ ${generatedGate.targetInfo.category}
 외형
 </strong>
 <br>
-${generatedGate.targetInfo.appearance}
+${generatedGate.targetInfo?.appearance || "-"}
 </p>
 
 
@@ -623,7 +623,7 @@ ${generatedGate.targetInfo.appearance}
 행동 특성
 </strong>
 <br>
-${generatedGate.targetInfo.behavior}
+${generatedGate.targetInfo?.behavior || "-"}
 </p>
 
 
@@ -631,10 +631,10 @@ ${generatedGate.targetInfo.behavior}
 
 <p>
 <strong>
-서식지
+주요 출몰지
 </strong>
 <br>
-${generatedGate.targetInfo.habitat}
+${generatedGate.targetInfo?.habitat || "-"}
 </p>
 
 
@@ -645,7 +645,7 @@ ${generatedGate.targetInfo.habitat}
 관련 현상
 </strong>
 <br>
-${generatedGate.targetInfo.relatedPhenomenon}
+${generatedGate.targetInfo?.relatedPhenomenon || "-"}
 </p>
 
 
@@ -884,6 +884,11 @@ if(snapshot.empty){
 activeGateExists = false;
 
 
+document.getElementById(
+"admin-end-gate-button"
+).style.display = "none";
+
+
 box.innerHTML =
 `
 <p>
@@ -907,6 +912,11 @@ snapshot.docs[0];
 
 
 activeGateExists = true;
+
+
+document.getElementById(
+"admin-end-gate-button"
+).style.display = "block";
 
 
 activeGateId =
