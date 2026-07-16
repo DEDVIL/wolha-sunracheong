@@ -826,6 +826,7 @@ generatedGate = null;
 saveButton.style.display =
 "none";
 
+
 await checkActiveGate();
 }
 
@@ -891,6 +892,10 @@ box.innerHTML =
 `;
 
 
+document.getElementById(
+"generate-button"
+).disabled=false; 
+
 return;
 
 }
@@ -951,9 +956,185 @@ ${activeGateData.content}
 </p>
 
 
+<button
+
+id="active-detail-button"
+
+class="write-button"
+
+>
+
+현재 사건 상세 자료 보기
+
+</button>
+
+
+<div
+
+id="active-detail-box"
+
+style="display:none"
+
+>
+
+
+<h4>
+현장 조사 자료
+</h4>
+
+
+<p>
+<strong>
+명칭
+</strong>
+<br>
+${activeGateData.targetInfo?.name || "-"}
+</p>
+
+
+
+<p>
+<strong>
+원명
+</strong>
+<br>
+${activeGateData.targetInfo?.originalName || "-"}
+</p>
+
+
+
+<p>
+<strong>
+분류
+</strong>
+<br>
+${activeGateData.targetInfo?.category || "-"}
+</p>
+
+
+
+<p>
+<strong>
+외형
+</strong>
+<br>
+${activeGateData.targetInfo?.appearance || "-"}
+</p>
+
+
+
+<p>
+<strong>
+행동 특성
+</strong>
+<br>
+${activeGateData.targetInfo?.behavior || "-"}
+</p>
+
+
+
+<p>
+<strong>
+서식지
+</strong>
+<br>
+${activeGateData.targetInfo?.habitat || "-"}
+</p>
+
+
+
+<p>
+<strong>
+관련 현상
+</strong>
+<br>
+${activeGateData.targetInfo?.relatedPhenomenon || "-"}
+</p>
+
+
+
+${
+activeGateData.possessionInfo
+
+?
+
+`
+
+<hr>
+
+<h4>
+빙의 대상 정보
+</h4>
+
+
+<p>
+<strong>
+대상
+</strong>
+<br>
+${activeGateData.possessionInfo.name || "-"}
+</p>
+
+
+<p>
+<strong>
+분류
+</strong>
+<br>
+${activeGateData.possessionInfo.category || "-"}
+</p>
+
+
+<p>
+<strong>
+설명
+</strong>
+<br>
+${activeGateData.possessionInfo.description || "-"}
+</p>
+
+
+`
+
+:
+
+""
+
+}
+
+
+
+</div>
+
+
 `;
 
+document.getElementById(
+"active-detail-button"
+).onclick = ()=>{
 
+
+const detailBox =
+document.getElementById(
+"active-detail-box"
+);
+
+
+
+detailBox.style.display =
+
+detailBox.style.display === "none"
+
+?
+
+"block"
+
+:
+
+"none";
+
+
+};
 
 document.getElementById(
 "admin-end-gate-button"
@@ -1039,7 +1220,68 @@ serverTimestamp()
 
 
 // 활성 종료
+await addDoc(
 
+collection(
+db,
+"gateRecords"
+),
+
+{
+
+gateId:
+activeGateId,
+
+
+title:
+activeGateData.title,
+
+
+location:
+activeGateData.location,
+
+
+grade:
+activeGateData.grade,
+
+
+type:
+activeGateData.type,
+
+
+targetName:
+activeGateData.targetName,
+
+
+content:
+activeGateData.content,
+
+
+targetInfo:
+activeGateData.targetInfo || null,
+
+
+possessionInfo:
+activeGateData.possessionInfo || null,
+
+
+participants:
+[],
+
+
+endedBy:
+"관리자",
+
+
+endedAt:
+serverTimestamp()
+
+
+}
+
+);
+
+  
 await updateDoc(
 
 doc(
