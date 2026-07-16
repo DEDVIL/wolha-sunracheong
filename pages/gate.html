@@ -694,7 +694,6 @@ endGateButton.style.display =
 joinButton.onclick = async()=>{
 
 
-
 if(!currentUser)
 return;
 
@@ -740,33 +739,10 @@ serverTimestamp()
 
 
 
-{
-
-
-uid:
-
-currentUser.uid,
-
-
-characterName:
-
-characterName,
-
-
-joinedAt:
-
-serverTimestamp()
-
-
-}
-
-
-
-);
-
-
-
 await loadParticipants();
+
+
+await checkParticipant();
 
 
 
@@ -779,7 +755,6 @@ alert(
 
 
 };
-
 
 
 
@@ -804,7 +779,7 @@ collection(
 
 db,
 
-"gates",
+"activeGates",
 
 gateId,
 
@@ -869,11 +844,13 @@ ${data.characterName}
 }
 
 
+     
+
 
 async function checkParticipant(){
 
 
-const snap = await getDoc(
+const participantSnap = await getDoc(
 
 doc(
 
@@ -881,7 +858,11 @@ db,
 
 "activeGates",
 
-gateId
+gateId,
+
+"participants",
+
+currentUser.uid
 
 )
 
@@ -889,42 +870,25 @@ gateId
 
 
 
-if(!snap.exists())
-return;
-
-
-
-const data =
-snap.data();
-
-
-
-const participants =
-data.participants || [];
-
-
-
-
-isParticipant =
-
-participants.some(
-
-p=>p.uid === currentUser.uid
-
-);
+isParticipant = participantSnap.exists();
 
 
 
 if(isParticipant){
 
+
 showDetailInfo();
 
+
+}
+
+
+
 }
 
 
 
-}
-
+     
 function showDetailInfo(){
 
 
