@@ -1434,20 +1434,38 @@ orderBy(
 ),
 limit(50)
 ),
+
+
 (snapshot)=>{
 
 
-const docs =
-snapshot.docs.reverse();
+snapshot.docChanges().forEach(change=>{
 
 
-document.querySelector(".messages").innerHTML="";
+if(change.type === "added"){
 
 
-renderMessages(docs);
+renderMessages([
+change.doc
+]);
+
+
+const messagesArea =
+document.querySelector(".messages");
+
+
+messagesArea.scrollTop =
+messagesArea.scrollHeight;
+
+
+}
+
+
+});
 
 
 if(snapshot.docs.length === 50){
+
 
 document.querySelector("#loadOlderBtn")
 .style.display="block";
@@ -1458,11 +1476,16 @@ snapshot.docs[
 snapshot.docs.length-1
 ];
 
+
 }
 
 
 }
 );
+
+
+
+    
 
 async function loadOlderMessages(){
 
@@ -1527,11 +1550,23 @@ snapshot.docs.length-1
 const olderDocs =
 snapshot.docs.reverse();
 
+olderDocs.reverse().forEach(doc=>{
 
-renderMessages(
-olderDocs
-);
 
+const messagesArea =
+document.querySelector(".messages");
+
+
+const beforeHeight =
+messagesArea.scrollHeight;
+
+
+renderMessages([
+doc
+]);
+
+
+});
 
 loadingOlder=false;
 
