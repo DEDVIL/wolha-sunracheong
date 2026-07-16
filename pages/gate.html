@@ -668,12 +668,8 @@ ${data.content || "-"}
 
 await checkParticipant();
 
-if(!isParticipant){
 
-endGateButton.style.display =
-"none";
 
-}
      
 }
 
@@ -696,7 +692,6 @@ joinButton.onclick = async()=>{
 
 if(!currentUser)
 return;
-
 
 
 await setDoc(
@@ -732,8 +727,8 @@ joinedAt:
 
 serverTimestamp()
 
-}
 
+}
 
 );
 
@@ -1202,6 +1197,16 @@ await loadComments();
 async function loadComments(){
 
 
+if(!gateId){
+
+commentList.innerHTML =
+"진행중인 귀문이 없습니다.";
+
+return;
+
+}
+
+
 
 const q = query(
 
@@ -1475,6 +1480,19 @@ loadComments();
 
 endGateButton.onclick = async()=>{
 
+
+if(!isParticipant){
+
+alert(
+"탐사 참가자만 사건을 종료할 수 있습니다."
+);
+
+return;
+
+}
+
+
+
 if(gateClosed){
 
 alert(
@@ -1484,6 +1502,8 @@ alert(
 return;
 
 }
+
+
 
 const check = confirm(
 
@@ -1506,19 +1526,17 @@ try{
 
 const participantsSnapshot = await getDocs(
 
-
 collection(
 
 db,
 
-"gates",
+"activeGates",
 
 gateId,
 
 "participants"
 
 )
-
 
 );
 
@@ -1558,35 +1576,34 @@ db,
 
 {
 
-
 gateId:gateId,
-
 
 title:
 currentGateData.title,
 
-
 location:
 currentGateData.location,
-
 
 grade:
 currentGateData.grade,
 
-
 type:
 currentGateData.type,
 
-
-monsterName:
-currentGateData.monsterName,
-
+targetName:
+currentGateData.targetName,
 
 content:
 currentGateData.content,
 
-target:
-currentGateData.target,
+
+targetInfo:
+currentGateData.targetInfo,
+
+
+possessionInfo:
+currentGateData.possessionInfo,
+
 
 participants:
 participants,
@@ -1600,9 +1617,7 @@ endedAt:
 serverTimestamp()
 
 
-
 }
-
 
 );
 
@@ -1614,11 +1629,11 @@ doc(
 
 db,
 
-"gates",
+"activeGates",
 
 gateId
 
-),
+)
 
 
 
