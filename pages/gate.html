@@ -315,7 +315,7 @@ from
 
 
 
-const gateId = "sample-gate-001";
+let gateId = null;
 
 
 
@@ -330,6 +330,10 @@ let currentGateData = null;
 let gateClosed = false;
 
 
+let isParticipant = false;
+
+
+     
 
 const gateCaseInfo =
 
@@ -499,33 +503,40 @@ data.name ||
 // 사건 불러오기
 // ======================
 
-
 async function loadGate(){
 
 
-const gateSnap = await getDoc(
+const q = query(
 
-
-doc(
-
+collection(
 db,
+"activeGates"
+),
 
-"gates",
-
-gateId
-
+where(
+"status",
+"==",
+"active"
 )
 
 );
 
 
 
-if(!gateSnap.exists()){
+const snapshot = await getDocs(q);
+
+
+
+if(snapshot.empty){
 
 
 gateCaseInfo.innerHTML =
 
-"현재 진행 중인 탐사가 없습니다.";
+"현재 진행 중인 귀문 탐사가 없습니다.";
+
+
+joinButton.style.display =
+"none";
 
 
 return;
@@ -535,33 +546,37 @@ return;
 
 
 
-const data = gateSnap.data();
+const gateDoc =
+snapshot.docs[0];
+
+
+gateId =
+gateDoc.id;
+
+
+
+const data =
+gateDoc.data();
+
 
 
 currentGateData = data;
 
-if(data.status === "closed"){
 
-gateClosed = true;
 
-}     
 
 gateCaseInfo.innerHTML = `
 
 
-
 <div class="gate-case-title">
 
-
-${data.title || "귀문 발생"}
-
+${data.title || "귀문 사건"}
 
 </div>
 
 
 
 <div class="gate-case-detail">
-
 
 
 <p>
@@ -575,7 +590,6 @@ ${data.title || "귀문 발생"}
 ${data.location || "-"}
 
 </p>
-
 
 
 
@@ -617,22 +631,7 @@ ${data.type || "-"}
 
 <br>
 
-${data.monsterName || "-"}
-
-</p>
-
-
-
-
-<p>
-
-<strong>
-대상
-</strong>
-
-<br>
-
-${data.target || "-"}
+${data.targetName || "-"}
 
 </p>
 
@@ -654,38 +653,30 @@ ${data.content || "-"}
 
 
 
+<div id="detail-area">
+
+</div>
+
+
+
 </div>
 
 
 `;
 
-if(gateClosed){
 
 
-joinButton.style.display =
-"none";
+await checkParticipant();
 
-
-commentInput.disabled = true;
-
-
-commentInput.placeholder =
-"종료된 탐사입니다. 기록 열람만 가능합니다.";
-
-
-
-commentButton.style.display =
-"none";
-
-
+if(!isParticipant){
 
 endGateButton.style.display =
 "none";
 
-
+}
+     
 }
 
-}
 
 
 
@@ -711,12 +702,11 @@ return;
 
 await setDoc(
 
-
 doc(
 
 db,
 
-"gates",
+"activeGates",
 
 gateId,
 
@@ -725,6 +715,28 @@ gateId,
 currentUser.uid
 
 ),
+
+
+{
+
+uid:
+
+currentUser.uid,
+
+
+characterName:
+
+characterName,
+
+
+joinedAt:
+
+serverTimestamp()
+
+}
+
+
+);
 
 
 
@@ -858,9 +870,259 @@ ${data.characterName}
 
 
 
+async function checkParticipant(){
+
+
+const snap = await getDoc(
+
+doc(
+
+db,
+
+"activeGates",
+
+gateId
+
+)
+
+);
 
 
 
+if(!snap.exists())
+return;
+
+
+
+const data =
+snap.data();
+
+
+
+const participants =
+data.participants || [];
+
+
+
+
+isParticipant =
+
+participants.some(
+
+p=>p.uid === currentUser.uid
+
+);
+
+
+
+if(isParticipant){
+
+showDetailInfo();
+
+}
+
+
+
+}
+
+function showDetailInfo(){
+
+
+const area =
+document.getElementById(
+"detail-area"
+);
+
+
+
+if(!currentGateData.targetInfo)
+return;
+
+
+
+area.innerHTML = `
+
+
+
+<hr>
+
+
+<h3>
+현장 조사 자료
+</h3>
+
+
+
+<p>
+
+<strong>
+명칭
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.name}
+
+</p>
+
+
+
+<p>
+
+<strong>
+원명
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.originalName}
+
+</p>
+
+
+
+<p>
+
+<strong>
+분류
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.category}
+
+</p>
+
+
+
+<p>
+
+<strong>
+외형
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.appearance}
+
+</p>
+
+
+
+
+<p>
+
+<strong>
+행동 특성
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.behavior}
+
+</p>
+
+
+
+
+<p>
+
+<strong>
+서식지
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.habitat}
+
+</p>
+
+
+
+
+<p>
+
+<strong>
+관련 현상
+</strong>
+
+<br>
+
+${currentGateData.targetInfo.relatedPhenomenon}
+
+</p>
+
+
+
+
+${
+
+currentGateData.possessionInfo
+
+?
+
+`
+
+<hr>
+
+<h3>
+빙의 대상 정보
+</h3>
+
+
+<p>
+<strong>
+대상
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.name}
+
+</p>
+
+
+
+<p>
+<strong>
+분류
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.category}
+
+</p>
+
+
+
+<p>
+<strong>
+설명
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.description}
+
+</p>
+
+
+`
+
+:
+
+""
+
+}
+
+
+
+`;
+
+
+
+}
 
 
 
