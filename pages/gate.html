@@ -1576,103 +1576,42 @@ doc.data().characterName
 
 });
 
-const logsSnapshot = await getDocs(
-
-query(
-
-collection(
-db,
-"gateComments"
-),
-
-where(
-"gateId",
-"==",
-gateId
-),
-
-orderBy(
-"createdAt",
-"asc"
-)
-
-)
-
-);
-
-
-const logs = [];
-
-
-logsSnapshot.forEach((doc)=>{
-
-
-const data = doc.data();
-
-
-logs.push({
-
-characterName:
-data.characterName || "",
-
-
-content:
-data.content || "",
-
-
-createdAt:
-data.createdAt || null
-
-
-});
-
-
-});
 
 
 await addDoc(
-
 collection(
 db,
 "gateRecords"
 ),
-
 {
 
-gateId:
-activeGateId,
-
+gateId: gateId,
 
 title:
-activeGateData.title,
-
+currentGateData.title,
 
 location:
-activeGateData.location,
-
+currentGateData.location,
 
 grade:
-activeGateData.grade,
-
+currentGateData.grade,
 
 type:
-activeGateData.type,
-
+currentGateData.type,
 
 targetName:
-activeGateData.targetName,
-
+currentGateData.targetName,
 
 content:
-activeGateData.content,
+currentGateData.content,
 
 
 targetInfo:
-activeGateData.targetInfo || null,
+currentGateData.targetInfo || null,
 
 
 possessionInfo:
-activeGateData.possessionInfo || null,
+currentGateData.possessionInfo || null,
 
 
 participants:
@@ -1682,9 +1621,13 @@ participants,
 logs:
 logs,
 
-     
+
 endedBy:
-"관리자",
+characterName,
+
+
+endedType:
+"participant",
 
 
 endedAt:
@@ -1693,7 +1636,6 @@ serverTimestamp()
 }
 
 );
-
 
 
      
