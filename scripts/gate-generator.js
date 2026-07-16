@@ -491,15 +491,6 @@ sourceType,
 
 // 요괴
 
-appearance:
-
-target.appearance || "",
-
-
-behavior:
-
-target.behavior || "",
-
 
 habitat:
 
@@ -523,17 +514,13 @@ target.symptom || "-"
 
 
 
-
-// 악귀
-
-behavior:
-
-target.behavior || "",
-
+// 요괴 / 악귀 공통
 
 appearance:
-
 target.appearance || "",
+
+behavior:
+target.behavior || "",
 
 
 
