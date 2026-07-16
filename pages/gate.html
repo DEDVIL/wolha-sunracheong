@@ -1546,7 +1546,54 @@ gateId,
 
 );
 
+const commentsSnapshot = await getDocs(
 
+query(
+
+collection(
+db,
+"gateComments"
+),
+
+where(
+"gateId",
+"==",
+gateId
+),
+
+orderBy(
+"createdAt",
+"asc"
+)
+
+)
+
+);
+
+
+const logs = [];
+
+
+commentsSnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+
+logs.push({
+
+characterName:
+data.characterName,
+
+content:
+data.content,
+
+createdAt:
+data.createdAt || null
+
+});
+
+
+});
 
 const participants = [];
 
@@ -1667,6 +1714,10 @@ participants:
 participants,
 
 
+logs:
+logs,
+
+     
 endedBy:
 "관리자",
 
