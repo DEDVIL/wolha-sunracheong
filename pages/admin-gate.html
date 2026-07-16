@@ -242,7 +242,6 @@ from
 
 import {
 
-
 doc,
 
 getDoc,
@@ -252,6 +251,7 @@ getDocs,
 query,
 where,
 updateDoc,
+addDoc,
 serverTimestamp
 
 
@@ -826,7 +826,7 @@ generatedGate = null;
 saveButton.style.display =
 "none";
 
-
+await checkActiveGate();
 }
 
 catch(error){
@@ -957,21 +957,6 @@ ${activeGateData.content}
 
 document.getElementById(
 "admin-end-gate-button"
-).style.display="block";
-
-
-
-document.getElementById(
-"generate-button"
-).disabled=true;
-
-
-
-}
-
-
-document.getElementById(
-"admin-end-gate-button"
 ).onclick = async()=>{
 
 
@@ -986,6 +971,75 @@ return;
 
 
 
+try{
+
+
+// 기록 저장
+
+await addDoc(
+
+collection(
+db,
+"gateRecords"
+),
+
+{
+
+
+gateId:
+activeGateId,
+
+
+title:
+activeGateData.title,
+
+
+location:
+activeGateData.location,
+
+
+grade:
+activeGateData.grade,
+
+
+type:
+activeGateData.type,
+
+
+targetName:
+activeGateData.targetName,
+
+
+content:
+activeGateData.content,
+
+
+targetInfo:
+activeGateData.targetInfo || null,
+
+
+possessionInfo:
+activeGateData.possessionInfo || null,
+
+
+endedBy:
+"관리자",
+
+
+endedAt:
+serverTimestamp()
+
+
+}
+
+);
+
+
+
+
+
+// 활성 종료
+
 await updateDoc(
 
 doc(
@@ -996,28 +1050,48 @@ activeGateId
 
 {
 
+
 status:"closed",
 
-endedBy:
-"관리자",
+
+endedBy:"관리자",
+
 
 endedAt:
 serverTimestamp()
 
-}
 
+}
 
 );
 
 
 
 alert(
-"귀문이 종료되었습니다."
+"귀문 종료 및 기록 저장 완료"
 );
 
 
 
 location.reload();
+
+
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+alert(
+"종료 처리 중 오류가 발생했습니다."
+);
+
+
+}
+
 
 
 };
