@@ -3367,3 +3367,57 @@ h1 {
     border-color:#c8a96a;
 
 }
+
+
+
+/* =====================================
+   귀문 사건 경보 카드 강화
+===================================== */
+
+
+.gate-case-box {
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+.gate-case-box::before {
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:#8b0000;
+
+}
+
+
+
+.gate-case-box::after {
+
+    content:"CASE FILE";
+
+    position:absolute;
+
+    right:25px;
+
+    top:20px;
+
+    font-size:12px;
+
+    letter-spacing:3px;
+
+    color:#8d867b;
+
+}
