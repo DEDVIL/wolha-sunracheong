@@ -1,6 +1,6 @@
 // 월하순라청 귀문 랜덤 생성기
-// Gate Generator v2
-// 생성 → 승인 → activeGates 등록 구조
+// Gate Generator v3
+// 사건 기본 정보 + 조사 자료 + 빙의 정보 저장
 
 
 import {
@@ -40,7 +40,7 @@ function randomPick(array){
 
 
 // ======================
-// | 분리 데이터 랜덤 선택
+// | 데이터 랜덤 선택
 // ======================
 
 
@@ -62,7 +62,7 @@ function randomPickValue(value){
 
 
 
-    if(list.length === 0){
+    if(list.length===0){
 
         return "-";
 
@@ -76,8 +76,9 @@ function randomPickValue(value){
 
 
 
+
 // ======================
-// Firestore 데이터 가져오기
+// Firestore 데이터
 // ======================
 
 
@@ -93,7 +94,6 @@ async function getCollectionData(name){
         )
 
     );
-
 
 
     const data=[];
@@ -140,6 +140,8 @@ async function getCollectionData(name){
 
 
 }
+
+
 
 
 
@@ -210,6 +212,8 @@ data.symptom || "-"
 
 
 
+
+
 // ======================
 // 귀문 생성
 // ======================
@@ -219,13 +223,11 @@ export async function generateGate(){
 
 
 
-// ----------------------
-// 1.
-// 사건 템플릿 선택
-// ----------------------
+// 사건 유형 선택
 
 
 const templates =
+
 await getCollectionData(
 "incidentTemplates"
 );
@@ -233,6 +235,7 @@ await getCollectionData(
 
 
 const incident =
+
 randomPick(
 templates
 );
@@ -240,10 +243,9 @@ templates
 
 
 
-// ----------------------
-// 2.
-// 대상 DB 결정
-// ----------------------
+
+
+// 대상 타입 결정
 
 
 let sourceType =
@@ -265,10 +267,9 @@ sourceType =
 
 
 
-// ----------------------
-// 3.
-// 요괴 / 악귀 선택
-// ----------------------
+
+
+// 대상 선택
 
 
 const targetList =
@@ -290,6 +291,7 @@ sourceType === "yokai"
 
 
 const target =
+
 randomPick(
 targetList
 );
@@ -298,29 +300,22 @@ targetList
 
 
 
-// ----------------------
-// 4.
-// 빙의 대상 선택
-// ----------------------
+
+// 빙의 대상
 
 
-let possessionTargetData = null;
+let possessionTargetData =
+null;
 
 
 
-if(
-
-sourceType === "evil"
-
-){
+if(sourceType==="evil"){
 
 
 const targets =
 
 await getCollectionData(
-
 "possessionTargets"
-
 );
 
 
@@ -337,18 +332,16 @@ targets
 
 
 
-// ----------------------
-// 5.
-// 위치 선택
-// ----------------------
+
+
+
+// 위치
 
 
 const locations =
 
 await getCollectionData(
-
 "locations"
-
 );
 
 
@@ -372,27 +365,20 @@ selectedLocation.fullName
 
 
 
-// ----------------------
-// 6.
-// 현상 선택
-// ----------------------
+
+
+// 관련 현상
 
 
 let phenomenon =
 
 randomPickValue(
-
 target.relatedPhenomenon
-
 );
 
 
 
-if(
-
-phenomenon === "-"
-
-){
+if(phenomenon==="-" ){
 
 
 phenomenon =
@@ -418,10 +404,8 @@ randomPick([
 
 
 
-// ----------------------
-// 7.
-// 사건 문장 생성
-// ----------------------
+
+// 사건 내용 생성
 
 
 const templateText =
@@ -432,6 +416,7 @@ incident.templates
 .split("|")
 
 );
+
 
 
 
@@ -462,11 +447,11 @@ phenomenon,
 
 
 habitat:
-target.habitat,
+target.habitat || "-",
 
 
 incidentKeyword:
-incident.keyword,
+incident.keyword || "-",
 
 
 victim:
@@ -479,8 +464,7 @@ possessionTargetData.name
 
 :
 
-target.victim || "-",
-
+"-",
 
 
 symptom:
@@ -496,9 +480,12 @@ target.symptom || "-"
 
 
 
-// ----------------------
-// 결과 반환
-// ----------------------
+
+
+
+// ======================
+// 반환 데이터
+// ======================
 
 
 return {
@@ -534,18 +521,6 @@ target.name,
 
 
 
-originalName:
-
-target.originalName || "",
-
-
-
-category:
-
-target.category || "",
-
-
-
 content,
 
 
@@ -558,13 +533,85 @@ incident.id,
 
 incidentKeyword:
 
-incident.keyword,
+incident.keyword || "",
 
 
 
 sourceType,
 
 
+
+
+
+// 기존 호환용
+
+
+appearance:
+
+target.appearance || "",
+
+
+behavior:
+
+target.behavior || "",
+
+
+habitat:
+
+target.habitat || "",
+
+
+victim:
+
+possessionTargetData
+
+?
+
+possessionTargetData.name
+
+:
+
+"-",
+
+
+symptom:
+
+target.symptom || "-",
+
+
+
+
+
+
+// ======================
+// 상세 조사 자료
+// ======================
+
+
+targetInfo:{
+
+
+name:
+
+target.name || "",
+
+
+
+originalName:
+
+target.originalName || "",
+
+
+
+grade:
+
+target.grade || "",
+
+
+
+category:
+
+target.category || "",
 
 
 
@@ -586,37 +633,63 @@ target.habitat || "",
 
 
 
+relatedPhenomenon:
 
-victim:
+phenomenon
+
+
+
+},
+
+
+
+
+
+
+// ======================
+// 빙의 자료
+// ======================
+
+
+possessionInfo:
 
 possessionTargetData
 
 ?
 
-possessionTargetData.name
+{
+
+
+name:
+
+possessionTargetData.name || "",
+
+
+category:
+
+possessionTargetData.category || "",
+
+
+description:
+
+possessionTargetData.description || ""
+
+
+}
 
 :
 
-target.victim || "-",
+null,
 
 
 
 
-symptom:
-
-target.symptom || "-",
 
 
 
 status:
 
 "pending",
-
-
-
-createdBy:
-
-null,
 
 
 
@@ -636,14 +709,19 @@ new Date()
 
 
 
+
+
 // ======================
-// activeGates 저장
+// 활성 귀문 저장
 // ======================
 
 
 export async function saveGate(
+
 gate,
+
 userData
+
 ){
 
 
@@ -652,6 +730,7 @@ const saveData = {
 
 
 ...gate,
+
 
 
 status:
@@ -668,9 +747,10 @@ uid:
 userData.uid || "",
 
 
+
 name:
 
-userData.name || ""
+userData.name || "관리자"
 
 
 },
@@ -684,6 +764,7 @@ serverTimestamp()
 
 
 };
+
 
 
 
