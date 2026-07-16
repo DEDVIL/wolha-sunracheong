@@ -718,7 +718,9 @@ import {
     query,
     where,
     getDocs,
+    getDoc,
     orderBy,
+    limit,
     addDoc,
     serverTimestamp,
     onSnapshot,
@@ -1192,12 +1194,7 @@ doc.id,
 displayName
 );
 
-updateUnreadBadge(
-doc.id,
-room
-);
-
-    
+ 
 }
 
 
@@ -1254,69 +1251,6 @@ privateChatList.appendChild(div);
 
 }
 
-async function updateUnreadBadge(roomId, room){
-
-
-const badge =
-document.querySelector(`#badge-${roomId}`);
-
-
-if(!badge) return;
-
-
-const messages =
-await getDocs(
-collection(
-db,
-"chatRooms",
-roomId,
-"messages"
-)
-);
-
-
-let count = 0;
-
-
-messages.forEach(msg=>{
-
-
-const data = msg.data();
-
-
-if(
-data.senderUid !== myUid
-&&
-(
-!room.readBy
-||
-!room.readBy[myUid]
-||
-data.createdAt > room.readBy[myUid]
-)
-){
-
-count++;
-
-}
-
-
-});
-
-
-if(count > 0){
-
-badge.innerText=count;
-
-}
-else{
-
-badge.innerText="";
-
-}
-
-
-}
 
 
 
@@ -1339,96 +1273,25 @@ doc(db,"chatRooms",roomId),
 }
 );
 
-const roomDoc =
-await getDocs(
-query(
-collection(db,"chatRooms")
+const roomSnap =
+await getDoc(
+doc(
+db,
+"chatRooms",
+roomId
 )
 );
 
 
-
-for(const doc of roomDoc.docs){
-
-
-if(doc.id === roomId){
-
-
-const room = doc.data();
-
-
-
-if(room.type==="public"){
-
-
-document.querySelector("#currentChatName")
-.innerText =
-room.name;
-
-
-profileBtn.style.display="none";
-messageSearchBtn.style.display="block";
-inputArea.style.display="flex";
-
-
-}
-else{
-
-
-const opponentUid =
-room.members.find(
-(uid)=>uid !== myUid
-);
-
-
-currentOpponentUid = opponentUid;
-
-
-const opponentQuery =
-query(
-collection(db,"members"),
-where("uid","==",opponentUid)
-);
-
-
-
-const opponentSnap =
-await getDocs(opponentQuery);
-
-
-
-opponentSnap.forEach(memberDoc=>{
-
-
-const data =
-memberDoc.data();
-
-
-currentOpponentMemberId = memberDoc.id;
-
-
-document.querySelector("#currentChatName")
-.innerText =
-data.writerName;
-
-
-profileBtn.style.display="block";
-
-messageSearchBtn.style.display="block";
-
-inputArea.style.display="flex";
-
-
-});
-
-
+if(!roomSnap.exists()){
+    return;
 }
 
 
+const room =
+roomSnap.data();
 
-}
 
-}
     
 sendBtn.onclick = async function(){
 
@@ -1545,7 +1408,11 @@ unsubscribeMessages =
 onSnapshot(
 query(
 messageRef,
-orderBy("createdAt","asc")
+orderBy(
+"createdAt",
+"desc"
+),
+limit(50)
 ),
 (snapshot)=>{
 
@@ -1556,7 +1423,7 @@ messagesArea.innerHTML="";
 let lastDate = null;
 
 
-snapshot.forEach(doc=>{
+snapshot.docs.reverse().forEach(doc=>{
 
 
 const data =
@@ -1778,11 +1645,15 @@ return;
 
 const snapshot =
 await getDocs(
+query(
 collection(
 db,
 "chatRooms",
 currentRoomId,
 "messages"
+),
+orderBy("createdAt","desc"),
+limit(200)
 )
 );
 
