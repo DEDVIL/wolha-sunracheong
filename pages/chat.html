@@ -813,13 +813,9 @@ let unsubscribeChatRooms = null;
 let lastVisibleMessage = null;
 let loadingOlder = false;
 let hasOlderMessages = true;
-    
-const messageInput =
-document.querySelector(".message-input");
 
-
-const sendBtn =
-document.querySelector(".send-btn");
+let messageInput = null;
+let sendBtn = null;
 
 
 messageInput.addEventListener(
@@ -862,7 +858,11 @@ return;
 
 myUid = user.uid;
 
+messageInput =
+document.querySelector(".message-input");
 
+sendBtn =
+document.querySelector(".send-btn");
 
 
 // 현재 캐릭터 정보 가져오기
