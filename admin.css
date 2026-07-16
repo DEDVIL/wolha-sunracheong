@@ -87,6 +87,14 @@ cursor:pointer;
 }
 
 
+.admin-search button{
+
+white-space:nowrap;
+
+min-width:160px;
+
+}
+
 
 .admin-table a{
 
