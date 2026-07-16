@@ -65,7 +65,32 @@ class="home-button"
 
 </div>
 
+<section class="active-gate-admin-box">
 
+<h2>
+현재 진행중 귀문
+</h2>
+
+
+<div id="active-gate-info">
+
+확인 중...
+
+</div>
+
+
+<button
+id="admin-end-gate-button"
+class="gate-end-button"
+style="display:none"
+>
+
+관리자 귀문 종료
+
+</button>
+
+
+</section>
 
 
 
@@ -220,7 +245,14 @@ import {
 
 doc,
 
-getDoc
+getDoc,
+
+collection,
+getDocs,
+query,
+where,
+updateDoc,
+serverTimestamp
 
 
 }
@@ -242,7 +274,9 @@ let currentUser = null;
 let generatedGate = null;
 
 
-
+let activeGateExists = false;
+let activeGateId = null;
+let activeGateData = null;
 
 
 
@@ -351,10 +385,9 @@ return;
 
 currentUser = user;
 
-
+await checkActiveGate();
 
 }
-
 );
 
 
@@ -380,7 +413,17 @@ document
 
 .onclick = async()=>{
 
+if(activeGateExists){
 
+alert(
+"현재 진행중인 귀문이 있습니다. 종료 후 새로운 귀문을 생성할 수 있습니다."
+);
+
+return;
+
+}
+
+  
 try{
 
 
@@ -802,7 +845,184 @@ message.innerText =
 
 };
 
+async function checkActiveGate(){
 
+
+const q = query(
+
+collection(
+db,
+"activeGates"
+),
+
+where(
+"status",
+"==",
+"active"
+)
+
+);
+
+
+
+const snapshot =
+await getDocs(q);
+
+
+
+const box =
+document.getElementById(
+"active-gate-info"
+);
+
+
+
+if(snapshot.empty){
+
+
+activeGateExists = false;
+
+
+box.innerHTML =
+`
+<p>
+현재 진행중인 귀문이 없습니다.
+</p>
+`;
+
+
+return;
+
+}
+
+
+
+const gateDoc =
+snapshot.docs[0];
+
+
+activeGateExists = true;
+
+
+activeGateId =
+gateDoc.id;
+
+
+activeGateData =
+gateDoc.data();
+
+
+
+box.innerHTML = `
+
+
+<h3>
+${activeGateData.title}
+</h3>
+
+
+<p>
+지역 :
+${activeGateData.location}
+</p>
+
+
+<p>
+대상 :
+${activeGateData.targetName}
+</p>
+
+
+<p>
+등급 :
+${activeGateData.grade}
+</p>
+
+
+<p>
+유형 :
+${activeGateData.type}
+</p>
+
+
+<p>
+내용 :
+${activeGateData.content}
+</p>
+
+
+`;
+
+
+
+document.getElementById(
+"admin-end-gate-button"
+).style.display="block";
+
+
+
+document.getElementById(
+"generate-button"
+).disabled=true;
+
+
+
+}
+
+
+document.getElementById(
+"admin-end-gate-button"
+).onclick = async()=>{
+
+
+const check =
+confirm(
+"현재 귀문을 종료 처리하시겠습니까?"
+);
+
+
+if(!check)
+return;
+
+
+
+await updateDoc(
+
+doc(
+db,
+"activeGates",
+activeGateId
+),
+
+{
+
+status:"closed",
+
+endedBy:
+"관리자",
+
+endedAt:
+serverTimestamp()
+
+}
+
+
+);
+
+
+
+alert(
+"귀문이 종료되었습니다."
+);
+
+
+
+location.reload();
+
+
+};
+
+  
 
 </script>
 
