@@ -1154,68 +1154,28 @@ return;
 
 try{
 
-
-// 기록 저장
-
-await addDoc(
+const participantsSnapshot = await getDocs(
 
 collection(
 db,
-"gateRecords"
-),
-
-{
-
-
-gateId:
+"activeGates",
 activeGateId,
-
-
-title:
-activeGateData.title,
-
-
-location:
-activeGateData.location,
-
-
-grade:
-activeGateData.grade,
-
-
-type:
-activeGateData.type,
-
-
-targetName:
-activeGateData.targetName,
-
-
-content:
-activeGateData.content,
-
-
-targetInfo:
-activeGateData.targetInfo || null,
-
-
-possessionInfo:
-activeGateData.possessionInfo || null,
-
-
-endedBy:
-"관리자",
-
-
-endedAt:
-serverTimestamp()
-
-
-}
+"participants"
+)
 
 );
 
 
+const participants=[];
+
+
+participantsSnapshot.forEach((doc)=>{
+
+participants.push(
+doc.data().characterName
+);
+
+});
 
 
 
@@ -1265,8 +1225,7 @@ possessionInfo:
 activeGateData.possessionInfo || null,
 
 
-participants:
-[],
+participants:participants
 
 
 endedBy:
