@@ -1421,26 +1421,11 @@ if(unsubscribeMessages){
 
     unsubscribeMessages();
 
+
 }
 
-
-async function loadRecentMessages(){
-
-const messagesArea =
-document.querySelector(".messages");
-
-
-const messageRef =
-collection(
-db,
-"chatRooms",
-currentRoomId,
-"messages"
-);
-
-
-const snapshot =
-await getDocs(
+unsubscribeMessages =
+onSnapshot(
 query(
 messageRef,
 orderBy(
@@ -1448,13 +1433,88 @@ orderBy(
 "desc"
 ),
 limit(50)
+),
+(snapshot)=>{
+
+
+const docs =
+snapshot.docs.reverse();
+
+
+document.querySelector(".messages").innerHTML="";
+
+
+renderMessages(docs);
+
+
+if(snapshot.docs.length === 50){
+
+document.querySelector("#loadOlderBtn")
+.style.display="block";
+
+
+lastVisibleMessage =
+snapshot.docs[
+snapshot.docs.length-1
+];
+
+}
+
+
+}
+);
+
+async function loadOlderMessages(){
+
+
+if(
+!lastVisibleMessage ||
+loadingOlder ||
+!hasOlderMessages
+){
+
+return;
+
+}
+
+
+loadingOlder=true;
+
+
+const snapshot =
+await getDocs(
+query(
+collection(
+db,
+"chatRooms",
+currentRoomId,
+"messages"
+),
+orderBy(
+"createdAt",
+"desc"
+),
+startAfter(lastVisibleMessage),
+limit(50)
 )
 );
 
 
+
 if(snapshot.empty){
+
+hasOlderMessages=false;
+
+document.querySelector("#loadOlderBtn")
+.style.display="none";
+
+
+loadingOlder=false;
+
 return;
+
 }
+
 
 
 lastVisibleMessage =
@@ -1463,26 +1523,27 @@ snapshot.docs.length-1
 ];
 
 
-messagesArea.innerHTML="";
+
+const olderDocs =
+snapshot.docs.reverse();
 
 
 renderMessages(
-snapshot.docs.reverse()
+olderDocs
 );
+
+
+loadingOlder=false;
+
+
+}
 
 
 document
 .querySelector("#loadOlderBtn")
-.style.display="block";
-
-}
-
-loadRecentMessages();
-
+.onclick =
+loadOlderMessages;
     
-}
-
-
 function renderMessages(docs){
 
 const messagesArea =
