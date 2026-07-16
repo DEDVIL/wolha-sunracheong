@@ -1092,81 +1092,50 @@ ${currentGateData.possessionInfo.description}
 
 commentButton.onclick = async()=>{
 
-
-
 const text =
-
 commentInput.value.trim();
-
-
 
 
 if(!text)
 return;
 
 
-
-
-
-
 await addDoc(
 
 collection(
 db,
-"gateRecords"
+"gateComments"
 ),
 
 {
 
 gateId:
+
 gateId,
 
 
-title:
-currentGateData.title,
+uid:
+
+currentUser.uid,
 
 
-location:
-currentGateData.location,
+characterName:
 
-
-grade:
-currentGateData.grade,
-
-
-type:
-currentGateData.type,
-
-
-targetName:
-currentGateData.targetName,
-
-
-content:
-currentGateData.content,
-
-
-targetInfo:
-currentGateData.targetInfo || null,
-
-
-possessionInfo:
-currentGateData.possessionInfo || null,
-
-
-participants:
-participants,
-
-     
-logs:
-logs,
-
-     
-endedBy:
 characterName,
 
 
-endedAt:
+content:
+
+text,
+
+
+createdAt:
+
+serverTimestamp(),
+
+
+updatedAt:
+
 serverTimestamp()
 
 }
@@ -1174,18 +1143,14 @@ serverTimestamp()
 );
 
 
-
-
-
 commentInput.value = "";
-
 
 
 await loadComments();
 
 
-
 };
+
 
 
 
