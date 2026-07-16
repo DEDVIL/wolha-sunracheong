@@ -234,7 +234,14 @@ loadRecord();
 
 async function loadRecord(){
 
+if(!recordId){
 
+recordView.innerHTML =
+"잘못된 기록 주소입니다.";
+
+return;
+
+}
 
 const snap = await getDoc(
 
@@ -588,7 +595,7 @@ ${data.endedBy || "-"}
 <br>
 
 ${
-data.endedAt
+data.endedAt?.toDate
 ?
 data.endedAt.toDate().toLocaleString("ko-KR")
 :
@@ -670,85 +677,6 @@ ${data.content || ""}
 
 
 }
-
-
-
-
-const snapshot =
-await getDocs(q);
-
-
-
-
-
-if(snapshot.empty){
-
-
-logList.innerHTML =
-"탐사 기록이 없습니다.";
-
-
-return;
-
-
-}
-
-
-
-
-
-logList.innerHTML = "";
-
-
-
-
-
-snapshot.forEach((doc)=>{
-
-
-
-const data =
-doc.data();
-
-
-
-
-
-logList.innerHTML += `
-
-
-<div class="gate-comment">
-
-
-<strong>
-
-${data.characterName}
-
-</strong>
-
-
-
-<p>
-
-${data.content}
-
-</p>
-
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-}
-
 
 
 
