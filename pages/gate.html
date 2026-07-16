@@ -1563,45 +1563,47 @@ doc.data().characterName
 
 await addDoc(
 
-
 collection(
-
 db,
-
 "gateRecords"
-
 ),
-
-
 
 {
 
-gateId:gateId,
+gateId:
+activeGateId,
+
 
 title:
-currentGateData.title,
+activeGateData.title,
+
 
 location:
-currentGateData.location,
+activeGateData.location,
+
 
 grade:
-currentGateData.grade,
+activeGateData.grade,
+
 
 type:
-currentGateData.type,
+activeGateData.type,
+
 
 targetName:
-currentGateData.targetName,
+activeGateData.targetName,
+
 
 content:
-currentGateData.content,
+activeGateData.content,
 
 
 targetInfo:
-currentGateData.targetInfo || null,
+activeGateData.targetInfo || null,
+
 
 possessionInfo:
-currentGateData.possessionInfo || null,
+activeGateData.possessionInfo || null,
 
 
 participants:
@@ -1609,16 +1611,19 @@ participants,
 
 
 endedBy:
-characterName,
+"관리자",
 
 
 endedAt:
 serverTimestamp()
 
-
 }
 
 );
+
+
+
+     
 
 await updateDoc(
 
