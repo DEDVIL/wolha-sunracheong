@@ -279,87 +279,72 @@ snap.data();
 recordView.innerHTML = `
 
 
-
 <h2>
-
-${data.title}
-
+${data.title || "귀문 사건"}
 </h2>
 
 
 
-<p>
+<section class="record-basic">
 
+
+<h3>
+사건 기본 정보
+</h3>
+
+
+<p>
 <strong>
-지역
+발생 지역
 </strong>
 
 <br>
 
-${data.location}
-
+${data.location || "-"}
 </p>
 
 
 
-
 <p>
-
 <strong>
 등급
 </strong>
 
 <br>
 
-${data.grade}
-
+${data.grade || "-"}
 </p>
 
 
 
 
 <p>
-
 <strong>
-유형
+사건 유형
 </strong>
 
 <br>
 
-${data.type}
-
+${data.type || "-"}
 </p>
 
 
-<p>
 
+
+<p>
 <strong>
 관련 개체
 </strong>
 
 <br>
 
-${data.monsterName}
-
-</p>
-
-<p>
-
-<strong>
-대상
-</strong>
-
-<br>
-
-${data.target || "-"}
-
+${data.targetName || "-"}
 </p>
 
 
 
 
 <p>
-
 <strong>
 사건 내용
 </strong>
@@ -367,22 +352,205 @@ ${data.target || "-"}
 <br>
 
 ${data.content || "-"}
-
 </p>
 
 
-<p>
 
+</section>
+
+
+
+
+
+<section class="record-investigation">
+
+
+<h3>
+조사 자료
+</h3>
+
+
+
+<p>
 <strong>
-참여자
+원명
 </strong>
 
 <br>
 
-${data.participants.join(", ")}
+${
+data.targetInfo?.originalName || "-"
+}
 
 </p>
 
+
+
+
+<p>
+<strong>
+분류
+</strong>
+
+<br>
+
+${
+data.targetInfo?.category || "-"
+}
+
+</p>
+
+
+
+
+<p>
+<strong>
+외형
+</strong>
+
+<br>
+
+${
+data.targetInfo?.appearance || "-"
+}
+
+</p>
+
+
+
+<p>
+<strong>
+행동 특성
+</strong>
+
+<br>
+
+${
+data.targetInfo?.behavior || "-"
+}
+
+</p>
+
+
+
+
+<p>
+<strong>
+서식지
+</strong>
+
+<br>
+
+${
+data.targetInfo?.habitat || "-"
+}
+
+</p>
+
+
+
+<p>
+<strong>
+관련 현상
+</strong>
+
+<br>
+
+${
+data.targetInfo?.relatedPhenomenon || "-"
+}
+
+</p>
+
+
+
+</section>
+
+
+
+
+
+${
+data.possessionInfo
+
+?
+
+`
+
+<section class="record-possession">
+
+
+<h3>
+빙의 대상 정보
+</h3>
+
+
+
+<p>
+<strong>
+대상
+</strong>
+
+<br>
+
+${data.possessionInfo.name || "-"}
+</p>
+
+
+
+<p>
+<strong>
+분류
+</strong>
+
+<br>
+
+${data.possessionInfo.category || "-"}
+</p>
+
+
+
+
+<p>
+<strong>
+설명
+</strong>
+
+<br>
+
+${data.possessionInfo.description || "-"}
+</p>
+
+
+
+</section>
+
+`
+
+:
+
+""
+
+}
+
+
+
+
+<section class="record-member">
+
+
+<h3>
+탐사 참여자
+</h3>
+
+
+<p>
+
+${
+data.participants?.join(", ") || "-"
+}
+
+</p>
 
 
 
@@ -394,14 +562,17 @@ ${data.participants.join(", ")}
 
 <br>
 
-${data.endedBy}
+${data.endedBy || "-"}
 
 </p>
 
 
 
-`;
+</section>
 
+
+
+`;
 
 
 
