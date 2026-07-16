@@ -324,61 +324,65 @@ const data = doc.data();
 recordList.innerHTML += `
 
 
-
 <a 
 href="./gate-record-view.html?id=${doc.id}"
 class="gate-record-card"
 >
 
 
-
 <p class="record-label">
-
 CASE FILE
-
 </p>
 
 
 
-
 <h3>
-
 ${data.title || "귀문 사건"}
-
 </h3>
 
 
+
+<p>
+<strong>지역</strong>
+<br>
+${data.location || "-"}
+</p>
+
+
+
+<p>
+<strong>대상</strong>
+<br>
+${data.targetName || "-"}
+</p>
+
+
+
+<p>
+<strong>등급</strong>
+<br>
+${data.grade || "-"}
+</p>
 
 
 
 <p class="record-date">
 
 ${
-
 data.endedAt
-
 ?
-
 data.endedAt.toDate().toLocaleDateString("ko-KR")
-
 :
-
 "날짜 미상"
-
 }
 
 </p>
 
 
 
-
-
 </a>
 
-
-
 `;
-
 
 
 
