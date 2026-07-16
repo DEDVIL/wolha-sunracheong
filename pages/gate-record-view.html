@@ -370,6 +370,19 @@ ${data.content || "-"}
 </h3>
 
 
+<p>
+<strong>
+명칭
+</strong>
+
+<br>
+
+${
+data.targetInfo?.name || "-"
+}
+
+</p>
+
 
 <p>
 <strong>
@@ -566,7 +579,23 @@ ${data.endedBy || "-"}
 
 </p>
 
+<p>
 
+<strong>
+종료 일시
+</strong>
+
+<br>
+
+${
+data.endedAt
+?
+data.endedAt.toDate().toLocaleString("ko-KR")
+:
+"-"
+}
+
+</p>
 
 </section>
 
