@@ -1419,27 +1419,49 @@ query(
 messageRef,
 orderBy(
 "createdAt",
-"desc"
+"asc"
 ),
 limit(50)
 ),
 
-
 (snapshot)=>{
 
+
+const messagesArea =
+document.querySelector(".messages");
+
+
+// 최초 로딩
+if(messagesArea.children.length === 0){
+
+
+const docs =
+snapshot.docs;
+
+
+renderMessages(docs);
+
+
+messagesArea.scrollTop =
+messagesArea.scrollHeight;
+
+
+return;
+
+}
+
+
+// 새 메시지만 추가
 
 snapshot.docChanges().forEach(change=>{
 
 
 if(change.type === "added"){
 
+
 renderMessages([
 change.doc
 ]);
-
-
-const messagesArea =
-document.querySelector(".messages");
 
 
 messagesArea.scrollTop =
@@ -1450,6 +1472,10 @@ messagesArea.scrollHeight;
 
 
 });
+
+
+}
+);
 
 
 if(snapshot.docs.length === 50){
