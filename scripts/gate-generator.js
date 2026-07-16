@@ -255,7 +255,7 @@ let sourceType =
 
 if(
 
-incident.incidentType === "빙의 사건"
+incident.incidentType.includes("빙의")
 
 ){
 
@@ -510,6 +510,11 @@ target.grade || "미상",
 
 
 type:
+
+incident.incidentType,
+
+
+incidentType:
 
 incident.incidentType,
 
