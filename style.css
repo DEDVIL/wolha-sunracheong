@@ -3421,3 +3421,21 @@ h1 {
     color:#8d867b;
 
 }
+
+.gate-grade {
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:6px 18px;
+
+    border:1px solid #8b0000;
+
+    color:#d8b36a;
+
+    letter-spacing:2px;
+
+    background:rgba(139,0,0,0.2);
+
+}
