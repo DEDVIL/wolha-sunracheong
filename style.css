@@ -3440,31 +3440,3 @@ h1 {
 
 }
 
-/* =====================================
-   귀문 탐사 기록 문서화 효과
-===================================== */
-
-
-.gate-comment {
-
-    position:relative;
-
-}
-
-
-
-.gate-comment::before {
-
-    content:"PATROL LOG";
-
-    display:block;
-
-    font-size:11px;
-
-    letter-spacing:3px;
-
-    color:#8d867b;
-
-    margin-bottom:10px;
-
-}
