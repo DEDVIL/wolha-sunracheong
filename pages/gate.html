@@ -1111,59 +1111,61 @@ return;
 
 await addDoc(
 
-
 collection(
-
 db,
-
-"gateComments"
-
+"gateRecords"
 ),
-
-
 
 {
 
-
 gateId:
-
-
 gateId,
 
 
-uid:
+title:
+currentGateData.title,
 
 
-currentUser.uid,
+location:
+currentGateData.location,
 
 
-characterName:
+grade:
+currentGateData.grade,
 
 
-characterName,
+type:
+currentGateData.type,
+
+
+targetName:
+currentGateData.targetName,
 
 
 content:
+currentGateData.content,
 
 
-text,
+targetInfo:
+currentGateData.targetInfo || null,
 
 
-createdAt:
+possessionInfo:
+currentGateData.possessionInfo || null,
 
 
-serverTimestamp(),
+participants:
+participants,
 
 
-updatedAt:
+endedBy:
+characterName,
 
 
+endedAt:
 serverTimestamp()
 
-
 }
-
-
 
 );
 
