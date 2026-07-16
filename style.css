@@ -3440,3 +3440,182 @@ h1 {
 
 }
 
+/* =====================================
+   귀문 사건 기록 보고서
+===================================== */
+
+
+.record-basic,
+.record-investigation,
+.record-possession,
+.record-member {
+
+
+    margin-top:30px;
+
+
+    padding:30px;
+
+
+    background:
+
+
+    linear-gradient(
+        145deg,
+        #101010,
+        #080808
+    );
+
+
+    border:1px solid #3a3328;
+
+
+    border-radius:12px;
+
+
+}
+
+
+
+/* 보고서 제목 */
+
+
+#record-view h2 {
+
+
+    color:#d8b36a;
+
+
+    letter-spacing:3px;
+
+
+    padding-bottom:18px;
+
+
+    border-bottom:1px solid #444;
+
+
+}
+
+
+
+
+/* 소제목 */
+
+
+.record-basic h3,
+.record-investigation h3,
+.record-possession h3,
+.record-member h3 {
+
+
+    color:#c8a96a;
+
+
+    font-size:18px;
+
+
+    letter-spacing:2px;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+/* 항목 사이 구분 */
+
+
+.record-basic p,
+.record-investigation p,
+.record-possession p,
+.record-member p {
+
+
+    padding:12px 0;
+
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+
+
+}
+
+
+
+/* 마지막 줄 제거 */
+
+
+.record-basic p:last-child,
+.record-investigation p:last-child,
+.record-possession p:last-child,
+.record-member p:last-child {
+
+
+    border-bottom:none;
+
+
+}
+
+#record-view > h2 {
+
+
+    font-size:28px;
+
+
+    text-align:center;
+
+
+    margin-bottom:40px;
+
+
+}
+
+.gate-log-box {
+
+
+    margin-top:35px;
+
+
+    padding:30px;
+
+
+    background:#0b0b0b;
+
+
+    border:1px solid #3a3328;
+
+
+    border-radius:12px;
+
+
+}
+
+
+
+.gate-log-box h2 {
+
+
+    color:#c8a96a;
+
+
+    letter-spacing:3px;
+
+
+}
+
+.record-date {
+
+
+    color:#888;
+
+
+    font-size:13px;
+
+
+    letter-spacing:2px;
+
+
+}
