@@ -1623,36 +1623,21 @@ serverTimestamp()
 
 await updateDoc(
 
-
-
 doc(
-
 db,
-
 "activeGates",
-
 gateId
-
-)
-
-
+),
 
 {
 
-
 status:"closed",
-
 
 endedAt:serverTimestamp(),
 
-
 endedBy:characterName
 
-
-
 }
-
-
 
 );
 
