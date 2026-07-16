@@ -814,25 +814,7 @@ let lastVisibleMessage = null;
 let loadingOlder = false;
 let hasOlderMessages = true;
 
-let messageInput = null;
-let sendBtn = null;
 
-
-messageInput.addEventListener(
-"keydown",
-function(e){
-
-
-if(e.key === "Enter" && !e.shiftKey){
-
-e.preventDefault();
-
-sendBtn.click();
-
-}
-
-
-});
 
 
 const profileBtn =
@@ -865,6 +847,24 @@ sendBtn =
 document.querySelector(".send-btn");
 
 
+messageInput.addEventListener(
+"keydown",
+function(e){
+
+if(e.key === "Enter" && !e.shiftKey){
+
+e.preventDefault();
+
+sendBtn.click();
+
+}
+
+});
+
+
+
+
+    
 // 현재 캐릭터 정보 가져오기
 
 console.log("db 확인:", db);
@@ -1000,9 +1000,9 @@ collection(db,"chatRooms")
 let exists = false;
 
 
-rooms.forEach(doc=>{
+rooms.forEach(roomDoc=>{
 
-const room = doc.data();
+const room = roomDoc.data();
 
 
 if(
@@ -1142,7 +1142,7 @@ async(snapshot)=>{
 privateChatList.replaceChildren();
 
 
-for(const doc of snapshot.docs){
+for(const roomDoc of snapshot.docs){
 
 
 const room =
@@ -1210,10 +1210,9 @@ data.writerName;
 
 
 createChatItem(
-doc.id,
+roomDoc.id,
 displayName
 );
-
  
 }
 
@@ -1582,11 +1581,11 @@ const messagesArea =
 document.querySelector(".messages");
 
 
-docs.forEach(doc=>{
+docs.forEach(messageDoc=>{
 
 
 const data =
-doc.data();
+messageDoc.data();
 
 
 if(!data.createdAt){
@@ -1603,7 +1602,7 @@ document.createElement("div");
 
 
 div.id =
-"message-" + doc.id;
+"message-" + messageDoc.id;
 
 
 if(data.senderUid === myUid){
@@ -1783,11 +1782,12 @@ limit(200)
 
 
 
-snapshot.forEach(doc=>{
+snapshot.forEach(memberDoc=>{
 
 
 const data =
-doc.data();
+memberDoc.data();
+
 
 
 const messageId =
