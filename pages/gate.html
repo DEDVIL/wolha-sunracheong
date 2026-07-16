@@ -539,6 +539,9 @@ joinButton.style.display =
 "none";
 
 
+gateId = null;
+
+
 return;
 
 
@@ -920,7 +923,7 @@ area.innerHTML = `
 
 <br>
 
-${currentGateData.targetInfo.name}
+${currentGateData.targetInfo?.name || "-"}
 
 </p>
 
@@ -934,7 +937,7 @@ ${currentGateData.targetInfo.name}
 
 <br>
 
-${currentGateData.targetInfo.originalName}
+${currentGateData.targetInfo?.originalName || "-"}
 
 </p>
 
@@ -948,7 +951,7 @@ ${currentGateData.targetInfo.originalName}
 
 <br>
 
-${currentGateData.targetInfo.category}
+${currentGateData.targetInfo?.category || "-"}
 
 </p>
 
@@ -962,7 +965,7 @@ ${currentGateData.targetInfo.category}
 
 <br>
 
-${currentGateData.targetInfo.appearance}
+${currentGateData.targetInfo?.appearance || "-"}
 
 </p>
 
@@ -977,7 +980,7 @@ ${currentGateData.targetInfo.appearance}
 
 <br>
 
-${currentGateData.targetInfo.behavior}
+${currentGateData.targetInfo?.behavior || "-"}
 
 </p>
 
@@ -987,12 +990,12 @@ ${currentGateData.targetInfo.behavior}
 <p>
 
 <strong>
-서식지
+주요 출몰지
 </strong>
 
 <br>
 
-${currentGateData.targetInfo.habitat}
+${currentGateData.targetInfo?.habitat || "-"}
 
 </p>
 
@@ -1007,7 +1010,7 @@ ${currentGateData.targetInfo.habitat}
 
 <br>
 
-${currentGateData.targetInfo.relatedPhenomenon}
+${currentGateData.targetInfo?.relatedPhenomenon || "-"}
 
 </p>
 
@@ -1099,6 +1102,15 @@ commentInput.value.trim();
 if(!text)
 return;
 
+if(!isParticipant){
+
+alert(
+"탐사 참가자만 기록을 작성할 수 있습니다."
+);
+
+return;
+
+}
 
 await addDoc(
 
