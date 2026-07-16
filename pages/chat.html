@@ -1413,6 +1413,8 @@ if(unsubscribeMessages){
 
 }
 
+
+
 unsubscribeMessages =
 onSnapshot(
 query(
@@ -1435,23 +1437,20 @@ document.querySelector(".messages");
 if(messagesArea.children.length === 0){
 
 
-const docs =
-snapshot.docs;
-
-
-renderMessages(docs);
+renderMessages(snapshot.docs);
 
 
 messagesArea.scrollTop =
 messagesArea.scrollHeight;
 
 
-return;
-
 }
 
 
-// 새 메시지만 추가
+// 새 메시지 추가
+
+else {
+
 
 snapshot.docChanges().forEach(change=>{
 
@@ -1475,31 +1474,9 @@ messagesArea.scrollHeight;
 
 
 }
-);
-
-
-if(snapshot.docs.length === 50){
-
-
-document.querySelector("#loadOlderBtn")
-.style.display="block";
-
-
-lastVisibleMessage =
-snapshot.docs[
-snapshot.docs.length-1
-];
-
-
-}
-
-
-}
-);
 
 
 
-    
 
 async function loadOlderMessages(){
 
