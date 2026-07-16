@@ -606,7 +606,7 @@ data.endedAt.toDate().toLocaleString("ko-KR")
 
 
 
-loadLogs(data.gateId);
+loadLogs(data.logs);
 
 
 
@@ -620,44 +620,56 @@ loadLogs(data.gateId);
 
 
 
-async function loadLogs(gateId){
+function loadLogs(logs){
+
+
+if(!logs || logs.length === 0){
+
+
+logList.innerHTML =
+"탐사 기록이 없습니다.";
+
+
+return;
+
+
+}
 
 
 
-const q = query(
+logList.innerHTML = "";
 
 
-collection(
 
-db,
-
-"gateComments"
-
-),
+logs.forEach((data)=>{
 
 
-where(
-
-"gateId",
-
-"==",
-
-gateId
-
-),
+logList.innerHTML += `
 
 
-orderBy(
-
-"createdAt",
-
-"asc"
-
-)
+<div class="gate-comment">
 
 
-);
+<strong>
+${data.characterName || "-"}
+</strong>
 
+
+<p>
+${data.content || ""}
+</p>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+}
 
 
 
