@@ -425,6 +425,142 @@ box-shadow:
     border-color:#c8a96a;
 
 
+
+/* ==========================
+   관리자 귀문 상황판
+========================== */
+
+
+.active-gate-admin-box,
+.gate-admin-box {
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        #101010,
+        #080808
+    );
+
+
+    border:1px solid #4a4035;
+
+
+    padding:30px;
+
+
+    border-radius:12px;
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+/* 제목 */
+
+.active-gate-admin-box h2,
+.gate-admin-box h2 {
+
+
+    color:#c8a96a;
+
+
+    letter-spacing:3px;
+
+
+    border-bottom:1px solid #333;
+
+
+    padding-bottom:15px;
+
+
+}
+
+
+
+
+/* 진행중 사건 강조 */
+
+.active-gate-admin-box {
+
+
+    position:relative;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+.active-gate-admin-box::before {
+
+
+    content:"ACTIVE CASE";
+
+
+    position:absolute;
+
+
+    top:15px;
+
+
+    right:20px;
+
+
+    font-size:11px;
+
+
+    letter-spacing:3px;
+
+
+    color:#8b0000;
+
+
+}
+
+
+    color:white;
+
+
+}
+
+
+/* 관리자 종료 버튼 */
+
+.gate-end-button {
+
+
+    background:#300000;
+
+
+    border:1px solid #8b0000;
+
+
+    color:#ddd;
+
+
+    padding:12px 25px;
+
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.gate-end-button:hover {
+
+
+    background:#8b0000;
+
+
     color:white;
 
 
