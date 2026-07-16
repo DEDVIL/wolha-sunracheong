@@ -1,5 +1,6 @@
 // 월하순라청 귀문 랜덤 생성기
-// Gate Generator A안
+// Gate Generator v2
+// 생성 → 승인 → activeGates 등록 구조
 
 
 import {
@@ -10,7 +11,9 @@ from "../firebase.js";
 
 import {
     collection,
-    getDocs
+    getDocs,
+    addDoc,
+    serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -35,8 +38,9 @@ function randomPick(array){
 
 
 
+
 // ======================
-// | 데이터 랜덤 선택
+// | 분리 데이터 랜덤 선택
 // ======================
 
 
@@ -57,7 +61,8 @@ function randomPickValue(value){
     .filter(v=>v);
 
 
-    if(list.length===0){
+
+    if(list.length === 0){
 
         return "-";
 
@@ -70,8 +75,9 @@ function randomPickValue(value){
 
 
 
+
 // ======================
-// Firestore 데이터
+// Firestore 데이터 가져오기
 // ======================
 
 
@@ -80,14 +86,18 @@ async function getCollectionData(name){
 
     const snapshot =
     await getDocs(
+
         collection(
             db,
             name
         )
+
     );
 
 
+
     const data=[];
+
 
 
     snapshot.forEach(doc=>{
@@ -97,13 +107,17 @@ async function getCollectionData(name){
         doc.data();
 
 
+
         const clean={};
+
 
 
         Object.keys(raw).forEach(key=>{
 
+
             clean[key.trim()] =
             raw[key];
+
 
         });
 
@@ -121,6 +135,7 @@ async function getCollectionData(name){
     });
 
 
+
     return data;
 
 
@@ -129,9 +144,8 @@ async function getCollectionData(name){
 
 
 
-
 // ======================
-// 템플릿 치환
+// 문장 치환
 // ======================
 
 
@@ -142,7 +156,6 @@ function replaceTemplate(
 
 
 return template
-
 
 .replaceAll(
 "{location}",
@@ -162,12 +175,10 @@ data.grade
 )
 
 
-
 .replaceAll(
 "{relatedPhenomenon}",
 data.relatedPhenomenon || "-"
 )
-
 
 
 .replaceAll(
@@ -181,6 +192,7 @@ data.habitat || "-"
 data.incidentKeyword || "-"
 )
 
+
 .replaceAll(
 "{victim}",
 data.victim || "-"
@@ -191,14 +203,15 @@ data.victim || "-"
 "{symptom}",
 data.symptom || "-"
 );
-    
+
+
 }
 
 
 
 
 // ======================
-// 메인 생성
+// 귀문 생성
 // ======================
 
 
@@ -206,8 +219,10 @@ export async function generateGate(){
 
 
 
+// ----------------------
 // 1.
 // 사건 템플릿 선택
+// ----------------------
 
 
 const templates =
@@ -225,37 +240,42 @@ templates
 
 
 
-
+// ----------------------
 // 2.
-// 사건 유형 판단
+// 대상 DB 결정
+// ----------------------
 
 
-let sourceType="yokai";
+let sourceType =
+"yokai";
 
 
 
 if(
 
-incident.incidentType==="빙의 사건"
+incident.incidentType === "빙의 사건"
 
 ){
 
-sourceType="evil";
+sourceType =
+"evil";
 
 }
 
 
 
 
+// ----------------------
 // 3.
-// 대상 DB 선택
+// 요괴 / 악귀 선택
+// ----------------------
 
 
 const targetList =
 
 await getCollectionData(
 
-sourceType==="yokai"
+sourceType === "yokai"
 
 ?
 
@@ -269,51 +289,75 @@ sourceType==="yokai"
 
 
 
-
-
 const target =
 randomPick(
 targetList
 );
 
 
-let possessionTargetData=null;
+
+
+
+// ----------------------
+// 4.
+// 빙의 대상 선택
+// ----------------------
+
+
+let possessionTargetData = null;
+
 
 
 if(
-incident.incidentType==="빙의 사건"
+
+sourceType === "evil"
+
 ){
 
+
 const targets =
+
 await getCollectionData(
+
 "possessionTargets"
+
 );
 
 
+
 possessionTargetData =
+
 randomPick(
 targets
 );
 
+
 }
 
 
-// 4.
+
+
+// ----------------------
+// 5.
 // 위치 선택
+// ----------------------
 
 
 const locations =
+
 await getCollectionData(
+
 "locations"
+
 );
 
 
 
 const selectedLocation =
+
 randomPick(
 locations
 );
-
 
 
 
@@ -328,10 +372,56 @@ selectedLocation.fullName
 
 
 
+// ----------------------
+// 6.
+// 현상 선택
+// ----------------------
 
 
-// 5.
-// 사건 문장 선택
+let phenomenon =
+
+randomPickValue(
+
+target.relatedPhenomenon
+
+);
+
+
+
+if(
+
+phenomenon === "-"
+
+){
+
+
+phenomenon =
+
+randomPick([
+
+"원인을 확인할 수 없는 이상 반응",
+
+"비정상적인 현장 변화",
+
+"대상 개체와 관련된 특이 징후",
+
+"주변 환경 변화",
+
+"정체불명의 기이 현상"
+
+]);
+
+
+}
+
+
+
+
+
+// ----------------------
+// 7.
+// 사건 문장 생성
+// ----------------------
 
 
 const templateText =
@@ -344,29 +434,6 @@ incident.templates
 );
 
 
-// ======================
-// relatedPhenomenon fallback
-// ======================
-
-
-let phenomenon =
-randomPickValue(target.relatedPhenomenon);
-
-if(
-    phenomenon === "-"
-){
-
-    phenomenon =
-    randomPick([
-"원인을 확인할 수 없는 이상 반응",
-"비정상적인 현장 변화",
-"대상 개체와 관련된 특이 징후",
-"주변 환경 변화",
-"정체불명의 기이 현상"
-    ]);
-
-}
-
 
 
 const content =
@@ -376,6 +443,7 @@ replaceTemplate(
 templateText,
 
 {
+
 
 location:
 locationName,
@@ -402,15 +470,23 @@ incident.keyword,
 
 
 victim:
+
 possessionTargetData
+
 ?
+
 possessionTargetData.name
+
 :
-"-",
+
+target.victim || "-",
+
 
 
 symptom:
+
 target.symptom || "-"
+
 
 }
 
@@ -420,6 +496,9 @@ target.symptom || "-"
 
 
 
+// ----------------------
+// 결과 반환
+// ----------------------
 
 
 return {
@@ -489,40 +568,55 @@ sourceType,
 
 
 
-// 요괴
+appearance:
+
+target.appearance || "",
+
+
+
+behavior:
+
+target.behavior || "",
+
 
 
 habitat:
 
 target.habitat || "",
 
-    
-// 빙의
+
+
 
 victim:
 
 possessionTargetData
+
 ?
+
 possessionTargetData.name
+
 :
+
 target.victim || "-",
+
+
 
 
 symptom:
 
-target.symptom || "-"
+target.symptom || "-",
 
 
 
-// 요괴 / 악귀 공통
+status:
 
-appearance:
-target.appearance || "",
-
-behavior:
-target.behavior || "",
+"pending",
 
 
+
+createdBy:
+
+null,
 
 
 
@@ -532,6 +626,92 @@ new Date()
 
 
 };
+
+
+
+}
+
+
+
+
+
+
+// ======================
+// activeGates 저장
+// ======================
+
+
+export async function saveGate(
+gate,
+userData
+){
+
+
+
+const saveData = {
+
+
+...gate,
+
+
+status:
+
+"active",
+
+
+
+createdBy:{
+
+
+uid:
+
+userData.uid || "",
+
+
+name:
+
+userData.name || ""
+
+
+},
+
+
+
+createdAt:
+
+serverTimestamp()
+
+
+
+};
+
+
+
+
+
+const docRef =
+
+await addDoc(
+
+
+collection(
+
+db,
+
+"activeGates"
+
+),
+
+
+saveData
+
+
+
+);
+
+
+
+return docRef.id;
 
 
 }
