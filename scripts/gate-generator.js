@@ -482,7 +482,7 @@ possessionTargetData.name
 
 symptom:
 
-target.symptom || "-"
+randomPickValue(target.symptom)
 
 
 }
@@ -594,7 +594,7 @@ possessionTargetData.name
 
 symptom:
 
-target.symptom || "-",
+randomPickValue(target.symptom),
 
 
 
