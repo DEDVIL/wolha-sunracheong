@@ -91,52 +91,6 @@ class="home-button"
 
 
 
-<div class="gate-type-select">
-
-
-<label>
-
-사건 대상 선택
-
-</label>
-
-
-<div class="gate-type-buttons">
-
-
-<button
-id="yokai-button"
-class="gate-select-button active"
->
-
-요괴
-
-</button>
-
-
-
-<button
-id="evil-button"
-class="gate-select-button"
->
-
-악귀
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
 
 <button
 
@@ -238,11 +192,9 @@ from "../firebase.js";
 
 
 import {
-
-generateGate
-
+generateGate,
+saveGate
 }
-
 from "../scripts/gate-generator.js";
 
 
@@ -284,10 +236,6 @@ from
 
 
 let currentUser = null;
-
-
-
-let selectedType = "yokai";
 
 
 
@@ -415,124 +363,6 @@ currentUser = user;
 
 
 
-
-
-
-// ======================
-// 대상 선택
-// ======================
-
-
-
-document
-
-.getElementById(
-
-"yokai-button"
-
-)
-
-.onclick = ()=>{
-
-
-selectedType = "yokai";
-
-
-setActiveButton("yokai");
-
-
-};
-
-
-
-
-
-document
-
-.getElementById(
-
-"evil-button"
-
-)
-
-.onclick = ()=>{
-
-
-selectedType = "evil";
-
-
-setActiveButton("evil");
-
-
-};
-
-
-
-
-
-
-
-function setActiveButton(type){
-
-
-
-document
-
-.querySelectorAll(
-
-".gate-select-button"
-
-)
-
-.forEach(btn=>{
-
-
-btn.classList.remove(
-
-"active"
-
-);
-
-
-});
-
-
-
-
-document
-
-.getElementById(
-
-type === "yokai"
-
-?
-
-"yokai-button"
-
-:
-
-"evil-button"
-
-)
-
-.classList.add(
-
-"active"
-
-);
-
-
-
-}
-
-
-
-
-
-
-
-
-
 // ======================
 // 랜덤 생성
 // 이후 gate-generator.js 연결
@@ -566,9 +396,7 @@ resultBox.innerHTML = `
 
 generatedGate =
 
-await generateGate(
-selectedType
-);
+await generateGate();
 
 
 
@@ -604,10 +432,7 @@ resultBox.innerHTML = `
 
 
 
-
-
 function showGateResult(){
-
 
 
 resultBox.innerHTML = `
@@ -615,88 +440,226 @@ resultBox.innerHTML = `
 
 
 <h3>
-
 ${generatedGate.title}
-
 </h3>
 
 
 
-
-<div>
+<div class="gate-case-detail">
 
 
 <p>
-
 <strong>
 지역
 </strong>
-
 <br>
-
 ${generatedGate.location}
-
-</p>
-
-
-
-
-<p>
-
-<strong>
-대상
-</strong>
-
-<br>
-
-${generatedGate.targetName}
-
 </p>
 
 
 
 <p>
-
 <strong>
 등급
 </strong>
-
 <br>
-
 ${generatedGate.grade}
-
 </p>
 
 
 
-
 <p>
-
 <strong>
 사건 유형
 </strong>
-
 <br>
-
 ${generatedGate.type}
+</p>
 
+
+
+<p>
+<strong>
+관련 개체
+</strong>
+<br>
+${generatedGate.targetName}
 </p>
 
 
 
 
 <p>
-
 <strong>
-내용
+사건 내용
 </strong>
-
 <br>
-
 ${generatedGate.content}
-
 </p>
 
+
+
+
+<button
+
+id="detail-button"
+
+class="write-button"
+
+>
+상세 조사 자료 보기
+</button>
+
+
+
+
+
+<div
+
+id="detail-box"
+
+style="display:none"
+
+>
+
+
+
+
+<h4>
+현장 조사 자료
+</h4>
+
+
+
+
+<p>
+<strong>
+명칭
+</strong>
+<br>
+${generatedGate.targetInfo.name}
+</p>
+
+
+
+<p>
+<strong>
+원명
+</strong>
+<br>
+${generatedGate.targetInfo.originalName}
+</p>
+
+
+
+
+<p>
+<strong>
+분류
+</strong>
+<br>
+${generatedGate.targetInfo.category}
+</p>
+
+
+
+
+<p>
+<strong>
+외형
+</strong>
+<br>
+${generatedGate.targetInfo.appearance}
+</p>
+
+
+
+
+<p>
+<strong>
+행동 특성
+</strong>
+<br>
+${generatedGate.targetInfo.behavior}
+</p>
+
+
+
+
+<p>
+<strong>
+서식지
+</strong>
+<br>
+${generatedGate.targetInfo.habitat}
+</p>
+
+
+
+
+<p>
+<strong>
+관련 현상
+</strong>
+<br>
+${generatedGate.targetInfo.relatedPhenomenon}
+</p>
+
+
+
+
+
+${
+generatedGate.possessionInfo
+
+?
+
+`
+
+<h4>
+빙의 대상 정보
+</h4>
+
+
+<p>
+<strong>
+대상
+</strong>
+<br>
+${generatedGate.possessionInfo.name}
+</p>
+
+
+
+<p>
+<strong>
+분류
+</strong>
+<br>
+${generatedGate.possessionInfo.category}
+</p>
+
+
+
+<p>
+<strong>
+설명
+</strong>
+<br>
+${generatedGate.possessionInfo.description}
+</p>
+
+`
+
+:
+
+""
+
+}
+
+
+
+</div>
 
 
 </div>
@@ -707,12 +670,50 @@ ${generatedGate.content}
 
 
 
+
+
+document
+
+.getElementById(
+"detail-button"
+)
+
+.onclick = ()=>{
+
+
+const box =
+
+document.getElementById(
+"detail-box"
+);
+
+
+
+box.style.display =
+
+box.style.display==="none"
+
+?
+
+"block"
+
+:
+
+"none";
+
+
+};
+
+
+
+
+
 saveButton.style.display =
 "block";
 
 
-
 }
+
 
 
 
@@ -740,9 +741,62 @@ return;
 
 
 
+try{
+
+
+message.innerText =
+"귀문 등록 중...";
+
+
+
+const gateId =
+
+await saveGate(
+
+generatedGate,
+
+{
+
+uid:
+
+currentUser.uid,
+
+name:
+
+"관리자"
+
+}
+
+);
+
+
+
 message.innerText =
 
-"등록 기능 연결 예정";
+`귀문 활성화 완료 (${gateId})`;
+
+
+
+generatedGate = null;
+
+
+saveButton.style.display =
+"none";
+
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+message.innerText =
+"등록 중 오류 발생";
+
+
+}
 
 
 
