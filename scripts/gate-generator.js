@@ -233,9 +233,16 @@ await getCollectionData(
 );
 
 
+if(templates.length === 0){
+
+throw new Error(
+"incidentTemplates 데이터가 없습니다."
+);
+
+}
+
 
 const incident =
-
 randomPick(
 templates
 );
@@ -255,7 +262,7 @@ let sourceType =
 
 if(
 
-incident.incidentType.includes("빙의")
+incident.incidentType?.includes("빙의")
 
 ){
 
@@ -288,7 +295,13 @@ sourceType === "yokai"
 
 );
 
+if(targetList.length === 0){
 
+throw new Error(
+sourceType + " 데이터가 없습니다."
+);
+
+}
 
 const target =
 
