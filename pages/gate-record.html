@@ -369,7 +369,7 @@ ${data.grade || "-"}
 <p class="record-date">
 
 ${
-data.endedAt
+data.endedAt?.toDate
 ?
 data.endedAt.toDate().toLocaleDateString("ko-KR")
 :
