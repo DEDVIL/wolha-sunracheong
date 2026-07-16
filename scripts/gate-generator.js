@@ -506,7 +506,7 @@ return {
 
 title:
 
-`${locationName} 귀문 사건`,
+`${locationName} ${target.name} 사건`,
 
 
 
