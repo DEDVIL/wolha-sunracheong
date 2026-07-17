@@ -3676,3 +3676,63 @@ h1 {
 .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="32px"]::before{
     content:"32px";
 }
+
+
+/* Quill 출력 공통 */
+
+.ql-align-center{
+    text-align:center;
+}
+
+.ql-align-right{
+    text-align:right;
+}
+
+.ql-align-justify{
+    text-align:justify;
+}
+
+
+
+.post-content blockquote{
+
+    border-left:4px solid #c8a96a;
+
+    padding-left:20px;
+
+    margin:20px 0;
+
+    color:#b8b0a0;
+
+}
+
+
+
+.post-content ol,
+.post-content ul{
+
+    padding-left:40px;
+
+}
+
+
+
+.post-content img{
+
+    max-width:100%;
+
+    display:block;
+
+    margin:20px auto;
+
+}
+
+
+
+.post-content a{
+
+    color:#c8a96a;
+
+    text-decoration:underline;
+
+}
