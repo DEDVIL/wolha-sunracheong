@@ -1707,6 +1707,21 @@ if(currentRoomData.type === "public"){
 }else{
 
 
+ if(currentRoomData.type === "public"){
+
+
+    currentChatName.textContent =
+    currentRoomData.name ||
+    "공용 채팅";
+
+
+    profileBtn.style.display =
+    "none";
+
+
+}else{
+
+
     const opponentUid =
     currentRoomData.members.find(
         uid => uid !== currentUid
@@ -1714,6 +1729,7 @@ if(currentRoomData.type === "public"){
 
 
     if(opponentUid){
+
 
         const profile =
         await getProfile(
@@ -1723,16 +1739,19 @@ if(currentRoomData.type === "public"){
 
         if(profile){
 
+
             currentChatName.textContent =
             profile.writerName ||
             "이름 없음";
 
+
         }
+
 
     }
 
-}
 
+}
 
     inputArea.style.display =
     "flex";
@@ -1778,7 +1797,11 @@ if(currentRoomData.type === "public"){
 
 
 
+if(currentRoomData.type === "private"){
+
     setupProfileButton();
+
+}
 
 
 }
