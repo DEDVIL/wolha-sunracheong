@@ -2218,7 +2218,36 @@ function createMessageElement(
         time
     );
 
+if(
+    currentRoomData.type === "public"
+){
 
+    const readCount =
+    Object.keys(
+        currentRoomData.readBy || {}
+    ).length;
+
+
+    const read =
+    document.createElement(
+        "span"
+    );
+
+
+    read.style.marginLeft="8px";
+
+    read.style.color="#777";
+
+
+    read.textContent =
+    `읽음 ${readCount}`;
+
+
+    wrapper.appendChild(
+        read
+    );
+
+}
 
     return wrapper;
 
