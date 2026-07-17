@@ -798,7 +798,9 @@ let unsubscribeMessages = null;
 let messageCursor = null;
 
 
-let loadedMessages = [];
+loadedMessages = [];
+
+messageCursor = null;
 
 
 let profileCache = {};
@@ -1767,11 +1769,6 @@ if(currentRoomData.type === "public"){
 
 
 
-    loadOlderBtn.style.display =
-    "block";
-
-
-
     await markRoomRead();
 
 
@@ -1917,19 +1914,14 @@ location.href =
 ========================================================= */
 
 
-function listenMessages(
-    roomId
-){
+function listenMessages(roomId){
 
 
-    if(
-        unsubscribeMessages
-    ){
+    if(unsubscribeMessages){
 
         unsubscribeMessages();
 
     }
-
 
 
     const messagesRef =
@@ -1941,7 +1933,6 @@ function listenMessages(
     );
 
 
-
     const q =
     query(
         messagesRef,
@@ -1949,49 +1940,58 @@ function listenMessages(
             "createdAt",
             "desc"
         ),
-        limit(
-            50
-        )
+        limit(50)
     );
 
 
-
-    unsubscribeMessages =
-    onSnapshot(
-        q,
-        snapshot=>{
-
-
-            const messages =
-            snapshot.docs
-            .map(
-                doc=>({
-
-                    id:doc.id,
-                    ...doc.data()
-
-                })
-            )
-            .reverse();
+unsubscribeMessages =
+onSnapshot(
+    q,
+    snapshot=>{
 
 
+        const messages =
+        snapshot.docs
+        .map(
+            doc=>({
 
-            loadedMessages =
-            messages;
+                id:doc.id,
+                ...doc.data()
+
+            })
+        )
+        .reverse();
 
 
 
-            renderMessages(
-                messages
-            );
+        loadedMessages =
+        messages;
 
 
+
+        // 메시지가 50개 미만이면 이전 메시지 없음
+        if(snapshot.size < 50){
+
+            loadOlderBtn.style.display =
+            "none";
+
+        }else{
+
+            loadOlderBtn.style.display =
+            "block";
 
         }
-    );
 
 
-}
+
+        renderMessages(
+            messages
+        );
+
+
+
+    }
+);
 
 
 
@@ -2230,26 +2230,9 @@ function createMessageElement(
 async function loadOlderMessages(){
 
 
-
     if(
-        !currentRoomId
-        ||
-        loadedMessages.length===0
-    ){
-
-        return;
-
-    }
-
-
-
-    const oldest =
-    loadedMessages[0];
-
-
-
-    if(
-        !oldest.createdAt
+        !currentRoomId ||
+        !messageCursor
     ){
 
         return;
@@ -2271,12 +2254,18 @@ async function loadOlderMessages(){
     const q =
     query(
         messagesRef,
+
         orderBy(
             "createdAt",
             "desc"
         ),
+
+        startAfter(
+            messageCursor
+        ),
+
         limit(
-            100
+            50
         )
     );
 
@@ -2286,6 +2275,26 @@ async function loadOlderMessages(){
     await getDocs(
         q
     );
+
+
+
+    if(
+        snap.empty
+    ){
+
+        loadOlderBtn.style.display =
+        "none";
+
+        return;
+
+    }
+
+
+
+    messageCursor =
+    snap.docs[
+        snap.docs.length - 1
+    ];
 
 
 
@@ -2299,29 +2308,7 @@ async function loadOlderMessages(){
 
         })
     )
-    .filter(
-        msg=>
-        msg.createdAt.seconds <
-        oldest.createdAt.seconds
-    )
-    .slice(
-        0,
-        50
-    )
     .reverse();
-
-
-
-    if(
-        older.length===0
-    ){
-
-        loadOlderBtn.style.display =
-        "none";
-
-        return;
-
-    }
 
 
 
@@ -2338,10 +2325,7 @@ async function loadOlderMessages(){
     );
 
 
-
 }
-
-
 
 
 
