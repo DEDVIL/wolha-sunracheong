@@ -104,7 +104,13 @@ auth
 from "../firebase.js";
 
 
+import {
 
+requireLogin
+
+}
+
+from "../auth-guard.js";
 
 
 import {
@@ -131,18 +137,6 @@ from
 
 
 
-import {
-
-onAuthStateChanged
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-
 
 
 
@@ -160,24 +154,16 @@ let currentUser = null;
 
 
 
+requireLogin(()=>{
 
 
-onAuthStateChanged(
-
-auth,
-
-(user)=>{
-
-
-currentUser = user;
+currentUser = auth.currentUser;
 
 
 loadFAQ();
 
 
-}
-
-);
+});
 
 
 
