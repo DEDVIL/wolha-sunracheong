@@ -822,16 +822,11 @@ from
 
 import {
 
-
-onAuthStateChanged
-
+requireLogin
 
 }
 
-from
-
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -1338,35 +1333,9 @@ filterLogs
 
 
 
+requireLogin(loadLogs);
 
 
-onAuthStateChanged(auth,(user)=>{
-
-
-
-if(!user){
-
-
-
-location.href="../index.html";
-
-
-
-return;
-
-
-
-}
-
-
-
-
-
-loadLogs();
-
-
-
-});
 
 
 
