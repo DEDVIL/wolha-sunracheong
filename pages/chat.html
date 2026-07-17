@@ -1263,9 +1263,9 @@ async function openNewChatModal(){
         const snap =
         await getDocs(
             collection(
-                db,
-                "users"
-            )
+ db,
+ "members"
+)
         );
 
 
@@ -1312,19 +1312,19 @@ async function openNewChatModal(){
 
 
 
-                div.textContent =
-                data.name ||
-                "이름 없음";
+              div.textContent =
+data.writerName ||
+"이름 없음";
 
 
 
                 div.onclick =
                 ()=>{
 
-                    createPrivateChat(
-                        uid,
-                        data.name || "이름 없음"
-                    );
+createPrivateChat(
+ data.uid,
+ data.writerName || "이름 없음"
+);
 
                 };
 
@@ -2672,11 +2672,14 @@ async function getProfile(uid){
 
     const snap =
     await getDoc(
-        doc(
-            db,
-            "users",
-            uid
-        )
+query(
+ collection(db,"members"),
+ where(
+  "uid",
+  "==",
+  uid
+ )
+)
     );
 
 
