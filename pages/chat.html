@@ -1099,11 +1099,6 @@ function listenMyRooms(){
             "members",
             "array-contains",
             currentUid
-        ),
-
-        orderBy(
-            "lastMessageAt",
-            "desc"
         )
 
     );
@@ -1160,10 +1155,26 @@ async function renderPrivateRooms(docs){
     privateChatList.innerHTML="";
 
 
+    docs.sort(
+        (a,b)=>{
+
+            const aTime =
+            a.data().lastMessageAt?.toMillis() || 0;
+
+
+            const bTime =
+            b.data().lastMessageAt?.toMillis() || 0;
+
+
+            return bTime - aTime;
+
+        }
+    );
+
+
     for(
         const roomDoc of docs
     ){
-
 
         const room =
         roomDoc.data();
@@ -1589,16 +1600,21 @@ async function createPrivateChat(
 
 
         const roomRef =
-        await addDoc(
-            collection(
-                db,
-                "chatRooms"
-            ),
-            {
+await addDoc(
+    collection(
+        db,
+        "chatRooms"
+    ),
+    {
 
+        createdAt:
+        serverTimestamp(),
 
-                createdAt:
-                serverTimestamp(),
+        lastMessage:
+        "",
+
+        lastMessageAt:
+        null,
 
 
 
