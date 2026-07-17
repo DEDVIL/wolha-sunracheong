@@ -2278,9 +2278,9 @@ function createMessageElement(
     );
 
 
-    wrapper.appendChild(
-        time
-    );
+wrapper.appendChild(
+    time
+);
 
 if(
     currentRoomData.type === "public"
@@ -2299,15 +2299,16 @@ if(
 
 
     read.style.marginLeft="8px";
-
     read.style.color="#777";
+    read.style.fontSize="11px";
+    read.style.fontWeight="normal";
 
 
     read.textContent =
     `읽음 ${readCount}`;
 
 
-    wrapper.appendChild(
+    time.appendChild(
         read
     );
 
