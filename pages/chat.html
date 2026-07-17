@@ -1661,9 +1661,32 @@ async function openChat(
 
 
 
-    currentChatName.textContent =
-    currentRoomData.name ||
-    "월하톡";
+const opponentUid =
+currentRoomData.members.find(
+    uid => uid !== currentUid
+);
+
+
+if(opponentUid){
+
+    const opponentSnap =
+    await getDoc(
+        doc(
+            db,
+            "members",
+            opponentUid
+        )
+    );
+
+
+    if(opponentSnap.exists()){
+
+        currentChatName.textContent =
+        opponentSnap.data().writerName;
+
+    }
+
+}
 
 
 
