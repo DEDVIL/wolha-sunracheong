@@ -2204,7 +2204,7 @@ async function saveNodePosition(member){
 
 if(!currentUser || !member.layout){
 
-return;
+    return;
 
 }
 
@@ -2212,46 +2212,46 @@ return;
 
 await updateDoc(
 
-doc(
-db,
-"members",
-member.id
-),
+
+    doc(
+
+        db,
+
+        "members",
+
+        member.id
+
+    ),
 
 
-{
-
-layout:{
-
-x:Number(member.layout.x),
-
-y:Number(member.layout.y)
-
-},
-
-updatedAt:serverTimestamp()
-
-}
-
-);
-
-}
+    {
 
 
-updatedAt:
-
-serverTimestamp()
+        layout:{
 
 
+            x:Number(member.layout.x),
 
-}
 
+            y:Number(member.layout.y)
+
+
+        },
+
+
+        updatedAt:serverTimestamp()
+
+
+    }
 
 
 );
 
+
 }
 
+
+   
 /* =====================
    Mobile Touch Drag
 ===================== */
