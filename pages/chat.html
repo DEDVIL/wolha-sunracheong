@@ -2089,9 +2089,23 @@ if(snapshot.docs.length > 0){
 
 
 
-        renderMessages(
-            messages
-        );
+renderMessages(
+    messages
+);
+
+
+if(
+    messages.length > 0 &&
+    messages[messages.length-1].senderUid === currentUid
+){
+
+    setTimeout(()=>{
+
+        scrollToBottom();
+
+    },100);
+
+}
 
 
 
@@ -2285,11 +2299,15 @@ function renderMessages(
 
 
 
-    if(scrollBottom){
+if(scrollBottom){
+
+    setTimeout(()=>{
 
         scrollToBottom();
 
-    }
+    },50);
+
+}
 
 
 }
@@ -2756,7 +2774,14 @@ await updateDoc(
 
 
 
-        messageInput.value="";
+      messageInput.value="";
+
+
+setTimeout(()=>{
+
+    scrollToBottom();
+
+},100);
 
 
 
