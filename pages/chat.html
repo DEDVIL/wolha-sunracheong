@@ -1566,15 +1566,6 @@ name:
 targetName,
 
 
-
-                readBy:
-                {
-                    [currentUid]:
-                    serverTimestamp()
-                },
-
-
-
                 type:
                 "private"
 
@@ -1797,6 +1788,10 @@ async function markRoomRead(){
 
     if(
         !currentRoomId
+        ||
+        !currentRoomData
+        ||
+        currentRoomData.type !== "public"
     ){
 
         return;
@@ -2537,32 +2532,40 @@ async function sendMessage(){
 
 
 
-        await updateDoc(
-            doc(
-                db,
-                "chatRooms",
-                currentRoomId
-            ),
-            {
+const updateData = {
+
+    lastMessage:
+    text,
 
 
-                lastMessage:
-                text,
+    lastMessageAt:
+    serverTimestamp()
 
-
-
-                lastMessageAt:
-                serverTimestamp(),
+};
 
 
 
-                [`readBy.${currentUid}`]:
-                serverTimestamp()
+if(
+    currentRoomData.type === "public"
+){
+
+    updateData[
+        `readBy.${currentUid}`
+    ] =
+    serverTimestamp();
+
+}
 
 
 
-            }
-        );
+await updateDoc(
+    doc(
+        db,
+        "chatRooms",
+        currentRoomId
+    ),
+    updateData
+);
 
 
 
