@@ -2054,14 +2054,12 @@ function listenRoomData(roomId){
 
 
             if(
-                currentRoomData.type === "public"
-            ){
+    currentRoomData.type === "public"
+){
 
-                renderMessages(
-                    loadedMessages
-                );
+    updateReadStatus();
 
-            }
+}
 
 
         }
@@ -2069,6 +2067,33 @@ function listenRoomData(roomId){
 
 }
 
+
+function updateReadStatus(){
+
+    const readElements =
+    document.querySelectorAll(
+        ".read-count"
+    );
+
+
+    const readCount =
+    Object.keys(
+        currentRoomData.readBy || {}
+    ).length;
+
+
+    readElements.forEach(
+        element=>{
+
+            element.textContent =
+            `읽음 ${readCount}`;
+
+        }
+    );
+
+}
+
+    
 
 /* =========================================================
    메시지 출력
@@ -2292,16 +2317,20 @@ if(
     ).length;
 
 
-    const read =
-    document.createElement(
-        "span"
-    );
+const read =
+document.createElement(
+    "span"
+);
 
 
-    read.style.marginLeft="8px";
-    read.style.color="#777";
-    read.style.fontSize="11px";
-    read.style.fontWeight="normal";
+read.className =
+"read-count";
+
+
+read.style.marginLeft="8px";
+read.style.color="#777";
+read.style.fontSize="11px";
+read.style.fontWeight="normal";
 
 
     read.textContent =
