@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="../style.css">
 
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 
 
 </head>
@@ -133,9 +133,7 @@ id="important"
 
 
 
-
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
+<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
 
 
 
@@ -156,7 +154,15 @@ from "../firebase.js";
 
 
 
+import {
 
+createQuill
+
+}
+
+from "../quill-config.js";
+
+    
 
 import {
 
@@ -216,120 +222,7 @@ params.get("id");
 
 
 
-
-
-const quill =
-
-new Quill(
-
-"#editor",
-
-{
-
-
-theme:"snow",
-
-
-modules:{
-
-
-toolbar:[
-
-
-[
-"bold",
-
-"italic",
-
-"underline"
-
-],
-
-
-
-[
-"link",
-
-"image"
-
-],
-
-
-
-[
-"clean"
-
-]
-
-]
-
-
-}
-
-
-}
-
-);
-
-
-
-
-
-
-
-
-// 이미지 URL 삽입
-
-quill
-.getModule("toolbar")
-.addHandler(
-
-"image",
-
-()=>{
-
-
-
-const url =
-
-prompt(
-
-"이미지 주소(URL)를 입력해주세요."
-
-);
-
-
-
-
-
-if(url){
-
-
-
-const range =
-
-quill.getSelection();
-
-
-
-quill.insertEmbed(
-
-range.index,
-
-"image",
-
-url
-
-);
-
-
-}
-
-
-
-}
-
-);
+const quill = createQuill("#editor");
 
 
 
