@@ -792,7 +792,7 @@ let currentRoomData = null;
 let unsubscribeRooms = null;
 
 let unsubscribeMessages = null;
-
+let unsubscribeRoomData = null;
 
 
 let messageCursor = null;
@@ -1758,16 +1758,17 @@ messageCursor = null;
 
 
 
-    await markRoomRead();
+await markRoomRead();
 
 
-
-    listenMessages(
-        roomId
-    );
-
+listenRoomData(
+    roomId
+);
 
 
+listenMessages(
+    roomId
+);
 
 }
 
@@ -1822,7 +1823,16 @@ async function markRoomRead(){
         }
     );
 
+// 최신 데이터 다시 가져오기
+const updatedSnap =
+await getDoc(roomRef);
 
+
+if(updatedSnap.exists()){
+
+    currentRoomData =
+    updatedSnap.data();
+    
 }
 
 
@@ -1999,6 +2009,61 @@ if(snapshot.docs.length > 0){
 }
 
 
+
+    
+/* =========================================================
+   채팅방 데이터 실시간 감시
+========================================================= */
+
+function listenRoomData(roomId){
+
+    if(unsubscribeRoomData){
+
+        unsubscribeRoomData();
+
+    }
+
+
+    const roomRef =
+    doc(
+        db,
+        "chatRooms",
+        roomId
+    );
+
+
+    unsubscribeRoomData =
+    onSnapshot(
+        roomRef,
+        snap=>{
+
+
+            if(!snap.exists()){
+
+                return;
+
+            }
+
+
+            currentRoomData =
+            snap.data();
+
+
+            if(
+                currentRoomData.type === "public"
+            ){
+
+                renderMessages(
+                    loadedMessages
+                );
+
+            }
+
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -2837,7 +2902,6 @@ window.addEventListener(
         }
 
 
-
         if(
             unsubscribeMessages
         ){
@@ -2847,10 +2911,17 @@ window.addEventListener(
         }
 
 
+        if(
+            unsubscribeRoomData
+        ){
+
+            unsubscribeRoomData();
+
+        }
+
 
     }
 );
-
 
 
 
