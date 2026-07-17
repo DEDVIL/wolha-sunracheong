@@ -1231,19 +1231,34 @@ async function renderPrivateRooms(docs){
 
 
         div.innerHTML =
-        `
-        <div>
-            ${displayName}
-        </div>
+`
+<div style="
+    display:flex;
+    justify-content:space-between;
+">
 
-        <div style="
-            font-size:12px;
-            color:#777;
-            margin-top:5px;
-        ">
+    <span>
+        ${displayName}
+    </span>
+
+    <span style="
+        font-size:11px;
+        color:#777;
+    ">
+        ${formatChatTime(room.lastMessageAt)}
+    </span>
+
+</div>
+
+
+<div style="
+    font-size:12px;
+    color:#777;
+    margin-top:5px;
+">
 ${shortenMessage(room.lastMessage || "")}
-        </div>
-        `;
+</div>
+`;
 
 
 
@@ -1270,7 +1285,64 @@ ${shortenMessage(room.lastMessage || "")}
 
 }
 
+function formatChatTime(timestamp){
 
+
+    if(!timestamp){
+
+        return "";
+
+    }
+
+
+    const date =
+    timestamp.toDate();
+
+
+    const now =
+    new Date();
+
+
+    const diff =
+    now - date;
+
+
+
+    // 오늘
+    if(
+        date.toDateString()
+        ===
+        now.toDateString()
+    ){
+
+        return date.toLocaleTimeString(
+            "ko-KR",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+    }
+
+
+
+    // 올해
+    if(
+        date.getFullYear()
+        ===
+        now.getFullYear()
+    ){
+
+        return `${date.getMonth()+1}/${date.getDate()}`;
+
+    }
+
+
+
+    return `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`;
+
+}
 
 /* =========================================================
    이후 PART 2에서 이어짐
