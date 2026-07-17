@@ -17,7 +17,17 @@ Size.whitelist = [
 
 Quill.register(Size, true);
 
+const SizeStyle = Quill.import("attributors/style/size");
 
+SizeStyle.whitelist = [
+    "10px",
+    "12px",
+    "18px",
+    "24px",
+    "32px"
+];
+
+Quill.register(SizeStyle, true);
 
 
 export function createQuill(selector){
