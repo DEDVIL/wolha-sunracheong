@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="../style.css">
 
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 
 
 </head>
@@ -221,9 +221,7 @@ placeholder="비밀 설정 열람용 비밀번호"
 
 
 
-
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
+<script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
 
 
 
@@ -242,7 +240,17 @@ db
 from "../firebase.js";
 
 
+  
+import {
 
+createQuill
+
+}
+
+from "../quill-config.js";
+
+
+  
 import {
 
 onAuthStateChanged
@@ -500,49 +508,9 @@ T / M / B
 </p>
 
 `;
-const quill = new Quill(
 
-"#editor",
 
-{
-
-theme:"snow",
-
-modules:{
-
-toolbar:[
-
-[
-
-"bold",
-
-"italic",
-
-"underline"
-
-],
-
-[
-
-"link",
-
-"image"
-
-],
-
-[
-
-"clean"
-
-]
-
-]
-
-}
-
-}
-
-);
+  const quill = createQuill("#editor");
 
 
   // 여기에 추가
@@ -572,117 +540,15 @@ top:window.scrollY
 
 
 
-const secretQuill = new Quill(
 
-"#secret-editor",
+const secretQuill = createQuill("#secret-editor");
 
-{
 
-theme:"snow",
 
-modules:{
 
-toolbar:[
 
-[
 
-"bold",
 
-"italic",
-
-"underline"
-
-],
-
-[
-
-"link",
-
-"image"
-
-],
-
-[
-
-"clean"
-
-]
-
-]
-
-}
-
-}
-
-);
-
-
-
-
-
-
-
-
-
-function setImageHandler(editor){
-
-
-editor
-
-.getModule("toolbar")
-
-.addHandler(
-
-"image",
-
-()=>{
-
-
-const url = prompt(
-
-"이미지 주소(URL)를 입력해주세요."
-
-);
-
-
-
-if(url){
-
-
-const range = editor.getSelection();
-
-
-
-editor.insertEmbed(
-
-range.index,
-
-"image",
-
-url
-
-);
-
-
-}
-
-
-
-}
-
-);
-
-
-
-}
-
-
-
-
-setImageHandler(quill);
-
-
-setImageHandler(secretQuill);
 
 
 
