@@ -200,7 +200,7 @@ let memberData = null;
 
 let currentUser = null;
 
-
+let isAdmin = false;
 
 
 
@@ -362,10 +362,8 @@ currentUser.uid
 );
 
 
-const isAdmin =
-
+isAdmin =
 userSnap.exists() &&
-
 userSnap.data().role === "admin";
 
 
