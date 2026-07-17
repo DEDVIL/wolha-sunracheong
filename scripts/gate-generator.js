@@ -18,7 +18,10 @@ import {
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Firestore 데이터 임시 저장
+// 한 번 읽은 데이터는 다시 읽지 않음
 
+const dataCache = {};
 
 
 // ======================
@@ -85,6 +88,15 @@ function randomPickValue(value){
 async function getCollectionData(name){
 
 
+    // 이미 가져온 데이터가 있으면 재사용
+    if(dataCache[name]){
+
+        return dataCache[name];
+
+    }
+
+
+
     const snapshot =
     await getDocs(
 
@@ -94,6 +106,7 @@ async function getCollectionData(name){
         )
 
     );
+
 
 
     const data=[];
@@ -136,13 +149,15 @@ async function getCollectionData(name){
 
 
 
+    // 처음 한 번만 저장
+    dataCache[name] = data;
+
+
+
     return data;
 
 
 }
-
-
-
 
 
 
