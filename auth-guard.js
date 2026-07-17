@@ -4,7 +4,9 @@
 
 import {
 
-    auth
+    auth,
+
+    db
 
 }
 
@@ -22,6 +24,19 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
+import {
+
+    doc,
+
+    getDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
 
 
 
@@ -33,7 +48,7 @@ const requireLogin = ()=>{
         auth,
 
 
-        (user)=>{
+        async (user)=>{
 
 
             if(!user){
@@ -46,7 +61,7 @@ const requireLogin = ()=>{
                 );
 
 
-                location.href = "../index.html";
+                location.href="../index.html";
 
 
                 return;
@@ -56,13 +71,86 @@ const requireLogin = ()=>{
 
 
 
-            console.log(
 
-            "접속 승인",
+            const userDoc = await getDoc(
 
-            user.uid
+                doc(
+
+                    db,
+
+                    "users",
+
+                    user.uid
+
+                )
 
             );
+
+
+
+
+
+            if(!userDoc.exists()){
+
+
+                alert(
+
+                "등록되지 않은 사용자입니다."
+
+                );
+
+
+                location.href="../index.html";
+
+
+                return;
+
+
+            }
+
+
+
+
+            const userData = userDoc.data();
+
+
+
+
+            if(
+
+                !userData.role
+
+            ){
+
+
+                alert(
+
+                "접근 권한을 확인할 수 없습니다."
+
+                );
+
+
+                location.href="../index.html";
+
+
+                return;
+
+
+            }
+
+
+
+
+            console.log(
+
+            "접속 승인:",
+
+            userData.name,
+
+            userData.role
+
+            );
+
 
 
         }
@@ -72,6 +160,7 @@ const requireLogin = ()=>{
 
 
 };
+
 
 
 
