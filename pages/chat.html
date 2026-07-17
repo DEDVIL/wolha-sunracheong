@@ -1154,65 +1154,100 @@ function renderPrivateRooms(docs){
     privateChatList.innerHTML="";
 
 
-
-    docs.forEach(
-        roomDoc=>{
+    for(const roomDoc of docs){
 
 
-            const room =
-            roomDoc.data();
+        const room =
+        roomDoc.data();
 
 
 
-            if(
-                room.type!=="private"
-            ){
+        if(
+            room.type!=="private"
+        ){
 
-                return;
+            continue;
+
+        }
+
+
+
+        const opponentUid =
+        room.members.find(
+            uid => uid !== currentUid
+        );
+
+
+
+        let displayName =
+        "개인채팅";
+
+
+
+        if(opponentUid){
+
+
+            const opponentSnap =
+            await getDoc(
+                doc(
+                    db,
+                    "members",
+                    opponentUid
+                )
+            );
+
+
+            if(opponentSnap.exists()){
+
+
+                displayName =
+                opponentSnap.data().writerName;
+
 
             }
 
 
-
-            const div =
-            document.createElement(
-                "div"
-            );
-
-
-            div.className =
-            "chat-item";
-
-
-            div.innerHTML =
-            `
-            ${room.name || "개인채팅"}
-            `;
-
-
-
-            div.onclick =
-            ()=>{
-
-                openChat(
-                    roomDoc.id
-                );
-
-            };
-
-
-
-            privateChatList.appendChild(
-                div
-            );
-
-
         }
-    );
+
+
+
+        const div =
+        document.createElement(
+            "div"
+        );
+
+
+        div.className =
+        "chat-item";
+
+
+        div.innerHTML =
+        `
+        ${displayName}
+        `;
+
+
+
+        div.onclick =
+        ()=>{
+
+            openChat(
+                roomDoc.id
+            );
+
+        };
+
+
+
+        privateChatList.appendChild(
+            div
+        );
+
+
+    }
 
 
 }
-
 
 
 
@@ -1413,7 +1448,40 @@ async function createPrivateChat(
                 const room =
                 roomDoc.data();
 
+const opponentUid =
+room.members.find(
+    uid => uid !== currentUid
+);
 
+
+let displayName =
+"개인채팅";
+
+
+if(opponentUid){
+
+
+    const opponentSnap =
+    await getDoc(
+        doc(
+            db,
+            "members",
+            opponentUid
+        )
+    );
+
+
+    if(opponentSnap.exists()){
+
+
+        displayName =
+        opponentSnap.data().writerName;
+
+
+    }
+
+
+}
 
                 if(
                     room.type==="private"
