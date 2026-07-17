@@ -803,7 +803,9 @@ let currentUser = null;
 
 let currentUid = null;
 
+let myCharacterName = "";
 
+    
 let currentRoomId = null;
 
 
@@ -904,21 +906,37 @@ onAuthStateChanged(auth, async(user)=>{
 
 
 
-    currentUser = user;
+currentUser = user;
 
-    currentUid = user.uid;
+currentUid = user.uid;
 
 
-
-    console.log(
-        "로그인 사용자:",
+const memberSnap =
+await getDoc(
+    doc(
+        db,
+        "members",
         currentUid
-    );
+    )
+);
 
 
+if(memberSnap.exists()){
 
-    await initChat();
+    myCharacterName =
+    memberSnap.data().writerName;
 
+}
+
+
+console.log(
+    "로그인 사용자:",
+    currentUid,
+    myCharacterName
+);
+
+
+await initChat();
 
 });
 
@@ -1260,14 +1278,13 @@ async function openNewChatModal(){
     try{
 
 
-        const snap =
-        await getDocs(
-            collection(
- db,
- "members"
-)
-        );
-
+       const snap =
+await getDocs(
+    collection(
+        db,
+        "members"
+    )
+);
 
 
         list.innerHTML="";
@@ -1312,7 +1329,7 @@ async function openNewChatModal(){
 
 
 
-              div.textContent =
+div.textContent =
 data.writerName ||
 "이름 없음";
 
@@ -1566,21 +1583,7 @@ async function createPrivateChat(
 
 function getMyName(){
 
-
-    if(
-        currentUser
-        &&
-        currentUser.displayName
-    ){
-
-        return currentUser.displayName;
-
-    }
-
-
-
-    return "사용자";
-
+    return myCharacterName || "사용자";
 
 }
 
@@ -1802,8 +1805,8 @@ function setupProfileButton(){
 
 
 
-        location.href =
-        `profile-view.html?uid=${target}`;
+location.href =
+`./member-view.html?id=${target}`;
 
 
 
@@ -2670,17 +2673,14 @@ async function getProfile(uid){
 
 
 
-    const snap =
-    await getDoc(
-query(
- collection(db,"members"),
- where(
-  "uid",
-  "==",
-  uid
- )
-)
-    );
+const snap =
+await getDoc(
+    doc(
+        db,
+        "members",
+        uid
+    )
+);
 
 
 
