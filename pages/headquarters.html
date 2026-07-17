@@ -84,6 +84,15 @@ db
 from "../firebase.js";
 
 
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
+
+
 
 
 import {
@@ -359,11 +368,10 @@ function fixContent(content){
 
 
 
+requireLogin();
+
+
 loadNotice();
-
-
-
-
 
 
 </script>
