@@ -283,3 +283,67 @@ auth,
 }
 
 );
+
+
+// 페이지 접근 보호
+
+const requireLogin = ()=>{
+
+
+    onAuthStateChanged(
+
+        auth,
+
+
+        (user)=>{
+
+
+            if(!user){
+
+
+                alert(
+
+                "접근 권한이 필요합니다."
+
+                );
+
+
+                location.href =
+
+                "../index.html";
+
+
+                return;
+
+
+            }
+
+
+
+            console.log(
+
+            "접속 확인",
+
+            user.uid
+
+            );
+
+
+        }
+
+
+    );
+
+
+};
+
+
+
+
+export {
+
+    login,
+
+    requireLogin
+
+};
