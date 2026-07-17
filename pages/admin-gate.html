@@ -403,15 +403,13 @@ await checkActiveGate();
 
 
 
-document
-
-.getElementById(
-
+const generateButton =
+document.getElementById(
 "generate-button"
+);
 
-)
 
-.onclick = async()=>{
+generateButton.onclick = async()=>{
 
 if(activeGateExists){
 
@@ -425,6 +423,10 @@ return;
 
   
 try{
+
+generateButton.disabled = true;
+
+generateButton.innerText = "생성 중...";
 
 
 resultBox.innerHTML = `
@@ -446,6 +448,11 @@ await generateGate();
 showGateResult();
 
 
+generateButton.disabled = false;
+
+generateButton.innerText = "랜덤 귀문 생성";
+
+
 
 }
 
@@ -462,6 +469,11 @@ resultBox.innerHTML = `
 </p>
 
 `;
+
+
+generateButton.disabled = false;
+
+generateButton.innerText = "랜덤 귀문 생성";
 
 
 }
