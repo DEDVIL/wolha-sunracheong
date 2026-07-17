@@ -3004,19 +3004,22 @@ renderNodes(getConnectedMembers());
 function renderMyRelationships(){
 
 
-
-if(!currentUser || !myMemberData){
-
-
+if(!currentUser){
 
 myRelationshipList.innerHTML =
-
 "로그인 후 이용 가능합니다.";
-
-
 
 return;
 
+}
+
+
+if(!myMemberData){
+
+myRelationshipList.innerHTML =
+"인명부 작성 후 이용 가능합니다.";
+
+return;
 
 }
 
