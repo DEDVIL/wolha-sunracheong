@@ -1607,25 +1607,14 @@ await addDoc(
     ),
     {
 
-        createdAt:
-        serverTimestamp(),
+createdAt:
+serverTimestamp(),
 
-        lastMessage:
-        "",
+lastMessage:
+"",
 
-        lastMessageAt:
-        null,
-
-
-
-                lastMessage:
-                "",
-
-
-
-                lastMessageAt:
-                serverTimestamp(),
-
+lastMessageAt:
+serverTimestamp(),       
 
 
                 members:
@@ -2035,7 +2024,7 @@ function listenMessages(roomId){
             "createdAt",
             "desc"
         ),
-        limit(50)
+        limit(30)
     );
 
 
@@ -2074,8 +2063,8 @@ if(snapshot.docs.length > 0){
 
 
 
-        // 메시지가 50개 미만이면 이전 메시지 없음
-        if(snapshot.size < 50){
+        // 메시지가 30개 미만이면 이전 메시지 없음
+        if(snapshot.size < 30){
 
             loadOlderBtn.style.display =
             "none";
@@ -2503,7 +2492,7 @@ messageArea.scrollHeight;
         ),
 
         limit(
-            50
+            30
         )
     );
 
