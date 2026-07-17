@@ -40,7 +40,7 @@ from
 
 
 
-const requireLogin = (callback)=>{
+const requireLogin = (callback, requiredRole=null)=>{
 
 
     onAuthStateChanged(
@@ -139,7 +139,20 @@ const requireLogin = (callback)=>{
             }
 
 
+if(
+    requiredRole &&
+    userData.role !== requiredRole
+){
 
+    alert(
+    "관리자 권한이 필요합니다."
+    );
+
+    location.href="../index.html";
+
+    return;
+
+}
 
             console.log(
 
