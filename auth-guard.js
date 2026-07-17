@@ -157,7 +157,20 @@ const requireLogin = (callback)=>{
 
 if(callback){
 
-    callback(userData);
+    try{
+
+        callback(userData);
+
+    }
+
+    catch(error){
+
+        console.error(
+            "페이지 실행 오류:",
+            error
+        );
+
+    }
 
 }
 
