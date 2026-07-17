@@ -58,7 +58,6 @@ export function createQuill(selector){
                                 size:[
                                     "10px",
                                     "12px",
-                                    false,
                                     "18px",
                                     "24px",
                                     "32px"
