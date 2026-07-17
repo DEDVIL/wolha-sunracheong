@@ -1147,8 +1147,7 @@ function listenMyRooms(){
    개인 채팅방 출력
 ========================================================= */
 
-
-function renderPrivateRooms(docs){
+async function renderPrivateRooms(docs){
 
 
     privateChatList.innerHTML="";
@@ -1448,40 +1447,7 @@ async function createPrivateChat(
                 const room =
                 roomDoc.data();
 
-const opponentUid =
-room.members.find(
-    uid => uid !== currentUid
-);
 
-
-let displayName =
-"개인채팅";
-
-
-if(opponentUid){
-
-
-    const opponentSnap =
-    await getDoc(
-        doc(
-            db,
-            "members",
-            opponentUid
-        )
-    );
-
-
-    if(opponentSnap.exists()){
-
-
-        displayName =
-        opponentSnap.data().writerName;
-
-
-    }
-
-
-}
 
                 if(
                     room.type==="private"
