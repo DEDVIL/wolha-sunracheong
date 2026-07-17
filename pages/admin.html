@@ -155,7 +155,28 @@
 
 </main>
 
+<script type="module">
 
+import {
+    requireLogin
+}
+from "../auth-guard.js";
+
+
+requireLogin(
+    (userData)=>{
+
+        console.log(
+            "관리자 접속:",
+            userData
+        );
+
+    },
+    "admin"
+);
+
+
+</script>
 
 
 </body>
