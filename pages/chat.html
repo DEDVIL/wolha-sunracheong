@@ -2247,7 +2247,8 @@ async function loadOlderMessages(){
 
     }
 
-
+const oldHeight =
+messageArea.scrollHeight;
 
     const messagesRef =
     collection(
@@ -2332,6 +2333,8 @@ async function loadOlderMessages(){
         loadedMessages
     );
 
+    messageArea.scrollTop =
+messageArea.scrollHeight - oldHeight;
 
 }
 
