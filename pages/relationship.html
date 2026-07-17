@@ -1347,13 +1347,11 @@ from "../firebase.js";
 
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -1549,37 +1547,28 @@ let startTranslateY = 0;
 ===================== */
 
 
-onAuthStateChanged(
-
-auth,
-
-async(user)=>{
+requireLogin(async(userData)=>{
 
 
-currentUser = user || null;
+currentUser = auth.currentUser;
 
 
 
-if(user){
-
-    currentUser = user;
-
-    await loadMyMember();
-
-}
-else{
-
-    addButton.style.display="none";
-
-}
+await loadMyMember();
 
 
 
 await loadMembers();
 
+
+
 await loadRelationships();
 
+
+
 const connectedMembers = getConnectedMembers();
+
+
 
 renderNodes(connectedMembers);
 
@@ -1592,10 +1581,8 @@ loadTargetMembers();
 renderMyRelationships();
 
 
-}
 
-
-);
+});
 
 
 
@@ -2215,8 +2202,7 @@ let offsetY = 0;
 async function saveNodePosition(member){
 
 
-
-if(!currentUser){
+if(!currentUser || !member.layout){
 
 return;
 
@@ -2226,38 +2212,30 @@ return;
 
 await updateDoc(
 
-
-
 doc(
-
 db,
-
 "members",
-
 member.id
-
 ),
-
 
 
 {
 
-
 layout:{
 
+x:Number(member.layout.x),
 
-x:
-
-parseInt(member.layout.x),
-
-
-
-y:
-
-parseInt(member.layout.y)
-
+y:Number(member.layout.y)
 
 },
+
+updatedAt:serverTimestamp()
+
+}
+
+);
+
+}
 
 
 updatedAt:
