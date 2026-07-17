@@ -347,8 +347,17 @@ import {
 
 from "../firebase.js";
 
+    
+import {
+
+    createQuill
+
+}
+
+from "../quill-config.js";
 
 
+    
 import {
 
     onAuthStateChanged
@@ -454,121 +463,7 @@ if(params.has("id")){
 
 
 
-const quill = new Quill(
-
-    "#editor",
-
-    {
-
-
-        theme:"snow",
-
-
-        modules:{
-
-
-            toolbar:{
-
-
-                container:[
-
-
-                    ["bold","italic","underline"],
-
-
-                    [
-                        {
-                            header:[
-                                1,
-                                2,
-                                false
-                            ]
-                        }
-                    ],
-
-
-                    [
-
-                        {
-                            list:"ordered"
-                        },
-
-                        {
-                            list:"bullet"
-                        }
-
-                    ],
-
-
-                    ["link","image"]
-
-
-                ],
-
-
-
-                handlers:{
-
-
-                    image:function(){
-
-
-
-                        const url = prompt(
-
-                            "이미지 URL을 입력해주세요."
-
-                        );
-
-
-
-                        if(url){
-
-
-
-                            const range =
-
-                            quill.getSelection();
-
-
-
-                            quill.insertEmbed(
-
-
-                                range.index,
-
-
-                                "image",
-
-
-                                url
-
-
-                            );
-
-
-                        }
-
-
-
-                    }
-
-
-                }
-
-
-            }
-
-
-        }
-
-
-    }
-
-
-);
-
-
+const quill = createQuill("#editor");
 
 
 
