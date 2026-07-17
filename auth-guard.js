@@ -40,7 +40,7 @@ from
 
 
 
-const requireLogin = ()=>{
+const requireLogin = (callback)=>{
 
 
     onAuthStateChanged(
@@ -149,9 +149,17 @@ const requireLogin = ()=>{
 
             userData.role
 
+
+
+                
+
             );
 
+if(callback){
 
+    callback(userData);
+
+}
 
         }
 
