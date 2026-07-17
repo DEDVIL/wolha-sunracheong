@@ -730,20 +730,18 @@ overflow-y:auto;
    Firebase / Auth / 초기화 구조
 ========================================================= */
 
+import {
+    auth,
+    db
+} from "../firebase.js";
+
 
 import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-import {
-    getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 import {
-    getFirestore,
     collection,
     doc,
     getDoc,
@@ -754,10 +752,8 @@ import {
     limit,
     onSnapshot,
     addDoc,
-    setDoc,
     updateDoc,
-    serverTimestamp,
-    Timestamp
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -765,26 +761,6 @@ import {
 /* =========================================================
    Firebase 설정
 ========================================================= */
-
-
-const firebaseConfig = {
-
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_ID",
-    appId: "YOUR_APP_ID"
-
-};
-
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-const db = getFirestore(app);
 
 
 
@@ -898,7 +874,7 @@ onAuthStateChanged(auth, async(user)=>{
 
         alert("로그인이 필요합니다.");
 
-        location.href="./login.html";
+location.href="../index.html";
 
         return;
 
