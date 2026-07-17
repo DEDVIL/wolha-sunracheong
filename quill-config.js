@@ -1,7 +1,7 @@
 // js/quill-config.js
 
 
-const Size = Quill.import("formats/size");
+const Size = Quill.import("attributors/class/size");
 
 
 Size.whitelist = [
