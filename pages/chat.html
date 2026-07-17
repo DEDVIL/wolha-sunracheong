@@ -797,10 +797,7 @@ let unsubscribeMessages = null;
 
 let messageCursor = null;
 
-
-loadedMessages = [];
-
-messageCursor = null;
+let loadedMessages = [];
 
 
 let profileCache = {};
@@ -1754,8 +1751,9 @@ if(currentRoomData.type === "public"){
 
 
 
+loadedMessages = [];
 
-    loadedMessages = [];
+messageCursor = null;
 
 
 
@@ -1964,8 +1962,18 @@ onSnapshot(
 
 
 
-        loadedMessages =
-        messages;
+loadedMessages =
+messages;
+
+
+if(snapshot.docs.length > 0){
+
+    messageCursor =
+    snapshot.docs[
+        snapshot.docs.length - 1
+    ];
+
+}
 
 
 
@@ -1993,7 +2001,7 @@ onSnapshot(
     }
 );
 
-
+}
 
 
 
