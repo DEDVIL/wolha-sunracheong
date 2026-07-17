@@ -474,7 +474,7 @@ background:#333;
 </head>
 
 
-<body>
+<body style="display:none;">
 
 
 <header class="chat-title-header">
@@ -856,15 +856,16 @@ document.getElementById("closeModal");
 onAuthStateChanged(auth, async(user)=>{
 
 
-    if(!user){
+   if(!user){
 
-        alert("로그인이 필요합니다.");
+    location.href="../index.html";
 
-location.href="../index.html";
+    return;
 
-        return;
+}
 
-    }
+
+document.body.style.display="block";
 
 
 
