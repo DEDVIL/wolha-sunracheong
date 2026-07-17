@@ -1697,33 +1697,41 @@ async function openChat(
 
 
 
-const opponentUid =
-currentRoomData.members.find(
-    uid => uid !== currentUid
-);
+if(currentRoomData.type === "public"){
+
+    currentChatName.textContent =
+    currentRoomData.name ||
+    "특별 대응팀";
 
 
-if(opponentUid){
+}else{
 
-    const opponentSnap =
-    await getDoc(
-        doc(
-            db,
-            "members",
-            opponentUid
-        )
+
+    const opponentUid =
+    currentRoomData.members.find(
+        uid => uid !== currentUid
     );
 
 
-    if(opponentSnap.exists()){
+    if(opponentUid){
 
-        currentChatName.textContent =
-        opponentSnap.data().writerName;
+        const profile =
+        await getProfile(
+            opponentUid
+        );
+
+
+        if(profile){
+
+            currentChatName.textContent =
+            profile.writerName ||
+            "이름 없음";
+
+        }
 
     }
 
 }
-
 
 
     inputArea.style.display =
