@@ -1108,23 +1108,35 @@ function listenMyRooms(){
     const q =
     query(
         roomsRef,
+
         where(
             "members",
             "array-contains",
             currentUid
         ),
+
         orderBy(
             "lastMessageAt",
             "desc"
         )
+
     );
 
 
 
     unsubscribeRooms =
     onSnapshot(
+
         q,
+
         snapshot=>{
+
+
+            console.log(
+                "내 채팅방 업데이트",
+                snapshot.size
+            );
+
 
 
             renderPrivateRooms(
@@ -1133,6 +1145,7 @@ function listenMyRooms(){
 
 
         },
+
         error=>{
 
             console.error(
@@ -1141,11 +1154,11 @@ function listenMyRooms(){
             );
 
         }
+
     );
 
 
 }
-
 
 
 
