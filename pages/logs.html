@@ -719,8 +719,6 @@ placeholder="캐릭터명 또는 제목 검색"
 
 import {
 
-auth,
-
 db
 
 }
@@ -856,95 +854,55 @@ return `${date.getFullYear()}.${String(date.getMonth()+1).padStart(2,"0")}.${Str
 
 async function loadLogs(){
 
+    try{
+
+        const q = query(
+
+            collection(db,"logs"),
+
+            orderBy("createdAt","desc")
+
+        );
 
 
-try{
+        const snapshot = await getDocs(q);
 
 
-const q = query(
+        logs = snapshot.docs.map((docSnap)=>({
 
-collection(db,"logs"),
+            id:docSnap.id,
 
-orderBy("createdAt","desc")
+            ...docSnap.data(),
 
-);
+            commentCount:
 
+            docSnap.data().commentCount || 0
 
-
-const snapshot = await getDocs(q);
-
-
-
-logs = [];
+        }));
 
 
-for(const docSnap of snapshot.docs){
+        renderLogs(logs);
 
 
-    const log = {
+    }
 
-        id:docSnap.id,
+    catch(error){
 
-        ...docSnap.data(),
+        console.error(error);
 
-        commentCount:0
+        logList.innerHTML = `
 
-    };
+        <div class="empty-log">
 
+        게시글을 불러오지 못했습니다.
 
-    const commentQuery = query(
+        </div>
 
-        collection(db,"logComments"),
+        `;
 
-        where(
-            "logId",
-            "==",
-            log.id
-        )
-
-    );
-
-
-    const commentSnapshot = await getDocs(commentQuery);
-
-
-    log.commentCount = commentSnapshot.size;
-
-
-    logs.push(log);
-
+    }
 
 }
-
-
-
-renderLogs(logs);
-
-
-}
-
-catch(error){
-
-
-console.error(error);
-
-
-logList.innerHTML = `
-
-<div class="empty-log">
-
-게시글을 불러오지 못했습니다.
-
-</div>
-
-`;
-
-
-}
-
-
-}
-
 
 
 
