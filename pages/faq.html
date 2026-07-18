@@ -95,9 +95,7 @@ FAQ
 
 import {
 
-db,
-
-auth
+db
 
 }
 
@@ -153,18 +151,16 @@ let currentUser = null;
 
 
 
+requireLogin((userData)=>{
 
-requireLogin(()=>{
 
-
-currentUser = auth.currentUser;
+currentUser = userData;
 
 
 loadFAQ();
 
 
 });
-
 
 
 
