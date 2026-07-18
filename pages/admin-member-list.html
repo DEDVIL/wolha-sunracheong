@@ -150,7 +150,9 @@ deleteDoc,
 
 doc,
 
-getDoc
+getDoc,
+
+updateDoc
 
 }
 
@@ -433,7 +435,23 @@ ${member.department || ""}
 
 <td>
 
-${visible}
+<select onchange="changeVisibility('${member.id}', this.value)">
+
+<option
+value="true"
+${member.visible !== false ? "selected" : ""}
+>
+공개
+</option>
+
+<option
+value="false"
+${member.visible === false ? "selected" : ""}
+>
+비공개
+</option>
+
+</select>
 
 </td>
 
@@ -446,7 +464,7 @@ ${visible}
 </a>
 
 
-<a href="./admin-member-edit.html?id=${member.id}">
+<a href="./member-edit.html?id=${member.id}">
 수정
 </a>
 
@@ -550,7 +568,47 @@ loadMembers();
 };
 
 
+window.changeVisibility = async function(id, value){
 
+    const visible = value === "true";
+
+    try{
+
+        await updateDoc(
+
+            doc(
+
+                db,
+
+                "members",
+
+                id
+
+            ),
+
+            {
+
+                visible: visible
+
+            }
+
+        );
+
+        loadMembers();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "공개 설정 변경에 실패했습니다."
+        );
+
+    }
+
+};
 
 
 </script>
