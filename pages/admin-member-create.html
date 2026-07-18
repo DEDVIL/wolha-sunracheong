@@ -241,7 +241,17 @@ db
 from "../firebase.js";
 
 
+  
 
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
+
+  
 
 import {
 
@@ -272,6 +282,20 @@ from
 
 
 
+  
+requireLogin(
+
+    ()=>{
+
+        console.log(
+            "멤버 계정 생성 페이지 접속"
+        );
+
+    },
+
+    "admin"
+
+);
 
 
 
@@ -474,6 +498,9 @@ alert(
 
 };
 
+
+
+  
 
 
 
