@@ -538,7 +538,11 @@ let currentUser = null;
 
 
 
+const params = new URLSearchParams(
+    location.search
+);
 
+const targetMemberId = params.get("id");
 
 
 
@@ -588,13 +592,18 @@ async function loadProfile(){
 
 
 
+const memberId =
+
+targetMemberId || currentUser.uid;
+
+
 const memberRef = doc(
 
 db,
 
 "members",
 
-currentUser.uid
+memberId
 
 );
 
@@ -825,16 +834,20 @@ return;
 
 
 
+const memberId =
+
+targetMemberId || currentUser.uid;
+
+
 const memberRef = doc(
 
 db,
 
 "members",
 
-currentUser.uid
+memberId
 
 );
-
 
 
 
@@ -854,10 +867,9 @@ const oldData = await getDoc(memberRef);
 
 let saveData = {
 
-
 uid:
 
-currentUser.uid,
+memberId,
 
 
 
@@ -945,7 +957,19 @@ alert(
 
 
 
-location.href="./member-list.html";
+if(targetMemberId){
+
+    location.href =
+        "./admin-member-list.html";
+
+}
+
+else{
+
+    location.href =
+        "./member-list.html";
+
+}
 
 
 
