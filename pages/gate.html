@@ -243,8 +243,6 @@ class="gate-end-button"
 
 import {
 
-auth,
-
 db
 
 }
@@ -253,17 +251,14 @@ from "../firebase.js";
 
 
 
-
-
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
+from "../auth-guard.js";
 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -399,55 +394,32 @@ document.getElementById(
 
 
 
-onAuthStateChanged(
+requireLogin(
 
-auth,
-
-async(user)=>{
+async(userData)=>{
 
 
-if(!user){
-
-location.href="../index.html";
-
-return;
-
-}
-
-
-
-currentUser = user;
-
+currentUser = userData;
 
 
 await loadUser();
 
 
-
 await loadGate();
 
 
+if(gateId){
 
-await loadParticipants();
+    await loadParticipants();
 
-
-
-await loadComments();
-
-
+    await loadComments();
 
 }
 
 
+}
 
 );
-
-
-
-
-
-
-
 
 
 // ======================
