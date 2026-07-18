@@ -125,7 +125,6 @@ placeholder="질문 내용을 입력해주세요."
 
 import {
 
-auth,
 
 db
 
@@ -134,17 +133,13 @@ db
 from "../firebase.js";
 
 
-
-
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -184,68 +179,16 @@ let currentProfile = null;
 
 
 
-onAuthStateChanged(
-
-auth,
+requireLogin((userData)=>{
 
 
-async(user)=>{
+    currentUser = userData;
 
 
-    if(!user){
-
-        alert(
-
-        "로그인이 필요합니다."
-
-        );
-
-        location.href="../index.html";
-
-        return;
-
-    }
+    currentProfile = userData;
 
 
-
-    currentUser = user;
-
-
-
-
-    const userDoc =
-
-    await getDoc(
-
-        doc(
-
-            db,
-
-            "users",
-
-            user.uid
-
-        )
-
-    );
-
-
-
-
-    if(userDoc.exists()){
-
-
-        currentProfile = userDoc.data();
-
-
-    }
-
-
-
-}
-
-);
-
+});
 
 
 
