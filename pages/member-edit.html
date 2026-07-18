@@ -561,6 +561,8 @@ requireLogin(
 
             targetMemberId &&
 
+            targetMemberId !== userData.uid &&
+
             userData.role !== "admin"
 
         ){
