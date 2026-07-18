@@ -232,16 +232,6 @@ white-space:nowrap;
 
 }
 
-.unread-badge{
-
-background:#c00;
-color:white;
-font-size:12px;
-border-radius:20px;
-padding:3px 7px;
-float:right;
-
-}
 
 
 .home-button {
@@ -1844,9 +1834,6 @@ messageCursor = null;
 
 
 
-await markRoomRead();
-
-
 listenRoomData(
     roomId
 );
@@ -1862,66 +1849,6 @@ listenMessages(
 
 
 
-
-
-
-/* =========================================================
-   읽음 처리
-========================================================= */
-
-
-async function markRoomRead(){
-
-
-    if(
-        !currentRoomId
-        ||
-        !currentRoomData
-        ||
-        currentRoomData.type !== "public"
-    ){
-
-        return;
-
-    }
-
-
-
-    const roomRef =
-    doc(
-        db,
-        "chatRooms",
-        currentRoomId
-    );
-
-
-
-    await updateDoc(
-        roomRef,
-        {
-
-
-            [`readBy.${currentUid}`]:
-            serverTimestamp()
-
-
-
-        }
-    );
-
-// 최신 데이터 다시 가져오기
-const updatedSnap =
-await getDoc(roomRef);
-
-
-if(updatedSnap.exists()){
-
-    currentRoomData =
-    updatedSnap.data();
-    
-}
-
-}
 
 
 
@@ -2149,45 +2076,12 @@ function listenRoomData(roomId){
             snap.data();
 
 
-            if(
-    currentRoomData.type === "public"
-){
-
-    updateReadStatus();
-
-}
-
-
         }
     );
 
 }
 
 
-function updateReadStatus(){
-
-    const readElements =
-    document.querySelectorAll(
-        ".read-count"
-    );
-
-
-    const readCount =
-    Object.keys(
-        currentRoomData.readBy || {}
-    ).length;
-
-
-    readElements.forEach(
-        element=>{
-
-            element.textContent =
-            `읽음 ${readCount}`;
-
-        }
-    );
-
-}
 
     
 
@@ -2407,41 +2301,6 @@ wrapper.appendChild(
     time
 );
 
-if(
-    currentRoomData.type === "public"
-){
-
-    const readCount =
-    Object.keys(
-        currentRoomData.readBy || {}
-    ).length;
-
-
-const read =
-document.createElement(
-    "span"
-);
-
-
-read.className =
-"read-count";
-
-
-read.style.marginLeft="8px";
-read.style.color="#777";
-read.style.fontSize="11px";
-read.style.fontWeight="normal";
-
-
-    read.textContent =
-    `읽음 ${readCount}`;
-
-
-    time.appendChild(
-        read
-    );
-
-}
 
     return wrapper;
 
@@ -2742,18 +2601,6 @@ const updateData = {
 
 };
 
-
-
-if(
-    currentRoomData.type === "public"
-){
-
-    updateData[
-        `readBy.${currentUid}`
-    ] =
-    serverTimestamp();
-
-}
 
 
 
