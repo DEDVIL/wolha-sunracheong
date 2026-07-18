@@ -619,7 +619,6 @@
 
 import {
 
-    auth,
 
     db
 
@@ -1125,84 +1124,6 @@ if(isWriter || isAdmin){
 
 
 async function deleteWorld(){
-
-    const result = confirm(
-        "정말 삭제하시겠습니까?"
-    );
-
-    if(!result){
-        return;
-    }
-
-    try{
-
-        const batch = writeBatch(db);
-
-
-        // 해당 세계관 로그의 댓글 조회
-        const commentQuery = query(
-
-            collection(
-                db,
-                "worldComments"
-            ),
-
-            where(
-                "worldId",
-                "==",
-                worldId
-            )
-
-        );
-
-
-        const commentSnapshot =
-        await getDocs(commentQuery);
-
-
-        // 해당 댓글 전부 삭제 예약
-        commentSnapshot.forEach((commentDoc)=>{
-
-            batch.delete(
-                commentDoc.ref
-            );
-
-        });
-
-
-        // 세계관 로그 삭제 예약
-        batch.delete(
-
-            doc(
-                db,
-                "worldLogs",
-                worldId
-            )
-
-        );
-
-
-        // 한 번에 실행
-        await batch.commit();
-
-
-        location.href =
-        "world-logs.html";
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "삭제 중 오류가 발생했습니다."
-        );
-
-    }
-
-}async function deleteWorld(){
 
     const result = confirm(
         "정말 삭제하시겠습니까?"
