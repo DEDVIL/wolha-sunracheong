@@ -339,15 +339,13 @@ id="save-btn"
 
 import {
 
-    auth,
-
     db
 
 }
 
 from "../firebase.js";
 
-    
+
 import {
 
     createQuill
@@ -357,16 +355,14 @@ import {
 from "../quill-config.js";
 
 
-    
 import {
 
-    onAuthStateChanged
+    requireLogin
 
 }
 
-from
+from "../auth-guard.js";
 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -978,71 +974,17 @@ async function saveWorldLog(){
 
 */
 
+requireLogin(
 
-onAuthStateChanged(
+    async(userData)=>{
 
-
-    auth,
-
-
-    async(user)=>{
-
-
-
-
-
-        if(!user){
-
-
-
-            alert(
-
-                "승인된 멤버만 이용할 수 있습니다."
-
-            );
-
-
-
-            location.href=
-
-            "../index.html";
-
-
-
-            return;
-
-
-        }
-
-
-
-
-
-
-
-        currentUser = user;
-
-
-
-
-
+        currentUser = userData;
 
         await loadEditData();
 
-
-
-
-
     }
 
-
 );
-
-
-
-
-
-
 
 
 
