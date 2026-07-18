@@ -613,14 +613,11 @@ import {
     addDoc,
     updateDoc,
     serverTimestamp,
-    increment
+    increment,
+    writeBatch
 
 }
-
-
 from
-
-
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -1090,89 +1087,81 @@ function renderLog(){
 
 async function deleteLog(){
 
-
-
     const result = confirm(
-
-
-
         "정말 삭제하시겠습니까?"
-
-
-
     );
 
-
-
-
     if(!result){
-
-
-
         return;
-
-
     }
-
-
-
-
-
 
     try{
 
+        const batch = writeBatch(db);
 
 
-        await deleteDoc(
+        // 해당 로그의 댓글 조회
+        const commentQuery = query(
 
-
-
-            doc(
-
+            collection(
                 db,
+                "logComments"
+            ),
 
-                "logs",
-
+            where(
+                "logId",
+                "==",
                 logId
-
             )
-
-
 
         );
 
 
+        const commentSnapshot =
+        await getDocs(commentQuery);
 
 
+        // 댓글 삭제 예약
+        commentSnapshot.forEach((commentDoc)=>{
 
-        location.href="logs.html";
+            batch.delete(
+                commentDoc.ref
+            );
+
+        });
 
 
+        // 로그 삭제 예약
+        batch.delete(
 
+            doc(
+                db,
+                "logs",
+                logId
+            )
+
+        );
+
+
+        // 한 번에 실행
+        await batch.commit();
+
+
+        location.href =
+        "logs.html";
 
 
     }
 
     catch(error){
 
-
-
         console.error(error);
 
-
-
         alert(
-
             "삭제 중 오류가 발생했습니다."
-
         );
 
-
     }
-
-
-
-
 
 }
 
