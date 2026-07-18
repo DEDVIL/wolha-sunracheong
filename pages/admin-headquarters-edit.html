@@ -227,6 +227,43 @@ params.get("id");
 const quill = createQuill("#editor");
 
 
+function fixContent(content){
+
+    const div =
+    document.createElement("div");
+
+    div.innerHTML =
+    content;
+
+    const images =
+    div.querySelectorAll("img");
+
+    images.forEach((img)=>{
+
+        img.removeAttribute("width");
+
+        img.removeAttribute("height");
+
+        img.removeAttribute("style");
+
+        img.style.maxWidth =
+        "100%";
+
+        img.style.width =
+        "100%";
+
+        img.style.height =
+        "auto";
+
+        img.style.display =
+        "block";
+
+    });
+
+    return div.innerHTML;
+
+}
+
 
 requireLogin(
 
@@ -239,56 +276,6 @@ requireLogin(
     "admin"
 
 );
-
-
-
-
-
-let currentUser=null;
-
-
-function fixContent(content){
-
-
-    const div = document.createElement("div");
-
-
-    div.innerHTML = content;
-
-
-
-    const images = div.querySelectorAll("img");
-
-
-
-    images.forEach((img)=>{
-
-
-        img.removeAttribute("width");
-
-        img.removeAttribute("height");
-
-        img.removeAttribute("style");
-
-
-        img.style.maxWidth = "100%";
-
-        img.style.width = "100%";
-
-        img.style.height = "auto";
-
-        img.style.display = "block";
-
-
-    });
-
-
-
-    return div.innerHTML;
-
-
-}
-
 
 
 
