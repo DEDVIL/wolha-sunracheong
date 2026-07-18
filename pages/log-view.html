@@ -569,7 +569,6 @@
 import {
 
 
-    auth,
 
     db
 
@@ -584,18 +583,11 @@ from "../firebase.js";
 
 import {
 
-
-    onAuthStateChanged
-
+    requireLogin
 
 }
 
-
-from
-
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+from "../auth-guard.js";
 
 
 
@@ -2010,102 +2002,32 @@ async function deleteComment(id){
 
 
 
-onAuthStateChanged(
+
+requireLogin(
+
+    async(userData)=>{
 
 
-
-    auth,
-
+        currentUser = userData;
 
 
-    async(user)=>{
+        isAdmin =
+
+        userData.role === "admin";
 
 
-
-
-
-
-        if(!user){
-
-
-
-            alert(
-
-                "승인된 멤버만 이용할 수 있습니다."
-
-            );
-
-
-
-            location.href="../index.html";
-
-
-
-            return;
-
-
-
-        }
-
-
-
-
-
-
-        currentUser = user;
-
-
-const userSnap = await getDoc(
-
-doc(
-db,
-"users",
-user.uid
-)
-
-);
-
-
-if(
-userSnap.exists()
-&&
-userSnap.data().role === "admin"
-){
-
-    isAdmin = true;
-
-}
-
-
-
-await loadLog();
-
-
-
-
-
+        await loadLog();
 
 
         createCommentForm();
 
 
-
-
-
-
         await loadComments();
-
-
-
 
 
     }
 
-
-
-
 );
-
 
 
 
