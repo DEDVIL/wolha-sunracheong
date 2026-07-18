@@ -186,6 +186,8 @@ import {
 
 doc,
 
+getDoc,
+
 addDoc,
 
 collection,
@@ -334,27 +336,25 @@ alert(
 
 
 
-requireLogin((userData)=>{
+requireLogin(
 
-    if(userData.role !== "admin"){
+    (userData)=>{
 
-        alert(
-            "관리자 권한이 없습니다."
-        );
+        currentUser =
+        userData;
 
-        location.href="../index.html";
 
-        return;
+        currentProfile =
+        userData;
 
-    }
 
-    currentUser = userData;
+        loadNotice();
 
-    currentProfile = userData;
+    },
 
-    loadNotice();
+    "admin"
 
-});
+);
 
 
 
