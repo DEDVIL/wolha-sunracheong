@@ -154,13 +154,20 @@ id="important"
 
 import {
 
-auth,
-
 db
 
 }
 
 from "../firebase.js";
+
+
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
 
 
     
@@ -173,26 +180,11 @@ createQuill
 from "../quill-config.js";
 
 
-    
-import {
-
-onAuthStateChanged
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-
 
 
 import {
 
 doc,
-
-getDoc,
 
 addDoc,
 
@@ -342,107 +334,27 @@ alert(
 
 
 
+requireLogin((userData)=>{
 
-onAuthStateChanged(
+    if(userData.role !== "admin"){
 
-auth,
+        alert(
+            "관리자 권한이 없습니다."
+        );
 
+        location.href="../index.html";
 
-async(user)=>{
+        return;
 
+    }
 
+    currentUser = userData;
 
-if(!user){
+    currentProfile = userData;
 
+    loadNotice();
 
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-const userDoc =
-
-await getDoc(
-
-
-
-doc(
-
-db,
-
-"users",
-
-user.uid
-
-)
-
-
-
-);
-
-
-
-
-
-
-
-if(
-
-
-!userDoc.exists()
-
-||
-
-userDoc.data().role !== "admin"
-
-
-){
-
-
-
-alert(
-
-"관리자 권한이 없습니다."
-
-);
-
-
-
-location.href="./home.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-
-currentUser = user;
-
-currentProfile = userDoc.data();
-
-
-
-
-
-loadNotice();
-
-
-
-}
-
-);
+});
 
 
 
