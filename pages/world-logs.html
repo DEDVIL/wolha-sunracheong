@@ -968,20 +968,20 @@ logs=[];
 
 for(const docSnap of snapshot.docs){
 
+    const data = docSnap.data();
 
-    const log = {
-
+    logs.push({
 
         id:docSnap.id,
 
+        ...data,
 
-        ...docSnap.data(),
+        commentCount:
+        data.commentCount || 0
 
+    });
 
-        commentCount:0
-
-
-    };
+}
 
 
 
