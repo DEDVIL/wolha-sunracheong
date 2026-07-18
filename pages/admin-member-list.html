@@ -113,26 +113,15 @@ placeholder="이름 또는 부서 검색"
 
 
 import {
-
-auth,
-
-db
-
+    db
 }
-
 from "../firebase.js";
 
-
-
+    
 import {
-
-onAuthStateChanged
-
+    requireLogin
 }
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -149,8 +138,6 @@ orderBy,
 deleteDoc,
 
 doc,
-
-getDoc,
 
 updateDoc
 
@@ -206,56 +193,15 @@ renderMembers();
 
 );
 
-onAuthStateChanged(
+requireLogin(
 
-auth,
+    ()=>{
 
-async(user)=>{
+        loadMembers();
 
+    },
 
-if(!user){
-
-location.href="../index.html";
-
-return;
-
-}
-
-
-
-const userSnap = await getDoc(
-
-doc(
-db,
-"users",
-user.uid
-)
-
-);
-
-
-
-if(
-!userSnap.exists() ||
-userSnap.data().role !== "admin"
-){
-
-alert(
-"관리자 권한이 필요합니다."
-);
-
-location.href="./home.html";
-
-return;
-
-}
-
-
-
-loadMembers();
-
-
-}
+    "admin"
 
 );
 
