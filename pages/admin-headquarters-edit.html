@@ -144,8 +144,6 @@ id="important"
 
 import {
 
-auth,
-
 db
 
 }
@@ -154,6 +152,18 @@ from "../firebase.js";
 
 
 
+
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
+
+
+
+    
 import {
 
 createQuill
@@ -164,15 +174,7 @@ from "../quill-config.js";
 
     
 
-import {
 
-onAuthStateChanged
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -226,7 +228,17 @@ const quill = createQuill("#editor");
 
 
 
+requireLogin(
 
+    ()=>{
+
+        loadNotice();
+
+    },
+
+    "admin"
+
+);
 
 
 
@@ -280,99 +292,6 @@ function fixContent(content){
 
 
 
-
-onAuthStateChanged(
-
-auth,
-
-
-async(user)=>{
-
-
-
-if(!user){
-
-
-
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-const userDoc =
-
-await getDoc(
-
-
-
-doc(
-
-db,
-
-"users",
-
-user.uid
-
-)
-
-
-
-);
-
-
-
-
-
-
-if(
-
-!userDoc.exists()
-
-||
-
-userDoc.data().role !== "admin"
-
-){
-
-
-alert(
-
-"관리자 권한이 없습니다."
-
-);
-
-
-
-location.href="./home.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-currentUser=user;
-
-
-
-loadNotice();
-
-
-
-}
-
-);
 
 
 
