@@ -183,8 +183,6 @@ if(callback){
             error
         );
 
-        return;
-
     }
 
 }
