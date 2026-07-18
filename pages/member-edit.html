@@ -938,7 +938,13 @@ alert(
 
 
 
-if(targetMemberId){
+if(
+
+    currentUser.role === "admin" &&
+
+    targetMemberId
+
+){
 
     location.href =
         "./admin-member-list.html";
