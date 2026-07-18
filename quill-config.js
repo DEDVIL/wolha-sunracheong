@@ -195,8 +195,85 @@ export function createQuill(selector){
         }
 
 
-      );
+    );
 
+
+    let savedScrollX = 0;
+    let savedScrollY = 0;
+
+
+    quill.root.addEventListener(
+
+        "paste",
+
+        () => {
+
+
+            savedScrollX = window.scrollX;
+
+            savedScrollY = window.scrollY;
+
+
+            setTimeout(
+
+                () => {
+
+                    window.scrollTo(
+
+                        savedScrollX,
+
+                        savedScrollY
+
+                    );
+
+                },
+
+                0
+
+            );
+
+
+            setTimeout(
+
+                () => {
+
+                    window.scrollTo(
+
+                        savedScrollX,
+
+                        savedScrollY
+
+                    );
+
+                },
+
+                100
+
+            );
+
+
+            setTimeout(
+
+                () => {
+
+                    window.scrollTo(
+
+                        savedScrollX,
+
+                        savedScrollY
+
+                    );
+
+                },
+
+                300
+
+            );
+
+
+        }
+
+    );
 
 
     return quill;
