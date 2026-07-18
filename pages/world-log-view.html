@@ -619,34 +619,22 @@
 
 import {
 
-
     auth,
 
     db
 
-
 }
-
 
 from "../firebase.js";
 
 
-
-
-
 import {
 
-
-    onAuthStateChanged
-
+    requireLogin
 
 }
 
-
-from
-
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -893,13 +881,16 @@ function renderWorld(){
 
 
 
-    const isWriter =
+const isWriter =
+
+currentUser &&
+
+currentUser.uid === worldData.writerUid;
 
 
-    currentUser &&
+const canDelete =
 
-
-    currentUser.uid === worldData.writerUid;
+isWriter || isAdmin;
 
 
 
@@ -1003,65 +994,56 @@ function renderWorld(){
 
 
 
-        ${
+       ${
+
+isWriter || isAdmin
+
+?
+
+`
+
+${
+
+isWriter
+
+?
+
+`
+
+<button
+class="view-btn edit-btn"
+id="edit-btn"
+>
+
+수정
+
+</button>
+
+`
+
+:
+
+""
+
+}
 
 
-        isWriter
+<button
+class="view-btn delete-btn"
+id="delete-btn"
+>
 
+삭제
 
-        ?
+</button>
 
+`
 
-        `
+:
 
+""
 
-
-        <button
-
-        class="view-btn edit-btn"
-
-        id="edit-btn"
-
-        >
-
-
-            수정
-
-
-        </button>
-
-
-
-
-
-
-        <button
-
-        class="view-btn delete-btn"
-
-        id="delete-btn"
-
-        >
-
-
-            삭제
-
-
-        </button>
-
-
-
-        `
-
-
-        :
-
-
-        ""
-
-
-
-        }
+}
 
 
 
@@ -1111,59 +1093,33 @@ function renderWorld(){
 
 
 
-    if(isWriter){
+  if(isWriter){
+
+    document
+    .getElementById("edit-btn")
+    .addEventListener(
+        "click",
+        ()=>{
+
+            location.href =
+            `world-log-write.html?id=${worldId}`;
+
+        }
+    );
+
+}
 
 
+if(isWriter || isAdmin){
 
+    document
+    .getElementById("delete-btn")
+    .addEventListener(
+        "click",
+        deleteWorld
+    );
 
-
-        document
-
-        .getElementById("edit-btn")
-
-        .addEventListener(
-
-
-            "click",
-
-
-            ()=>{
-
-
-               location.href =
-`world-log-write.html?id=${worldId}`;
-
-
-            }
-
-
-        );
-
-
-
-
-
-
-
-
-        document
-
-        .getElementById("delete-btn")
-
-        .addEventListener(
-
-
-            "click",
-
-
-            deleteWorld
-
-
-        );
-
-
-
-    }
+}
 
 
 
@@ -2186,92 +2142,30 @@ async function deleteComment(id){
 
 
 
-onAuthStateChanged(
+requireLogin((userData)=>{
+
+    currentUser = {
+
+        uid:userData.uid
+
+    };
 
 
+    isAdmin =
 
-    auth,
-
-
-
-    async(user)=>{
+        userData.role === "admin";
 
 
+    loadWorld();
 
 
+    createCommentForm();
 
 
-        if(!user){
+    loadComments();
 
 
-
-            alert(
-
-                "승인된 멤버만 이용할 수 있습니다."
-
-            );
-
-
-
-            location.href="../index.html";
-
-
-
-            return;
-
-
-
-        }
-
-
-
-
-
-
-
-currentUser = user;
-
-
-
-const userSnap = await getDoc(
-
-doc(
-db,
-"users",
-user.uid
-)
-
-);
-
-
-
-if(
-userSnap.exists()
-&&
-userSnap.data().role === "admin"
-){
-
-    isAdmin = true;
-
-}
-
-
-
-await loadWorld();
-
-createCommentForm();
-
-await loadComments();
-
-
-
-
-    }
-
-
-
-
-);
+});
 
 
 
