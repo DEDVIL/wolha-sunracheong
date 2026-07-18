@@ -643,29 +643,19 @@ from "../auth-guard.js";
 
 import {
 
-
     doc,
-
     getDoc,
-
     deleteDoc,
-
     collection,
-
     getDocs,
-
     query,
-
     where,
-
     orderBy,
-
     addDoc,
-
     updateDoc,
-
-    serverTimestamp
-
+    serverTimestamp,
+    increment,
+    writeBatch
 
 }
 
@@ -1136,88 +1126,159 @@ if(isWriter || isAdmin){
 
 async function deleteWorld(){
 
-
-
     const result = confirm(
-
-
-
         "정말 삭제하시겠습니까?"
-
-
-
     );
 
-
-
-
     if(!result){
-
-
         return;
-
-
     }
-
-
-
-
-
 
     try{
 
+        const batch = writeBatch(db);
 
 
-        await deleteDoc(
+        // 해당 세계관 로그의 댓글 조회
+        const commentQuery = query(
 
-
-
-            doc(
-
+            collection(
                 db,
+                "worldComments"
+            ),
 
-                "worldLogs",
-
+            where(
+                "worldId",
+                "==",
                 worldId
-
             )
-
-
 
         );
 
 
+        const commentSnapshot =
+        await getDocs(commentQuery);
 
 
+        // 해당 댓글 전부 삭제 예약
+        commentSnapshot.forEach((commentDoc)=>{
+
+            batch.delete(
+                commentDoc.ref
+            );
+
+        });
 
 
-        location.href="world-logs.html";
+        // 세계관 로그 삭제 예약
+        batch.delete(
+
+            doc(
+                db,
+                "worldLogs",
+                worldId
+            )
+
+        );
 
 
+        // 한 번에 실행
+        await batch.commit();
 
+
+        location.href =
+        "world-logs.html";
 
 
     }
-
 
     catch(error){
 
-
-
         console.error(error);
 
-
-
         alert(
-
             "삭제 중 오류가 발생했습니다."
+        );
+
+    }
+
+}async function deleteWorld(){
+
+    const result = confirm(
+        "정말 삭제하시겠습니까?"
+    );
+
+    if(!result){
+        return;
+    }
+
+    try{
+
+        const batch = writeBatch(db);
+
+
+        // 해당 세계관 로그의 댓글 조회
+        const commentQuery = query(
+
+            collection(
+                db,
+                "worldComments"
+            ),
+
+            where(
+                "worldId",
+                "==",
+                worldId
+            )
 
         );
 
 
+        const commentSnapshot =
+        await getDocs(commentQuery);
+
+
+        // 해당 댓글 전부 삭제 예약
+        commentSnapshot.forEach((commentDoc)=>{
+
+            batch.delete(
+                commentDoc.ref
+            );
+
+        });
+
+
+        // 세계관 로그 삭제 예약
+        batch.delete(
+
+            doc(
+                db,
+                "worldLogs",
+                worldId
+            )
+
+        );
+
+
+        // 한 번에 실행
+        await batch.commit();
+
+
+        location.href =
+        "world-logs.html";
+
+
     }
 
+    catch(error){
 
+        console.error(error);
+
+        alert(
+            "삭제 중 오류가 발생했습니다."
+        );
+
+    }
 
 }
 
@@ -1855,56 +1916,32 @@ input.value.trim().replace(/\n{3,}/g, "\n\n");
 
 
 
-        await addDoc(
+       await addDoc(
+    collection(
+        db,
+        "worldComments"
+    ),
+    {
+        worldId:worldId,
+        uid:currentUser.uid,
+        writerName:writerName,
+        content:content,
+        createdAt:serverTimestamp(),
+        updatedAt:null
+    }
+);
 
-
-
-            collection(
-
-                db,
-
-                "worldComments"
-
-            ),
-
-
-
-
-            {
-
-
-
-                worldId:worldId,
-
-
-
-                uid:currentUser.uid,
-
-
-
-                writerName:writerName,
-
-
-
-                content:content,
-
-
-
-                createdAt:
-
-                serverTimestamp(),
-
-
-
-                updatedAt:null
-
-
-
-            }
-
-
-
-        );
+await updateDoc(
+    doc(
+        db,
+        "worldLogs",
+        worldId
+    ),
+    {
+        commentCount:
+        increment(1)
+    }
+);
 
 
 
@@ -2071,66 +2108,68 @@ async function editComment(id,oldContent){
 
 async function deleteComment(id){
 
-
-
     const result = confirm(
-
-
-
         "댓글을 삭제하시겠습니까?"
-
-
-
     );
 
-
-
-
-
-
     if(!result){
-
-
         return;
+    }
+
+    try{
+
+        const commentRef = doc(
+            db,
+            "worldComments",
+            id
+        );
+
+
+        const commentSnap =
+        await getDoc(commentRef);
+
+
+        if(!commentSnap.exists()){
+            return;
+        }
+
+
+        const commentData =
+        commentSnap.data();
+
+
+        await deleteDoc(
+            commentRef
+        );
+
+
+        await updateDoc(
+            doc(
+                db,
+                "worldLogs",
+                commentData.worldId
+            ),
+            {
+                commentCount:
+                increment(-1)
+            }
+        );
+
+
+        loadComments();
 
 
     }
 
+    catch(error){
 
+        console.error(error);
 
+        alert(
+            "댓글 삭제 중 오류가 발생했습니다."
+        );
 
-
-
-
-    await deleteDoc(
-
-
-
-        doc(
-
-            db,
-
-            "worldComments",
-
-            id
-
-        )
-
-
-
-    );
-
-
-
-
-
-
-
-    loadComments();
-
-
-
-
+    }
 
 }
 
