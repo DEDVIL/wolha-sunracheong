@@ -111,7 +111,6 @@ placeholder="질문 내용을 입력해주세요."
 
 import {
 
-auth,
 
 db
 
@@ -121,17 +120,13 @@ from "../firebase.js";
 
 
 
-
-
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -206,151 +201,91 @@ location.href="./faq.html";
 
 
 
+requireLogin(async(userData)=>{
 
 
+    currentUser = userData;
 
 
+    const faqRef =
 
-onAuthStateChanged(
+    doc(
 
-auth,
+        db,
 
+        "faq",
 
-async(user)=>{
+        faqId
 
+    );
 
-if(!user){
 
+    const faqDoc =
 
-alert(
+    await getDoc(faqRef);
 
-"로그인이 필요합니다."
 
-);
+    if(!faqDoc.exists()){
 
 
-location.href="../index.html";
+        alert(
 
+            "존재하지 않는 질문입니다."
 
-return;
+        );
 
 
-}
+        location.href="./faq.html";
 
 
+        return;
 
+    }
 
-currentUser = user;
 
+    const data =
 
+    faqDoc.data();
 
 
+    // 작성자 확인
 
-const faqRef =
+    if(
 
-doc(
+        data.writerUid !== currentUser.uid
 
-db,
+    ){
 
-"faq",
 
-faqId
+        alert(
 
-);
+            "수정 권한이 없습니다."
 
+        );
 
 
+        location.href="./faq.html";
 
 
-const faqDoc =
+        return;
 
-await getDoc(faqRef);
+    }
 
 
+    document
 
+    .getElementById("question")
 
+    .value =
 
+    data.question;
 
-if(!faqDoc.exists()){
 
+});
 
-alert(
 
-"존재하지 않는 질문입니다."
 
-);
 
-
-location.href="./faq.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-
-const data =
-
-faqDoc.data();
-
-
-
-
-
-
-
-// 작성자 확인
-
-
-
-if(
-
-data.writerUid !== currentUser.uid
-
-){
-
-
-alert(
-
-"수정 권한이 없습니다."
-
-);
-
-
-location.href="./faq.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-
-document
-
-.getElementById("question")
-
-.value =
-
-data.question;
-
-
-
-
-
-
-}
-
-);
 
 
 
