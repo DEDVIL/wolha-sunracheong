@@ -330,195 +330,121 @@ faqList.appendChild(box);
 
 window.saveAnswer = async function(id){
 
+    const answer =
+
+    document.getElementById(
+
+        "answer-" + id
+
+    ).value;
+
+
+    if(
+
+        answer.trim() === ""
+
+    ){
+
+        alert(
+
+            "답변 내용을 입력해주세요."
+
+        );
+
+        return;
+
+    }
+
+
+    await updateDoc(
+
+        doc(
+
+            db,
+
+            "faq",
+
+            id
+
+        ),
+
+        {
+
+            answer: answer,
+
+            status: "answered",
+
+            answeredAt: serverTimestamp()
+
+        }
+
+    );
+
+
+    alert(
+
+        "답변이 저장되었습니다."
+
+    );
+
+
+    loadFAQ();
+
+};
+
+
 window.deleteAnswer = async function(id){
 
+    const check =
+
+    confirm(
+
+        "답변을 삭제하시겠습니까?"
+
+    );
 
 
-const check =
+    if(!check){
 
-confirm(
+        return;
 
-"답변을 삭제하시겠습니까?"
-
-);
+    }
 
 
+    await updateDoc(
 
-if(!check){
+        doc(
 
-return;
+            db,
 
-}
+            "faq",
 
+            id
 
+        ),
 
+        {
 
+            answer: deleteField(),
 
-await updateDoc(
+            status: "waiting"
 
+        }
 
-
-doc(
-
-db,
-
-"faq",
-
-id
-
-),
+    );
 
 
+    alert(
 
-{
+        "답변이 삭제되었습니다."
 
-
-answer:
-
-deleteField(),
+    );
 
 
-status:
-
-"waiting"
-
-}
-
-
-
-);
-
-
-
-
-
-alert(
-
-"답변이 삭제되었습니다."
-
-);
-
-
-
-
-loadFAQ();
-
-
+    loadFAQ();
 
 };
-
-
-
-const answer =
-
-document.getElementById(
-
-"answer-" + id
-
-).value;
-
-
-
-
-
-
-
-if(
-
-answer.trim() === ""
-
-){
-
-
-alert(
-
-"답변 내용을 입력해주세요."
-
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-
-await updateDoc(
-
-
-
-doc(
-
-db,
-
-"faq",
-
-id
-
-),
-
-
-
-{
-
-
-answer:
-
-answer,
-
-
-status:
-
-"answered",
-
-
-answeredAt:
-
-serverTimestamp()
-
-
-
-}
-
-
-
-);
-
-
-
-
-
-
-
-alert(
-
-"답변이 저장되었습니다."
-
-);
-
-
-
-
-
-
-loadFAQ();
-
-
-
-
-
-};
-
-
-
-
-
+    
 
 
 
