@@ -602,29 +602,18 @@ from
 
 import {
 
-
     doc,
-
     getDoc,
-
     deleteDoc,
-
     collection,
-
     getDocs,
-
     query,
-
     where,
-
     orderBy,
-
     addDoc,
-
     updateDoc,
-
-    serverTimestamp
-
+    serverTimestamp,
+    increment
 
 }
 
@@ -1768,57 +1757,31 @@ async function addComment(){
 
 
 
-        await addDoc(
+      await addDoc(
+    collection(
+        db,
+        "logComments"
+    ),
+    {
+        logId:logId,
+        uid:currentUser.uid,
+        writerName:writerName,
+        content:content,
+        createdAt:serverTimestamp(),
+        updatedAt:null
+    }
+);
 
-
-
-            collection(
-
-                db,
-
-                "logComments"
-
-            ),
-
-
-
-
-            {
-
-
-
-                logId:logId,
-
-
-
-                uid:currentUser.uid,
-
-
-
-                writerName:writerName,
-
-
-
-                content:content,
-
-
-
-                createdAt:
-
-                serverTimestamp(),
-
-
-
-                updatedAt:null
-
-
-
-            }
-
-
-
-        );
-
+await updateDoc(
+    doc(
+        db,
+        "logs",
+        logId
+    ),
+    {
+        commentCount: increment(1)
+    }
+);
 
 
 
@@ -1986,72 +1949,62 @@ async function editComment(id,oldContent){
 
 async function deleteComment(id){
 
-
-
-
-
     const result = confirm(
-
-
-
         "댓글을 삭제하시겠습니까?"
-
-
-
     );
 
-
-
-
-
-
-
     if(!result){
-
-
-
         return;
+    }
 
+    try{
+
+        const commentRef = doc(
+            db,
+            "logComments",
+            id
+        );
+
+        const commentSnap = await getDoc(
+            commentRef
+        );
+
+        if(!commentSnap.exists()){
+            return;
+        }
+
+        const commentData = commentSnap.data();
+
+        await deleteDoc(
+            commentRef
+        );
+
+        await updateDoc(
+            doc(
+                db,
+                "logs",
+                commentData.logId
+            ),
+            {
+                commentCount: increment(-1)
+            }
+        );
+
+        loadComments();
 
     }
 
+    catch(error){
 
+        console.error(error);
 
+        alert(
+            "댓글 삭제 중 오류가 발생했습니다."
+        );
 
-
-
-
-    await deleteDoc(
-
-
-
-        doc(
-
-            db,
-
-            "logComments",
-
-            id
-
-        )
-
-
-
-    );
-
-
-
-
-
-
-
-    loadComments();
-
-
-
+    }
 
 }
-
 
 
 
