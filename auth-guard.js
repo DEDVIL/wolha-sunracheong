@@ -172,7 +172,7 @@ if(callback){
 
     try{
 
-        callback(userData);
+        await callback(userData);
 
     }
 
