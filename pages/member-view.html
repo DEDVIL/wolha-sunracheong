@@ -125,15 +125,9 @@ from "../firebase.js";
 
 
 import {
-
-onAuthStateChanged
-
+    requireLogin
 }
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+from "../auth-guard.js";
 
 
 import {
@@ -205,39 +199,23 @@ let isAdmin = false;
 
 
 
+requireLogin(async(userData)=>{
+
+    currentUser = {
+
+        uid:userData.uid
+
+    };
 
 
-
-onAuthStateChanged(
-
-auth,
-
-async(user)=>{
+    isAdmin =
+        userData.role === "admin";
 
 
-if(!user){
+    await loadProfile();
 
+});
 
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-currentUser = user;
-
-
-loadProfile();
-
-
-
-}
-
-);
 
 
 
@@ -350,22 +328,6 @@ return;
 
 
 // 작성자 또는 관리자 권한 확인
-
-const userSnap = await getDoc(
-
-doc(
-db,
-"users",
-currentUser.uid
-)
-
-);
-
-
-isAdmin =
-userSnap.exists() &&
-userSnap.data().role === "admin";
-
 
 
 
