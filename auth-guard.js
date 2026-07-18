@@ -174,6 +174,8 @@ if(callback){
 
         await callback(userData);
 
+        document.body.style.display = "block";
+
     }
 
     catch(error){
@@ -186,7 +188,6 @@ if(callback){
     }
 
 }
-
         }
 
 
