@@ -195,8 +195,57 @@ export function createQuill(selector){
         }
 
 
-    );
+      );
 
+
+    quill.root.addEventListener(
+
+        "paste",
+
+        () => {
+
+            const savedScrollY = window.scrollY;
+
+
+            let count = 0;
+
+
+            const restoreScroll = () => {
+
+                window.scrollTo(
+
+                    0,
+
+                    savedScrollY
+
+                );
+
+
+                count++;
+
+
+                if(count < 5){
+
+                    requestAnimationFrame(
+
+                        restoreScroll
+
+                    );
+
+                }
+
+            };
+
+
+            requestAnimationFrame(
+
+                restoreScroll
+
+            );
+
+        }
+
+    );
 
 
     return quill;
