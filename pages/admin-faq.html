@@ -78,8 +78,6 @@ FAQ 관리
 
 import {
 
-auth,
-
 db
 
 }
@@ -88,17 +86,14 @@ from "../firebase.js";
 
 
 
-
-
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
+from "../auth-guard.js";
 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -107,8 +102,6 @@ from
 import {
 
 doc,
-
-getDoc,
 
 collection,
 
@@ -143,104 +136,20 @@ document.getElementById("faq-admin-list");
 
 
 
-let currentUser = null;
 
+requireLogin(
 
+    (userData)=>{
 
+        currentUser = userData;
 
+        loadFAQ();
 
+    },
 
-
-
-onAuthStateChanged(
-
-auth,
-
-
-async(user)=>{
-
-
-
-if(!user){
-
-
-alert(
-
-"로그인이 필요합니다."
+    "admin"
 
 );
-
-
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-
-const userDoc =
-
-await getDoc(
-
-doc(
-
-db,
-
-"users",
-
-user.uid
-
-)
-
-);
-
-
-
-
-
-if(
-
-!userDoc.exists() ||
-
-userDoc.data().role !== "admin"
-
-){
-
-
-alert(
-
-"관리자 권한이 없습니다."
-
-);
-
-
-location.href="./home.html";
-
-
-return;
-
-
-}
-
-
-
-
-currentUser = user;
-
-
-
-loadFAQ();
-
-
-
-}
-
-);
-
 
 
 
