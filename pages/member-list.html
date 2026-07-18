@@ -186,14 +186,13 @@ const departments = [
 
 
 
-
 requireLogin(
 
     async(userData)=>{
 
-        checkMyProfile(userData.uid);
+        await checkMyProfile(userData.uid);
 
-        loadMembers();
+        await loadMembers();
 
     }
 
