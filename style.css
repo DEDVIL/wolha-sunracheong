@@ -126,7 +126,7 @@ body {
 
 .content-box {
 
-    overflow:hidden;
+    overflow:visible;
 
 }
 
@@ -572,8 +572,6 @@ label {
 #secret-editor .ql-editor {
 
     min-height:350px;
-
-    overflow-y:auto;
 
 }
 
