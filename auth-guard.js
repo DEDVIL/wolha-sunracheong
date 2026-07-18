@@ -112,7 +112,7 @@ const requireLogin = (callback, requiredRole=null)=>{
 
 
             const userData = userDoc.data();
-
+userData.uid = user.uid;
 
 
 
