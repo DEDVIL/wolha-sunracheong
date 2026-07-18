@@ -806,7 +806,6 @@ query,
 
 orderBy,
 
-where
 
 
 }
@@ -916,109 +915,62 @@ ${String(date.getMinutes()).padStart(2,"0")}
 
 async function loadLogs(){
 
+    try{
+
+        const q = query(
+
+            collection(db,"worldLogs"),
+
+            orderBy("createdAt","desc")
+
+        );
 
 
-try{
+        const snapshot = await getDocs(q);
 
 
+        logs = snapshot.docs.map((docSnap)=>{
 
-const q = query(
-
-
-
-collection(
-
-db,
-
-"worldLogs"
-
-),
+            const data = docSnap.data();
 
 
+            return {
 
-orderBy(
+                id:docSnap.id,
 
-"createdAt",
+                ...data,
 
-"desc"
+                commentCount:
+                data.commentCount || 0
 
-)
+            };
 
-
-
-);
-
-
+        });
 
 
+        renderLogs(logs);
 
 
-const snapshot = await getDocs(q);
+    }
+
+    catch(error){
+
+        console.error(error);
 
 
+        logList.innerHTML = `
 
+        <div class="empty-log">
 
+        게시글을 불러오지 못했습니다.
 
-logs=[];
+        </div>
 
+        `;
 
-
-
-
-
-for(const docSnap of snapshot.docs){
-
-    const data = docSnap.data();
-
-    logs.push({
-
-        id:docSnap.id,
-
-        ...data,
-
-        commentCount:
-        data.commentCount || 0
-
-    });
+    }
 
 }
-
-
-
-    const commentQuery = query(
-
-
-        collection(db,"worldComments"),
-
-
-        where(
-
-            "worldId",
-
-            "==",
-
-            log.id
-
-        )
-
-
-    );
-
-
-
-    const commentSnapshot = await getDocs(commentQuery);
-
-
-
-    log.commentCount = commentSnapshot.size;
-
-
-
-    logs.push(log);
-
-
-}
-
 
 
 
