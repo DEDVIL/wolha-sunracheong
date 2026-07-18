@@ -113,7 +113,6 @@ class="home-button"
 
 import {
 
-auth,
 
 db
 
@@ -124,16 +123,13 @@ from "../firebase.js";
 
 
 
-
 import {
 
-onAuthStateChanged
+requireLogin
 
 }
 
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "../auth-guard.js";
 
 
 
@@ -199,31 +195,17 @@ document.getElementById(
 
 
 
-onAuthStateChanged(
+requireLogin(
 
-auth,
-
-async(user)=>{
+async()=>{
 
 
-if(!user){
-
-location.href="../index.html";
-
-return;
-
-}
-
-
-
-loadRecord();
-
+await loadRecord();
 
 
 }
 
 );
-
 
 
 
