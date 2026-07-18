@@ -124,8 +124,6 @@ placeholder="작성자 또는 제목 검색"
 import {
 
 
-auth,
-
 db
 
 
@@ -136,19 +134,14 @@ from "../firebase.js";
 
 
 
-
 import {
 
-
-onAuthStateChanged
-
+requireLogin
 
 }
 
-from
+from "../auth-guard.js";
 
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -257,97 +250,20 @@ renderLogs();
 
 
 
-onAuthStateChanged(
-
-auth,
-
-async(user)=>{
-
-
-if(!user){
-
-
-location.href="../index.html";
-
-
-return;
-
-
-}
 
 
 
+requireLogin(
 
-const userSnap = await getDocs(
+    ()=>{
 
-query(
+        loadLogs();
 
-collection(db,"users")
+    },
 
-)
+    "admin"
 
 );
-
-
-
-let isAdmin = false;
-
-
-
-userSnap.forEach((item)=>{
-
-
-if(
-item.id === user.uid
-&&
-item.data().role === "admin"
-){
-
-isAdmin=true;
-
-}
-
-
-});
-
-
-
-
-
-
-if(!isAdmin){
-
-
-alert(
-
-"관리자만 접근 가능합니다."
-
-);
-
-
-location.href="./home.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-loadLogs();
-
-
-
-}
-
-);
-
-
-
-
 
 
 
