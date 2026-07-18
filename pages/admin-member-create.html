@@ -284,19 +284,14 @@ from
 
   
 requireLogin(
-
-    ()=>{
-
+    (userData)=>{
         console.log(
-            "멤버 계정 생성 페이지 접속"
+            "관리자 계정 생성 페이지 접속:",
+            userData.name
         );
-
     },
-
     "admin"
-
 );
-
 
 
 window.createMember = async function(){
