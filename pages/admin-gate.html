@@ -207,14 +207,28 @@ style="display:none"
 
 import {
 
-auth,
-
 db
 
 }
 
 from "../firebase.js";
 
+
+
+
+
+  
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
+
+
+
+  
 
 import {
 generateGate,
@@ -226,26 +240,11 @@ from "../scripts/gate-generator.js";
 
 
 
-import {
-
-onAuthStateChanged
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-
 
 
 import {
 
 doc,
-
-getDoc,
-
 collection,
 getDocs,
 query,
@@ -314,83 +313,20 @@ document.getElementById(
 // ======================
 
 
-onAuthStateChanged(
 
-auth,
+requireLogin(
 
-async(user)=>{
+    (userData)=>{
 
+currentUserData = userData;
 
-if(!user){
+        checkActiveGate();
 
+    },
 
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-
-const userSnap = await getDoc(
-
-
-doc(
-
-db,
-
-"users",
-
-user.uid
-
-)
+    "admin"
 
 );
-
-
-
-
-
-if(
-
-!userSnap.exists()
-
-||
-
-userSnap.data().role !== "admin"
-
-){
-
-
-alert(
-
-"관리자 권한이 없습니다."
-
-);
-
-
-location.href="./home.html";
-
-
-return;
-
-
-}
-
-
-
-
-currentUser = user;
-
-await checkActiveGate();
-
-}
-);
-
-
 
 
 
@@ -813,8 +749,7 @@ generatedGate,
 {
 
 uid:
-
-currentUser.uid,
+currentUserData.uid,
 
 name:
 
