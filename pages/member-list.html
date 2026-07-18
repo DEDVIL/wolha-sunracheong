@@ -88,8 +88,6 @@
 import {
 
 
-auth,
-
 db
 
 
@@ -103,22 +101,8 @@ requireLogin
 }
 from "../auth-guard.js";
 
-requireLogin();
 
 
-
-
-import {
-
-
-onAuthStateChanged
-
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 
@@ -203,42 +187,15 @@ const departments = [
 
 
 
-onAuthStateChanged(
+requireLogin(
 
+    async(userData)=>{
 
-auth,
+        checkMyProfile(userData.uid);
 
+        loadMembers();
 
-async(user)=>{
-
-
-
-if(!user){
-
-
-location.href="../index.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-checkMyProfile(user.uid);
-
-
-
-loadMembers();
-
-
-
-}
-
-
+    }
 
 );
 
