@@ -853,10 +853,11 @@ document.getElementById("closeModal");
 ========================================================= */
 
 
-requireLogin(async()=>{
+requireLogin(async(userData)=>{
 
 
-    document.body.style.display="block";
+    document.body.style.display =
+    "block";
 
 
     currentUser =
@@ -864,31 +865,43 @@ requireLogin(async()=>{
 
 
     currentUid =
-    currentUser.uid;
+    userData.uid;
 
 
     const memberSnap =
     await getDoc(
+
         doc(
+
             db,
+
             "members",
+
             currentUid
+
         )
+
     );
 
 
     if(memberSnap.exists()){
 
+
         myCharacterName =
         memberSnap.data().writerName;
+
 
     }
 
 
     console.log(
+
         "로그인 사용자:",
+
         currentUid,
+
         myCharacterName
+
     );
 
 
@@ -896,8 +909,6 @@ requireLogin(async()=>{
 
 
 });
-
-
 
 
 /* =========================================================
