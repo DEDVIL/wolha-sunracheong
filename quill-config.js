@@ -223,10 +223,14 @@ export function createQuill(selector){
         );
 
 
-        customColor.setAttribute(
-            "title",
-            "#8F6B3D"
-        );
+     customColor.setAttribute(
+    "title",
+    "#8F6B3D"
+);
+
+
+// 팔레트에서 실제 색상으로 표시
+customColor.style.backgroundColor = "#8F6B3D";
 
 
         // 새 색상 클릭 시 선택한 글자에 색상 적용
