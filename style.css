@@ -3744,6 +3744,10 @@ h1 {
 
 }
 
+
+
+/* Quill 글자 색상 팔레트 */
+
 .ql-snow .ql-color-picker .ql-picker-item[data-value="#C9A45C"]{
     background-color:#C9A45C !important;
 }
