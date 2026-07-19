@@ -429,7 +429,10 @@
 
 @media(max-width:700px){
 
-    /* 상단 버튼 영역 */
+    /* =====================
+       상단 버튼
+    ===================== */
+
     .log-control{
         display:grid;
         grid-template-columns:1fr 1fr;
@@ -451,7 +454,10 @@
     }
 
 
-    /* 캐릭터 목록 */
+    /* =====================
+       캐릭터 목록
+    ===================== */
+
     .character-list{
         display:none;
         grid-template-columns:repeat(3, 1fr);
@@ -470,20 +476,36 @@
     }
 
 
-    /* 검색창 */
+    /* =====================
+       검색창
+    ===================== */
+
     .log-search input{
         box-sizing:border-box;
         width:100%;
     }
 
 
-    /* 게시판 헤더는 모바일에서 숨김 */
+    /* =====================
+       모바일 게시판
+    ===================== */
+
+    /* 큰 네모 테두리 제거 */
+    .log-table{
+        border:0;
+    }
+
+    /* 게시글 전체에 좌우 여백 */
+    #log-list{
+        padding:0 8px;
+    }
+
+    /* 헤더 숨김 */
     .log-table-header{
         display:none;
     }
 
-
-    /* 모바일 게시글 */
+    /* 게시글 한 줄 */
     .log-table-row{
         display:grid;
 
@@ -495,17 +517,17 @@
 
         gap:0;
 
-        padding:14px 0;
+        padding:16px 4px;
 
         border-bottom:1px solid #2f2a23;
     }
-
 
     .log-table-row div{
         padding:0;
     }
 
 
+    /* 제목 */
     .log-title{
         grid-area:title;
 
@@ -523,6 +545,7 @@
     }
 
 
+    /* 작성자 */
     .log-writer{
         grid-area:writer;
 
@@ -534,6 +557,7 @@
     }
 
 
+    /* 날짜 */
     .log-date{
         grid-area:date;
 
@@ -547,6 +571,7 @@
     }
 
 
+    /* 댓글 */
     .log-comment{
         grid-area:comment;
 
