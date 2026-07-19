@@ -1443,103 +1443,46 @@ img {
 
 @media(max-width:700px){
 
+    .content-box,
+    .admin-box {
 
+        width:95%;
+        padding:25px;
 
-.content-box,
-.admin-box {
+    }
 
+    h1 {
 
-    width:95%;
+        font-size:28px;
 
+    }
 
-    padding:25px;
+    .notice-card {
 
+        padding:20px;
 
-}
+    }
 
+    .post-content {
 
+        font-size:15px;
 
+    }
 
-h1 {
+    .member-grid {
 
+        grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    font-size:28px;
+        gap:12px;
 
+    }
 
-}
+    .member-profile-image {
 
+        max-width:100%;
 
-
-
-.notice-card {
-
-
-    padding:20px;
-
-
-}
-
-
-
-
-.post-content {
-
-
-    font-size:15px;
-
-
-}
-
-
-
-
-.member-grid {
-
-
-    grid-template-columns:
-
-
-    repeat(2, 1fr);
-
-
-    gap:15px;
-
-
-}
-
-
-
-
-.member-profile-image {
-
-
-    max-width:100%;
-
-
-}
-
-
-
-}
-
-
-
-@media(max-width:400px){
-
-
-
-.member-grid {
-
-
-    grid-template-columns:
-
-
-    repeat(1, 1fr);
-
-
-}
-
-
+    }
 
 }
 
