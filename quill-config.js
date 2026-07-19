@@ -78,15 +78,22 @@ export function createQuill(selector){
 
 
                         // 색상
-                        [
-                            {
-                                color:[]
-                            },
+[
+    {
+        color:[
 
-                            {
-                                background:[]
-                            }
-                        ],
+            "#C9A45C",
+            "#E0C27A",
+            "#A98245",
+            "#8F6B3D"
+
+        ]
+    },
+
+    {
+        background:[]
+    }
+],
 
 
 
