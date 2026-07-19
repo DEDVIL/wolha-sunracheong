@@ -198,31 +198,62 @@ export function createQuill(selector){
     );
 
 
-    // 기본 색상 팔레트에 커스텀 색상 추가
+      // 기본 색상 팔레트에 커스텀 색상 추가
 
     const toolbar = quill.getModule("toolbar");
+
 
     const colorPicker = toolbar.container.querySelector(
         ".ql-color-picker .ql-picker-options"
     );
 
+
     if(colorPicker){
+
 
         const customColor = document.createElement("span");
 
+
         customColor.className = "ql-picker-item";
+
 
         customColor.setAttribute(
             "data-value",
             "#8F6B3D"
         );
 
+
         customColor.setAttribute(
             "title",
             "#8F6B3D"
         );
 
+
+        // 새 색상 클릭 시 선택한 글자에 색상 적용
+
+        customColor.addEventListener(
+
+            "click",
+
+            () => {
+
+
+                quill.format(
+
+                    "color",
+
+                    "#8F6B3D"
+
+                );
+
+
+            }
+
+        );
+
+
         colorPicker.appendChild(customColor);
+
 
     }
 
