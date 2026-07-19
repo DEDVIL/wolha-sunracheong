@@ -80,9 +80,7 @@ export function createQuill(selector){
                         // 색상
                         [
                             {
-                                color:[
-    "#8F6B3D"
-]
+                                color:[]
                             },
 
                             {
@@ -200,9 +198,39 @@ export function createQuill(selector){
     );
 
 
+    // 기본 색상 팔레트에 커스텀 색상 추가
+
+    const toolbar = quill.getModule("toolbar");
+
+    const colorPicker = toolbar.container.querySelector(
+        ".ql-color-picker .ql-picker-options"
+    );
+
+    if(colorPicker){
+
+        const customColor = document.createElement("span");
+
+        customColor.className = "ql-picker-item";
+
+        customColor.setAttribute(
+            "data-value",
+            "#8F6B3D"
+        );
+
+        customColor.setAttribute(
+            "title",
+            "#8F6B3D"
+        );
+
+        colorPicker.appendChild(customColor);
+
+    }
+
+
     let savedScrollX = 0;
     let savedScrollY = 0;
 
+    
 
     quill.root.addEventListener(
 
