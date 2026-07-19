@@ -1,0 +1,3552 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>월하톡</title>
+
+<link rel="stylesheet" href="../style.css">
+
+
+<style>
+
+/* =========================================================
+   기본 레이아웃
+========================================================= */
+
+.chat-title-header{
+
+    width:100%;
+
+    min-height:86px;
+
+    box-sizing:border-box;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    padding:20px 35px;
+
+    background:#151515;
+
+    border-bottom:1px solid #333;
+
+}
+
+
+.chat-title{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:0;
+
+}
+
+
+.chat-title h1{
+
+    margin:0;
+
+}
+
+
+.chat-title span{
+
+    color:#999;
+
+    font-size:14px;
+
+}
+
+
+.home-button{
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:90px;
+
+    height:36px;
+
+    box-sizing:border-box;
+
+    color:white;
+
+    text-decoration:none;
+
+    border:1px solid #555;
+
+    font-size:14px;
+
+    transition:0.15s;
+
+}
+
+
+.home-button:hover{
+
+    border-color:#c8a96a;
+
+    color:#c8a96a;
+
+}
+
+
+/* =========================================================
+   채팅 전체 영역
+========================================================= */
+
+.chat-container{
+
+    width:100%;
+
+    height:calc(100vh - 86px);
+
+    min-height:500px;
+
+    display:flex;
+
+    overflow:hidden;
+
+    background:#111;
+
+    border:1px solid #333;
+
+    box-sizing:border-box;
+
+}
+
+
+/* =========================================================
+   왼쪽 채팅 목록
+========================================================= */
+
+.chat-list{
+
+    width:320px;
+
+    flex-shrink:0;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
+    overflow-y:auto;
+
+    border-right:1px solid #333;
+
+    background:#111;
+
+}
+
+
+.chat-list h3{
+
+    margin:24px 0 10px;
+
+    color:#c8a96a;
+
+    font-size:15px;
+
+    letter-spacing:1px;
+
+}
+
+
+.chat-list h3:first-of-type{
+
+    margin-top:10px;
+
+}
+
+
+.new-chat-btn{
+
+    width:100%;
+
+    min-height:42px;
+
+    padding:10px 14px;
+
+    margin-bottom:16px;
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+    transition:0.15s;
+
+}
+
+
+.new-chat-btn:hover{
+
+    background:#2c2c2c;
+
+    border-color:#c8a96a;
+
+}
+
+
+.chat-item{
+
+    padding:14px 12px;
+
+    border-bottom:1px solid #333;
+
+    cursor:pointer;
+
+    transition:0.15s;
+
+    word-break:break-word;
+
+}
+
+
+.chat-item:hover{
+
+    background:#222;
+
+}
+
+
+#publicChatList,
+
+#privateChatList{
+
+    overflow:hidden;
+
+}
+
+
+#characterList{
+
+    max-height:400px;
+
+    overflow-y:auto;
+
+}
+
+
+/* =========================================================
+   오른쪽 채팅 본문
+========================================================= */
+
+.chat-main{
+
+    min-width:0;
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:#111;
+
+}
+
+
+.chat-header{
+
+    min-height:60px;
+
+    flex-shrink:0;
+
+    box-sizing:border-box;
+
+    padding:10px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    border-bottom:1px solid #333;
+
+}
+
+
+#currentChatName{
+
+    min-width:0;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+    font-weight:bold;
+
+}
+
+
+.header-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    flex-shrink:0;
+
+}
+
+
+.profile-btn,
+
+.message-search-btn{
+
+    min-height:36px;
+
+    padding:8px 14px;
+
+    background:#222;
+
+    border:1px solid #555;
+
+    color:white;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:0.15s;
+
+}
+
+
+.profile-btn:hover,
+
+.message-search-btn:hover{
+
+    background:#333;
+
+    border-color:#c8a96a;
+
+}
+
+
+/* =========================================================
+   메시지 영역
+========================================================= */
+
+.messages{
+
+    flex:1;
+
+    min-height:0;
+
+    padding:20px;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    scroll-behavior:smooth;
+
+}
+
+
+#loadOlderBtn{
+
+    width:100%;
+
+    min-height:36px;
+
+    margin-bottom:15px;
+
+    padding:8px;
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+}
+
+
+#loadOlderBtn:hover{
+
+    background:#333;
+
+}
+
+
+/* =========================================================
+   메시지
+========================================================= */
+
+.message{
+
+    width:100%;
+
+    margin-bottom:15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.message.mine{
+
+    align-items:flex-end;
+
+}
+
+
+.message.other{
+
+    align-items:flex-start;
+
+}
+
+
+.sender{
+
+    max-width:75%;
+
+    margin-bottom:4px;
+
+    font-weight:bold;
+
+    word-break:break-word;
+
+}
+
+
+.time{
+
+    margin-top:4px;
+
+    font-size:12px;
+
+    color:#777;
+
+}
+
+
+.message-content{
+
+    max-width:min(70%, 650px);
+
+    padding:10px 15px;
+
+    box-sizing:border-box;
+
+    background:#222;
+
+    border-radius:8px;
+
+    line-height:1.6;
+
+    white-space:pre-wrap;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+.date-divider{
+
+    text-align:center;
+
+    margin:20px 0;
+
+    color:#888;
+
+    font-size:13px;
+
+}
+
+
+/* =========================================================
+   입력 영역
+========================================================= */
+
+#inputArea{
+
+    display:none;
+
+}
+
+
+.input-area{
+
+    width:100%;
+
+    flex-shrink:0;
+
+    box-sizing:border-box;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 15px;
+
+    border-top:1px solid #333;
+
+}
+
+
+.input-area textarea,
+
+.message-input{
+
+    flex:1;
+
+    width:100%;
+
+    min-width:0;
+
+    height:40px;
+
+    min-height:40px;
+
+    max-height:40px;
+
+    padding:8px 12px;
+
+    box-sizing:border-box;
+
+    resize:none;
+
+    background:#222;
+
+    border:1px solid #444;
+
+    border-radius:5px;
+
+    color:white;
+
+    font-family:inherit;
+
+    line-height:1.4;
+
+}
+
+
+.send-btn{
+
+    width:70px;
+
+    height:40px;
+
+    flex-shrink:0;
+
+    padding:0 12px;
+
+    background:#333;
+
+    color:white;
+
+    border:1px solid #555;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    white-space:nowrap;
+
+    transition:0.15s;
+
+}
+
+
+.send-btn:hover{
+
+    background:#444;
+
+}
+
+
+.send-btn:active{
+
+    transform:scale(0.95);
+
+    background:#555;
+
+}
+
+
+/* =========================================================
+   공통 모달
+========================================================= */
+
+#characterModal,
+
+#messageSearchModal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1000;
+
+    display:none;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
+    background:rgba(0,0,0,0.7);
+
+    overflow-y:auto;
+
+}
+
+
+.modal-panel{
+
+    width:min(100%, 500px);
+
+    max-height:calc(100vh - 40px);
+
+    margin:60px auto;
+
+    padding:20px;
+
+    box-sizing:border-box;
+
+    overflow-y:auto;
+
+    background:#111;
+
+    border:1px solid #555;
+
+}
+
+
+#characterModal .modal-panel{
+
+    width:min(100%, 400px);
+
+}
+
+
+.modal-panel h2{
+
+    margin-top:0;
+
+    margin-bottom:20px;
+
+}
+
+
+.modal-close-btn{
+
+    min-height:36px;
+
+    margin-top:20px;
+
+    padding:8px 16px;
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+}
+
+
+.modal-close-btn:hover{
+
+    background:#333;
+
+    border-color:#c8a96a;
+
+}
+
+
+#messageSearchInput{
+
+    width:100%;
+
+    min-height:40px;
+
+    padding:10px;
+
+    box-sizing:border-box;
+
+    background:#222;
+
+    border:1px solid #555;
+
+    color:white;
+
+}
+
+
+#messageSearchResult{
+
+    max-height:400px;
+
+    margin-top:20px;
+
+    overflow-y:auto;
+
+}
+
+
+#messageSearchResult > div{
+
+    padding:10px;
+
+    border-bottom:1px solid #333;
+
+    line-height:1.6;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+/* =========================================================
+   모바일
+========================================================= */
+
+@media(max-width:800px){
+
+    .chat-title-header{
+
+        min-height:auto;
+
+        padding:16px 20px;
+
+    }
+
+
+    .chat-container{
+
+        height:calc(100vh - 78px);
+
+        min-height:0;
+
+        flex-direction:column;
+
+    }
+
+
+    .chat-list{
+
+        width:100%;
+
+        height:190px;
+
+        flex-shrink:0;
+
+        padding:12px 15px;
+
+        border-right:0;
+
+        border-bottom:1px solid #333;
+
+        overflow-y:auto;
+
+    }
+
+
+    .chat-list h3{
+
+        margin:12px 0 6px;
+
+    }
+
+
+    .chat-list h3:first-of-type{
+
+        margin-top:4px;
+
+    }
+
+
+    .new-chat-btn{
+
+        min-height:38px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .chat-item{
+
+        padding:10px;
+
+    }
+
+
+    .chat-main{
+
+        min-height:0;
+
+    }
+
+
+    .chat-header{
+
+        min-height:58px;
+
+        padding:8px 12px;
+
+    }
+
+
+    .header-buttons{
+
+        gap:5px;
+
+    }
+
+
+    .profile-btn,
+
+    .message-search-btn{
+
+        padding:7px 9px;
+
+        font-size:12px;
+
+    }
+
+
+    .messages{
+
+        padding:15px 12px;
+
+    }
+
+
+    .message-content{
+
+        max-width:85%;
+
+    }
+
+
+    .sender{
+
+        max-width:85%;
+
+    }
+
+
+    .input-area{
+
+        padding:8px;
+
+        gap:6px;
+
+    }
+
+
+    .send-btn{
+
+        width:60px;
+
+        padding:0 8px;
+
+    }
+
+
+    .modal-panel{
+
+        margin:20px auto;
+
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .chat-title-header{
+
+        padding:14px 12px;
+
+        gap:10px;
+
+    }
+
+
+    .chat-title h1{
+
+        font-size:22px;
+
+    }
+
+
+    .chat-title span{
+
+        font-size:12px;
+
+    }
+
+
+    .home-button{
+
+        width:68px;
+
+        height:34px;
+
+        font-size:12px;
+
+    }
+
+
+    .chat-list{
+
+        height:170px;
+
+    }
+
+
+    .chat-header{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+        gap:8px;
+
+        padding:10px 12px;
+
+    }
+
+
+    #currentChatName{
+
+        width:100%;
+
+    }
+
+
+    .header-buttons{
+
+        width:100%;
+
+        justify-content:flex-end;
+
+    }
+
+
+    .profile-btn,
+
+    .message-search-btn{
+
+        flex:1;
+
+        min-width:0;
+
+    }
+
+
+    .message-content{
+
+        max-width:90%;
+
+        padding:9px 12px;
+
+    }
+
+
+    .input-area{
+
+        align-items:stretch;
+
+    }
+
+
+    .input-area textarea,
+
+    .message-input{
+
+        height:40px;
+
+        min-height:40px;
+
+        max-height:40px;
+
+    }
+
+
+    .send-btn{
+
+        width:58px;
+
+    }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body style="display:none;">
+
+
+<header class="chat-title-header">
+
+    <div class="chat-title">
+
+        <h1>월하톡</h1>
+
+        <span>월하순라청 내부 메신저</span>
+
+    </div>
+
+
+    <a href="./home.html" class="home-button">
+
+        ← 홈
+
+    </a>
+
+</header>
+
+
+<div class="chat-container">
+
+
+    <!-- 왼쪽 채팅 목록 -->
+
+    <aside class="chat-list">
+
+
+        <button
+
+            class="new-chat-btn"
+
+            id="newChatBtn"
+
+        >
+
+            + 새 대화
+
+        </button>
+
+
+        <h3>
+
+            공용 채팅
+
+        </h3>
+
+
+        <div id="publicChatList">
+
+            <div
+
+                class="chat-item"
+
+                data-room="special-response"
+
+            >
+
+                🕯 특별 대응팀
+
+            </div>
+
+        </div>
+
+
+        <h3>
+
+            개인 채팅
+
+        </h3>
+
+
+        <div id="privateChatList"></div>
+
+
+    </aside>
+
+
+    <!-- 오른쪽 채팅 영역 -->
+
+    <main class="chat-main">
+
+
+        <header class="chat-header">
+
+
+            <div id="currentChatName"></div>
+
+
+            <div class="header-buttons">
+
+
+                <button
+
+                    class="profile-btn"
+
+                    id="profileBtn"
+
+                    style="display:none;"
+
+                >
+
+                    프로필 보기
+
+                </button>
+
+
+                <button
+
+                    class="message-search-btn"
+
+                    id="messageSearchBtn"
+
+                    style="display:none;"
+
+                >
+
+                    🔍 메시지 검색
+
+                </button>
+
+
+            </div>
+
+
+        </header>
+
+
+        <section
+
+            class="messages"
+
+            id="messageArea"
+
+        >
+
+
+            <button
+
+                id="loadOlderBtn"
+
+                style="display:none;"
+
+            >
+
+                이전 메시지 불러오기
+
+            </button>
+
+
+        </section>
+
+
+        <div
+
+            class="input-area"
+
+            id="inputArea"
+
+        >
+
+
+            <textarea
+
+                class="message-input"
+
+                placeholder="메시지 입력"
+
+            ></textarea>
+
+
+            <button class="send-btn">
+
+                전송
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- 새 대화 모달 -->
+
+<div
+
+    id="characterModal"
+
+>
+
+
+    <div class="modal-panel">
+
+
+        <h2>
+
+            새 대화
+
+        </h2>
+
+
+        <div id="characterList"></div>
+
+
+        <button
+
+            id="closeModal"
+
+            class="modal-close-btn"
+
+        >
+
+            닫기
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- 메시지 검색 모달 -->
+
+<div
+
+    id="messageSearchModal"
+
+>
+
+
+    <div class="modal-panel">
+
+
+        <h2>
+
+            메시지 검색
+
+        </h2>
+
+
+        <input
+
+            id="messageSearchInput"
+
+            placeholder="검색할 내용을 입력하세요"
+
+        >
+
+
+        <div
+
+            id="messageSearchResult"
+
+        ></div>
+
+
+        <button
+
+            id="closeMessageSearch"
+
+            class="modal-close-btn"
+
+        >
+
+            닫기
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+<script type="module">
+
+/* =========================================================
+   월하톡 v2
+   PART 1
+   Firebase / Auth / 초기화 구조
+========================================================= */
+
+import {
+    auth,
+    db
+} from "../firebase.js";
+
+
+import {
+    requireLogin
+} from "../auth-guard.js";
+
+
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    where,
+    orderBy,
+    limit,
+    startAfter,
+    onSnapshot,
+    addDoc,
+    updateDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+/* =========================================================
+   Firebase 설정
+========================================================= */
+
+
+
+console.log("Firebase DB:", db);
+console.log("Firebase AUTH:", auth);
+
+
+
+
+/* =========================================================
+   전역 상태
+========================================================= */
+
+
+let currentUser = null;
+
+let currentUid = null;
+
+let myCharacterName = "";
+
+
+let currentRoomId = null;
+
+
+let currentRoomData = null;
+
+
+let unsubscribeRooms = null;
+
+let unsubscribeMessages = null;
+
+let unsubscribeRoomData = null;
+
+
+let messageCursor = null;
+
+let loadedMessages = [];
+
+
+let profileCache = {};
+
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+
+const privateChatList =
+document.getElementById("privateChatList");
+
+
+const publicChatList =
+document.getElementById("publicChatList");
+
+
+const messageArea =
+document.getElementById("messageArea");
+
+
+const currentChatName =
+document.getElementById("currentChatName");
+
+
+const inputArea =
+document.getElementById("inputArea");
+
+
+const messageInput =
+document.querySelector(".message-input");
+
+
+const sendBtn =
+document.querySelector(".send-btn");
+
+
+const profileBtn =
+document.getElementById("profileBtn");
+
+
+const messageSearchBtn =
+document.getElementById("messageSearchBtn");
+
+
+const loadOlderBtn =
+document.getElementById("loadOlderBtn");
+
+
+const newChatBtn =
+document.getElementById("newChatBtn");
+
+
+const characterModal =
+document.getElementById("characterModal");
+
+
+const closeModal =
+document.getElementById("closeModal");
+
+
+
+/* =========================================================
+   초기 시작
+========================================================= */
+
+
+requireLogin(async(userData)=>{
+
+
+    document.body.style.display =
+    "block";
+
+
+    currentUser =
+    auth.currentUser;
+
+
+    currentUid =
+    userData.uid;
+
+
+    const memberSnap =
+    await getDoc(
+
+        doc(
+
+            db,
+
+            "members",
+
+            currentUid
+
+        )
+
+    );
+
+
+    if(memberSnap.exists()){
+
+
+        myCharacterName =
+        memberSnap.data().writerName;
+
+
+    }
+
+
+    console.log(
+
+        "로그인 사용자:",
+
+        currentUid,
+
+        myCharacterName
+
+    );
+
+
+    await initChat();
+
+
+});
+
+
+/* =========================================================
+   초기화
+========================================================= */
+
+
+async function initChat(){
+
+
+    console.log(
+        "월하톡 초기화 시작"
+    );
+
+
+    bindEvents();
+
+
+    await loadPublicRooms();
+
+
+    listenMyRooms();
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
+   이벤트 등록
+========================================================= */
+
+
+function bindEvents(){
+
+
+
+    sendBtn.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+
+    messageInput.addEventListener(
+        "keydown",
+        (e)=>{
+
+
+            if(
+                e.key==="Enter"
+                &&
+                !e.shiftKey
+            ){
+
+                e.preventDefault();
+
+                sendMessage();
+
+            }
+
+
+        }
+    );
+
+
+
+    newChatBtn.addEventListener(
+        "click",
+        openNewChatModal
+    );
+
+
+
+    closeModal.addEventListener(
+        "click",
+        ()=>{
+
+            characterModal.style.display="none";
+
+        }
+    );
+
+
+
+    loadOlderBtn.addEventListener(
+        "click",
+        loadOlderMessages
+    );
+
+
+}
+
+
+
+
+
+/* =========================================================
+   공용 채팅 기본 로드
+========================================================= */
+
+
+async function loadPublicRooms(){
+
+
+    const roomRef =
+    doc(
+        db,
+        "chatRooms",
+        "special-response"
+    );
+
+
+    const snap =
+    await getDoc(roomRef);
+
+
+
+    if(!snap.exists()){
+
+        console.warn(
+            "공용채팅 없음"
+        );
+
+        return;
+
+    }
+
+
+
+    const room =
+    snap.data();
+
+
+
+    const item =
+    document.querySelector(
+        '[data-room="special-response"]'
+    );
+
+
+
+    if(item){
+
+
+        item.onclick = ()=>{
+
+
+            openChat(
+                "special-response"
+            );
+
+
+        };
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
+   내 채팅방 감시 시작
+========================================================= */
+
+
+function listenMyRooms(){
+
+
+    const roomsRef =
+    collection(
+        db,
+        "chatRooms"
+    );
+
+
+    const q =
+    query(
+        roomsRef,
+
+        where(
+            "members",
+            "array-contains",
+            currentUid
+        )
+
+    );
+
+
+
+    unsubscribeRooms =
+    onSnapshot(
+
+        q,
+
+        snapshot=>{
+
+
+            console.log(
+                "내 채팅방 업데이트",
+                snapshot.size
+            );
+
+
+
+            renderPrivateRooms(
+                snapshot.docs
+            );
+
+
+
+        },
+
+        error=>{
+
+            console.error(
+                "채팅방 목록 감시 오류",
+                error
+            );
+
+        }
+
+    );
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
+   개인 채팅방 출력
+========================================================= */
+
+
+async function renderPrivateRooms(docs){
+
+
+    privateChatList.innerHTML="";
+
+
+    docs.sort(
+        (a,b)=>{
+
+            const aTime =
+            a.data().lastMessageAt?.toMillis() || 0;
+
+
+            const bTime =
+            b.data().lastMessageAt?.toMillis() || 0;
+
+
+            return bTime - aTime;
+
+        }
+    );
+
+
+    for(
+        const roomDoc of docs
+    ){
+
+        const room =
+        roomDoc.data();
+
+
+
+        if(
+            room.type !== "private"
+        ){
+
+            continue;
+
+        }
+
+
+
+        const opponentUid =
+        room.members.find(
+            uid =>
+            uid !== currentUid
+        );
+
+
+
+        let displayName =
+        "개인채팅";
+
+
+
+        if(opponentUid){
+
+
+            const profile =
+            await getProfile(
+                opponentUid
+            );
+
+
+
+            if(profile){
+
+
+                displayName =
+                profile.writerName ||
+                "이름 없음";
+
+
+            }
+
+
+        }
+
+
+
+        const div =
+        document.createElement(
+            "div"
+        );
+
+
+
+        div.className =
+        "chat-item";
+
+
+
+        div.innerHTML =
+`
+<div style="
+    display:flex;
+    justify-content:space-between;
+">
+
+    <span>
+        ${displayName}
+    </span>
+
+    <span style="
+        font-size:11px;
+        color:#777;
+    ">
+        ${formatChatTime(room.lastMessageAt)}
+    </span>
+
+</div>
+
+
+<div style="
+    font-size:12px;
+    color:#777;
+    margin-top:5px;
+">
+${shortenMessage(room.lastMessage || "")}
+</div>
+`;
+
+
+
+        div.onclick =
+        ()=>{
+
+
+            openChat(
+                roomDoc.id
+            );
+
+
+        };
+
+
+
+        privateChatList.appendChild(
+            div
+        );
+
+
+    }
+
+
+}
+
+
+function formatChatTime(timestamp){
+
+
+    if(!timestamp){
+
+        return "";
+
+    }
+
+
+    const date =
+    timestamp.toDate();
+
+
+    const now =
+    new Date();
+
+
+    const diff =
+    now - date;
+
+
+
+    // 오늘
+    if(
+        date.toDateString()
+        ===
+        now.toDateString()
+    ){
+
+        return date.toLocaleTimeString(
+            "ko-KR",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+    }
+
+
+
+    // 올해
+    if(
+        date.getFullYear()
+        ===
+        now.getFullYear()
+    ){
+
+        return `${date.getMonth()+1}/${date.getDate()}`;
+
+    }
+
+
+
+    return `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`;
+
+}
+
+/* =========================================================
+   이후 PART 2에서 이어짐
+========================================================= */
+
+
+/* =========================================================
+   PART 2
+   채팅방 생성 / 캐릭터 목록 / 방 관리
+========================================================= */
+
+
+
+/* =========================================================
+   새 대화 모달 열기
+========================================================= */
+
+
+async function openNewChatModal(){
+
+
+    characterModal.style.display =
+    "block";
+
+
+    const list =
+    document.getElementById(
+        "characterList"
+    );
+
+
+    list.innerHTML =
+    "불러오는 중...";
+
+
+
+    try{
+
+
+       const snap =
+await getDocs(
+    collection(
+        db,
+        "members"
+    )
+);
+
+
+        list.innerHTML="";
+
+
+
+        snap.forEach(
+            userDoc=>{
+
+
+                const data =
+                userDoc.data();
+
+
+
+                const uid =
+                userDoc.id;
+
+
+
+                // 본인은 제외
+
+                if(
+                    uid === currentUid
+                ){
+
+                    return;
+
+                }
+
+
+
+                const div =
+                document.createElement(
+                    "div"
+                );
+
+
+
+                div.className =
+                "chat-item";
+
+
+
+div.textContent =
+data.writerName ||
+"이름 없음";
+
+
+
+                div.onclick =
+                ()=>{
+
+createPrivateChat(
+ data.uid,
+ data.writerName || "이름 없음"
+);
+
+                };
+
+
+
+                list.appendChild(
+                    div
+                );
+
+
+            }
+        );
+
+
+
+    }catch(error){
+
+
+        console.error(
+            "캐릭터 목록 오류",
+            error
+        );
+
+
+        list.innerHTML =
+        "불러오기 실패";
+
+
+    }
+
+
+}
+
+
+
+
+
+
+/* =========================================================
+   개인 채팅방 생성
+========================================================= */
+
+
+async function createPrivateChat(
+    targetUid,
+    targetName
+){
+
+
+
+    try{
+
+
+        /*
+            기존 내 채팅방만 확인
+
+            전체 chatRooms 조회 X
+        */
+
+
+
+        const roomsQuery =
+        query(
+            collection(
+                db,
+                "chatRooms"
+            ),
+            where(
+                "members",
+                "array-contains",
+                currentUid
+            )
+        );
+
+
+
+        const roomsSnap =
+        await getDocs(
+            roomsQuery
+        );
+
+
+
+        let existingRoom =
+        null;
+
+
+
+        roomsSnap.forEach(
+            roomDoc=>{
+
+
+                const room =
+                roomDoc.data();
+
+
+
+                if(
+                    room.type==="private"
+                    &&
+                    room.members.includes(
+                        targetUid
+                    )
+                ){
+
+                    existingRoom =
+                    roomDoc.id;
+
+                }
+
+
+            }
+        );
+
+
+
+        // 기존 방 있음
+
+        if(existingRoom){
+
+
+            characterModal.style.display =
+            "none";
+
+
+            openChat(
+                existingRoom
+            );
+
+
+            return;
+
+        }
+
+
+
+
+
+
+        // 신규 방 생성
+
+
+        const roomRef =
+await addDoc(
+    collection(
+        db,
+        "chatRooms"
+    ),
+    {
+
+createdAt:
+serverTimestamp(),
+
+lastMessage:
+"",
+
+lastMessageAt:
+serverTimestamp(),
+
+
+                members:
+                [
+                    currentUid,
+                    targetUid
+                ],
+
+
+
+name:
+targetName,
+
+
+                type:
+                "private"
+
+
+            }
+        );
+
+
+
+
+
+        characterModal.style.display =
+        "none";
+
+
+
+        openChat(
+            roomRef.id
+        );
+
+
+
+
+    }catch(error){
+
+
+        console.error(
+            "채팅방 생성 오류",
+            error
+        );
+
+
+        alert(
+            "채팅방 생성 실패"
+        );
+
+
+    }
+
+
+}
+
+
+
+
+
+
+/* =========================================================
+   현재 사용자 이름
+========================================================= */
+
+
+function getMyName(){
+
+    return myCharacterName || "사용자";
+
+}
+
+
+function shortenMessage(text, maxLength = 25){
+
+    if(!text){
+
+        return "";
+
+    }
+
+
+    if(text.length > maxLength){
+
+        return text.substring(0, maxLength) + "...";
+
+    }
+
+
+    return text;
+
+}
+
+
+
+/* =========================================================
+   채팅방 열기
+========================================================= */
+
+
+async function openChat(
+    roomId
+){
+
+
+
+    console.log(
+        "선택한 방:",
+        roomId
+    );
+
+
+
+    currentRoomId =
+    roomId;
+
+
+
+    const roomRef =
+    doc(
+        db,
+        "chatRooms",
+        roomId
+    );
+
+
+
+    const roomSnap =
+    await getDoc(
+        roomRef
+    );
+
+
+
+    if(
+        !roomSnap.exists()
+    ){
+
+        console.error(
+            "채팅방 없음"
+        );
+
+        return;
+
+    }
+
+
+
+    currentRoomData =
+    roomSnap.data();
+
+inputArea.style.display =
+"flex";
+
+
+messageSearchBtn.style.display =
+"block";
+
+
+if(currentRoomData.type === "public"){
+
+    currentChatName.textContent =
+    currentRoomData.name ||
+    "특별 대응팀";
+
+
+    profileBtn.style.display =
+    "none";
+
+
+}else{
+
+
+    const opponentUid =
+    currentRoomData.members.find(
+        uid => uid !== currentUid
+    );
+
+
+    if(opponentUid){
+
+        const profile =
+        await getProfile(
+            opponentUid
+        );
+
+
+        if(profile){
+
+            currentChatName.textContent =
+            profile.writerName ||
+            "이름 없음";
+
+        }
+
+    }
+
+
+    profileBtn.style.display =
+    "block";
+
+
+    setupProfileButton();
+
+
+}
+
+
+
+loadedMessages = [];
+
+messageCursor = null;
+
+
+
+    messageArea.innerHTML="";
+
+
+
+    messageArea.appendChild(
+        loadOlderBtn
+    );
+
+
+
+listenRoomData(
+    roomId
+);
+
+
+listenMessages(
+    roomId
+);
+
+}
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   프로필 버튼
+========================================================= */
+
+
+function setupProfileButton(){
+
+
+
+    profileBtn.onclick =
+    async()=>{
+
+
+        if(
+            !currentRoomData
+            ||
+            !currentRoomData.members
+        ){
+
+            return;
+
+        }
+
+
+
+        const target =
+        currentRoomData.members.find(
+            uid=>
+            uid!==currentUid
+        );
+
+
+
+        if(
+            !target
+        ){
+
+            return;
+
+        }
+
+
+
+location.href =
+`./member-view.html?id=${target}`;
+
+
+
+    };
+
+
+}
+
+
+
+
+
+/* =========================================================
+   PART 3에서 메시지 시스템 이어짐
+========================================================= */
+
+
+/* =========================================================
+   PART 3
+   메시지 시스템
+========================================================= */
+
+
+
+
+/* =========================================================
+   메시지 실시간 감시
+========================================================= */
+
+
+function listenMessages(roomId){
+
+
+    if(unsubscribeMessages){
+
+        unsubscribeMessages();
+
+    }
+
+
+    const messagesRef =
+    collection(
+        db,
+        "chatRooms",
+        roomId,
+        "messages"
+    );
+
+
+    const q =
+    query(
+        messagesRef,
+        orderBy(
+            "createdAt",
+            "desc"
+        ),
+        limit(30)
+    );
+
+
+unsubscribeMessages =
+onSnapshot(
+    q,
+    snapshot=>{
+
+
+        const messages =
+        snapshot.docs
+        .map(
+            doc=>({
+
+                id:doc.id,
+                ...doc.data()
+
+            })
+        )
+        .reverse();
+
+
+
+loadedMessages =
+messages;
+
+
+if(snapshot.docs.length > 0){
+
+    messageCursor =
+    snapshot.docs[
+        snapshot.docs.length - 1
+    ];
+
+}
+
+
+
+        // 메시지가 30개 미만이면 이전 메시지 없음
+        if(snapshot.size < 30){
+
+            loadOlderBtn.style.display =
+            "none";
+
+        }else{
+
+            loadOlderBtn.style.display =
+            "block";
+
+        }
+
+
+
+renderMessages(
+    messages
+);
+
+
+if(
+    messages.length > 0 &&
+    messages[messages.length-1].senderUid === currentUid
+){
+
+    setTimeout(()=>{
+
+        scrollToBottom();
+
+    },100);
+
+}
+
+
+
+    }
+);
+
+}
+
+
+
+    
+/* =========================================================
+   채팅방 데이터 실시간 감시
+========================================================= */
+
+function listenRoomData(roomId){
+
+    if(unsubscribeRoomData){
+
+        unsubscribeRoomData();
+
+    }
+
+
+    const roomRef =
+    doc(
+        db,
+        "chatRooms",
+        roomId
+    );
+
+
+    unsubscribeRoomData =
+    onSnapshot(
+        roomRef,
+        snap=>{
+
+
+            if(!snap.exists()){
+
+                return;
+
+            }
+
+
+            currentRoomData =
+            snap.data();
+
+
+        }
+    );
+
+}
+
+
+
+    
+
+/* =========================================================
+   메시지 출력
+========================================================= */
+
+
+function renderMessages(
+    messages
+){
+
+
+    const scrollBottom =
+    isNearBottom();
+
+
+
+    messageArea.innerHTML="";
+
+
+
+    messageArea.appendChild(
+        loadOlderBtn
+    );
+
+
+
+    let previousDate =
+    "";
+
+
+
+    messages.forEach(
+        msg=>{
+
+
+            if(
+                !msg.createdAt
+            ){
+
+                return;
+
+            }
+
+
+
+            const date =
+            formatDate(
+                msg.createdAt
+            );
+
+
+
+            if(
+                date !== previousDate
+            ){
+
+
+                const divider =
+                document.createElement(
+                    "div"
+                );
+
+
+                divider.className =
+                "date-divider";
+
+
+                divider.textContent =
+                date;
+
+
+
+                messageArea.appendChild(
+                    divider
+                );
+
+
+                previousDate =
+                date;
+
+
+            }
+
+
+
+            const element =
+            createMessageElement(
+                msg
+            );
+
+
+
+            messageArea.appendChild(
+                element
+            );
+
+
+
+        }
+    );
+
+
+
+if(scrollBottom){
+
+    setTimeout(()=>{
+
+        scrollToBottom();
+
+    },50);
+
+}
+
+
+}
+
+
+
+
+
+
+/* =========================================================
+   메시지 DOM 생성
+========================================================= */
+
+
+function createMessageElement(
+    msg
+){
+
+
+    const wrapper =
+    document.createElement(
+        "div"
+    );
+
+
+
+    wrapper.className =
+    "message " +
+    (
+        msg.senderUid === currentUid
+        ?
+        "mine"
+        :
+        "other"
+    );
+
+
+
+    const sender =
+    document.createElement(
+        "div"
+    );
+
+
+
+    sender.className =
+    "sender";
+
+
+
+    sender.textContent =
+    msg.sender ||
+    "알 수 없음";
+
+
+
+    const content =
+    document.createElement(
+        "div"
+    );
+
+
+
+    content.className =
+    "message-content";
+
+
+
+    content.textContent =
+    msg.text ||
+    "";
+
+
+
+    const time =
+    document.createElement(
+        "div"
+    );
+
+
+
+    time.className =
+    "time";
+
+
+
+    time.textContent =
+    formatTime(
+        msg.createdAt
+    );
+
+
+
+    wrapper.appendChild(
+        sender
+    );
+
+
+
+    wrapper.appendChild(
+        content
+    );
+
+
+
+wrapper.appendChild(
+    time
+);
+
+
+
+    return wrapper;
+
+
+}
+
+
+
+
+
+
+/* =========================================================
+   이전 메시지 불러오기
+========================================================= */
+
+
+async function loadOlderMessages(){
+
+
+    if(
+        !currentRoomId ||
+        !messageCursor
+    ){
+
+        return;
+
+    }
+
+const oldHeight =
+messageArea.scrollHeight;
+
+    const messagesRef =
+    collection(
+        db,
+        "chatRooms",
+        currentRoomId,
+        "messages"
+    );
+
+
+
+    const q =
+    query(
+        messagesRef,
+
+        orderBy(
+            "createdAt",
+            "desc"
+        ),
+
+        startAfter(
+            messageCursor
+        ),
+
+        limit(
+            30
+        )
+    );
+
+
+
+    const snap =
+    await getDocs(
+        q
+    );
+
+
+
+    if(
+        snap.empty
+    ){
+
+        loadOlderBtn.style.display =
+        "none";
+
+        return;
+
+    }
+
+
+
+    messageCursor =
+    snap.docs[
+        snap.docs.length - 1
+    ];
+
+
+
+    const older =
+    snap.docs
+    .map(
+        doc=>({
+
+            id:doc.id,
+            ...doc.data()
+
+        })
+    )
+    .reverse();
+
+
+
+    loadedMessages =
+    [
+        ...older,
+        ...loadedMessages
+    ];
+
+
+
+    renderMessages(
+        loadedMessages
+    );
+
+
+
+    messageArea.scrollTop =
+messageArea.scrollHeight - oldHeight;
+
+}
+
+
+
+
+
+/* =========================================================
+   날짜 / 시간
+========================================================= */
+
+
+function formatDate(
+    timestamp
+){
+
+
+    const date =
+    timestamp.toDate();
+
+
+
+    return `${date.getFullYear()}년 ${
+        date.getMonth()+1
+    }월 ${
+        date.getDate()
+    }일`;
+
+
+
+}
+
+
+
+function formatTime(
+    timestamp
+){
+
+
+    const date =
+    timestamp.toDate();
+
+
+
+    return date.toLocaleTimeString(
+        "ko-KR",
+        {
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
+   스크롤
+========================================================= */
+
+
+function scrollToBottom(){
+
+
+    messageArea.scrollTop =
+    messageArea.scrollHeight;
+
+
+
+}
+
+
+
+function isNearBottom(){
+
+
+    return (
+        messageArea.scrollHeight -
+        messageArea.scrollTop -
+        messageArea.clientHeight
+    ) < 150;
+
+
+
+}
+
+
+
+
+/* =========================================================
+   PART 4에서 전송 / 검색 이어짐
+========================================================= */
+
+
+/* =========================================================
+   PART 4
+   전송 / 검색 / 마무리
+========================================================= */
+
+
+
+/* =========================================================
+   메시지 전송
+========================================================= */
+
+
+async function sendMessage(){
+
+
+    const text =
+    messageInput.value.trim();
+
+
+
+    if(
+        !text
+        ||
+        !currentRoomId
+    ){
+
+        return;
+
+    }
+
+
+
+    try{
+
+
+        const messagesRef =
+        collection(
+            db,
+            "chatRooms",
+            currentRoomId,
+            "messages"
+        );
+
+
+
+        await addDoc(
+            messagesRef,
+            {
+
+
+                sender:
+                getMyName(),
+
+
+
+                senderUid:
+                currentUid,
+
+
+
+                text:
+                text,
+
+
+
+                createdAt:
+                serverTimestamp()
+
+
+
+            }
+        );
+
+
+
+
+const updateData = {
+
+    lastMessage:
+    text,
+
+
+    lastMessageAt:
+    serverTimestamp()
+
+};
+
+
+
+
+await updateDoc(
+    doc(
+        db,
+        "chatRooms",
+        currentRoomId
+    ),
+    updateData
+);
+
+
+
+      messageInput.value="";
+
+
+setTimeout(()=>{
+
+    scrollToBottom();
+
+},100);
+
+
+
+    }catch(error){
+
+
+        console.error(
+            "메시지 전송 오류",
+            error
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+/* =========================================================
+   메시지 검색
+========================================================= */
+
+
+messageSearchBtn.addEventListener(
+    "click",
+    openMessageSearch
+);
+
+
+
+const messageSearchModal =
+document.getElementById(
+    "messageSearchModal"
+);
+
+
+
+const messageSearchInput =
+document.getElementById(
+    "messageSearchInput"
+);
+
+
+
+const messageSearchResult =
+document.getElementById(
+    "messageSearchResult"
+);
+
+
+
+const closeMessageSearch =
+document.getElementById(
+    "closeMessageSearch"
+);
+
+
+
+
+function openMessageSearch(){
+
+
+    if(
+        !currentRoomId
+    ){
+
+        return;
+
+    }
+
+
+
+    messageSearchModal.style.display =
+    "block";
+
+
+
+    messageSearchInput.value="";
+
+    messageSearchResult.innerHTML="";
+
+
+
+}
+
+
+
+
+closeMessageSearch.addEventListener(
+    "click",
+    ()=>{
+
+
+        messageSearchModal.style.display =
+        "none";
+
+
+    }
+);
+
+
+
+
+
+messageSearchInput.addEventListener(
+    "input",
+    ()=>{
+
+
+        const keyword =
+        messageSearchInput.value.trim();
+
+
+
+        messageSearchResult.innerHTML="";
+
+
+
+        if(
+            !keyword
+        ){
+
+            return;
+
+        }
+
+
+
+        const results =
+        loadedMessages.filter(
+            msg=>
+            msg.text &&
+            msg.text.includes(
+                keyword
+            )
+        );
+
+
+
+        results.forEach(
+            msg=>{
+
+
+                const div =
+                document.createElement(
+                    "div"
+                );
+
+
+
+                div.style.padding =
+                "10px";
+
+
+
+                div.style.borderBottom =
+                "1px solid #333";
+
+
+
+                div.textContent =
+                `${msg.sender}: ${msg.text}`;
+
+
+
+                messageSearchResult.appendChild(
+                    div
+                );
+
+
+            }
+        );
+
+
+
+    }
+);
+
+
+
+
+
+
+
+
+/* =========================================================
+   프로필 캐시
+========================================================= */
+
+
+async function getProfile(uid){
+
+
+
+    if(
+        profileCache[uid]
+    ){
+
+        return profileCache[uid];
+
+    }
+
+
+
+const snap =
+await getDoc(
+    doc(
+        db,
+        "members",
+        uid
+    )
+);
+
+
+
+    if(
+        snap.exists()
+    ){
+
+
+        profileCache[uid] =
+        snap.data();
+
+
+
+        return snap.data();
+
+
+    }
+
+
+
+    return null;
+
+
+}
+
+
+
+
+
+
+
+/* =========================================================
+   페이지 종료 처리
+========================================================= */
+
+
+window.addEventListener(
+    "beforeunload",
+    ()=>{
+
+
+        if(
+            unsubscribeRooms
+        ){
+
+            unsubscribeRooms();
+
+        }
+
+
+        if(
+            unsubscribeMessages
+        ){
+
+            unsubscribeMessages();
+
+        }
+
+
+        if(
+            unsubscribeRoomData
+        ){
+
+            unsubscribeRoomData();
+
+        }
+
+
+    }
+);
+
+
+
+
+console.log(
+    "월하톡 v2 로드 완료"
+);
+
+
+</script>
+
+
+</body>
+
+</html>
