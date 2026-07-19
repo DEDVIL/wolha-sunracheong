@@ -531,7 +531,7 @@ body{
 
 #inputArea{
 
-    display:none;
+    display:flex;
 
 }
 
@@ -2495,8 +2495,30 @@ async function openChat(
 
 
 
-    currentRoomData =
-    roomSnap.data();
+currentRoomData =
+roomSnap.data();
+
+
+/* 모바일에서는 채팅 화면으로 전환 */
+
+if(
+    window.innerWidth <= 800
+){
+
+    const chatContainer =
+    document.querySelector(
+        ".chat-container"
+    );
+
+
+    chatContainer.classList.add(
+        "mobile-chat-open"
+    );
+
+}
+
+
+/* 메시지 입력창 표시 */
 
 inputArea.style.display =
 "flex";
@@ -2584,8 +2606,80 @@ listenMessages(
 }
 
 
+/* =========================================================
+   모바일 채팅 화면 닫는 함수
+========================================================= */
+   
+function closeMobileChat(){
+
+    if(
+        window.innerWidth > 800
+    ){
+
+        return;
+
+    }
 
 
+    const chatContainer =
+    document.querySelector(
+        ".chat-container"
+    );
+
+
+    chatContainer.classList.remove(
+        "mobile-chat-open"
+    );
+
+
+    currentRoomId =
+    null;
+
+
+    currentRoomData =
+    null;
+
+
+    currentChatName.textContent =
+    "";
+
+
+    messageArea.innerHTML =
+    "";
+
+
+    inputArea.style.display =
+    "none";
+
+
+    profileBtn.style.display =
+    "none";
+
+
+    messageSearchBtn.style.display =
+    "none";
+
+
+    if(unsubscribeMessages){
+
+        unsubscribeMessages();
+
+        unsubscribeMessages =
+        null;
+
+    }
+
+
+    if(unsubscribeRoomData){
+
+        unsubscribeRoomData();
+
+        unsubscribeRoomData =
+        null;
+
+    }
+
+}
 
 
 
