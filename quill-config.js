@@ -198,7 +198,22 @@ export function createQuill(selector){
     );
 
 
-    // 기본 색상 팔레트에 커스텀 색상 7개 추가
+
+    // Quill 툴바 가져오기
+
+    const toolbar = quill.getModule("toolbar");
+
+
+    // 색상 팔레트 가져오기
+
+    const colorPicker = toolbar.container.querySelector(
+
+        ".ql-color-picker .ql-picker-options"
+
+    );
+
+
+    // 커스텀 색상 7개
 
     const customColors = [
 
@@ -228,27 +243,37 @@ export function createQuill(selector){
 
 
             const customColor = document.createElement(
+
                 "span"
+
             );
 
 
             customColor.className =
+
                 "ql-picker-item";
 
 
             customColor.setAttribute(
+
                 "data-value",
+
                 color
+
             );
 
 
             customColor.setAttribute(
+
                 "title",
+
                 color
+
             );
 
 
             customColor.style.backgroundColor =
+
                 color;
 
 
