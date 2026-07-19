@@ -199,7 +199,7 @@ export function createQuill(selector){
 
 
 
-    // Quill 툴바 가져오기
+      // Quill 툴바 가져오기
 
     const toolbar = quill.getModule("toolbar");
 
@@ -284,18 +284,41 @@ export function createQuill(selector){
                 () => {
 
 
-                    quill.format(
+                    const range = quill.getSelection();
 
-                        "color",
 
-                        color
+                    if(range){
 
-                    );
+                        quill.formatText(
+
+                            range.index,
+
+                            range.length,
+
+                            "color",
+
+                            color
+
+                        );
+
+                    }
 
 
                 }
 
             );
+
+
+            colorPicker.appendChild(
+
+                customColor
+
+            );
+
+
+        }
+
+    );
 
 
             colorPicker.appendChild(
