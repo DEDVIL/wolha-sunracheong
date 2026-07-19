@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+월하순라청 인명부 작성
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+<style>
+
+.profile-textarea {
+
+    width: 100%;
+
+    min-height: 700px;
+
+    box-sizing: border-box;
+
+    padding: 20px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 4px;
+
+    background: #fff;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    resize: vertical;
+
+    white-space: pre-wrap;
+
+    text-align: left;
+
+}
+
+
+.profile-textarea:focus {
+
+    outline: none;
+
+    border-color: #666;
+
+}
+
+</style>
+
+
+</head>
+
+
+
+<body style="display:none;">
+
+
+<main class="main-container">
+
+
+<section class="content-box">
+
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+
+<p class="subtitle">
+인명부 작성
+</p>
+
+
+<a class="home-button" href="./home.html">
+홈으로
+</a>
+
+
+<div class="login-form">
+
+
+
+<label>
+캐릭터 이름
+</label>
+
+
+<input
+
+id="writerName"
+
+placeholder="이름"
+
+>
+
+
+
+
+
+<label>
+부서
+</label>
+
+
+<select id="department">
+
+
+<option value="">
+선택
+</option>
+
+
+<option value="궁야원">
+궁야원
+</option>
+
+
+<option value="경야대">
+경야대
+</option>
+
+
+<option value="추적대">
+추적대
+</option>
+
+
+</select>
+
+
+
+
+
+
+
+<label>
+두상 이미지 (512×512 권장)
+</label>
+
+
+<input
+
+id="portraitImage"
+
+placeholder="이미지 URL 입력"
+
+>
+
+
+<p class="notice">
+
+인명부 목록 및 관계도에 사용하는 대표 이미지입니다.
+미입력 시 기본 이미지가 표시됩니다.
+
+</p>
+
+
+
+
+
+
+
+<label>
+프로필 내용
+</label>
+
+
+<textarea
+
+id="profileContent"
+
+class="profile-textarea"
+
+placeholder="프로필 내용을 입력해주세요."
+
+></textarea>
+
+
+
+
+
+
+
+<label>
+비밀 설정
+</label>
+
+
+<textarea
+
+id="secretContent"
+
+class="profile-textarea"
+
+placeholder="비밀 설정을 입력해주세요."
+
+></textarea>
+
+
+
+
+
+
+
+<label>
+비밀 설정 비밀번호
+</label>
+
+
+<input
+
+id="secretPassword"
+
+type="password"
+
+placeholder="비밀 설정 열람용 비밀번호"
+
+>
+
+
+
+
+
+
+
+<button onclick="saveProfile()">
+
+저장
+
+</button>
+
+
+
+
+</div>
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+
+
+<script type="module">
+
+
+import {
+
+db
+
+}
+
+from "../firebase.js";
+
+
+import {
+
+requireLogin
+
+}
+
+from
+
+"../auth-guard.js";
+
+
+
+import {
+
+doc,
+
+getDoc,
+
+setDoc,
+
+serverTimestamp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+const template = `
+
+──────────────────────────
+
+[캐치프레이즈]
+
+" "
+
+──────────────────────────
+
+[외관]
+
+설명
+
+──────────────────────────
+
+이름
+
+한글 이름 | 원어
+
+나이
+
+
+
+키 / 몸무게
+
+
+
+성격
+
+
+
+부서
+
+
+
+기타
+
+
+
+포지션
+
+T / M / B
+
+선호 / 기피
+
+
+
+캐릭터 선호
+
+
+
+캐릭터 기피
+
+
+
+오너 선호
+
+
+
+오너 기피
+
+
+
+텍관
+
+
+
+──────────────────────────
+
+`;
+
+
+
+
+
+let currentUser = null;
+
+
+
+
+
+const params = new URLSearchParams(
+
+    location.search
+
+);
+
+
+const targetMemberId = params.get("id");
+
+
+
+
+
+requireLogin(
+
+    (userData)=>{
+
+
+        currentUser = userData;
+
+
+
+
+        if(
+
+            targetMemberId &&
+
+            targetMemberId !== userData.uid &&
+
+            userData.role !== "admin"
+
+        ){
+
+            alert(
+
+                "관리자만 다른 멤버의 인명부를 수정할 수 있습니다."
+
+            );
+
+
+            location.href =
+
+                "./member-list.html";
+
+
+            return;
+
+        }
+
+
+
+
+        loadProfile();
+
+    }
+
+);
+
+
+
+
+
+
+
+async function loadProfile(){
+
+
+
+    const memberId =
+
+        targetMemberId || currentUser.uid;
+
+
+
+
+    const memberRef = doc(
+
+        db,
+
+        "members",
+
+        memberId
+
+    );
+
+
+
+
+
+    const snap = await getDoc(memberRef);
+
+
+
+
+
+
+
+    if(!snap.exists()){
+
+
+
+        document
+
+        .getElementById("profileContent")
+
+        .value = template;
+
+
+
+
+        document
+
+        .getElementById("secretContent")
+
+        .value = "";
+
+
+
+
+        return;
+
+    }
+
+
+
+
+
+
+
+    const data = snap.data();
+
+
+
+
+
+
+
+    document
+
+    .getElementById("writerName")
+
+    .value =
+
+        data.writerName || "";
+
+
+
+
+
+
+
+    document
+
+    .getElementById("department")
+
+    .value =
+
+        data.department || "";
+
+
+
+
+
+
+
+    document
+
+    .getElementById("portraitImage")
+
+    .value =
+
+        data.portraitImage || "";
+
+
+
+
+
+
+
+    document
+
+    .getElementById("profileContent")
+
+    .value =
+
+        data.profileContent || template;
+
+
+
+
+
+
+
+    document
+
+    .getElementById("secretContent")
+
+    .value =
+
+        data.secretContent || "";
+
+
+
+
+
+
+
+    document
+
+    .getElementById("secretPassword")
+
+    .value =
+
+        data.secretPassword || "";
+
+
+
+}
+
+
+
+
+
+
+
+window.saveProfile = async function(){
+
+
+
+    const writerName =
+
+        document
+
+        .getElementById("writerName")
+
+        .value;
+
+
+
+
+
+
+
+    const department =
+
+        document
+
+        .getElementById("department")
+
+        .value;
+
+
+
+
+
+
+
+    const portraitImage =
+
+        document
+
+        .getElementById("portraitImage")
+
+        .value;
+
+
+
+
+
+
+
+    const profileContent =
+
+        document
+
+        .getElementById("profileContent")
+
+        .value;
+
+
+
+
+
+
+
+    const secretContent =
+
+        document
+
+        .getElementById("secretContent")
+
+        .value;
+
+
+
+
+
+
+
+    const secretPassword =
+
+        document
+
+        .getElementById("secretPassword")
+
+        .value;
+
+
+
+
+
+
+
+    if(
+
+        writerName.trim() === "" ||
+
+        department === ""
+
+    ){
+
+
+
+        alert(
+
+            "이름과 부서를 입력해주세요."
+
+        );
+
+
+
+        return;
+
+    }
+
+
+
+
+
+
+
+    const memberId =
+
+        targetMemberId || currentUser.uid;
+
+
+
+
+    const memberRef = doc(
+
+        db,
+
+        "members",
+
+        memberId
+
+    );
+
+
+
+
+
+
+
+    const oldData =
+
+        await getDoc(memberRef);
+
+
+
+
+
+
+
+    let saveData = {
+
+
+
+        uid:
+
+            memberId,
+
+
+
+        writerName,
+
+
+
+        department,
+
+
+
+        portraitImage,
+
+
+
+        profileContent,
+
+
+
+        secretContent,
+
+
+
+        secretPassword,
+
+
+
+
+
+        updatedAt:
+
+            serverTimestamp()
+
+
+
+    };
+
+
+
+
+
+
+
+    if(!oldData.exists()){
+
+
+
+        saveData.createdAt =
+
+            serverTimestamp();
+
+    }
+
+
+
+
+
+
+
+    await setDoc(
+
+        memberRef,
+
+        saveData,
+
+        {
+
+            merge: true
+
+        }
+
+    );
+
+
+
+
+
+
+
+    alert(
+
+        "인명부가 저장되었습니다."
+
+    );
+
+
+
+
+
+
+
+    if(
+
+        currentUser.role === "admin" &&
+
+        targetMemberId
+
+    ){
+
+
+
+        location.href =
+
+            "./admin-member-list.html";
+
+    }
+
+    else{
+
+
+
+        location.href =
+
+            "./member-list.html";
+
+    }
+
+
+
+};
+
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
