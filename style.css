@@ -3746,20 +3746,4 @@ h1 {
 
 
 
-/* Quill 글자 색상 팔레트 */
 
-.ql-snow .ql-color-picker .ql-picker-item[data-value="#C9A45C"]{
-    background-color:#C9A45C !important;
-}
-
-.ql-snow .ql-color-picker .ql-picker-item[data-value="#E0C27A"]{
-    background-color:#E0C27A !important;
-}
-
-.ql-snow .ql-color-picker .ql-picker-item[data-value="#A98245"]{
-    background-color:#A98245 !important;
-}
-
-.ql-snow .ql-color-picker .ql-picker-item[data-value="#8F6B3D"]{
-    background-color:#8F6B3D !important;
-}
