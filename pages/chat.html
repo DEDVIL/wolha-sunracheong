@@ -35,7 +35,9 @@ body{
 
     width:100%;
 
-    min-height:86px;
+    height:86px;
+
+    flex-shrink:0;
 
     box-sizing:border-box;
 
@@ -145,7 +147,7 @@ body{
 
     width:100%;
 
-    height:calc(100vh - 86px);
+    height:calc(100% - 86px);
 
     min-height:0;
 
@@ -284,6 +286,8 @@ body{
 .chat-main{
 
     min-width:0;
+
+    min-height:0;
 
     flex:1;
 
@@ -776,7 +780,9 @@ body{
 
     .chat-title-header{
 
-        min-height:auto;
+        height:78px;
+
+        flex-shrink:0;
 
         padding:16px 20px;
 
@@ -785,7 +791,7 @@ body{
 
     .chat-container{
 
-        height:calc(100vh - 78px);
+        height:calc(100% - 78px);
 
         min-height:0;
 
