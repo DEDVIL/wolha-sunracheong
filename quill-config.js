@@ -311,55 +311,43 @@ export function createQuill(selector){
 
 
 
-                customColor.addEventListener(
+ customColor.addEventListener(
 
-                    "click",
+    "mousedown",
 
-                    () => {
-
-
-                        const range =
-
-                            quill.getSelection();
+    (event) => {
 
 
-                        if(range){
+        event.preventDefault();
 
 
-                            quill.formatText(
+        const range =
 
-                                range.index,
-
-                                range.length,
-
-                                "color",
-
-                                color
-
-                            );
+            quill.getSelection();
 
 
-                        }
+        if(range){
 
 
-                    }
+            quill.formatText(
 
-                );
+                range.index,
+
+                range.length,
+
+                "color",
+
+                color
+
+            );
 
 
-                colorPicker.appendChild(
-
-                    customColor
-
-                );
-
-
-            }
-
-        );
+        }
 
 
     }
+
+);
 
 
 
