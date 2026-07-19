@@ -429,100 +429,135 @@
 
 @media(max-width:700px){
 
+    /* 상단 버튼 영역 */
+    .log-control{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+        margin-bottom:20px;
+    }
 
+    .log-control-left,
+    .log-control-right{
+        display:contents;
+    }
 
-.log-control{
+    .log-button{
+        width:100%;
+        box-sizing:border-box;
+        padding:12px 8px;
+        text-align:center;
+        white-space:nowrap;
+    }
 
 
-    flex-direction:column;
+    /* 캐릭터 목록 */
+    .character-list{
+        display:none;
+        grid-template-columns:repeat(3, 1fr);
+        gap:6px;
+        margin-bottom:20px;
+    }
 
+    .character-list.show{
+        display:grid;
+    }
 
-    align-items:stretch;
+    .character-button{
+        width:100%;
+        padding:9px 4px;
+        font-size:13px;
+    }
 
 
-}
+    /* 검색창 */
+    .log-search input{
+        box-sizing:border-box;
+        width:100%;
+    }
 
 
+    /* 게시판 헤더는 모바일에서 숨김 */
+    .log-table-header{
+        display:none;
+    }
 
-.log-control-left,
-.log-control-right{
 
+    /* 모바일 게시글 */
+    .log-table-row{
+        display:grid;
 
-    justify-content:center;
+        grid-template-columns:1fr auto;
 
+        grid-template-areas:
+            "title writer"
+            "date comment";
 
-}
+        gap:0;
 
+        padding:14px 0;
 
+        border-bottom:1px solid #2f2a23;
+    }
 
-.log-table-header{
 
+    .log-table-row div{
+        padding:0;
+    }
 
-    display:none;
 
+    .log-title{
+        grid-area:title;
 
-}
+        min-width:0;
 
+        padding-right:12px !important;
 
+        font-size:17px;
 
-.log-table-row{
+        overflow:hidden;
 
+        white-space:nowrap;
 
-    display:flex;
+        text-overflow:ellipsis;
+    }
 
 
-    flex-direction:column;
+    .log-writer{
+        grid-area:writer;
 
+        text-align:right;
 
-    gap:5px;
+        color:#c8a96a;
 
+        white-space:nowrap;
+    }
 
-}
 
+    .log-date{
+        grid-area:date;
 
+        text-align:left;
 
-.log-table-row div{
+        padding-top:7px !important;
 
+        color:#8d867b;
 
-    padding:5px 15px;
+        font-size:12px;
+    }
 
 
-}
+    .log-comment{
+        grid-area:comment;
 
+        text-align:right;
 
+        padding-top:7px !important;
 
-.log-writer{
+        color:#8d867b;
 
-
-    padding-top:15px !important;
-
-
-}
-
-
-
-.log-title{
-
-
-    font-size:17px;
-
-
-}
-
-
-
-.log-date,
-.log-comment{
-
-
-    text-align:left;
-
-
-    padding-bottom:15px !important;
-
-
-}
-
+        font-size:12px;
+    }
 
 }
 
