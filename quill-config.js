@@ -80,7 +80,9 @@ export function createQuill(selector){
                         // 색상
                         [
                             {
-                                color:[]
+                                color:[
+    "#8F6B3D"
+]
                             },
 
                             {
