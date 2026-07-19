@@ -3593,15 +3593,31 @@ viewButtons.innerHTML = "";
 
 
 /*
- * 등록한 사람만 수정/삭제 가능
+ * 관계의 양쪽 중 하나라도
+ * 현재 로그인한 사용자의 캐릭터라면
+ * 수정 및 삭제 가능
  */
+
+const canManageRelationship =
+
+currentUser &&
+
+myMemberData &&
+
+(
+
+relation.fromMember === myMemberData.id
+
+||
+
+relation.toMember === myMemberData.id
+
+);
 
 
 if(
 
-currentUser &&
-
-relation.createdBy === currentUser.uid
+canManageRelationship
 
 ){
 
@@ -3691,14 +3707,24 @@ if(
 
 !currentUser ||
 
-selectedRelationship.createdBy !== currentUser.uid
+!myMemberData ||
+
+(
+
+selectedRelationship.fromMember !== myMemberData.id
+
+&&
+
+selectedRelationship.toMember !== myMemberData.id
+
+)
 
 ){
 
 
 alert(
 
-"본인이 등록한 관계만 삭제할 수 있습니다."
+"내 캐릭터가 포함된 관계만 삭제할 수 있습니다."
 
 );
 
@@ -3707,7 +3733,6 @@ return;
 
 
 }
-
 
 const check = confirm(
 
@@ -3785,14 +3810,24 @@ if(
 
 !currentUser ||
 
-selectedRelationship.createdBy !== currentUser.uid
+!myMemberData ||
+
+(
+
+selectedRelationship.fromMember !== myMemberData.id
+
+&&
+
+selectedRelationship.toMember !== myMemberData.id
+
+)
 
 ){
 
 
 alert(
 
-"본인이 등록한 관계만 수정할 수 있습니다."
+"내 캐릭터가 포함된 관계만 수정할 수 있습니다."
 
 );
 
@@ -3869,14 +3904,24 @@ if(
 
 !currentUser ||
 
-selectedRelationship.createdBy !== currentUser.uid
+!myMemberData ||
+
+(
+
+selectedRelationship.fromMember !== myMemberData.id
+
+&&
+
+selectedRelationship.toMember !== myMemberData.id
+
+)
 
 ){
 
 
 alert(
 
-"본인이 등록한 관계만 수정할 수 있습니다."
+"내 캐릭터가 포함된 관계만 수정할 수 있습니다."
 
 );
 
