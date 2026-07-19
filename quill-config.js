@@ -198,68 +198,91 @@ export function createQuill(selector){
     );
 
 
-      // 기본 색상 팔레트에 커스텀 색상 추가
+    // 기본 색상 팔레트에 커스텀 색상 7개 추가
 
-    const toolbar = quill.getModule("toolbar");
+    const customColors = [
+
+        // 금색 계열
+        "#C9A45C",
+        "#E0C27A",
+
+        // 옥색 계열
+        "#8FB9A8",
+        "#6F9F91",
+
+        // 짙은 옥색
+        "#4F7F78",
+
+        // 청회색
+        "#536B7A",
+
+        // 먹색
+        "#4A4A46"
+
+    ];
 
 
-    const colorPicker = toolbar.container.querySelector(
-        ".ql-color-picker .ql-picker-options"
+    customColors.forEach(
+
+        (color) => {
+
+
+            const customColor = document.createElement(
+                "span"
+            );
+
+
+            customColor.className =
+                "ql-picker-item";
+
+
+            customColor.setAttribute(
+                "data-value",
+                color
+            );
+
+
+            customColor.setAttribute(
+                "title",
+                color
+            );
+
+
+            customColor.style.backgroundColor =
+                color;
+
+
+            customColor.addEventListener(
+
+                "click",
+
+                () => {
+
+
+                    quill.format(
+
+                        "color",
+
+                        color
+
+                    );
+
+
+                }
+
+            );
+
+
+            colorPicker.appendChild(
+
+                customColor
+
+            );
+
+
+        }
+
     );
-
-
-    if(colorPicker){
-
-
-        const customColor = document.createElement("span");
-
-
-        customColor.className = "ql-picker-item";
-
-
-        customColor.setAttribute(
-            "data-value",
-            "#8F6B3D"
-        );
-
-
-     customColor.setAttribute(
-    "title",
-    "#8F6B3D"
-);
-
-
-// 팔레트에서 실제 색상으로 표시
-customColor.style.backgroundColor = "#8F6B3D";
-
-
-        // 새 색상 클릭 시 선택한 글자에 색상 적용
-
-        customColor.addEventListener(
-
-            "click",
-
-            () => {
-
-
-                quill.format(
-
-                    "color",
-
-                    "#8F6B3D"
-
-                );
-
-
-            }
-
-        );
-
-
-        colorPicker.appendChild(customColor);
-
-
-    }
 
 
     let savedScrollX = 0;
