@@ -45,7 +45,10 @@
 
 
 
-<div class="login-form">
+<form
+class="login-form"
+id="loginForm"
+>
 
 
 <input
@@ -64,14 +67,16 @@ placeholder="비밀번호"
 
 
 
-<button onclick="loginUser()">
+<button
+type="submit"
+>
 
 접속
 
 </button>
 
 
-</div>
+</form>
 
 
 
@@ -98,27 +103,24 @@ import { login } from "./auth.js";
 
 
 
-window.loginUser = function(){
+document
+.getElementById("loginForm")
+.addEventListener("submit", function(event){
 
+    event.preventDefault();
 
-const email =
-document.getElementById("email").value;
+    const email =
+    document.getElementById("email").value;
 
+    const password =
+    document.getElementById("password").value;
 
+    login(
+        email,
+        password
+    );
 
-const password =
-document.getElementById("password").value;
-
-
-
-login(
-email,
-password
-);
-
-
-
-}
+});
 
 
 </script>
