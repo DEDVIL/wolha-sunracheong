@@ -773,6 +773,68 @@ body{
 
 
 /* =========================================================
+   모바일 채팅 헤더
+========================================================= */
+
+
+.chat-header-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-width:0;
+
+}
+
+
+.mobile-back-btn{
+
+    display:none;
+
+    width:36px;
+
+    height:36px;
+
+    flex-shrink:0;
+
+    background:#222;
+
+    color:white;
+
+    border:1px solid #555;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+}
+
+
+.mobile-back-btn:hover{
+
+    border-color:#c8a96a;
+
+    color:#c8a96a;
+
+}
+
+
+@media(max-width:800px){
+
+    .mobile-back-btn{
+
+        display:block;
+
+    }
+
+}
+
+
+   
+/* =========================================================
    모바일
 ========================================================= */
 
@@ -795,26 +857,30 @@ body{
 
         min-height:0;
 
-        flex-direction:column;
+        display:block;
+
+        position:relative;
 
     }
 
+
+    /* 모바일에서는 처음에 채팅방 목록만 표시 */
 
     .chat-list{
 
         width:100%;
 
-        height:190px;
-
-        flex-shrink:0;
+        height:100%;
 
         padding:12px 15px;
 
-        border-right:0;
+        box-sizing:border-box;
 
-        border-bottom:1px solid #333;
+        border:0;
 
         overflow-y:auto;
+
+        background:#111;
 
     }
 
@@ -835,23 +901,55 @@ body{
 
     .new-chat-btn{
 
-        min-height:38px;
+        min-height:42px;
 
-        margin-bottom:8px;
+        margin-bottom:12px;
 
     }
 
 
     .chat-item{
 
-        padding:10px;
+        padding:14px 10px;
 
     }
 
 
+    /* 모바일 채팅 화면 */
+
     .chat-main{
 
+        position:absolute;
+
+        inset:0;
+
+        width:100%;
+
+        height:100%;
+
         min-height:0;
+
+        display:none;
+
+        z-index:10;
+
+        background:#111;
+
+    }
+
+
+    /* 채팅방을 열었을 때 */
+
+    .chat-container.mobile-chat-open .chat-list{
+
+        display:none;
+
+    }
+
+
+    .chat-container.mobile-chat-open .chat-main{
+
+        display:flex;
 
     }
 
@@ -861,24 +959,6 @@ body{
         min-height:58px;
 
         padding:8px 12px;
-
-    }
-
-
-    .header-buttons{
-
-        gap:5px;
-
-    }
-
-
-    .profile-btn,
-
-    .message-search-btn{
-
-        padding:7px 9px;
-
-        font-size:12px;
 
     }
 
@@ -906,9 +986,24 @@ body{
 
     .input-area{
 
+        display:flex;
+
         padding:8px;
 
         gap:6px;
+
+    }
+
+
+    .input-area textarea,
+
+    .message-input{
+
+        height:40px;
+
+        min-height:40px;
+
+        max-height:40px;
 
     }
 
@@ -956,20 +1051,13 @@ body{
     }
 
 
-.chat-title-header .home-button{
+    .chat-title-header .home-button{
 
         width:68px;
 
         height:34px;
 
         font-size:12px;
-
-    }
-
-
-    .chat-list{
-
-        height:170px;
 
     }
 
@@ -1026,19 +1114,6 @@ body{
     .input-area{
 
         align-items:stretch;
-
-    }
-
-
-    .input-area textarea,
-
-    .message-input{
-
-        height:40px;
-
-        min-height:40px;
-
-        max-height:40px;
 
     }
 
@@ -1145,47 +1220,56 @@ body{
 
         <header class="chat-header">
 
+    <div class="chat-header-title">
 
-            <div id="currentChatName"></div>
+        <button
+            class="mobile-back-btn"
+            id="mobileBackBtn"
+        >
+            ←
+        </button>
 
+        <div id="currentChatName"></div>
 
-            <div class="header-buttons">
-
-
-                <button
-
-                    class="profile-btn"
-
-                    id="profileBtn"
-
-                    style="display:none;"
-
-                >
-
-                    프로필 보기
-
-                </button>
+    </div>
 
 
-                <button
-
-                    class="message-search-btn"
-
-                    id="messageSearchBtn"
-
-                    style="display:none;"
-
-                >
-
-                    🔍 메시지 검색
-
-                </button>
+    <div class="header-buttons">
 
 
-            </div>
+        <button
+
+            class="profile-btn"
+
+            id="profileBtn"
+
+            style="display:none;"
+
+        >
+
+            프로필 보기
+
+        </button>
 
 
-        </header>
+        <button
+
+            class="message-search-btn"
+
+            id="messageSearchBtn"
+
+            style="display:none;"
+
+        >
+
+            🔍 메시지 검색
+
+        </button>
+
+
+    </div>
+
+</header>
 
 
         <section
@@ -1474,10 +1558,13 @@ const newChatBtn =
 document.getElementById("newChatBtn");
 
 
+const mobileBackBtn =
+document.getElementById("mobileBackBtn");
+
 const characterModal =
 document.getElementById("characterModal");
 
-
+   
 const closeModal =
 document.getElementById("closeModal");
 
@@ -1584,12 +1671,10 @@ async function initChat(){
 function bindEvents(){
 
 
-
     sendBtn.addEventListener(
         "click",
         sendMessage
     );
-
 
 
     messageInput.addEventListener(
@@ -1614,12 +1699,10 @@ function bindEvents(){
     );
 
 
-
     newChatBtn.addEventListener(
         "click",
         openNewChatModal
     );
-
 
 
     closeModal.addEventListener(
@@ -1632,15 +1715,19 @@ function bindEvents(){
     );
 
 
-
     loadOlderBtn.addEventListener(
         "click",
         loadOlderMessages
     );
 
 
-}
+    mobileBackBtn.addEventListener(
+        "click",
+        closeMobileChat
+    );
 
+
+}
 
 
 
