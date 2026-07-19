@@ -17,15 +17,20 @@ Size.whitelist = [
 
 Quill.register(Size, true);
 
+
 const SizeStyle = Quill.import("attributors/style/size");
 
+
 SizeStyle.whitelist = [
+
     "10px",
     "12px",
     "18px",
     "24px",
     "32px"
+
 ];
+
 
 Quill.register(SizeStyle, true);
 
@@ -39,62 +44,78 @@ export function createQuill(selector){
 
         {
 
-
             theme:"snow",
 
 
             modules:{
 
-
                 toolbar:{
-
 
                     container:[
 
 
                         // 글자 크기
                         [
+
                             {
+
                                 size:[
+
                                     "10px",
                                     "12px",
                                     "18px",
                                     "24px",
                                     "32px"
+
                                 ]
+
                             }
+
                         ],
 
 
 
                         // 굵게 / 기울임 / 밑줄 / 취소선
                         [
+
                             "bold",
                             "italic",
                             "underline",
                             "strike"
+
                         ],
 
 
 
                         // 색상
                         [
-                            {
-                                color:[]
-                            },
 
                             {
+
+                                color:[]
+
+                            },
+
+
+                            {
+
                                 background:[]
+
                             }
+
                         ],
 
 
 
                         // 정렬
                         [
+
                             {
+
                                 align:[]
+
                             }
+
                         ],
 
 
@@ -103,11 +124,16 @@ export function createQuill(selector){
                         [
 
                             {
+
                                 list:"ordered"
+
                             },
 
+
                             {
+
                                 list:"bullet"
+
                             }
 
                         ],
@@ -116,22 +142,28 @@ export function createQuill(selector){
 
                         // 인용문
                         [
+
                             "blockquote"
+
                         ],
 
 
 
                         // 링크 / 이미지
                         [
+
                             "link",
                             "image"
+
                         ],
 
 
 
                         // 서식 제거
                         [
+
                             "clean"
+
                         ]
 
 
@@ -139,13 +171,9 @@ export function createQuill(selector){
 
 
 
-
                     handlers:{
 
-
-
                         image:function(){
-
 
 
                             const url = prompt(
@@ -155,15 +183,12 @@ export function createQuill(selector){
                             );
 
 
-
                             if(url){
-
 
 
                                 const range =
 
-                                this.quill.getSelection();
-
+                                    this.quill.getSelection();
 
 
                                 this.quill.insertEmbed(
@@ -185,32 +210,34 @@ export function createQuill(selector){
 
                     }
 
-
                 }
-
 
             }
 
-
         }
-
 
     );
 
 
 
-      // Quill 툴바 가져오기
+    // Quill 툴바 가져오기
 
-    const toolbar = quill.getModule("toolbar");
+    const toolbar =
+
+        quill.getModule("toolbar");
+
 
 
     // 색상 팔레트 가져오기
 
-    const colorPicker = toolbar.container.querySelector(
+    const colorPicker =
 
-        ".ql-color-picker .ql-picker-options"
+        toolbar.container.querySelector(
 
-    );
+            ".ql-color-picker .ql-picker-options"
+
+        );
+
 
 
     // 커스텀 색상 7개
@@ -237,106 +264,110 @@ export function createQuill(selector){
     ];
 
 
-    customColors.forEach(
 
-        (color) => {
-
-
-            const customColor = document.createElement(
-
-                "span"
-
-            );
+    if(colorPicker){
 
 
-            customColor.className =
+        customColors.forEach(
 
-                "ql-picker-item";
-
-
-            customColor.setAttribute(
-
-                "data-value",
-
-                color
-
-            );
+            (color) => {
 
 
-            customColor.setAttribute(
+                const customColor =
 
-                "title",
+                    document.createElement(
 
-                color
+                        "span"
 
-            );
-
-
-            customColor.style.backgroundColor =
-
-                color;
+                    );
 
 
-            customColor.addEventListener(
+                customColor.className =
 
-                "click",
-
-                () => {
+                    "ql-picker-item";
 
 
-                    const range = quill.getSelection();
+                customColor.setAttribute(
+
+                    "data-value",
+
+                    color
+
+                );
 
 
-                    if(range){
+                customColor.setAttribute(
 
-                        quill.formatText(
+                    "title",
 
-                            range.index,
+                    color
 
-                            range.length,
+                );
 
-                            "color",
 
-                            color
+                customColor.style.backgroundColor =
 
-                        );
+                    color;
+
+
+
+                customColor.addEventListener(
+
+                    "click",
+
+                    () => {
+
+
+                        const range =
+
+                            quill.getSelection();
+
+
+                        if(range){
+
+
+                            quill.formatText(
+
+                                range.index,
+
+                                range.length,
+
+                                "color",
+
+                                color
+
+                            );
+
+
+                        }
+
 
                     }
 
-
-                }
-
-            );
+                );
 
 
-            colorPicker.appendChild(
+                colorPicker.appendChild(
 
-                customColor
+                    customColor
 
-            );
-
-
-        }
-
-    );
+                );
 
 
-            colorPicker.appendChild(
+            }
 
-                customColor
-
-            );
+        );
 
 
-        }
+    }
 
-    );
 
 
     let savedScrollX = 0;
+
     let savedScrollY = 0;
 
-    
+
 
     quill.root.addEventListener(
 
@@ -350,9 +381,11 @@ export function createQuill(selector){
             savedScrollY = window.scrollY;
 
 
+
             setTimeout(
 
                 () => {
+
 
                     window.scrollTo(
 
@@ -361,6 +394,7 @@ export function createQuill(selector){
                         savedScrollY
 
                     );
+
 
                 },
 
@@ -369,9 +403,11 @@ export function createQuill(selector){
             );
 
 
+
             setTimeout(
 
                 () => {
+
 
                     window.scrollTo(
 
@@ -380,6 +416,7 @@ export function createQuill(selector){
                         savedScrollY
 
                     );
+
 
                 },
 
@@ -388,9 +425,11 @@ export function createQuill(selector){
             );
 
 
+
             setTimeout(
 
                 () => {
+
 
                     window.scrollTo(
 
@@ -399,6 +438,7 @@ export function createQuill(selector){
                         savedScrollY
 
                     );
+
 
                 },
 
@@ -410,6 +450,7 @@ export function createQuill(selector){
         }
 
     );
+
 
 
     return quill;
