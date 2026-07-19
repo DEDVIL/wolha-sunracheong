@@ -305,46 +305,32 @@ export function createQuill(selector){
                 );
 
 
+
                 customColor.style.backgroundColor =
 
                     color;
 
 
 
-customColor.addEventListener(
+                customColor.addEventListener(
 
-    "click",
+                    "click",
 
-    () => {
-
-
-        const range =
-
-            quill.getSelection();
+                    () => {
 
 
-        if(range){
+                        quill.format(
+
+                            "color",
+
+                            color
+
+                        );
 
 
-            quill.formatText(
+                    }
 
-                range.index,
-
-                range.length,
-
-                "color",
-
-                color
-
-            );
-
-
-        }
-
-
-    }
-
-);
+                );
 
 
                 colorPicker.appendChild(
