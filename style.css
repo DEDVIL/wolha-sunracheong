@@ -3746,4 +3746,11 @@ h1 {
 
 
 
+/* quill-config.js 색상 */
+
+.ql-snow .ql-color-picker .ql-picker-item[data-value="#8F6B3D"]{
+
+    background-color:#8F6B3D;
+
+}
 
