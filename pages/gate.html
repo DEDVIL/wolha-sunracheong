@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+월하순라청 귀문탐사
+</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body style="display:none;">
+
+
+<main class="main-container">
+
+
+<section class="content-box gate-page">
+
+
+<h1>
+月下巡邏廳
+</h1>
+
+
+<p class="subtitle">
+귀문탐사
+</p>
+
+
+<div class="page-buttons">
+
+<a
+href="./home.html"
+class="home-button"
+>
+홈으로
+</a>
+
+
+<a
+class="home-button"
+href="./gate-record.html"
+>
+귀문 사건 기록
+</a>
+
+</div>
+
+
+<!-- ======================
+     사건 영역
+====================== -->
+
+
+<section class="gate-case-box">
+
+
+<h2>
+🚨 현재 발생 사건
+</h2>
+
+
+<div id="gate-case-info">
+
+불러오는 중...
+
+</div>
+
+
+</section>
+
+
+<!-- ======================
+     참가 영역
+====================== -->
+
+
+<section class="gate-participant-box">
+
+
+<button
+id="join-button"
+class="write-button"
+>
+
+탐사 참가
+
+</button>
+
+
+<h2>
+탐사 참가자
+</h2>
+
+
+<div id="participant-list">
+
+참가자가 없습니다.
+
+</div>
+
+
+</section>
+
+
+<!-- ======================
+     기록 영역
+====================== -->
+
+
+<section class="gate-log-box">
+
+
+<h2>
+탐사 기록
+</h2>
+
+
+<div id="comment-list">
+
+등록된 기록이 없습니다.
+
+</div>
+
+
+<div class="gate-comment-write">
+
+
+<textarea
+
+id="comment-input"
+
+placeholder="탐사 기록을 작성해주세요."
+
+></textarea>
+
+
+<button
+
+id="comment-button"
+
+class="write-button"
+
+>
+
+기록 등록
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+<section class="gate-end-box">
+
+
+<button
+
+id="end-gate-button"
+
+class="gate-end-button"
+
+>
+
+사건 종결 처리
+
+</button>
+
+
+</section>
+
+
+</section>
+
+
+</main>
+
+
+<script type="module">
+
+
+import {
+
+db
+
+}
+
+from "../firebase.js";
+
+
+import {
+
+requireLogin
+
+}
+
+from "../auth-guard.js";
+
+
+import {
+
+doc,
+
+getDoc,
+
+collection,
+
+addDoc,
+
+getDocs,
+
+query,
+
+where,
+
+orderBy,
+
+setDoc,
+
+serverTimestamp,
+
+updateDoc,
+
+deleteDoc
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+// ======================
+// 기본 설정
+// ======================
+
+
+let gateId = null;
+
+
+let currentUser = null;
+
+
+let characterName = "";
+
+
+let currentGateData = null;
+
+
+let gateClosed = false;
+
+
+let isParticipant = false;
+
+
+// 현재 수정 중인 기록의 ID
+let editingCommentId = null;
+
+
+const gateCaseInfo =
+
+document.getElementById(
+"gate-case-info"
+);
+
+
+const joinButton =
+
+document.getElementById(
+"join-button"
+);
+
+
+const participantList =
+
+document.getElementById(
+"participant-list"
+);
+
+
+const commentList =
+
+document.getElementById(
+"comment-list"
+);
+
+
+const commentInput =
+
+document.getElementById(
+"comment-input"
+);
+
+
+const commentButton =
+
+document.getElementById(
+"comment-button"
+);
+
+
+const endGateButton =
+
+document.getElementById(
+"end-gate-button"
+);
+
+
+// ======================
+// 로그인 체크
+// ======================
+
+
+requireLogin(
+
+async(userData)=>{
+
+
+currentUser = userData;
+
+
+await loadUser();
+
+
+await loadGate();
+
+
+if(gateId){
+
+    await loadParticipants();
+
+    await loadComments();
+
+}
+
+
+}
+
+);
+
+
+// ======================
+// 사용자 정보
+// ======================
+
+
+async function loadUser(){
+
+
+const userSnap = await getDoc(
+
+doc(
+
+db,
+
+"users",
+
+currentUser.uid
+
+)
+
+);
+
+
+if(userSnap.exists()){
+
+
+const data = userSnap.data();
+
+
+characterName =
+
+data.characterName ||
+
+data.name ||
+
+"이름 없음";
+
+
+}
+
+}
+
+
+// ======================
+// 사건 불러오기
+// ======================
+
+
+async function loadGate(){
+
+
+const q = query(
+
+collection(
+
+db,
+
+"activeGates"
+
+),
+
+where(
+
+"status",
+
+"==",
+
+"active"
+
+)
+
+);
+
+
+const snapshot = await getDocs(q);
+
+
+if(snapshot.empty){
+
+
+gateCaseInfo.innerHTML =
+
+"현재 진행 중인 귀문 탐사가 없습니다.";
+
+
+joinButton.style.display =
+
+"none";
+
+
+gateId = null;
+
+
+return;
+
+
+}
+
+
+const gateDoc =
+
+snapshot.docs[0];
+
+
+gateId =
+
+gateDoc.id;
+
+
+const data =
+
+gateDoc.data();
+
+
+currentGateData = data;
+
+
+gateCaseInfo.innerHTML = `
+
+
+<div class="gate-case-title">
+
+${data.title || "귀문 사건"}
+
+</div>
+
+
+<div class="gate-case-detail">
+
+
+<p>
+
+<strong>
+출몰 지역
+</strong>
+
+<br>
+
+${data.location || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+등급
+</strong>
+
+<br>
+
+<span class="gate-grade">
+
+${data.grade || "-"}
+
+</span>
+
+</p>
+
+
+<p>
+
+<strong>
+사건 유형
+</strong>
+
+<br>
+
+${data.type || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+관련 개체
+</strong>
+
+<br>
+
+${data.targetName || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+사건 내용
+</strong>
+
+<br>
+
+${data.content || "-"}
+
+</p>
+
+
+<div id="detail-area">
+
+</div>
+
+
+</div>
+
+`;
+
+
+await checkParticipant();
+
+
+}
+
+
+// ======================
+// 참가 신청
+// ======================
+
+
+joinButton.onclick = async()=>{
+
+
+if(!currentUser)
+
+return;
+
+
+await setDoc(
+
+doc(
+
+db,
+
+"activeGates",
+
+gateId,
+
+"participants",
+
+currentUser.uid
+
+),
+
+{
+
+uid:
+
+currentUser.uid,
+
+
+characterName:
+
+characterName,
+
+
+joinedAt:
+
+serverTimestamp()
+
+
+}
+
+);
+
+
+await loadParticipants();
+
+
+await checkParticipant();
+
+
+alert(
+
+"탐사 참가 신청이 완료되었습니다."
+
+);
+
+
+};
+
+
+// ======================
+// 참가자 불러오기
+// 참여한 순서대로 표시
+// ======================
+
+
+async function loadParticipants(){
+
+
+const participantsRef =
+
+collection(
+
+db,
+
+"activeGates",
+
+gateId,
+
+"participants"
+
+);
+
+
+const q = query(
+
+participantsRef,
+
+orderBy(
+
+"joinedAt",
+
+"asc"
+
+)
+
+);
+
+
+const snapshot =
+
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+
+participantList.innerHTML =
+
+"참가자가 없습니다.";
+
+
+return;
+
+
+}
+
+
+participantList.innerHTML = "";
+
+
+snapshot.forEach((docSnap)=>{
+
+
+const data =
+
+docSnap.data();
+
+
+participantList.innerHTML += `
+
+
+<p class="gate-participant">
+
+${data.characterName}
+
+</p>
+
+
+`;
+
+
+});
+
+
+}
+
+
+// ======================
+// 참가 여부 확인
+// ======================
+
+
+async function checkParticipant(){
+
+
+const participantSnap = await getDoc(
+
+doc(
+
+db,
+
+"activeGates",
+
+gateId,
+
+"participants",
+
+currentUser.uid
+
+)
+
+);
+
+
+isParticipant =
+
+participantSnap.exists();
+
+
+if(isParticipant){
+
+
+showDetailInfo();
+
+
+}
+
+
+}
+
+
+// ======================
+// 상세 정보 표시
+// ======================
+
+
+function showDetailInfo(){
+
+
+const area =
+
+document.getElementById(
+
+"detail-area"
+
+);
+
+
+if(!currentGateData.targetInfo)
+
+return;
+
+
+area.innerHTML = `
+
+
+<hr>
+
+
+<h3>
+현장 조사 자료
+</h3>
+
+
+<p>
+
+<strong>
+명칭
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.name || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+원명
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.originalName || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+분류
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.category || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+외형
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.appearance || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+행동 특성
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.behavior || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+주요 출몰지
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.habitat || "-"}
+
+</p>
+
+
+<p>
+
+<strong>
+관련 현상
+</strong>
+
+<br>
+
+${currentGateData.targetInfo?.relatedPhenomenon || "-"}
+
+</p>
+
+
+${
+
+currentGateData.possessionInfo
+
+?
+
+`
+
+<hr>
+
+<h3>
+빙의 대상 정보
+</h3>
+
+
+<p>
+
+<strong>
+대상
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.name}
+
+</p>
+
+
+<p>
+
+<strong>
+분류
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.category}
+
+</p>
+
+
+<p>
+
+<strong>
+설명
+</strong>
+
+<br>
+
+${currentGateData.possessionInfo.description}
+
+</p>
+
+`
+
+:
+
+""
+
+}
+
+
+`;
+
+
+}
+
+
+// ======================
+// 탐사 기록 등록 / 수정
+// ======================
+
+
+commentButton.onclick = async()=>{
+
+
+const text =
+
+commentInput.value.trim();
+
+
+if(!text){
+
+
+alert(
+
+"탐사 기록을 입력해주세요."
+
+);
+
+
+return;
+
+
+}
+
+
+if(!isParticipant){
+
+
+alert(
+
+"탐사 참가자만 기록을 작성할 수 있습니다."
+
+);
+
+
+return;
+
+
+}
+
+
+// ======================
+// 수정 모드
+// ======================
+
+
+if(editingCommentId){
+
+
+await updateDoc(
+
+doc(
+
+db,
+
+"gateComments",
+
+editingCommentId
+
+),
+
+{
+
+content:
+
+text,
+
+
+updatedAt:
+
+serverTimestamp()
+
+}
+
+);
+
+
+editingCommentId = null;
+
+
+commentInput.value = "";
+
+
+commentButton.textContent =
+
+"기록 등록";
+
+
+await loadComments();
+
+
+return;
+
+
+}
+
+
+// ======================
+// 신규 기록 등록
+// ======================
+
+
+await addDoc(
+
+collection(
+
+db,
+
+"gateComments"
+
+),
+
+{
+
+gateId:
+
+gateId,
+
+
+uid:
+
+currentUser.uid,
+
+
+characterName:
+
+characterName,
+
+
+content:
+
+text,
+
+
+createdAt:
+
+serverTimestamp(),
+
+
+updatedAt:
+
+serverTimestamp()
+
+}
+
+);
+
+
+commentInput.value = "";
+
+
+await loadComments();
+
+
+};
+
+
+// ======================
+// 댓글 불러오기
+// ======================
+
+
+async function loadComments(){
+
+
+if(!gateId){
+
+
+commentList.innerHTML =
+
+"진행중인 귀문이 없습니다.";
+
+
+return;
+
+
+}
+
+
+const q = query(
+
+collection(
+
+db,
+
+"gateComments"
+
+),
+
+where(
+
+"gateId",
+
+"==",
+
+gateId
+
+),
+
+orderBy(
+
+"createdAt",
+
+"asc"
+
+)
+
+);
+
+
+const snapshot =
+
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+
+commentList.innerHTML =
+
+"등록된 기록이 없습니다.";
+
+
+return;
+
+
+}
+
+
+commentList.innerHTML = "";
+
+
+snapshot.forEach((docSnap)=>{
+
+
+const data =
+
+docSnap.data();
+
+
+const id =
+
+docSnap.id;
+
+
+const comment =
+
+document.createElement(
+
+"div"
+
+);
+
+
+comment.className =
+
+"gate-comment";
+
+
+const name =
+
+document.createElement(
+
+"div"
+
+);
+
+
+name.className =
+
+"gate-comment-name";
+
+
+name.textContent =
+
+data.characterName;
+
+
+const text =
+
+document.createElement(
+
+"div"
+
+);
+
+
+text.className =
+
+"gate-comment-text";
+
+
+text.textContent =
+
+data.content;
+
+
+const control =
+
+document.createElement(
+
+"div"
+
+);
+
+
+control.className =
+
+"gate-comment-control";
+
+
+if(
+
+currentUser.uid === data.uid
+
+&& !gateClosed
+
+){
+
+
+const editButton =
+
+document.createElement(
+
+"button"
+
+);
+
+
+editButton.className =
+
+"gate-edit-button";
+
+
+editButton.textContent =
+
+"수정";
+
+
+editButton.addEventListener(
+
+"click",
+
+()=>{
+
+editComment(
+
+id,
+
+data.content
+
+);
+
+}
+
+);
+
+
+const deleteButton =
+
+document.createElement(
+
+"button"
+
+);
+
+
+deleteButton.className =
+
+"gate-delete-button";
+
+
+deleteButton.textContent =
+
+"삭제";
+
+
+deleteButton.addEventListener(
+
+"click",
+
+()=>{
+
+deleteComment(id);
+
+}
+
+);
+
+
+control.appendChild(
+
+editButton
+
+);
+
+
+control.appendChild(
+
+deleteButton
+
+);
+
+
+}
+
+
+comment.appendChild(
+
+name
+
+);
+
+
+comment.appendChild(
+
+text
+
+);
+
+
+comment.appendChild(
+
+control
+
+);
+
+
+commentList.appendChild(
+
+comment
+
+);
+
+
+});
+
+
+}
+
+
+// ======================
+// 댓글 수정
+// 기존 textarea에서 수정
+// ======================
+
+
+function editComment(id, text){
+
+
+editingCommentId =
+
+id;
+
+
+commentInput.value =
+
+text;
+
+
+commentButton.textContent =
+
+"수정 완료";
+
+
+commentInput.focus();
+
+
+}
+
+
+// ======================
+// 사건 종결
+// ======================
+
+
+endGateButton.onclick = async()=>{
+
+
+if(!isParticipant){
+
+
+alert(
+
+"탐사 참가자만 사건을 종료할 수 있습니다."
+
+);
+
+
+return;
+
+
+}
+
+
+if(gateClosed){
+
+
+alert(
+
+"이미 종결된 사건입니다."
+
+);
+
+
+return;
+
+
+}
+
+
+const check = confirm(
+
+"탐사를 종료하시겠습니까?"
+
+);
+
+
+if(!check){
+
+return;
+
+}
+
+
+try{
+
+
+const participantsSnapshot =
+
+await getDocs(
+
+collection(
+
+db,
+
+"activeGates",
+
+gateId,
+
+"participants"
+
+)
+
+);
+
+
+const commentsSnapshot =
+
+await getDocs(
+
+query(
+
+collection(
+
+db,
+
+"gateComments"
+
+),
+
+where(
+
+"gateId",
+
+"==",
+
+gateId
+
+),
+
+orderBy(
+
+"createdAt",
+
+"asc"
+
+)
+
+)
+
+);
+
+
+const logs = [];
+
+
+commentsSnapshot.forEach((docSnap)=>{
+
+
+const data =
+
+docSnap.data();
+
+
+logs.push({
+
+
+characterName:
+
+data.characterName,
+
+
+content:
+
+data.content,
+
+
+createdAt:
+
+data.createdAt ||
+
+null
+
+
+});
+
+
+});
+
+
+const participants = [];
+
+
+participantsSnapshot.forEach((docSnap)=>{
+
+
+participants.push(
+
+docSnap.data().characterName
+
+);
+
+
+});
+
+
+await addDoc(
+
+collection(
+
+db,
+
+"gateRecords"
+
+),
+
+{
+
+
+gateId:
+
+gateId,
+
+
+title:
+
+currentGateData.title,
+
+
+location:
+
+currentGateData.location,
+
+
+grade:
+
+currentGateData.grade,
+
+
+type:
+
+currentGateData.type,
+
+
+targetName:
+
+currentGateData.targetName,
+
+
+content:
+
+currentGateData.content,
+
+
+targetInfo:
+
+currentGateData.targetInfo ||
+
+null,
+
+
+possessionInfo:
+
+currentGateData.possessionInfo ||
+
+null,
+
+
+participants:
+
+participants,
+
+
+logs:
+
+logs,
+
+
+endedBy:
+
+characterName,
+
+
+endedType:
+
+"participant",
+
+
+endedAt:
+
+serverTimestamp()
+
+
+}
+
+);
+
+
+await updateDoc(
+
+doc(
+
+db,
+
+"activeGates",
+
+gateId
+
+),
+
+{
+
+
+status:
+
+"closed",
+
+
+endedAt:
+
+serverTimestamp(),
+
+
+endedBy:
+
+characterName
+
+
+}
+
+);
+
+
+alert(
+
+"탐사가 종료되었습니다."
+
+);
+
+
+location.href =
+
+"./gate-record.html";
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+alert(
+
+"탐사 종료 중 오류가 발생했습니다."
+
+);
+
+
+}
+
+
+};
+
+
+// ======================
+// 댓글 삭제
+// ======================
+
+
+async function deleteComment(id){
+
+
+const check =
+
+confirm(
+
+"기록을 삭제하시겠습니까?"
+
+);
+
+
+if(!check)
+
+return;
+
+
+await deleteDoc(
+
+doc(
+
+db,
+
+"gateComments",
+
+id
+
+)
+
+);
+
+
+await loadComments();
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
