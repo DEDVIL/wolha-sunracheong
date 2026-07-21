@@ -1239,22 +1239,46 @@ data.characterName;
 
 
 const text =
-
-document.createElement(
-
-"div"
-
-);
-
+    document.createElement(
+        "div"
+    );
 
 text.className =
+    "gate-comment-text";
 
-"gate-comment-text";
+const lines =
+    data.content.split("\n");
 
+lines.forEach(
 
-text.textContent =
+    (line, index) => {
 
-data.content;
+        text.appendChild(
+
+            document.createTextNode(
+                line
+            )
+
+        );
+
+        if(
+            index <
+            lines.length - 1
+        ){
+
+            text.appendChild(
+
+                document.createElement(
+                    "br"
+                )
+
+            );
+
+        }
+
+    }
+
+);
 
 
 const control =
