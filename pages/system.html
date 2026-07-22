@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+月下巡邏廳 내부 전산망
+</title>
+
+
+<link rel="stylesheet" href="../style.css">
+
+
+<style>
+
+
+.system-layout{
+
+display:flex;
+
+min-height:100vh;
+
+}
+
+
+
+.system-sidebar{
+
+width:260px;
+
+background:#111827;
+
+padding:30px 20px;
+
+box-sizing:border-box;
+
+}
+
+
+
+.system-title{
+
+color:#e5e7eb;
+
+text-align:center;
+
+font-size:22px;
+
+margin-bottom:10px;
+
+}
+
+
+
+.system-subtitle{
+
+color:#9ca3af;
+
+text-align:center;
+
+font-size:14px;
+
+margin-bottom:30px;
+
+}
+
+
+
+.system-menu a{
+
+display:block;
+
+padding:14px 10px;
+
+margin-bottom:8px;
+
+color:#e5e7eb;
+
+text-decoration:none;
+
+border:1px solid rgba(255,255,255,0.15);
+
+}
+
+
+
+.system-menu a:hover{
+
+background:rgba(255,255,255,0.08);
+
+}
+
+
+
+.system-content{
+
+flex:1;
+
+background:#0b1120;
+
+}
+
+
+
+#content-frame{
+
+width:100%;
+
+height:100vh;
+
+border:none;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="system-layout">
+
+
+
+<!-- ===================
+     사이드 메뉴
+=================== -->
+
+
+<aside class="system-sidebar">
+
+
+
+<h1 class="system-title">
+
+月下巡邏廳
+
+</h1>
+
+
+
+<p class="system-subtitle">
+
+내부 전산망
+
+</p>
+
+
+
+
+<nav class="system-menu">
+
+
+
+<a href="./home.html" target="content-frame">
+
+⌜ 홈 ⌟
+
+</a>
+
+
+<a href="./headquarters.html" target="content-frame">
+
+⌜ 본청 ⌟
+
+</a>
+
+
+
+<a href="./faq.html" target="content-frame">
+
+⌜ FAQ ⌟
+
+</a>
+
+
+
+<a href="./world.html" target="content-frame">
+
+⌜ 세계관 ⌟
+
+</a>
+
+
+
+<a href="./world-logs.html" target="content-frame">
+
+⌜ 세계관 확장판 ⌟
+
+</a>
+
+
+
+<a href="./member-list.html" target="content-frame">
+
+⌜ 인명부 ⌟
+
+</a>
+
+
+
+<a href="./logs.html" target="content-frame">
+
+⌜ 개인 로그 ⌟
+
+</a>
+
+
+
+<a href="./relationship.html" target="content-frame">
+
+⌜ 관계도 ⌟
+
+</a>
+
+
+
+<a href="./chat.html" target="content-frame">
+
+⌜ 월하톡 ⌟
+
+</a>
+
+
+
+<a href="./gate.html" target="content-frame">
+
+⌜ 귀문탐사 ⌟
+
+</a>
+
+
+
+</nav>
+
+
+
+</aside>
+
+
+
+
+
+<!-- ===================
+     페이지 영역
+=================== -->
+
+
+<section class="system-content">
+
+
+<iframe
+
+id="content-frame"
+
+name="content-frame"
+
+src="./home.html"
+
+>
+
+
+</iframe>
+
+
+</section>
+
+
+
+
+</div>
+
+
+
+</body>
+
+
+</html>
