@@ -127,21 +127,16 @@ const login = async (
 
         // 신규 사용자
 
+if(
+    !userDoc.exists()
+){
 
-        if(
-            !userDoc.exists()
-        ){
+    location.href =
+    "./pages/profile-create.html";
 
+    return;
 
-           location.href =
-
-"./pages/system.html";
-
-
-            return;
-
-
-        }
+}
 
 
 
