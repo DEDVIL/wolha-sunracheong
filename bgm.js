@@ -193,36 +193,12 @@ if(
 event.data === YT.PlayerState.PLAYING
 ){
 
-
-if(lastTime > 0){
-
-
-setTimeout(()=>{
-
-
-player.seekTo(
-lastTime,
-true
-);
-
-
-lastTime = 0;
-
-
-},500);
-
-
-}
-
-
 saveTime();
 
-
 }
 
 
 }
-
 }
 
 
