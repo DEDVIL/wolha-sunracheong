@@ -1,49 +1,109 @@
 // ======================
-// 월하순라청 BGM SYSTEM
+// 월하순라청 BGM SYSTEM v2
 // ======================
 
 
-// YouTube 영상 ID
-const BGM_ID =
-"W5qqmM-ZleA";
+const BGM_ID = "W5qqmM-ZleA";
 
 
-// 현재 상태 저장
+let player = null;
+
+
+let isReady = false;
+
+
 let isPlaying =
-localStorage.getItem("wolha-bgm") === "on";
+localStorage.getItem("wolha-bgm-status") === "on";
+
+
+let lastTime =
+Number(
+localStorage.getItem("wolha-bgm-time")
+)
+|| 0;
 
 
 
 // ======================
-// YouTube iframe 생성
+// 버튼 생성
 // ======================
+
+
+const bgmButton =
+document.createElement("button");
+
+
+bgmButton.id =
+"bgm-button";
+
+
+bgmButton.innerHTML =
+isPlaying
+?
+"🔇 BGM OFF"
+:
+"🎵 BGM ON";
+
+
+document.body.appendChild(
+bgmButton
+);
+
+
+
+
+
+// ======================
+// YouTube API 불러오기
+// ======================
+
+
+const tag =
+document.createElement("script");
+
+
+tag.src =
+"https://www.youtube.com/iframe_api";
+
+
+document.head.appendChild(
+tag
+);
+
+
+
+
+// ======================
+// 플레이어 생성
+// ======================
+
+
+window.onYouTubeIframeAPIReady =
+function(){
+
 
 const iframe =
-document.createElement("iframe");
+document.createElement("div");
 
 
-iframe.src =
-`https://www.youtube.com/embed/${BGM_ID}?enablejsapi=1&loop=1&playlist=${BGM_ID}`;
-
-
-iframe.allow =
-"autoplay";
+iframe.id =
+"youtube-bgm-player";
 
 
 iframe.style.position =
 "fixed";
 
+
 iframe.style.width =
 "1px";
+
 
 iframe.style.height =
 "1px";
 
+
 iframe.style.opacity =
 "0";
-
-iframe.style.pointerEvents =
-"none";
 
 
 document.body.appendChild(
@@ -52,54 +112,117 @@ iframe
 
 
 
+player =
+new YT.Player(
 
-// ======================
-// 버튼 생성
-// ======================
+"youtube-bgm-player",
 
-const button =
-document.createElement("button");
-
-
-button.id =
-"bgm-button";
+{
 
 
-button.innerHTML =
-isPlaying
-? "🔇 BGM OFF"
-: "🎵 BGM ON";
+videoId:
+BGM_ID,
 
 
-document.body.appendChild(
-button
+playerVars:{
+
+
+autoplay:0,
+
+
+controls:0,
+
+
+loop:1,
+
+
+playlist:BGM_ID
+
+
+},
+
+
+
+events:{
+
+
+onReady:function(){
+
+
+isReady =
+true;
+
+
+
+// 이전 위치 이동
+
+if(lastTime > 0){
+
+player.seekTo(
+lastTime,
+true
+);
+
+}
+
+
+
+// 자동 재생 시도
+
+if(isPlaying){
+
+tryPlay();
+
+}
+
+
+},
+
+
+
+onStateChange:function(event){
+
+
+if(
+event.data === YT.PlayerState.PLAYING
+){
+
+saveTime();
+
+
+}
+
+
+}
+
+
+}
+
+
+}
+
 );
 
 
+};
+
 
 
 
 // ======================
-// YouTube 명령 보내기
+// 자동 재생
 // ======================
 
-function controlBGM(command){
 
-iframe.contentWindow.postMessage(
+function tryPlay(){
 
-JSON.stringify({
 
-event:"command",
+if(!player)
+return;
 
-func:command,
 
-args:[]
+player.playVideo();
 
-}),
-
-"*"
-
-);
 
 }
 
@@ -108,22 +231,63 @@ args:[]
 
 
 // ======================
-// 버튼 클릭
+// 시간 저장
 // ======================
 
-button.addEventListener(
 
-"click",
+setInterval(()=>{
 
-()=>{
+
+if(
+player
+&&
+isPlaying
+&&
+isReady
+){
+
+
+const time =
+player.getCurrentTime();
+
+
+
+if(time){
+
+localStorage.setItem(
+"wolha-bgm-time",
+Math.floor(time)
+);
+
+}
+
+
+}
+
+
+},5000);
+
+
+
+
+// ======================
+// 버튼
+// ======================
+
+
+bgmButton.onclick =
+function(){
+
+
+if(!player)
+return;
+
 
 
 if(isPlaying){
 
 
-controlBGM(
-"pauseVideo"
-);
+player.pauseVideo();
 
 
 isPlaying =
@@ -131,26 +295,22 @@ false;
 
 
 localStorage.setItem(
-"wolha-bgm",
+"wolha-bgm-status",
 "off"
 );
 
 
-
-button.innerHTML =
+bgmButton.innerHTML =
 "🎵 BGM ON";
-
 
 
 }
 
+
 else{
 
 
-controlBGM(
-"playVideo"
-);
-
+player.playVideo();
 
 
 isPlaying =
@@ -158,19 +318,16 @@ true;
 
 
 localStorage.setItem(
-"wolha-bgm",
+"wolha-bgm-status",
 "on"
 );
 
 
-
-button.innerHTML =
+bgmButton.innerHTML =
 "🔇 BGM OFF";
 
 
 }
 
 
-}
-
-);
+};
