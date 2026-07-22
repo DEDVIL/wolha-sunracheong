@@ -287,6 +287,14 @@ return;
 if(isPlaying){
 
 
+localStorage.setItem(
+"wolha-bgm-time",
+Math.floor(
+player.getCurrentTime()
+)
+);
+
+
 player.pauseVideo();
 
 
@@ -308,6 +316,23 @@ bgmButton.innerHTML =
 
 
 else{
+
+
+const savedTime =
+Number(
+localStorage.getItem("wolha-bgm-time")
+)
+|| 0;
+
+
+if(savedTime > 0){
+
+player.seekTo(
+savedTime,
+true
+);
+
+}
 
 
 player.playVideo();
