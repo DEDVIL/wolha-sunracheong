@@ -158,23 +158,29 @@ true;
 
 if(lastTime > 0){
 
+setTimeout(()=>{
+
 player.seekTo(
 lastTime,
 true
 );
 
-}
+},1000);
 
+}
 
 
 // 자동 재생 시도
 
 if(isPlaying){
 
+setTimeout(()=>{
+
 tryPlay();
 
-}
+},1500);
 
+}
 
 },
 
@@ -226,7 +232,26 @@ player.playVideo();
 
 }
 
+function saveTime(){
 
+if(!player)
+return;
+
+
+const time =
+player.getCurrentTime();
+
+
+if(time){
+
+localStorage.setItem(
+"wolha-bgm-time",
+Math.floor(time)
+);
+
+}
+
+}
 
 
 
@@ -332,10 +357,22 @@ savedTime,
 true
 );
 
+
+setTimeout(()=>{
+
+player.playVideo();
+
+},1000);
+
+
 }
+else{
 
 
 player.playVideo();
+
+
+}
 
 
 isPlaying =
