@@ -49,7 +49,13 @@ document.body.appendChild(
 bgmButton
 );
 
+bgmButton.style.position = "fixed";
 
+bgmButton.style.bottom = "20px";
+
+bgmButton.style.right = "20px";
+
+bgmButton.style.zIndex = "9999";
 
 
 
