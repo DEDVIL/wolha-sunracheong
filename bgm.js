@@ -1,176 +1,175 @@
 // ======================
-// 월하순라청 공통 BGM
+// 월하순라청 BGM SYSTEM
 // ======================
 
-const YOUTUBE_VIDEO_ID =
+
+// YouTube 영상 ID
+const BGM_ID =
 "W5qqmM-ZleA";
 
 
-// ======================
-// BGM 상태
-// ======================
-
-let bgmEnabled =
+// 현재 상태 저장
+let isPlaying =
 localStorage.getItem("wolha-bgm") === "on";
 
 
+
 // ======================
-// YouTube 플레이어 생성
+// YouTube iframe 생성
 // ======================
 
-const bgmFrame =
+const iframe =
 document.createElement("iframe");
 
 
-bgmFrame.src =
-`https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?enablejsapi=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}`;
+iframe.src =
+`https://www.youtube.com/embed/${BGM_ID}?enablejsapi=1&loop=1&playlist=${BGM_ID}`;
 
 
-bgmFrame.allow =
+iframe.allow =
 "autoplay";
 
 
-bgmFrame.style.position =
+iframe.style.position =
 "fixed";
 
-
-bgmFrame.style.width =
+iframe.style.width =
 "1px";
 
-
-bgmFrame.style.height =
+iframe.style.height =
 "1px";
 
-
-bgmFrame.style.opacity =
+iframe.style.opacity =
 "0";
 
-
-bgmFrame.style.pointerEvents =
+iframe.style.pointerEvents =
 "none";
 
 
-bgmFrame.style.left =
-"-10px";
-
-
-bgmFrame.style.bottom =
-"-10px";
-
-
 document.body.appendChild(
-bgmFrame
+iframe
 );
 
 
+
+
 // ======================
-// BGM 버튼 생성
+// 버튼 생성
 // ======================
 
-const bgmButton =
+const button =
 document.createElement("button");
 
 
-bgmButton.id =
-"bgm-toggle-button";
+button.id =
+"bgm-button";
 
 
-bgmButton.textContent =
-bgmEnabled
-? "BGM ON"
-: "BGM OFF";
+button.innerHTML =
+isPlaying
+? "🔇 BGM OFF"
+: "🎵 BGM ON";
 
 
 document.body.appendChild(
-bgmButton
+button
 );
 
 
+
+
+
 // ======================
-// YouTube 명령
+// YouTube 명령 보내기
 // ======================
 
-function sendYouTubeCommand(
-command
-){
+function controlBGM(command){
 
-    bgmFrame.contentWindow.postMessage(
+iframe.contentWindow.postMessage(
 
-        JSON.stringify({
+JSON.stringify({
 
-            event:
-            "command",
+event:"command",
 
-            func:
-            command,
+func:command,
 
-            args:
-            []
+args:[]
 
-        }),
+}),
 
-        "*"
+"*"
 
-    );
+);
 
 }
+
+
+
 
 
 // ======================
 // 버튼 클릭
 // ======================
 
-bgmButton.addEventListener(
+button.addEventListener(
 
 "click",
 
 ()=>{
 
 
-    if(bgmEnabled){
-
-        sendYouTubeCommand(
-            "pauseVideo"
-        );
+if(isPlaying){
 
 
-        bgmEnabled =
-        false;
+controlBGM(
+"pauseVideo"
+);
 
 
-        localStorage.setItem(
-            "wolha-bgm",
-            "off"
-        );
+isPlaying =
+false;
 
 
-        bgmButton.textContent =
-        "BGM OFF";
+localStorage.setItem(
+"wolha-bgm",
+"off"
+);
 
 
-    }
 
-    else{
-
-        sendYouTubeCommand(
-            "playVideo"
-        );
+button.innerHTML =
+"🎵 BGM ON";
 
 
-        bgmEnabled =
-        true;
+
+}
+
+else{
 
 
-        localStorage.setItem(
-            "wolha-bgm",
-            "on"
-        );
+controlBGM(
+"playVideo"
+);
 
 
-        bgmButton.textContent =
-        "BGM ON";
 
-    }
+isPlaying =
+true;
+
+
+localStorage.setItem(
+"wolha-bgm",
+"on"
+);
+
+
+
+button.innerHTML =
+"🔇 BGM OFF";
+
+
+}
+
 
 }
 
