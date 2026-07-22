@@ -165,7 +165,7 @@ lastTime,
 true
 );
 
-},1000);
+},3000);
 
 }
 
@@ -192,6 +192,23 @@ onStateChange:function(event){
 if(
 event.data === YT.PlayerState.PLAYING
 ){
+
+
+setTimeout(()=>{
+
+if(lastTime > 0){
+
+player.seekTo(
+lastTime,
+true
+);
+
+}
+
+
+},2000);
+
+
 
 saveTime();
 
