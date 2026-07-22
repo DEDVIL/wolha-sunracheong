@@ -182,26 +182,25 @@ const login = async (
 
 
 
-        // 일반 멤버
+// 일반 멤버
 
 
-        if(
+if(
 
-            userData.role === "member"
+    userData.role === "member"
 
-        ){
-
-
-            location.href =
-
-            "./pages/home.html";
+){
 
 
-            return;
+    location.href =
+
+    "./pages/system.html";
 
 
-        }
+    return;
 
+
+}
 
 
 
