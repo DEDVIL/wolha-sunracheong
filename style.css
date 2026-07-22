@@ -3688,3 +3688,33 @@ img {
 }
 
 
+
+/* bgm.js 관련 */
+
+
+
+#bgm-toggle-button {
+
+    position: fixed;
+
+    right: 20px;
+
+    bottom: 20px;
+
+    z-index: 9999;
+
+    padding: 10px 16px;
+
+    border: 1px solid rgba(255,255,255,0.4);
+
+    background: rgba(0,0,0,0.75);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
