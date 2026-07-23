@@ -40,14 +40,10 @@ body {
     background:
 
     linear-gradient(
-        rgba(10,10,10,0.94),
-        rgba(10,10,10,0.94)
-    ),
-
-    url("./assets/images/paper-texture.png");
-
-
-    background-size:cover;
+        145deg,
+        #0a0a0a,
+        #111111
+    );
 
 
     font-family:
