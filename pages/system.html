@@ -363,7 +363,79 @@ height:100vh;
 
 }
 
+/* ======================
+   BGM 버튼
+====================== */
 
+
+#bgm-button{
+
+
+position:fixed;
+
+
+bottom:20px;
+
+
+right:20px;
+
+
+z-index:9999;
+
+
+}
+
+
+
+/* 모바일에서는 사이드바 내부 */
+
+#mobile-bgm-area{
+
+
+display:none;
+
+
+}
+
+
+
+@media(max-width:700px){
+
+
+#mobile-bgm-area{
+
+
+display:block;
+
+
+margin-top:25px;
+
+
+padding-top:20px;
+
+
+border-top:1px solid #4a4035;
+
+
+}
+
+
+#mobile-bgm-area #bgm-button{
+
+
+position:static;
+
+
+width:100%;
+
+
+box-sizing:border-box;
+
+
+}
+
+
+}
 
 
 </style>
@@ -587,6 +659,12 @@ src="./home.html"
 <script>
 
 
+<script src="../bgm.js"></script>
+
+
+<script>
+
+
 const menuButton =
 document.getElementById(
 "mobile-menu-button"
@@ -600,12 +678,113 @@ document.getElementById(
 
 
 
+// ======================
+// 모바일에서 BGM 버튼 이동
+// ======================
+
+
+function moveBgmButton(){
+
+
+const bgmButton =
+document.getElementById(
+"bgm-button"
+);
+
+
+const bgmArea =
+document.getElementById(
+"mobile-bgm-area"
+);
+
+
+if(
+
+!bgmButton ||
+
+!bgmArea
+
+){
+
+return;
+
+}
+
+
+
+// 모바일
+
+if(
+
+window.innerWidth <= 700
+
+){
+
+
+if(
+
+bgmButton.parentElement !==
+bgmArea
+
+){
+
+
+bgmArea.appendChild(
+
+bgmButton
+
+);
+
+
+}
+
+
+}
+
+
+
+// 데스크톱
+
+else{
+
+
+if(
+
+bgmButton.parentElement !==
+document.body
+
+){
+
+
+document.body.appendChild(
+
+bgmButton
+
+);
+
+
+}
+
+
+}
+
+
+}
+
+
+
+// ======================
+// 메뉴 열기 / 닫기
+// ======================
+
 
 menuButton.onclick = function(){
 
 
 sidebar.classList.toggle(
+
 "active"
+
 );
 
 
@@ -615,23 +794,38 @@ sidebar.classList.toggle(
 
 
 
-// 모바일에서 메뉴 클릭하면 자동 닫기
+// ======================
+// 모바일에서 메뉴 클릭하면 닫기
+// ======================
+
 
 document
-.querySelectorAll(".system-menu a")
-.forEach(link=>{
+
+.querySelectorAll(
+
+".system-menu a"
+
+)
+
+.forEach(
+
+link=>{
 
 
-link.onclick=function(){
+link.onclick = function(){
 
 
 if(
+
 window.innerWidth <= 700
+
 ){
 
 
 sidebar.classList.remove(
+
 "active"
+
 );
 
 
@@ -641,13 +835,43 @@ sidebar.classList.remove(
 };
 
 
-});
+}
 
+);
+
+
+
+
+
+// ======================
+// 화면 크기 변경
+// ======================
+
+
+window.addEventListener(
+
+"resize",
+
+moveBgmButton
+
+);
+
+
+
+
+
+// bgm.js가 버튼을 만든 뒤 이동
+
+setTimeout(
+
+moveBgmButton,
+
+500
+
+);
 
 
 </script>
-
-<script src="../bgm.js"></script>
 
    <script type="module">
 
