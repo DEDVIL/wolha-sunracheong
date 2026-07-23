@@ -65,14 +65,15 @@ TIME_KEY
 // ======================
 
 
-// 버튼 생성
 const bgmButton =
 document.createElement(
-    "button"
+"button"
 );
+
 
 bgmButton.id =
 "bgm-button";
+
 
 bgmButton.textContent =
 isPlaying
@@ -81,70 +82,116 @@ isPlaying
 :
 "🎵 BGM ON";
 
-document.body.appendChild(
-    bgmButton
+
+
+
+
+// ======================
+// BGM 버튼 위치 이동
+// ======================
+
+
+function moveBgmButton(){
+
+
+const mobileBgmArea =
+document.getElementById(
+"mobile-bgm-area"
 );
 
 
-// 모바일 / PC 위치 이동
-function moveBgmButton(){
+if(
+!mobileBgmArea
+){
 
-    const mobileBgmArea =
-    document.getElementById(
-        "mobile-bgm-area"
-    );
-
-
-    if(
-        !mobileBgmArea
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        window.innerWidth <= 700
-    ){
-
-        if(
-            bgmButton.parentElement !==
-            mobileBgmArea
-        ){
-
-            mobileBgmArea.appendChild(
-                bgmButton
-            );
-
-        }
-
-    }
-    else{
-
-        if(
-            bgmButton.parentElement !==
-            document.body
-        ){
-
-            document.body.appendChild(
-                bgmButton
-            );
-
-        }
-
-    }
+return;
 
 }
 
 
+
+
+
+// 모바일
+
+if(
+
+window.innerWidth <= 700
+
+){
+
+
+if(
+
+bgmButton.parentElement !==
+mobileBgmArea
+
+){
+
+
+mobileBgmArea.appendChild(
+bgmButton
+);
+
+
+}
+
+
+}
+
+
+
+
+
+// PC
+
+else{
+
+
+if(
+
+bgmButton.parentElement !==
+document.body
+
+){
+
+
+document.body.appendChild(
+bgmButton
+);
+
+
+}
+
+
+}
+
+
+}
+
+
+
+
+
+// 버튼을 일단 body에 넣기
+
+document.body.appendChild(
+bgmButton
+);
+
+
+// 현재 화면 크기에 맞게 이동
+
 moveBgmButton();
 
 
+// 화면 크기 변경 시 이동
+
 window.addEventListener(
-    "resize",
-    moveBgmButton
+"resize",
+moveBgmButton
 );
+
 
 
 
