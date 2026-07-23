@@ -367,76 +367,56 @@ height:100vh;
    BGM 버튼
 ====================== */
 
-
 #bgm-button{
 
+    position:fixed;
 
-position:fixed;
+    bottom:20px;
 
+    right:20px;
 
-bottom:20px;
-
-
-right:20px;
-
-
-z-index:9999;
-
+    z-index:9999;
 
 }
 
 
-
-/* 모바일에서는 사이드바 내부 */
+/* 모바일 메뉴 안의 BGM 영역 */
 
 #mobile-bgm-area{
 
-
-display:none;
-
+    display:none;
 
 }
-
 
 
 @media(max-width:700px){
 
+    #mobile-bgm-area{
 
-#mobile-bgm-area{
+        display:block;
 
+        margin-top:25px;
 
-display:block;
+        padding-top:20px;
 
+        border-top:1px solid #4a4035;
 
-margin-top:25px;
-
-
-padding-top:20px;
-
-
-border-top:1px solid #4a4035;
+    }
 
 
-}
+    #mobile-bgm-area #bgm-button{
 
+        position:static;
 
-#mobile-bgm-area #bgm-button{
+        display:block;
 
+        width:100%;
 
-position:static;
+        box-sizing:border-box;
 
-
-width:100%;
-
-
-box-sizing:border-box;
-
+    }
 
 }
-
-
-}
-
 
 </style>
 
@@ -671,98 +651,7 @@ document.getElementById(
 
 
 
-// ======================
-// 모바일에서 BGM 버튼 이동
-// ======================
 
-
-function moveBgmButton(){
-
-
-const bgmButton =
-document.getElementById(
-"bgm-button"
-);
-
-
-const bgmArea =
-document.getElementById(
-"mobile-bgm-area"
-);
-
-
-if(
-
-!bgmButton ||
-
-!bgmArea
-
-){
-
-return;
-
-}
-
-
-
-// 모바일
-
-if(
-
-window.innerWidth <= 700
-
-){
-
-
-if(
-
-bgmButton.parentElement !==
-bgmArea
-
-){
-
-
-bgmArea.appendChild(
-
-bgmButton
-
-);
-
-
-}
-
-
-}
-
-
-
-// 데스크톱
-
-else{
-
-
-if(
-
-bgmButton.parentElement !==
-document.body
-
-){
-
-
-document.body.appendChild(
-
-bgmButton
-
-);
-
-
-}
-
-
-}
-
-
-}
 
 
 
@@ -834,34 +723,6 @@ sidebar.classList.remove(
 
 
 
-
-
-// ======================
-// 화면 크기 변경
-// ======================
-
-
-window.addEventListener(
-
-"resize",
-
-moveBgmButton
-
-);
-
-
-
-
-
-// bgm.js가 버튼을 만든 뒤 이동
-
-setTimeout(
-
-moveBgmButton,
-
-500
-
-);
 
 
 </script>
