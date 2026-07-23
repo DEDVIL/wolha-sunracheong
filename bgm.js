@@ -65,15 +65,14 @@ TIME_KEY
 // ======================
 
 
+// 버튼 생성
 const bgmButton =
 document.createElement(
-"button"
+    "button"
 );
-
 
 bgmButton.id =
 "bgm-button";
-
 
 bgmButton.textContent =
 isPlaying
@@ -82,29 +81,70 @@ isPlaying
 :
 "🎵 BGM ON";
 
-
-const mobileBgmArea =
-document.getElementById(
-"mobile-bgm-area"
+document.body.appendChild(
+    bgmButton
 );
 
 
-if(
-mobileBgmArea
-){
+// 모바일 / PC 위치 이동
+function moveBgmButton(){
 
-    mobileBgmArea.appendChild(
-        bgmButton
+    const mobileBgmArea =
+    document.getElementById(
+        "mobile-bgm-area"
     );
 
-}
-else{
 
-    document.body.appendChild(
-        bgmButton
-    );
+    if(
+        !mobileBgmArea
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        window.innerWidth <= 700
+    ){
+
+        if(
+            bgmButton.parentElement !==
+            mobileBgmArea
+        ){
+
+            mobileBgmArea.appendChild(
+                bgmButton
+            );
+
+        }
+
+    }
+    else{
+
+        if(
+            bgmButton.parentElement !==
+            document.body
+        ){
+
+            document.body.appendChild(
+                bgmButton
+            );
+
+        }
+
+    }
 
 }
+
+
+moveBgmButton();
+
+
+window.addEventListener(
+    "resize",
+    moveBgmButton
+);
 
 
 
