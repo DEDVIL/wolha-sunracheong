@@ -376,7 +376,7 @@ height:100vh;
 
 
 
-<body>
+<body style="display:none;">
 
 
 
@@ -643,6 +643,21 @@ sidebar.classList.remove(
 
 <script src="../js/bgm.js"></script>
 
+   <script type="module">
+
+import {
+
+    requireLogin
+
+}
+
+from "../auth-guard.js";
+
+
+requireLogin();
+
+
+</script>
 
 </body>
 
