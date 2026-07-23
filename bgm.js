@@ -1,43 +1,81 @@
 // ======================
-// 월하순라청 BGM SYSTEM v2
+// 월하순라청 BGM SYSTEM
 // ======================
 
 
-const BGM_ID = "W5qqmM-ZleA";
+// ======================
+// 기본 설정
+// ======================
 
 
-let player = null;
+const BGM_ID =
+"W5qqmM-ZleA";
 
 
-let isReady = false;
+const STATUS_KEY =
+"wolha-bgm-status";
+
+
+const TIME_KEY =
+"wolha-bgm-time";
+
+
+
+
+
+// ======================
+// 상태
+// ======================
+
+
+let player =
+null;
+
+
+let isReady =
+false;
 
 
 let isPlaying =
-localStorage.getItem("wolha-bgm-status") === "on";
+localStorage.getItem(
+STATUS_KEY
+)
+===
+"on";
+
+
+
 
 
 let lastTime =
 Number(
-localStorage.getItem("wolha-bgm-time")
+localStorage.getItem(
+TIME_KEY
 )
-|| 0;
+)
+||
+0;
+
+
 
 
 
 // ======================
-// 버튼 생성
+// BGM 버튼 생성
 // ======================
 
 
 const bgmButton =
-document.createElement("button");
+document.createElement(
+"button"
+);
 
 
 bgmButton.id =
 "bgm-button";
 
 
-bgmButton.innerHTML =
+bgmButton.textContent =
 isPlaying
 ?
 "🔇 BGM OFF"
@@ -49,13 +87,7 @@ document.body.appendChild(
 bgmButton
 );
 
-bgmButton.style.position = "fixed";
 
-bgmButton.style.bottom = "20px";
-
-bgmButton.style.right = "20px";
-
-bgmButton.style.zIndex = "9999";
 
 
 
@@ -64,23 +96,26 @@ bgmButton.style.zIndex = "9999";
 // ======================
 
 
-const tag =
-document.createElement("script");
+const youtubeScript =
+document.createElement(
+"script"
+);
 
 
-tag.src =
+youtubeScript.src =
 "https://www.youtube.com/iframe_api";
 
 
 document.head.appendChild(
-tag
+youtubeScript
 );
 
 
 
 
+
 // ======================
-// 플레이어 생성
+// YouTube 플레이어 생성
 // ======================
 
 
@@ -88,33 +123,41 @@ window.onYouTubeIframeAPIReady =
 function(){
 
 
-const iframe =
-document.createElement("div");
+const playerContainer =
+document.createElement(
+"div"
+);
 
 
-iframe.id =
+playerContainer.id =
 "youtube-bgm-player";
 
 
-iframe.style.position =
+playerContainer.style.position =
 "fixed";
 
 
-iframe.style.width =
+playerContainer.style.width =
 "1px";
 
 
-iframe.style.height =
+playerContainer.style.height =
 "1px";
 
 
-iframe.style.opacity =
+playerContainer.style.opacity =
 "0";
 
 
+playerContainer.style.pointerEvents =
+"none";
+
+
 document.body.appendChild(
-iframe
+playerContainer
 );
+
+
 
 
 
@@ -133,78 +176,107 @@ BGM_ID,
 playerVars:{
 
 
-autoplay:0,
+autoplay:
+0,
 
 
-controls:0,
+controls:
+0,
 
 
-loop:1,
+loop:
+1,
 
 
-playlist:BGM_ID
+playlist:
+BGM_ID
 
 
 },
 
 
-
 events:{
 
 
-onReady:function(){
+onReady:
+function(){
 
 
 isReady =
 true;
 
 
+// 이전 재생 위치 복원
 
-// 이전 위치 이동
+if(
+lastTime > 0
+){
 
-if(lastTime > 0){
-
-setTimeout(()=>{
 
 player.seekTo(
 lastTime,
 true
 );
 
-},3000);
 
 }
 
 
-// 자동 재생 시도
+// 이전에 BGM이 켜져 있었다면 재생 시도
 
-if(isPlaying){
+if(
+isPlaying
+){
 
-setTimeout(()=>{
 
 tryPlay();
 
-},1500);
 
 }
+
 
 },
 
 
-
-onStateChange:function(event){
+onStateChange:
+function(event){
 
 
 if(
-event.data === YT.PlayerState.PLAYING
+
+event.data ===
+YT.PlayerState.PLAYING
+
 ){
+
+
+isPlaying =
+true;
+
+
+updateButton();
+
+
+}
+
+
+if(
+
+event.data ===
+YT.PlayerState.PAUSED
+
+){
+
 
 saveTime();
 
+
 }
 
 
 }
+
+
 }
 
 
@@ -218,16 +290,28 @@ saveTime();
 
 
 
+
 // ======================
-// 자동 재생
+// 재생
 // ======================
 
 
 function tryPlay(){
 
 
-if(!player)
+if(
+
+!player
+||
+!isReady
+
+){
+
+
 return;
+
+
+}
 
 
 player.playVideo();
@@ -235,26 +319,7 @@ player.playVideo();
 
 }
 
-function saveTime(){
 
-if(!player)
-return;
-
-
-const time =
-player.getCurrentTime();
-
-
-if(time){
-
-localStorage.setItem(
-"wolha-bgm-time",
-Math.floor(time)
-);
-
-}
-
-}
 
 
 
@@ -263,43 +328,120 @@ Math.floor(time)
 // ======================
 
 
-setInterval(()=>{
+function saveTime(){
 
 
 if(
-player
-&&
-isPlaying
-&&
-isReady
+
+!player
+||
+!isReady
+
 ){
 
 
+return;
+
+
+}
+
+
 const time =
-player.getCurrentTime();
-
-
-
-if(time){
-
-localStorage.setItem(
-"wolha-bgm-time",
-Math.floor(time)
+Math.floor(
+player.getCurrentTime()
 );
 
-}
+
+if(
+time > 0
+){
+
+
+localStorage.setItem(
+TIME_KEY,
+time
+);
 
 
 }
 
 
-},2000);
+}
+
 
 
 
 
 // ======================
-// 버튼
+// 버튼 상태 변경
+// ======================
+
+
+function updateButton(){
+
+
+if(
+!bgmButton
+){
+
+
+return;
+
+
+}
+
+
+bgmButton.textContent =
+isPlaying
+?
+"🔇 BGM OFF"
+:
+"🎵 BGM ON";
+
+
+}
+
+
+
+
+
+// ======================
+// 주기적으로 재생 위치 저장
+// ======================
+
+
+setInterval(
+
+function(){
+
+
+if(
+
+isPlaying
+&&
+isReady
+
+){
+
+
+saveTime();
+
+
+}
+
+
+},
+
+3000
+
+);
+
+
+
+
+
+// ======================
+// BGM 버튼
 // ======================
 
 
@@ -307,20 +449,34 @@ bgmButton.onclick =
 function(){
 
 
-if(!player)
+if(
+
+!player
+||
+!isReady
+
+){
+
+
 return;
 
 
+}
 
-if(isPlaying){
 
 
-localStorage.setItem(
-"wolha-bgm-time",
-Math.floor(
-player.getCurrentTime()
-)
-);
+
+
+// BGM 끄기
+
+if(
+
+isPlaying
+
+){
+
+
+saveTime();
 
 
 player.pauseVideo();
@@ -331,29 +487,41 @@ false;
 
 
 localStorage.setItem(
-"wolha-bgm-status",
+STATUS_KEY,
 "off"
 );
 
 
-bgmButton.innerHTML =
-"🎵 BGM ON";
+updateButton();
+
+
+return;
 
 
 }
 
 
-else{
 
+
+
+// BGM 켜기
 
 const savedTime =
 Number(
-localStorage.getItem("wolha-bgm-time")
+
+localStorage.getItem(
+TIME_KEY
 )
-|| 0;
+
+)
+||
+0;
 
 
-if(savedTime > 0){
+if(
+savedTime > 0
+){
+
 
 player.seekTo(
 savedTime,
@@ -361,21 +529,10 @@ true
 );
 
 
-setTimeout(()=>{
-
-player.playVideo();
-
-},1000);
-
-
 }
-else{
 
 
 player.playVideo();
-
-
-}
 
 
 isPlaying =
@@ -383,16 +540,12 @@ true;
 
 
 localStorage.setItem(
-"wolha-bgm-status",
+STATUS_KEY,
 "on"
 );
 
 
-bgmButton.innerHTML =
-"🔇 BGM OFF";
-
-
-}
+updateButton();
 
 
 };
