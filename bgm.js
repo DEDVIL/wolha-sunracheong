@@ -83,10 +83,28 @@ isPlaying
 "🎵 BGM ON";
 
 
-document.body.appendChild(
-bgmButton
+const mobileBgmArea =
+document.getElementById(
+"mobile-bgm-area"
 );
 
+
+if(
+mobileBgmArea
+){
+
+    mobileBgmArea.appendChild(
+        bgmButton
+    );
+
+}
+else{
+
+    document.body.appendChild(
+        bgmButton
+    );
+
+}
 
 
 
