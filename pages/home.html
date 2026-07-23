@@ -9,18 +9,743 @@
 
 
 <title>
-월하순라청 내부망
+월하순라청 내부 전산망
 </title>
 
 
 <link rel="stylesheet" href="../style.css">
 
 
+<style>
+
+
+/* =========================
+   홈 화면 전용
+========================= */
+
+
+.home-dashboard{
+
+    width:100%;
+
+}
+
+
+/* =========================
+   상단 환영 영역
+========================= */
+
+
+.home-welcome{
+
+    padding:35px 30px;
+
+    margin-bottom:25px;
+
+    background:
+
+    linear-gradient(
+
+        145deg,
+
+        rgba(35,35,35,0.9),
+
+        rgba(15,15,15,0.95)
+
+    );
+
+    border:1px solid #4a4035;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+.home-welcome::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:4px;
+
+    height:100%;
+
+    background:#c8a96a;
+
+}
+
+
+.home-welcome h2{
+
+    margin:0 0 10px;
+
+    color:#c8a96a;
+
+    font-size:25px;
+
+    letter-spacing:3px;
+
+}
+
+
+.home-welcome p{
+
+    margin:0;
+
+    color:#b8b0a0;
+
+    line-height:1.8;
+
+}
+
+
+/* =========================
+   상단 카드
+========================= */
+
+
+.home-top-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    minmax(0, 0.9fr)
+
+    minmax(0, 1.5fr);
+
+    gap:20px;
+
+    margin-bottom:25px;
+
+}
+
+
+/* =========================
+   공통 카드
+========================= */
+
+
+.home-card{
+
+    padding:25px;
+
+    background:#111;
+
+    border:1px solid #4a4035;
+
+    min-width:0;
+
+}
+
+
+.home-card-title{
+
+    margin:0 0 20px;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid #4a4035;
+
+    color:#c8a96a;
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+}
+
+
+/* =========================
+   접속 정보
+========================= */
+
+
+.profile-summary{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+
+}
+
+
+.profile-summary-image{
+
+    width:90px;
+
+    height:90px;
+
+    flex-shrink:0;
+
+    object-fit:cover;
+
+    border:1px solid #4a4035;
+
+}
+
+
+.profile-summary-placeholder{
+
+    width:90px;
+
+    height:90px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#0b0b0b;
+
+    border:1px solid #4a4035;
+
+    color:#6f675d;
+
+    font-size:30px;
+
+}
+
+
+.profile-summary-info{
+
+    min-width:0;
+
+}
+
+
+.profile-summary-name{
+
+    margin-bottom:12px;
+
+    color:#e8e2d6;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+}
+
+
+.profile-summary-row{
+
+    margin-bottom:7px;
+
+    color:#b8b0a0;
+
+    font-size:14px;
+
+}
+
+
+.profile-summary-row strong{
+
+    display:inline-block;
+
+    width:65px;
+
+    color:#8d867b;
+
+    font-weight:normal;
+
+}
+
+
+.status-normal{
+
+    color:#8fae82;
+
+}
+
+
+.status-dot{
+
+    display:inline-block;
+
+    width:7px;
+
+    height:7px;
+
+    margin-right:6px;
+
+    border-radius:50%;
+
+    background:#8fae82;
+
+}
+
+
+/* =========================
+   공지
+========================= */
+
+
+.home-notice-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+.home-notice-item{
+
+    display:block;
+
+    padding:14px 16px;
+
+    background:#0b0b0b;
+
+    border:1px solid #332d26;
+
+    text-decoration:none;
+
+    transition:0.2s;
+
+}
+
+
+.home-notice-item:hover{
+
+    border-color:#c8a96a;
+
+}
+
+
+.home-notice-title{
+
+    margin-bottom:7px;
+
+    color:#e8e2d6;
+
+    font-size:15px;
+
+}
+
+
+.home-notice-title.important{
+
+    color:#c8a96a;
+
+}
+
+
+.home-notice-content{
+
+    max-height:42px;
+
+    overflow:hidden;
+
+    color:#8d867b;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+}
+
+
+.home-notice-content p{
+
+    margin:0;
+
+}
+
+
+.home-notice-more{
+
+    margin-top:15px;
+
+    text-align:right;
+
+    color:#c8a96a;
+
+    font-size:13px;
+
+}
+
+
+/* =========================
+   귀문탐사
+========================= */
+
+
+.home-gate-card{
+
+    position:relative;
+
+    margin-bottom:25px;
+
+    padding:28px;
+
+    background:
+
+    linear-gradient(
+
+        145deg,
+
+        #171717,
+
+        #0d0d0d
+
+    );
+
+    border:1px solid #4a4035;
+
+    overflow:hidden;
+
+}
+
+
+.home-gate-card.active{
+
+    border-color:#8b0000;
+
+}
+
+
+.home-gate-card.active::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    background:#8b0000;
+
+}
+
+
+.home-gate-label{
+
+    margin-bottom:12px;
+
+    color:#8d867b;
+
+    font-size:12px;
+
+    letter-spacing:3px;
+
+}
+
+
+.home-gate-title{
+
+    margin-bottom:20px;
+
+    color:#c8a96a;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+}
+
+
+.home-gate-status{
+
+    display:inline-block;
+
+    margin-bottom:20px;
+
+    padding:6px 12px;
+
+    border:1px solid #8b0000;
+
+    color:#d28b8b;
+
+    font-size:13px;
+
+}
+
+
+.home-gate-info-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(4, minmax(0, 1fr));
+
+    gap:12px;
+
+    margin-bottom:20px;
+
+}
+
+
+.home-gate-info{
+
+    padding:13px;
+
+    background:#0b0b0b;
+
+    border:1px solid #332d26;
+
+}
+
+
+.home-gate-info-label{
+
+    margin-bottom:7px;
+
+    color:#8d867b;
+
+    font-size:12px;
+
+}
+
+
+.home-gate-info-value{
+
+    color:#e8e2d6;
+
+    font-size:14px;
+
+}
+
+
+.home-gate-participation{
+
+    padding-top:18px;
+
+    border-top:1px solid #332d26;
+
+    color:#b8b0a0;
+
+    font-size:14px;
+
+    line-height:1.8;
+
+}
+
+
+.home-gate-participation strong{
+
+    color:#c8a96a;
+
+}
+
+
+.home-gate-empty{
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    color:#8d867b;
+
+    line-height:2;
+
+}
+
+
+.home-gate-link{
+
+    display:inline-block;
+
+    margin-top:18px;
+
+    padding:10px 18px;
+
+    border:1px solid #4a4035;
+
+    color:#e8e2d6;
+
+    text-decoration:none;
+
+    font-size:13px;
+
+    letter-spacing:1px;
+
+}
+
+
+.home-gate-link:hover{
+
+    border-color:#c8a96a;
+
+    color:#c8a96a;
+
+}
+
+
+/* =========================
+   하단 장식
+========================= */
+
+
+.home-decoration{
+
+    position:relative;
+
+    min-height:180px;
+
+    margin-top:25px;
+
+    overflow:hidden;
+
+    border:1px solid #4a4035;
+
+    background:
+
+    linear-gradient(
+
+        rgba(10,10,10,0.35),
+
+        rgba(10,10,10,0.85)
+
+    ),
+
+    url("../assets/images/facility/dormitory.jpeg");
+
+    background-size:cover;
+
+    background-position:center;
+
+}
+
+
+.home-decoration::after{
+
+    content:"月下巡邏廳";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:translateX(-50%);
+
+    color:rgba(232,226,214,0.75);
+
+    font-family:
+
+    "Noto Serif KR",
+
+    serif;
+
+    font-size:22px;
+
+    letter-spacing:5px;
+
+    white-space:nowrap;
+
+}
+
+
+.home-decoration-text{
+
+    position:absolute;
+
+    top:25px;
+
+    left:30px;
+
+    color:rgba(200,169,106,0.8);
+
+    font-size:12px;
+
+    letter-spacing:3px;
+
+}
+
+
+/* =========================
+   모바일
+========================= */
+
+
+@media(max-width:700px){
+
+
+    .home-top-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .home-welcome{
+
+        padding:25px 20px;
+
+    }
+
+
+    .home-card{
+
+        padding:20px;
+
+    }
+
+
+    .profile-summary{
+
+        align-items:flex-start;
+
+    }
+
+
+    .home-gate-info-grid{
+
+        grid-template-columns:
+
+        repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .home-decoration{
+
+        min-height:150px;
+
+    }
+
+
+    .home-decoration::after{
+
+        font-size:17px;
+
+        letter-spacing:3px;
+
+    }
+
+
+}
+
+
+</style>
+
+
 </head>
 
 
 
-<body>
+<body style="display:none;">
 
 
 
@@ -28,15 +753,19 @@
 
 
 
-<section class="admin-box">
+<section class="content-box">
 
 
 
-<div class="logo">
-
-</div>
+<div class="home-dashboard">
 
 
+<!-- =========================
+     환영 영역
+========================= -->
+
+
+<section class="home-welcome">
 
 
 <h1>
@@ -44,116 +773,248 @@
 </h1>
 
 
-
 <p class="subtitle">
 내부 전산망
 </p>
 
 
-
-
-
-
-<div class="system-message">
-
+<h2>
 접속 승인 완료
+</h2>
+
+
+<p>
+
+월하순라청 내부 전산망에 접속하였습니다.
 
 <br>
 
-월하순라청 시스템
+현재 승인된 계정으로 정상 접속 중입니다.
 
-</div>
-
-
-
-
-
-
-
-<nav class="menu">
-
-
-
-<a href="./headquarters.html">
-  
-⌜ 본청 ⌟
-  
-</a>
-
-
-
-<a href="./faq.html">
-  
-⌜ FAQ ⌟
-  
-</a>
-
-
-
-<a href="./world.html">
-
-⌜ 세계관 ⌟
-
-</a>
-
-
-
-<a href="./world-logs.html">
-
-⌜ 세계관 확장판 ⌟
-
-</a>
-
-
-
-<a href="./member-list.html">
-  
-⌜ 인명부 ⌟
-  
-</a>
-
-
-
-<a href="./logs.html">
-
-⌜ 개인 로그 ⌟
-
-</a>
-
-
-
-<a href="./relationship.html">
-
-⌜ 관계도 ⌟
-
-</a>
-
-  
-
-<a href="./chat.html">
-
-⌜ 월하톡 ⌟
-
-</a>
-
-
-
-<a href="./gate.html">
-
-⌜ 귀문탐사 ⌟
-
-</a>
-
-
-
-</nav>
-
-
-
+</p>
 
 
 </section>
 
+
+
+
+
+<!-- =========================
+     접속 정보 + 공지
+========================= -->
+
+
+<section class="home-top-grid">
+
+
+
+<!-- 접속 정보 -->
+
+
+<article class="home-card">
+
+
+<h2 class="home-card-title">
+
+⌜ 접속 정보 ⌟
+
+</h2>
+
+
+<div class="profile-summary">
+
+
+<div
+id="profile-image-area"
+>
+
+
+<div class="profile-summary-placeholder">
+
+月
+
+</div>
+
+
+</div>
+
+
+<div class="profile-summary-info">
+
+
+<div
+id="character-name"
+class="profile-summary-name"
+>
+
+불러오는 중...
+
+</div>
+
+
+<div class="profile-summary-row">
+
+
+<strong>
+소속
+</strong>
+
+
+<span
+id="character-department"
+>
+
+확인 중...
+
+</span>
+
+
+</div>
+
+
+<div class="profile-summary-row">
+
+
+<strong>
+상태
+</strong>
+
+
+<span
+class="status-normal"
+>
+
+
+<span class="status-dot"></span>
+
+
+정상 접속
+
+
+</span>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+<!-- 본청 공지 -->
+
+
+<article class="home-card">
+
+
+<h2 class="home-card-title">
+
+
+⌜ 본청 공지 ⌟
+
+
+</h2>
+
+
+<div
+id="home-notice-list"
+class="home-notice-list"
+>
+
+
+불러오는 중...
+
+
+</div>
+
+
+<a
+href="./headquarters.html"
+class="home-notice-more"
+>
+
+
+본청 공지 전체 보기 →
+
+
+</a>
+
+
+</article>
+
+
+</section>
+
+
+
+
+
+<!-- =========================
+     귀문탐사
+========================= -->
+
+
+<section
+id="home-gate-card"
+class="home-gate-card"
+>
+
+
+<div class="home-gate-label">
+
+CURRENT GATE STATUS
+
+</div>
+
+
+<div
+id="home-gate-content"
+>
+
+
+불러오는 중...
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<!-- =========================
+     장식 이미지
+========================= -->
+
+
+<section class="home-decoration">
+
+
+<div class="home-decoration-text">
+
+MOONLIT PATROL HALL · INTERNAL ARCHIVE
+
+</div>
+
+
+</section>
+
+
+</div>
+
+
+</section>
 
 
 </main>
@@ -161,23 +1022,1016 @@
 
 
 
+
 <script type="module">
+
 
 import {
 
-    requireLogin
+
+db
+
 
 }
+
+
+from "../firebase.js";
+
+
+
+import {
+
+
+requireLogin
+
+
+}
+
 
 from "../auth-guard.js";
 
 
-requireLogin();
+
+import {
+
+
+doc,
+
+getDoc,
+
+collection,
+
+getDocs,
+
+query,
+
+where,
+
+orderBy
+
+
+}
+
+
+from
+
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+
+// =========================
+// 기본 변수
+// =========================
+
+
+let currentUser = null;
+
+
+
+
+
+const characterName =
+
+document.getElementById(
+
+"character-name"
+
+);
+
+
+const characterDepartment =
+
+document.getElementById(
+
+"character-department"
+
+);
+
+
+const profileImageArea =
+
+document.getElementById(
+
+"profile-image-area"
+
+);
+
+
+const noticeList =
+
+document.getElementById(
+
+"home-notice-list"
+
+);
+
+
+const gateCard =
+
+document.getElementById(
+
+"home-gate-card"
+
+);
+
+
+const gateContent =
+
+document.getElementById(
+
+"home-gate-content"
+
+);
+
+
+
+
+
+// =========================
+// 로그인 승인
+// =========================
+
+
+requireLogin(
+
+async(userData)=>{
+
+
+currentUser = userData;
+
+
+await Promise.all([
+
+
+loadProfile(),
+
+
+loadNotices(),
+
+
+loadActiveGate()
+
+
+]);
+
+
+}
+
+);
+
+
+
+
+
+// =========================
+// 인명부 정보
+// =========================
+
+
+async function loadProfile(){
+
+
+try{
+
+
+const memberSnap = await getDoc(
+
+
+doc(
+
+
+db,
+
+
+"members",
+
+
+currentUser.uid
+
+
+)
+
+
+);
+
+
+if(!memberSnap.exists()){
+
+
+characterName.textContent =
+
+currentUser.name || "이름 미등록";
+
+
+characterDepartment.textContent =
+
+"소속 미등록";
+
+
+return;
+
+
+}
+
+
+const data = memberSnap.data();
+
+
+characterName.textContent =
+
+data.writerName ||
+
+
+currentUser.name ||
+
+
+"이름 미등록";
+
+
+characterDepartment.textContent =
+
+data.department ||
+
+
+"소속 미등록";
+
+
+
+if(data.portraitImage){
+
+
+profileImageArea.innerHTML = `
+
+
+<img
+
+
+src="${data.portraitImage}"
+
+
+alt="캐릭터 두상"
+
+
+class="profile-summary-image"
+
+
+>
+
+
+`;
+
+
+}
+
+
+}
+
+
+catch(error){
+
+
+console.error(
+
+"인명부 정보 불러오기 오류:",
+
+
+error
+
+
+);
+
+
+characterName.textContent =
+
+"정보 확인 불가";
+
+
+characterDepartment.textContent =
+
+"정보 확인 불가";
+
+
+}
+
+
+}
+
+
+
+
+
+// =========================
+// 본청 공지
+// =========================
+
+
+async function loadNotices(){
+
+
+try{
+
+
+const q = query(
+
+
+collection(
+
+
+db,
+
+
+"headquarters"
+
+
+),
+
+
+orderBy(
+
+
+"createdAt",
+
+
+"desc"
+
+
+)
+
+
+);
+
+
+const snapshot = await getDocs(q);
+
+
+noticeList.innerHTML = "";
+
+
+if(snapshot.empty){
+
+
+noticeList.innerHTML = `
+
+
+<div class="home-notice-item">
+
+
+<div class="home-notice-title">
+
+
+등록된 본청 공지가 없습니다.
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+return;
+
+
+}
+
+
+snapshot.docs.slice(0,3).forEach((noticeDoc)=>{
+
+
+const data = noticeDoc.data();
+
+
+const item = document.createElement("div");
+
+
+item.className = "home-notice-item";
+
+
+const title = document.createElement("div");
+
+
+title.className = "home-notice-title";
+
+
+if(data.important){
+
+
+title.classList.add("important");
+
+
+title.textContent =
+
+"[중요] " +
+
+(data.title || "제목 없음");
+
+
+}
+
+
+else{
+
+
+title.textContent =
+
+data.title || "제목 없음";
+
+
+}
+
+
+const content = document.createElement("div");
+
+
+content.className =
+
+"home-notice-content";
+
+
+content.innerHTML =
+
+fixContent(data.content || "");
+
+
+item.appendChild(title);
+
+
+item.appendChild(content);
+
+
+noticeList.appendChild(item);
+
+
+});
+
+
+}
+
+
+catch(error){
+
+
+console.error(
+
+"공지 불러오기 오류:",
+
+
+error
+
+
+);
+
+
+noticeList.innerHTML = `
+
+
+<div class="home-notice-item">
+
+
+<div class="home-notice-title">
+
+
+공지사항을 불러오지 못했습니다.
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+}
+
+
+}
+
+
+
+
+
+// =========================
+// 귀문탐사
+// =========================
+
+
+async function loadActiveGate(){
+
+
+try{
+
+
+const q = query(
+
+
+collection(
+
+
+db,
+
+
+"activeGates"
+
+
+),
+
+
+where(
+
+
+"status",
+
+
+"==",
+
+
+"active"
+
+
+)
+
+
+);
+
+
+const snapshot = await getDocs(q);
+
+
+if(snapshot.empty){
+
+
+gateCard.classList.remove("active");
+
+
+gateContent.innerHTML = `
+
+
+<div class="home-gate-empty">
+
+
+현재 진행 중인 귀문탐사가 없습니다.
+
+
+<br>
+
+
+새로운 사건이 발생하면 이곳에 현황이 표시됩니다.
+
+
+<br>
+
+
+<a
+
+
+href="./gate.html"
+
+
+class="home-gate-link"
+
+
+>
+
+
+귀문탐사 기록실 보기
+
+
+</a>
+
+
+</div>
+
+
+`;
+
+
+return;
+
+
+}
+
+
+const gateDoc = snapshot.docs[0];
+
+
+const gateId = gateDoc.id;
+
+
+const gate = gateDoc.data();
+
+
+const participantsRef = collection(
+
+
+db,
+
+
+"activeGates",
+
+
+gateId,
+
+
+"participants"
+
+
+);
+
+
+const participantsSnapshot = await getDocs(
+
+
+participantsRef
+
+
+);
+
+
+const participantCount =
+
+
+participantsSnapshot.size;
+
+
+const isParticipant =
+
+
+participantsSnapshot.docs.some(
+
+
+participantDoc =>
+
+
+participantDoc.id === currentUser.uid
+
+
+);
+
+
+const days = calculateDays(gate.createdAt);
+
+
+gateCard.classList.add("active");
+
+
+gateContent.innerHTML = `
+
+
+<div class="home-gate-status">
+
+
+🚨 탐사 진행 중 · ${days}
+
+
+</div>
+
+
+<div class="home-gate-title">
+
+
+${escapeHtml(gate.title || "귀문 사건")}
+
+
+</div>
+
+
+<div class="home-gate-info-grid">
+
+
+<div class="home-gate-info">
+
+
+<div class="home-gate-info-label">
+
+
+출몰 지역
+
+
+</div>
+
+
+<div class="home-gate-info-value">
+
+
+${escapeHtml(gate.location || "-")}
+
+
+</div>
+
+
+</div>
+
+
+<div class="home-gate-info">
+
+
+<div class="home-gate-info-label">
+
+
+등급
+
+
+</div>
+
+
+<div class="home-gate-info-value">
+
+
+${escapeHtml(gate.grade || "-")}
+
+
+</div>
+
+
+</div>
+
+
+<div class="home-gate-info">
+
+
+<div class="home-gate-info-label">
+
+
+사건 유형
+
+
+</div>
+
+
+<div class="home-gate-info-value">
+
+
+${escapeHtml(gate.type || "-")}
+
+
+</div>
+
+
+</div>
+
+
+<div class="home-gate-info">
+
+
+<div class="home-gate-info-label">
+
+
+관련 개체
+
+
+</div>
+
+
+<div class="home-gate-info-value">
+
+
+${escapeHtml(gate.targetName || "-")}
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="home-gate-participation">
+
+
+현재 참가자
+
+
+<strong>
+
+
+${participantCount}명
+
+
+</strong>
+
+
+<br>
+
+
+내 참가 여부
+
+
+<strong>
+
+
+${isParticipant ? "참가 중" : "미참가"}
+
+
+</strong>
+
+
+<br>
+
+
+<a
+
+
+href="./gate.html"
+
+
+class="home-gate-link"
+
+
+>
+
+
+귀문탐사 상세 보기 →
+
+
+</a>
+
+
+</div>
+
+
+`;
+
+
+}
+
+
+catch(error){
+
+
+console.error(
+
+
+"귀문탐사 정보 불러오기 오류:",
+
+
+error
+
+
+);
+
+
+gateContent.innerHTML = `
+
+
+<div class="home-gate-empty">
+
+
+귀문탐사 정보를 불러오지 못했습니다.
+
+
+</div>
+
+
+`;
+
+
+}
+
+
+}
+
+
+
+
+
+// =========================
+// 탐사 일수
+// =========================
+
+
+function calculateDays(timestamp){
+
+
+if(!timestamp || !timestamp.toDate){
+
+
+return "기간 확인 불가";
+
+
+}
+
+
+const createdDate = timestamp.toDate();
+
+
+const now = new Date();
+
+
+const diff = now - createdDate;
+
+
+const days = Math.floor(
+
+
+diff / (1000 * 60 * 60 * 24)
+
+
+) + 1;
+
+
+return `${Math.max(1, days)}일째`;
+
+
+}
+
+
+
+
+
+// =========================
+// 공지 내용 보정
+// =========================
+
+
+function fixContent(content){
+
+
+const div = document.createElement("div");
+
+
+div.innerHTML = content;
+
+
+const images = div.querySelectorAll("img");
+
+
+images.forEach((img)=>{
+
+
+img.removeAttribute("width");
+
+
+img.removeAttribute("height");
+
+
+img.removeAttribute("style");
+
+
+img.style.maxWidth = "100%";
+
+
+img.style.width = "100%";
+
+
+img.style.height = "auto";
+
+
+img.style.display = "block";
+
+
+});
+
+
+return div.innerHTML;
+
+
+}
+
+
+
+
+
+// =========================
+// HTML 이스케이프
+// =========================
+
+
+function escapeHtml(value){
+
+
+return String(value)
+
+
+.replaceAll("&", "&amp;")
+
+
+.replaceAll("<", "&lt;")
+
+
+.replaceAll(">", "&gt;")
+
+
+.replaceAll('"', "&quot;")
+
+
+.replaceAll("'", "&#039;");
+
+
+}
 
 
 </script>
 
 
-  
 </body>
+
 </html>
