@@ -1543,6 +1543,7 @@ let messageCursor = null;
 
 let loadedMessages = [];
 
+let editingMessageId = null;
 
 let profileCache = {};
 
@@ -3468,6 +3469,65 @@ async function sendMessage(){
 
 
 
+    if(editingMessageId){
+
+        await updateDoc(
+            doc(
+                db,
+                "chatRooms",
+                currentRoomId,
+                "messages",
+                editingMessageId
+            ),
+            {
+                text:text,
+                edited:true,
+                updatedAt:
+                serverTimestamp()
+            }
+        );
+
+
+        const lastMessage =
+        loadedMessages[
+            loadedMessages.length - 1
+        ];
+
+
+        if(
+            lastMessage &&
+            lastMessage.id === editingMessageId
+        ){
+
+            await updateDoc(
+                doc(
+                    db,
+                    "chatRooms",
+                    currentRoomId
+                ),
+                {
+                    lastMessage:text
+                }
+            );
+
+        }
+
+
+        editingMessageId = null;
+
+
+        messageInput.value="";
+
+
+        sendBtn.textContent =
+        "전송";
+
+
+        return;
+
+    }
+
+
     if(
         !text
         ||
@@ -3576,100 +3636,20 @@ setTimeout(()=>{
 }
 
 
-async function editMessage(msg){
+function editMessage(msg){
+
+    editingMessageId = msg.id;
 
 
-    const newText =
-    prompt(
-        "메시지를 수정하세요.",
-        msg.text
-    );
+    messageInput.value =
+    msg.text;
 
 
-    if(
-        !newText
-        ||
-        newText.trim() === msg.text
-    ){
-
-        return;
-
-    }
+    sendBtn.textContent =
+    "수정";
 
 
-
-    try{
-
-
-        // 메시지 내용 수정
-        await updateDoc(
-            doc(
-                db,
-                "chatRooms",
-                currentRoomId,
-                "messages",
-                msg.id
-            ),
-            {
-
-                text:
-                newText.trim(),
-
-
-                edited:
-                true,
-
-
-                updatedAt:
-                serverTimestamp()
-
-            }
-        );
-
-
-
-        // 마지막 메시지인지 확인
-        const lastMessage =
-        loadedMessages[
-            loadedMessages.length - 1
-        ];
-
-
-
-        // 마지막 메시지라면 채팅방 미리보기 수정
-        if(
-            lastMessage &&
-            lastMessage.id === msg.id
-        ){
-
-
-            await updateDoc(
-                doc(
-                    db,
-                    "chatRooms",
-                    currentRoomId
-                ),
-                {
-
-                    lastMessage:
-                    newText.trim()
-
-                }
-            );
-
-
-        }
-
-
-
-    }catch(error){
-
-        console.error(
-            "메시지 수정 오류",
-            error
-        );
-
-    }
+    messageInput.focus();
 
 
 }
