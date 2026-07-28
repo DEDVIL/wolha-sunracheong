@@ -84,6 +84,14 @@ isPlaying
 
 
 
+// 버튼 위치 이동 실행
+
+document.body.appendChild(
+bgmButton
+);
+
+
+moveBgmButton();
 
 
 // ======================
