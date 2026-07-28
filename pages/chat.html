@@ -3143,33 +3143,86 @@ function createMessageElement(
 
 
     const time =
+document.createElement(
+    "div"
+);
+
+time.className =
+"time";
+
+
+time.textContent =
+formatTime(
+    msg.createdAt
+)
++
+(
+    msg.edited
+    ?
+    " (수정됨)"
+    :
+    ""
+);
+
+
+
+wrapper.appendChild(
+    sender
+);
+
+
+wrapper.appendChild(
+    content
+);
+
+
+
+/* 내 메시지만 수정 버튼 */
+
+if(
+    msg.senderUid === currentUid
+){
+
+    const editBtn =
     document.createElement(
-        "div"
+        "button"
     );
 
 
-
-    time.className =
-    "time";
-
+    editBtn.textContent =
+    "수정";
 
 
-    time.textContent =
-    formatTime(
-        msg.createdAt
+    editBtn.style.marginRight =
+    "8px";
+
+
+    editBtn.style.background =
+    "none";
+
+
+    editBtn.style.border =
+    "none";
+
+
+    editBtn.style.color =
+    "#999";
+
+
+    editBtn.style.cursor =
+    "pointer";
+
+
+    editBtn.onclick =
+    ()=>editMessage(msg);
+
+
+
+    time.prepend(
+        editBtn
     );
 
-
-
-    wrapper.appendChild(
-        sender
-    );
-
-
-
-    wrapper.appendChild(
-        content
-    );
+}
 
 
 
@@ -3523,8 +3576,103 @@ setTimeout(()=>{
 }
 
 
+async function editMessage(msg){
 
 
+    const newText =
+    prompt(
+        "메시지를 수정하세요.",
+        msg.text
+    );
+
+
+    if(
+        !newText
+        ||
+        newText.trim() === msg.text
+    ){
+
+        return;
+
+    }
+
+
+
+    try{
+
+
+        // 메시지 내용 수정
+        await updateDoc(
+            doc(
+                db,
+                "chatRooms",
+                currentRoomId,
+                "messages",
+                msg.id
+            ),
+            {
+
+                text:
+                newText.trim(),
+
+
+                edited:
+                true,
+
+
+                updatedAt:
+                serverTimestamp()
+
+            }
+        );
+
+
+
+        // 마지막 메시지인지 확인
+        const lastMessage =
+        loadedMessages[
+            loadedMessages.length - 1
+        ];
+
+
+
+        // 마지막 메시지라면 채팅방 미리보기 수정
+        if(
+            lastMessage &&
+            lastMessage.id === msg.id
+        ){
+
+
+            await updateDoc(
+                doc(
+                    db,
+                    "chatRooms",
+                    currentRoomId
+                ),
+                {
+
+                    lastMessage:
+                    newText.trim()
+
+                }
+            );
+
+
+        }
+
+
+
+    }catch(error){
+
+        console.error(
+            "메시지 수정 오류",
+            error
+        );
+
+    }
+
+
+}
 
 
 /* =========================================================
