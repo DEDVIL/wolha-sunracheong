@@ -84,20 +84,23 @@ isPlaying
 
 
 
-// 버튼 위치 이동 실행
-
-document.body.appendChild(
-bgmButton
-);
-
-
-moveBgmButton();
 
 
 // ======================
 // BGM 버튼 위치 이동
 // ======================
 
+
+// 버튼 초기 삽입
+
+document.body.appendChild(
+bgmButton
+);
+
+
+// 사이드바로 이동
+
+moveBgmButton();
 
 function moveBgmButton(){
 
