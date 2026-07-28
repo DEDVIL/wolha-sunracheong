@@ -94,14 +94,14 @@ isPlaying
 function moveBgmButton(){
 
 
-const mobileBgmArea =
+const sidebarBgmArea =
 document.getElementById(
-"mobile-bgm-area"
+"sidebar-bgm-area"
 );
 
 
 if(
-!mobileBgmArea
+!sidebarBgmArea
 ){
 
 return;
@@ -109,91 +109,20 @@ return;
 }
 
 
-
-
-
-// 모바일
-
 if(
 
-window.innerWidth <= 700
+bgmButton.parentElement !== sidebarBgmArea
 
 ){
 
-
-if(
-
-bgmButton.parentElement !==
-mobileBgmArea
-
-){
-
-
-mobileBgmArea.appendChild(
+sidebarBgmArea.appendChild(
 bgmButton
 );
 
-
 }
 
 
 }
-
-
-
-
-
-// PC
-
-else{
-
-
-if(
-
-bgmButton.parentElement !==
-document.body
-
-){
-
-
-document.body.appendChild(
-bgmButton
-);
-
-
-}
-
-
-}
-
-
-}
-
-
-
-
-
-// 버튼을 일단 body에 넣기
-
-document.body.appendChild(
-bgmButton
-);
-
-
-// 현재 화면 크기에 맞게 이동
-
-moveBgmButton();
-
-
-// 화면 크기 변경 시 이동
-
-window.addEventListener(
-"resize",
-moveBgmButton
-);
-
-
-
 
 
 // ======================
