@@ -633,26 +633,69 @@ logList.innerHTML = "";
 logs.forEach((data)=>{
 
 
-logList.innerHTML += `
+const comment = document.createElement(
+    "div"
+);
 
 
-<div class="gate-comment">
+comment.className =
+"gate-comment";
 
 
-<strong>
-${data.characterName || "-"}
-</strong>
+
+const name = document.createElement(
+    "strong"
+);
 
 
-<p>
-${data.content || ""}
-</p>
+name.textContent =
+data.characterName || "-";
 
 
-</div>
+
+const text = document.createElement(
+    "p"
+);
 
 
-`;
+const lines =
+(data.content || "").split("\n");
+
+
+
+lines.forEach(
+    (line, index)=>{
+
+
+        text.appendChild(
+            document.createTextNode(line)
+        );
+
+
+        if(
+            index <
+            lines.length - 1
+        ){
+
+            text.appendChild(
+                document.createElement("br")
+            );
+
+        }
+
+
+    }
+);
+
+
+
+comment.appendChild(name);
+
+comment.appendChild(text);
+
+
+logList.appendChild(comment);
+
 
 
 });
